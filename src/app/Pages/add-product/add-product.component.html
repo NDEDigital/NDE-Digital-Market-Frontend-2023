@@ -1,0 +1,136 @@
+<section class="add_product_container">
+  <div class="head">
+    <a class="companyName">NDE Digital Market</a>
+  </div>
+
+  <form
+    [formGroup]="productForm"
+    ngNativeValidate
+    class="container form_container mt-5 rounded"
+    id="add_product-form"
+  >
+    <h1 class="title text-center">{{ headerTitle }}</h1>
+    <hr />
+    <div class="row">
+      <div class="col-5">
+        <div class="mb-3">
+          <label for="productName" class="form-label"
+            ><span class="text-danger">*</span>Product Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            formControlName="productName"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="productDescription" class="form-label">
+            <span class="text-danger">*</span> Product Description</label
+          >
+          <textarea
+            class="form-control"
+            name="productDescription"
+            id=""
+            formControlName="productDescription"
+            required
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">
+            <span class="text-danger">*</span>Image
+          </label>
+          <input
+            type="file"
+            class="form-control"
+            #imageInput
+            (change)="onImageChange($event)"
+            formControlName="image"
+            accept="image/jpeg, image/jpg, image/png, image/svg+xml, image/webp"
+            required
+            [class.border-danger]="imageSizeExceeded"
+          />
+          <div class="text-danger mt-1" *ngIf="imageSizeExceeded">
+            File size exceeds the maximum limit of 4MB.
+          </div>
+          <div class="" id="image-preview">
+            <img
+              [src]="imagePreview"
+              alt="Preview"
+              class="img-thumbnail mt-2"
+              style="max-width: 40%"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-7">
+        <div class="mb-3">
+          <label for="material" class="form-label"
+            ><span class="text-danger">*</span>Group Name</label
+          >
+          <select
+            name="material"
+            id=""
+            class="form-select bg-light text-muted mx-1"
+            formControlName="material"
+            required
+          >
+            <option
+              *ngFor="let entry of products | keyvalue"
+              [ngValue]="entry.key"
+              [value]="entry.value + '%' + entry.key"
+              [selected]="entry.value === selectedMaterial"
+            >
+              {{ entry.key }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row d-flex justify-content-between">
+          <div class="col-8 mb-3">
+            <label for="quantity" class="form-label"
+              ><span class="text-danger">*</span>Quantity</label
+            >
+            <div class="d-flex">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="quantity"
+                required
+              />
+
+              <select
+                class="form-select bg-light text-muted mx-1"
+                name="quantityUnit"
+                id="quantityUnit"
+                formControlName="quantityUnit"
+              >
+                <option value="Piece">Pieces</option>
+                <option value="Liter">Liter</option>
+                <option value="Ton">Ton</option>
+                <option value="Kg">Kg</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-4 mb-3">
+            <label for="price" class="form-label"
+              ><span class="text-danger">*</span>Price</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="price"
+              required
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <butTon type="submit" class="btn submit_btn" (click)="onSubmit()">
+      {{ submitBtnTitle }}
+    </butTon>
+  </form>
+</section>

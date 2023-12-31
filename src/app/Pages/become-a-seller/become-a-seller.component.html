@@ -1,0 +1,262 @@
+<div class="head d-flex align-items-center ">
+  <a routerLink="" class="logo ms-5">NDE Digital Market</a>
+</div>
+
+<div class="container mt-5 mb-5 rounded">
+  <h2 class="register_title">Company Registration</h2>
+  <hr />
+  <form [formGroup]="companyResistrationForm">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <!-- company Name -->
+        <div class="form-group">
+          <label for="companyName"
+            ><span class="text-danger">*</span>Company Name</label
+          >
+          <input
+            type="text"
+            id="companyName"
+            formControlName="companyName"
+            [class.error]="isFieldInvalid('companyName')"
+          />
+          <span class="text-danger" *ngIf="isFieldInvalid('companyName')"
+            >Company Name is required.</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="email"><span class="text-danger">*</span>Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            [class.error]="isFieldInvalid('email')"
+          />
+          <span class="text-danger" *ngIf="isFieldInvalid('email')"
+            >Email is required.</span
+          >
+        </div>
+        <!--foundation Date -->
+        <div class="form-group">
+          <label for="companyFoundationDate"
+            ><span class="text-danger">*</span>Company Foundation Date</label
+          >
+          <input
+            type="date"
+            id="companyFoundationDate"
+            formControlName="companyFoundationDate"
+            class="w-100 p-1 rounded-1"
+            [class.error]="isFieldInvalid('companyFoundationDate')"
+          />
+          <span
+            class="text-danger"
+            *ngIf="isFieldInvalid('companyFoundationDate')"
+            >Company foundation Date is required.</span
+          >
+        </div>
+
+        <!-- Registration Number -->
+        <div class="form-group">
+          <label for="businessRegistrationNumber"
+            ><span class="text-danger">*</span>Business Registration
+            Number</label
+          >
+          <input
+            type="text"
+            id="businessRegistrationNumber"
+            formControlName="businessRegistrationNumber"
+            [class.error]="isFieldInvalid('businessRegistrationNumber')"
+          />
+          <span
+            class="text-danger"
+            *ngIf="isFieldInvalid('businessRegistrationNumber')"
+            >Business Registration Number is required.</span
+          >
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <!-- Tax Identification  -->
+        <div class="form-group">
+          <label for="taxIdentificationNumber"
+            ><span class="text-danger">*</span>Tax Identification Number</label
+          >
+          <input
+            type="text"
+            id="taxIdentificationNumber"
+            formControlName="taxIdentificationNumber"
+            [class.error]="isFieldInvalid('taxIdentificationNumber')"
+          />
+          <span
+            class="text-danger"
+            *ngIf="isFieldInvalid('taxIdentificationNumber')"
+            >Tax Identification Number is required.</span
+          >
+        </div>
+
+        <!-- Trade Licence -->
+        <div class="form-group">
+          <label for="tradeLicense"
+            ><span class="text-danger">*</span>Upload Trade Licence</label
+          >
+          <input
+            class="form-control"
+            type="file"
+            id="tradeLicense"
+            formControlName="tradeLicense"
+            [class.error]="isFieldInvalid('tradeLicense')"
+            #TradeLicenseInput
+          />
+          <span class="text-danger" *ngIf="isFieldInvalid('tradeLicense')"
+            ><span class="text-danger">*</span>Uploding Trade Licence is
+            required.</span
+          >
+        </div>
+
+        <!-- company Image -->
+        <div class="form-group">
+          <label for="companyImage"
+            ><span class="text-danger">*</span>Upload your company Image</label
+          >
+          <input
+            class="form-control"
+            type="file"
+            id="companyImage"
+            formControlName="companyImage"
+            [class.error]="isFieldInvalid('companyImage')"
+            #CompanyImageInput
+          /><span class="text-danger" *ngIf="isFieldInvalid('companyImage')">
+            Uploding Company Image is required.</span
+          >
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <div class="col-12 col-md-6">
+          <div class="form-group">
+            <label for="preferredPaymentMethodID"
+              >Preferred Payment Method</label
+            >
+            <select
+              name="preferredPaymentMethodID"
+              id="preferredPaymentMethodID"
+              formControlName="preferredPaymentMethodID"
+              (change)="getBankInfo()"
+            >
+              <option
+                *ngFor="let method of paymentMethods"
+                [value]="method.pmid"
+                [id]="method.pmName"
+              >
+                {{ method.pmName }}
+              </option>
+            </select>
+          </div>
+          <!--  banking information -->
+          <div *ngIf="showBankingInfo" class="mt-2" #PaymentInfo>
+            <!-- bank name -->
+            <div class="form-group">
+              <label for="bankNameID"
+                ><span class="text-danger">*</span>Bank Name</label
+              >
+              <select
+                name="bankNameID"
+                id="bankNameID"
+                formControlName="bankNameID"
+              >
+                <option class="d-none" value="0" disabled>
+                  Nothing is Selected
+                </option>
+                <option *ngFor="let type of bankInfo" [value]="type.pmid">
+                  {{ type.pmName }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="accountNumber"
+                ><span class="text-danger">*</span>Account No</label
+              >
+              <input
+                type="text"
+                id="accountNumber"
+                formControlName="accountNumber"
+                [class.error]="isFieldInvalid('accountNumber')"
+              />
+              <span class="text-danger" *ngIf="isFieldInvalid('accountNumber')"
+                >Account Number is required.</span
+              >
+            </div>
+            <div class="form-group">
+              <label for="accountHolderName"
+                ><span class="text-danger">*</span>Holder Name</label
+              >
+              <input
+                type="text"
+                id="accountHolderName"
+                formControlName="accountHolderName"
+                [class.error]="isFieldInvalid('accountHolderName')"
+              />
+              <span
+                class="text-danger"
+                *ngIf="isFieldInvalid('accountHolderName')"
+                >Account Holder's Name is required.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="button mt-3" (click)="onSubmit()">
+      Submit
+    </button>
+  </form>
+</div>
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-primary d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#userExistModal"
+  #userExistModalBTN
+>
+  Launch demo modal
+</button>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="userExistModal"
+  tabindex="-1"
+  aria-labelledby="userExistModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content border">
+      <div class="modal-header fs-5 fw-bold">
+        <h1
+          class="modal-title fs-5"
+          [ngClass]="{
+            'text-danger': modalColor === false,
+            'text-success': modalColor === true
+          }"
+          id="userExistModalLabel"
+        >
+          {{ alertTitile }}
+        </h1>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        {{ alertmsg }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

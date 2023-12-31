@@ -1,0 +1,84 @@
+<div class="inventoryBody">
+  <div class="inventory_header bg-white d-flex justify-content-center p-2">
+    <h1 class="inventory_header_text">Inventory</h1>
+  </div>
+
+  <div class="inventory_search_div bg-white mt-3 py-4">
+    <!-- search_by_all -->
+    <div class="search_by_all d-flex px-4">
+      <div class="search-container">
+        <input
+          id="searchInput"
+          type="text"
+          class="search-input"
+          (keyup)="onKeyUp($event)"
+          [(ngModel)]="searchInputValue"
+          placeholder="{{ placeholder }}{{ searchby }}"
+        />
+        <i class="fa-solid fa-search search-icon" (click)="searchIcon()"></i>
+      </div>
+
+      <div class="dropdown">
+        <button
+          class="dropdown-toggle bg-white"
+          type="button"
+          id="dropdownMenuButton1"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {{ SearchByname }}
+        </button>
+        <ul
+          style="z-index: 2000"
+          class="dropdown-menu search_Name_list"
+          aria-labelledby="dropdownMenuButton1"
+        >
+          <li>
+            <a class="dropdown-item" (click)="setSearchOption('GroupCode')">
+              Group Code</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item" (click)="setSearchOption('GoodsName')">
+              Goods Name</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- search_by_all end -->
+  </div>
+
+  <!-- table -->
+
+  <div class="table-responsive bg-white p-4 pt-0 inventoryTable">
+    <table class="table table-striped">
+      <thead class="table-header">
+        <tr class="text-center">
+          <th scope="col">#</th>
+          <th scope="col">productGroupName</th>
+          <th scope="col">productName</th>
+          <th scope="col">specification</th>
+          <th scope="col">unit</th>
+          <th scope="col">Total Qty</th>
+          <th scope="col">Available Qty</th>
+          <th scope="col">Sales Qty</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let row of inventoryData; let i = index">
+        <tr class="text-center">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ row.productGroupName }}</td>
+          <td>{{ row.productName }}</td>
+          <td>{{ row.specification }}</td>
+          <td>{{ row.unit }}</td>
+          <td>{{ row.totalQty }}</td>
+          <td>{{ row.availableQty }}</td>
+          <td>{{ row.saleQty }}</td>
+          <td>{{ row.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
