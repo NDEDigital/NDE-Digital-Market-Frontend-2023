@@ -37,7 +37,7 @@ export class CompanyApprovalComponent {
   }
 
   showImage(path: any, title: any) {
-    this.imagePath = path.split('FrontEnd')[1];
+    this.imagePath = '/asset' + path.split('asset')[1];
     this.imageTitle = title;
   }
 

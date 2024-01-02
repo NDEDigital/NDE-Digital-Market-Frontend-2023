@@ -152,6 +152,8 @@ export class UserRegFormComponent {
           //   response.role
           // );
           //console.log(response, 'done');
+          this.userResistrationForm.reset();
+
           this.alertTitle = 'Successfull!!';
           this.alertMsg = response.message;
           this.UserExistModalBTN.nativeElement.click();
@@ -171,5 +173,8 @@ export class UserRegFormComponent {
         },
       });
     }
+  }
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 }
