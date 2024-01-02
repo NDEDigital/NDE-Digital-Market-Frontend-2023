@@ -1,9 +1,7 @@
 .companyApproval_header_text {
   color: var(--color-primary);
 }
-
 /* table design */
-
 .headerRow,
 .tablebodyRow {
   flex-wrap: nowrap;
@@ -23,7 +21,6 @@
 .tableBody {
   min-width: 10rem;
 }
-
 .tableBody {
   background-color: white;
   padding: 0.7rem;
@@ -32,19 +29,17 @@
   justify-content: center;
   align-items: center;
 }
-
 .tableHeader {
-  background-color: #e5f1f7;
+  background-color: #E5F1F7;
   padding: 0.8rem;
   border-bottom: 1px solid var(--color-gray);
 }
-
 /* modal heading */
 .modal-heading {
   background-color: var(--color-primary);
 }
 .headerbtns .custom-btn {
-  background: #f0faff;
+  background: #F0FAFF;
   color: rgb(3, 20, 43);
   font-weight: 500;
   width: 8rem;
@@ -53,35 +48,32 @@
 .headerbtns .custom-btn.active {
   background-color: var(--color-primary-dark) !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
+  color: #EBF8FF !important;
 }
 /* .headerbtns .btn-active {
-  border: 1px solid #78ac8b;
+  border: 1px solid #78AC8B;
 }
 .headerbtns .btn-inactive {
-  border: 1px solid #a4a554;
+  border: 1px solid #A4A554;
 }
-
 .headerbtns .new-btn.active {
   background-color: var(--color-primary-dark) !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
+  color: #EBF8FF !important;
 }
 .btn-active.active {
-  background-color: #78ac8b !important ;
+  background-color: #78AC8B !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
+  color: #EBF8FF !important;
 }
 .btn-inactive.active {
-  background-color: #a4a554 !important ;
+  background-color: #A4A554 !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
+  color: #EBF8FF !important;
 }
-
 .btn-trade-company {
   width: 4rem !important;
 } */
-
 .actionBtn {
   cursor: pointer;
   background: none;
@@ -91,4 +83,13 @@
 .product_image {
   height: 4rem;
   width: 6rem;
+}
+.starDesign {
+  color: gray; /* Default star color */
+  padding: 1rem;
+  font-size: 2rem;
+}
+/* .starDesign.hovered, */
+.starDesign.selected {
+  color: gold; /* Highlight color when hovered or selected */
 }
