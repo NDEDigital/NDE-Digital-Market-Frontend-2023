@@ -53,7 +53,7 @@ export class UserProfileComponent {
     //   // productCategory: new FormControl(''),
     //   yearsInBusiness: new FormControl(this.user.yearsInBusiness),
     //   businessRegNum: new FormControl(this.user.businessRegistrationNumber),
-    //   taxIdentificationNumber: new FormControl(this.user.taxIdentificationNumberber),
+    //   taxIdNum: new FormControl(this.user.taxIDNumber),
     //   // prefPaymentMethod: new FormControl(''),
     // });
     this.user$.subscribe((user) => {
@@ -67,9 +67,7 @@ export class UserProfileComponent {
           website: this.user ? this.user.website : '',
           yearsInBusiness: this.user ? this.user.yearsInBusiness : '',
           businessRegNum: this.user ? this.user.businessRegistrationNumber : '',
-          taxIdentificationNumber: this.user
-            ? this.user.taxIdentificationNumberber
-            : '',
+          taxIdNum: this.user ? this.user.taxIDNumber : '',
         });
       }
     });
@@ -81,7 +79,7 @@ export class UserProfileComponent {
       website: new FormControl(''),
       yearsInBusiness: new FormControl(''),
       businessRegNum: new FormControl(''),
-      taxIdentificationNumber: new FormControl(''),
+      taxIdNum: new FormControl(''),
     });
   }
 
@@ -131,8 +129,7 @@ export class UserProfileComponent {
       this.user.yearsInBusiness = this.updateUserForm.value.yearsInBusiness;
       this.user.businessRegistrationNumber =
         this.updateUserForm.value.businessRegNum;
-      this.user.taxIdentificationNumberber =
-        this.updateUserForm.value.taxIdentificationNumber;
+      this.user.taxIDNumber = this.updateUserForm.value.taxIdNum;
       const updatedUser = this.user;
       // //console.log(updatedUser, 'updatedUser');
       this.userDataService.updateUser(updatedUser).subscribe({

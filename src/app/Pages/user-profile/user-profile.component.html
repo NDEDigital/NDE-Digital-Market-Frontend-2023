@@ -116,6 +116,7 @@
       </div>
     </div>
     <div
+      *ngIf="Role === 'seller'"
       class="profile_details rounded p-2 pb-4 bg-"
       [class.border-highlight]="editMode2 === 'companyInfo'"
     >
@@ -184,7 +185,7 @@
         <p class="row info_field">
           <span class="col-4 text-muted text-end">Tax ID Number:</span>
           <input
-            formControlName="taxIdNum"
+            formControlName="taxIdentificationNumber"
             #taxIdentificationNumber
             [class.editable]="editMode2 === 'companyInfo'"
             [readonly]="editMode2 !== 'companyInfo'"
