@@ -26,10 +26,12 @@ export class AddProductsComponent implements OnInit {
     this.showProductDiv = !this.showProductDiv;
     this.btnIndex = -1;
     this.getProducts(-1);
+    this.ngOnInit();
   }
 
   showApprovalGrid(): void {
     this.showProductDiv = false;
+    this.addProductForm.reset();
   }
 
   ngOnInit() {
