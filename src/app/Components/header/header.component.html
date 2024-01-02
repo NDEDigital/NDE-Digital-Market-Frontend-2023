@@ -158,7 +158,7 @@
       </div> -->
 
       <!-- admin -->
-      <div class="dropdown mt-3 ms-2 " *ngIf="isCategoriesVisible">
+      <div class="dropdown mt-3 ms-2" *ngIf="isCategoriesVisible">
         <button
           class="dropdown-toggle catergoriesButton"
           type="button"
@@ -234,7 +234,7 @@
                 >Register</a
               >
             </div>
-            <div class="delimiter-horizontal"></div>
+            <div *ngIf="isBuyer" class="delimiter-horizontal"></div>
 
             <div class="popup-item mt-1" *ngIf="isBuyer">
               <a href="/buyerOrder" class="d-flex">
