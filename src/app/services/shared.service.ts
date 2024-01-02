@@ -86,7 +86,8 @@ export class SharedService {
   }
 
   private loginStatusSubject = new BehaviorSubject<boolean>(
-    localStorage.getItem('loginStatus') === 'true'
+    localStorage.getItem('loginStatus') === 'true' &&
+      localStorage.getItem('proj') === 'NDEDigitalMarket'
   );
 
   loginStatus$ = this.loginStatusSubject.asObservable();
@@ -96,6 +97,7 @@ export class SharedService {
     this.loginStatusSubject.next(loginStatus);
     localStorage.setItem('loginStatus', loginStatus.toString());
     localStorage.setItem('code', userCode);
+    localStorage.setItem('proj', 'NDEDigitalMarket');
     // localStorage.setItem('isB', isBuyer);
     localStorage.setItem('role', role);
     // console.log(this.loginStatus$);
