@@ -7,7 +7,7 @@ html {
 
 /* Category Scrolable  */
 
-.dropdown-listDesign{
+.dropdown-listDesign {
   height: 20rem;
   overflow: auto;
   inset: 0px auto auto -16px !important;
@@ -283,10 +283,13 @@ html {
 
 /* dropdown-list */
 
-.dropdown-listDesign{
-  height: 20rem;
+#dropdown-listDesign {
+  /* max-height: 10rem;
   overflow: auto;
-  inset: 0px auto auto -16px !important;
+  inset: 0px auto auto -16px !important; */
+  max-width: 15vw !important;
+  max-height: 15rem;
+  overflow: scroll;
 }
 
 /* =============== Toggle bar and mbl menu ============== */
@@ -299,7 +302,6 @@ html {
 .mobile-menu {
   display: none;
 }
-
 
 @media (max-width: 1400px) {
   .col-4 {
@@ -318,7 +320,6 @@ html {
   .logo_container img {
     width: 10rem;
   }
-  
 }
 @media (max-width: 768px) {
 }
