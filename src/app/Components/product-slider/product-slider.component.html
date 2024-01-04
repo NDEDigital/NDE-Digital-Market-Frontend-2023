@@ -99,7 +99,7 @@
         <div
           class="slider_main text-nowrap"
           #Items
-          [ngClass]="{ 'remove-btn': !shouldRemoveButton(product.value.length) }"
+          [ngClass]="{ 'slider_main--extended': product.value.length > 5 }"
         >
           <!-- <div class="item mx-2" #Item *ngFor="let value of product.value">
           <div class="my-auto">
@@ -189,7 +189,7 @@
         </div>
         <div
           class="mx-3"
-          [ngClass]="{ 'remove-btn': product.value.length < 5 }"
+          [ngClass]="{ 'remove-btn': !shouldRemoveButton(product.value.length) }"
         >
           <button
             class="carousel-control-prev carousel-button"
