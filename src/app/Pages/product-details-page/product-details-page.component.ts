@@ -83,29 +83,25 @@ export class ProductDetailsPageComponent {
     const productData = sessionStorage.getItem('productData');
     if (productData) {
       this.detailsData = JSON.parse(productData);
-      //console.log('this.detailsData ', this.detailsData);
+      console.log("this.detailsData ",this.detailsData)
     }
-    if (this.detailsData.approveSalesQty == 0) {
-      this.CartButtonText = 'Out of stock';
+    if( this.detailsData.approveSalesQty == 0){
+      this.CartButtonText ="Out of stock";
     }
     this.buyerCode = localStorage.getItem('code');
     //console.log(' buyerCode ', this.buyerCode);
-    //console.log(' detailsData ', this.detailsData);
+   //console.log(" detailsData ",this.detailsData )
     // this.detailsData = this.goodsData.getDetaileData();
 
-    //console.log(
-      //'this.detailsData.goodsId,this.detailsData.groupCode',
-    //   this.detailsData.goodsId,
-    //   this.detailsData.groupCode
-    // );
+    //console.log('this.detailsData.goodsId,this.detailsData.groupCode', this.detailsData.goodsId,this.detailsData.groupCode);
     // //console.log('goodsName', this.detailsData.goodsName);
+    console.log("this.detailsData.goodsId",this.detailsData.goodsId)
     this.service
       .getReviewRatingsData(
-        this.detailsData.goodsId,
-        this.detailsData.groupCode
+        this.detailsData.goodsId
       )
       .subscribe((data: any) => {
-        //console.log(' dAta ', data);
+        console.log(' dAta ', data);
         this.reviewData = data.reviewsAndRatings;
         this.perRatingCount = data.ratingsArray;
         this.totalRatings = data.totalCount;
@@ -126,6 +122,7 @@ export class ProductDetailsPageComponent {
       // You can do something with the rating value here
     });
   }
+
   setDetail(detail: any) {
     this.reviewUpdateData = detail;
     //console.log(this.reviewUpdateData);
