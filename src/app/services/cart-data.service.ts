@@ -94,6 +94,8 @@ export class CartDataService {
   }
 
   setPrice(price: number, qt: number, key: string) {
+    console.log(price," uu ",qt);
+    
     const count = this.cartDataQt.get(key);
     if (this.cartDataQt.has(key) && count !== undefined) {
       this.totalPrice -= count * price;
@@ -142,12 +144,11 @@ export class CartDataService {
       this.initializeAndLoadData();
       const objData = this.cartDataDetail.get(key);
       const objQt = this.cartDataQt.get(key);
-      console.log(objData, '----utshow----', objQt);
-      console.log(this.totalPrice, 'totalPrice');
+    
       if (objData !== undefined && objQt !== undefined) {
-        this.totalPrice -= objQt * parseInt(objData.price);
+        this.totalPrice -= objQt * objData.netPrice;
       }
-      console.log(this.totalPrice, 'totalPrice', objData);
+     
 
       this.cartCount--;
       this.cartDataDetail.delete(key);

@@ -302,14 +302,14 @@ export class ProductComponent {
 
   setCart(entry: any, inputQt: string) {
     if (entry.price === '' || entry.price === undefined) {
-      entry.price = '12000';
+      entry.price = 0;
     }
 
     let groupCode_groupId = entry.groupCode + '&' + entry.goodsId;
 
     this.cartDataService.setCartCount(groupCode_groupId);
     this.cartDataService.setPrice(
-      entry.price,
+      entry.netPrice,
       parseInt(inputQt),
       groupCode_groupId
     );
