@@ -73,7 +73,7 @@ export class CheckoutPageComponent {
     this.orderService.insertOrderData().subscribe(
       (response) => {
         if (response.message === 'Order data Inserted Successfully.') {
-          alert('success Data Insert');
+          alert('Order Placed Successfully!');
           //console.log('success Data Insert');
           this.cartDataService.clearCartData();
           // this.route.navigate(['/']);
