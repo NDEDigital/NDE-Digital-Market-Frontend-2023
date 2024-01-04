@@ -101,8 +101,8 @@ export class ProductDetailsPageComponent {
     // //console.log('goodsName', this.detailsData.goodsName);
     this.service
       .getReviewRatingsData(
-        this.detailsData.goodsId,
-        this.detailsData.groupCode
+        this.detailsData.goodsId
+  
       )
       .subscribe((data: any) => {
         //console.log(' dAta ', data);
