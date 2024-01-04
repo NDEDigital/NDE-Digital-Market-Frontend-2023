@@ -96,6 +96,7 @@ export class SharedService {
   updateLoginStatus(loginStatus: boolean, userCode: any, role: any) {
     // localStorage.clear()
     localStorage.removeItem('loginStatus');
+    localStorage.removeItem('proj');
     localStorage.removeItem('code');
     localStorage.removeItem('role');
     this.loginStatusSubject.next(loginStatus);
