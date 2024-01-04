@@ -37,7 +37,7 @@ export class SellerOrderComponent {
     if (userId) {
       this.sellerService.getsellerOrderData(userId, status).subscribe({
         next: (response: any) => {
-          //console.log(response);
+          console.log(response);
           this.sellerOrderData = response;
           //console.log(' data ', this.sellerOrderData);
           this.sellerOrderData = this.sellerOrderData.map((item: any) => ({
@@ -94,18 +94,19 @@ export class SellerOrderComponent {
     let status = 'status';
 
     let detailID = orderdetailsIds.toString();
-    //console.log(
+    // console.log(
     //   orderdetailsIds.toString(),
     //   this.statusArray[this.btnIndex],
     //   status,
     //   sellerSalesMasterDto
     // );
+    if (product === 'Rejected') {
+      status = 'Rejected';
+    } else {
+      status = this.statusArray[this.btnIndex];
+    }
     this.sellerService
-      .UpdateSellerOrderDetailsStatus(
-        detailID,
-        this.statusArray[this.btnIndex],
-        sellerSalesMasterDto
-      )
+      .UpdateSellerOrderDetailsStatus(detailID, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
           //console.log(response);
@@ -125,5 +126,13 @@ export class SellerOrderComponent {
           //console.log(error);
         },
       });
+  }
+  gotoInvoice(orderId: any) {
+    sessionStorage.setItem('orderMasterID', orderId);
+
+    const urlToOpen = '/sellerInvoice'; // Replace with your desired URL
+
+    // Use window.open to open the new window/tab
+    window.open(urlToOpen, '_blank');
   }
 }
