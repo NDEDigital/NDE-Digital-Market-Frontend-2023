@@ -147,12 +147,8 @@ export class GoodsDataService {
 
   getReviewRatingsData(productId: any) {
     console.log(productId, "ProductId");
-
- 
-
     const url = `${this.URL}/api/ReviewAndRating/getReviewRatingsDataForDetailsPage`;
     // const url = `${this.baseUrl}/GetOrderData/${pageNumber}/${pageSize}/${status} `;
- 
     return this.http.get(url, {
       params: { ProductId: productId.toString() }, // Ensure productId is a string
     });
