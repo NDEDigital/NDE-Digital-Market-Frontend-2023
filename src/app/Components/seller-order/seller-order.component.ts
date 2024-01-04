@@ -126,4 +126,13 @@ export class SellerOrderComponent {
         },
       });
   }
+
+  gotoInvoice(orderId: any) {
+    sessionStorage.setItem('orderMasterID', orderId);
+
+    const urlToOpen = '/sellerInvoice'; // Replace with your desired URL
+
+    // Use window.open to open the new window/tab
+    window.open(urlToOpen, '_blank');
+  }
 }
