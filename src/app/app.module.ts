@@ -72,6 +72,7 @@ import { SellerOrderComponent } from './Components/seller-order/seller-order.com
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { SellerOrdersComponent } from './Components/seller-orders/seller-orders.component';
+import { LoginPopupComponent } from './Components/login-popup/login-popup.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { SellerOrdersComponent } from './Components/seller-orders/seller-orders.
     UserOrdersComponent,
     InvoiceComponent,
     SellerOrdersComponent,
+    LoginPopupComponent,
   ],
   imports: [
     BrowserModule,
