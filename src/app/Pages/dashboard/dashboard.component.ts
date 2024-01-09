@@ -43,12 +43,12 @@ export class DashboardComponent {
   // addGroups: boolean = false;
 
   sidebarCol1Title = 'Product List';
-  sidebarCol2Title = 'Add Products';
+  sidebarCol2Title = 'Products';
   sidebarCol3Title = 'Orders';
   sidebarCol4Title = 'Inventory';
   sidebarCol5Title = 'Add Quantity';
   sidebarCol6Title = 'Product Order';
-  sidebarCol7Title = 'Add Groups';
+  sidebarCol7Title = 'Product Groups';
   sidebarCol8Title = 'Company Approval';
   sidebarCol9Title = 'Price & Discounts';
   sidebarCol10Title = 'Product Approval';
@@ -302,7 +302,7 @@ export class DashboardComponent {
   getPaginatedProducts(): any[] {
     const startIndex = this.currentPage * this.rowsPerPage;
     const endIndex = startIndex + this.rowsPerPage;
-    //console.log(
+    // console.log(
     //   'this.filteredProducts.slice(startIndex, endIndex) ',
     //   this.filteredProducts.slice(startIndex, endIndex)
     // );
@@ -547,7 +547,7 @@ export class DashboardComponent {
       // Now 'parsedData' contains the data you stored in 'editData'
       //console.log(' this.productID', this.productID);
     }
-    //console.log(
+    // console.log(
     //   'this.sellerCode, this.productID',
     //   this.sellerCode,
     //   this.productID
@@ -562,7 +562,7 @@ export class DashboardComponent {
           window.location.reload();
         },
         error: (error) => {
-          // //console.error('Error', error);
+          // console.error('Error', error);
         },
       });
   }
