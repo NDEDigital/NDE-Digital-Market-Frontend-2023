@@ -6,6 +6,10 @@ section{
 }
 .cart-detail{
     background-color: #EAEDED;
+    display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .price{
      font-size: 1.2rem;
