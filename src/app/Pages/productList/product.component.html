@@ -1,7 +1,6 @@
-<body>
+<section>
   <app-header [cartCount]="cartCount"></app-header>
   <app-nav-belt></app-nav-belt>
-
   <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button> -->
 
   <div
@@ -202,7 +201,7 @@
   </div>
 
   <div *ngIf="loading" class="text-center">Loading products...</div>
-  <div *ngIf="!loading">
+  <div class="parent" *ngIf="!loading">
     <div class="container justify-content-around">
       <div class="product_sidebar_container">
         <!-- <app-product-sidebar></app-product-sidebar> -->
@@ -375,8 +374,8 @@
         </div>
       </div>
     </div>
-    <div class="base-footer">
+    <div class="">
       <app-footer></app-footer>
     </div>
   </div>
-</body>
+</section>

@@ -1,5 +1,9 @@
-body {
+.parent {
   background: white;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .right-sidebar {
   width: 120px;
