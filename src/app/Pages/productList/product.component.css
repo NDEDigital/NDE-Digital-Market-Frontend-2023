@@ -1,9 +1,17 @@
-.parent {
-  background: white;
-  display: flex;
+#page-container {
+  position: relative;
   min-height: 100vh;
-  flex-direction: column;
-  justify-content: space-between;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
 }
 .right-sidebar {
   width: 120px;
