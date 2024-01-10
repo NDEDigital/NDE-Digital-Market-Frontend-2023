@@ -1,7 +1,6 @@
-
 <!-- Invoice design  -->
 <section class="d-flex mt-3 justify-content-center">
-  <div class="invoice" #content >
+  <div class="invoice" #content>
     <div class="header py-2">
       <h3 class="invoiceText">NDE Digital Market</h3>
     </div>
@@ -10,32 +9,30 @@
         <div class="d-flex justify-content-center border-bottom border-top">
           <div class="row p-0" style="width: 100%">
             <div class="col-9 p-0">
-         
               <div>
-                  <div class="row"><h6 class="fst-italic">Bill To:</h6></div>
-                  <div class="div d-flex d-flex">
-                    <span><strong>Name: </strong></span>
-                    <span class="field_data">{{ invoice.buyerName }}</span>
-                  </div>
-                  <!-- <div class="div d-flex" >
+                <div class="row"><h6 class="fst-italic">Bill To:</h6></div>
+                <div class="div d-flex d-flex">
+                  <span><strong>Name: </strong></span>
+                  <span class="field_data">{{ invoice.buyerName }}</span>
+                </div>
+                <!-- <div class="div d-flex" >
                     <span><strong>Company: </strong></span>
                     <span class="field_data">{{ invoice.buyerCompanyName }}</span>
                   </div> -->
-                  <div class="div d-flex">
-                    <span><strong>Address:</strong></span>
-                    <span class="field_data">{{ invoice.address }}</span>
-                  </div>
-                  <div class="div d-flex">
-                    <span><strong>Phone: </strong></span>
-                    <span class="field_data">{{ invoice.phone }}</span>
-                  </div>
+                <div class="div d-flex">
+                  <span><strong>Address:</strong></span>
+                  <span class="field_data">{{ invoice.address }}</span>
+                </div>
+                <div class="div d-flex">
+                  <span><strong>Phone: </strong></span>
+                  <span class="field_data">{{ invoice.phone }}</span>
+                </div>
               </div>
-             
             </div>
             <div class="col-3 text-end p-0">
               <div class="div d-flex justify-content-end">
-                  <span><strong>invoice: </strong></span>
-                  <span class="field_data">{{ invoice.invoiceNumber }}</span>
+                <span><strong>invoice: </strong></span>
+                <span class="field_data">{{ invoice.invoiceNumber }}</span>
               </div>
             </div>
           </div>
@@ -43,8 +40,7 @@
       </div>
 
       <div class="row d-flex mt-3 justify-content-center">
-      
-          <!-- <div class="row py-2 seller_info">
+        <!-- <div class="row py-2 seller_info">
          
             <div class="col-8 p-0">
               <div class="row"><h6 class="fst-italic">Bill From:</h6></div>
@@ -70,35 +66,41 @@
             </div>
           </div> -->
 
-          <div class="table-responsive">
-            <table class="items table">
-              <tr class="table_header">
-                <th>Product</th>
-                <th>Specification</th>
-                <th>Seller Address</th>
-                <th>Seller contact</th>
-                <th>Delivery Date</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Sub Total</th>
+        <div class="table-responsive">
+          <table class="items table">
+            <tr class="table_header">
+              <th>Product</th>
+              <th>Specification</th>
+              <th>Seller Address</th>
+              <th>Seller contact</th>
+              <th>Delivery Date</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Sub Total</th>
+            </tr>
+            <ng-container
+              *ngFor="let product of invoice.orderInvoiceDetailList"
+            >
+              <tr
+                *ngIf="
+                  this.userId == product.sellerId &&
+                  product.status !== 'Rejected'
+                "
+              >
+                <td>{{ product.productName }}</td>
+                <td>{{ product.specification }}</td>
+                <td>{{ product.selesAddress }}</td>
+                <td>{{ product.sellerContact }}</td>
+                <td>{{ product.deliveryDate }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.price }}Tk</td>
+                <td>{{ product.netPrice }}Tk</td>
               </tr>
-              <ng-container *ngFor="let product of invoice.orderInvoiceDetailList">
-                <tr *ngIf=" this.userId ==  product.sellerId &&  product.status !== 'Rejected'">
-                  <td>{{ product.productName }}</td>
-                  <td>{{ product.specification }}</td>
-                  <td>{{ product.selesAddress }}</td>  
-                  <td>{{ product.sellerContact }}</td>
-                  <td>{{ product.deliveryDate }}</td>
-                  <td>{{ product.quantity }}</td>
-                  <td>{{ product.price }}Tk</td>
-                  <td>{{ product.netPrice }}Tk</td>
-                </tr>
-              </ng-container>
- 
-            </table>
-          </div>
-          
-            <!-- <div class="table-responsive">
+            </ng-container>
+          </table>
+        </div>
+
+        <!-- <div class="table-responsive">
               <table class="items table">
                 <tr class="table_header">
                   <th>Product Name</th>
@@ -117,8 +119,7 @@
                 </tr>
               </table>
             </div> -->
-         
- 
+
         <!-- <div class="total">
           <p>
             <strong>Total:</strong>
@@ -140,7 +141,7 @@
       </div>
     </div>
   </div>
-  <div class=" px-2">
+  <div class="px-2">
     <!-- <button (click)="downloadAsPDF()">Download as PDF</button> -->
     <i class="fa-solid fa-download" (click)="downloadAsPDF()"></i>
   </div>
