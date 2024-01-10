@@ -25,7 +25,7 @@ export class CheckoutPageComponent {
   totalPrice = 0;
   deliveryFee = 100;
   userData: any;
-
+  totalPriceWithDiscount:number = 0;
   // tushar code
   urlParams = new URLSearchParams(window.location.search);
   message = this.urlParams.get('message');
@@ -54,13 +54,26 @@ export class CheckoutPageComponent {
     const cartData = this.cartDataService.getCartData();
     this.cartDataDetail = cartData.cartDataDetail;
     this.cartDataQt = cartData.cartDataQt;
-    this.totalPrice = this.cartDataService.getTotalPrice();
+    this.totalPriceWithDiscount = this.cartDataService.getTotalPrice();
+    // console.log(this.cartDataDetail," cartDataDetal");
+    // console.log(this.cartDataQt," cartDataDetal");
+    
     this.getUserInfo();
     // setTimeout(() => {
     //   //console.log(" usaer dataaaaaaaaaa",this.userData )
     //    this.setUserInfo();
 
     // }, 90);
+    for(let entry of this.cartDataDetail){
+      let Qty = Number(this.cartDataQt.get(entry[0]));
+      let price =  parseInt(entry[1].price);
+     
+      if (typeof Qty === 'number') {
+          this.totalPrice += Qty * price;
+      }
+         console.log(typeof Qty, Qty ,price);
+         
+    }
 
     // by tushar
     if (this.message) {
@@ -73,7 +86,7 @@ export class CheckoutPageComponent {
     this.orderService.insertOrderData().subscribe(
       (response) => {
         if (response.message === 'Order data Inserted Successfully.') {
-          alert('success Data Insert');
+          alert('Order Placed Successfully!');
           //console.log('success Data Insert');
           this.cartDataService.clearCartData();
           // this.route.navigate(['/']);
@@ -150,10 +163,10 @@ export class CheckoutPageComponent {
     this.randomComponent = Math.random().toString(36).substr(2, 5);
     this.uniqueString = this.timestamp + this.randomComponent;
     this.confirmOrder();
-    this.SSLPayment.postPaymentAPI(this.totalPrice, this.uniqueString);
+    this.SSLPayment.postPaymentAPI(this.totalPriceWithDiscount, this.uniqueString);
     this.SSLPayment.callApi(
       this.cartDataDetail.size,
-      this.totalPrice,
+      this.totalPriceWithDiscount,
       this.uniqueString
     );
   }

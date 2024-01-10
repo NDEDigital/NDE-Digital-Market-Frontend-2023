@@ -26,10 +26,7 @@ p {
   height: 20rem;
   /* padding: 5rem; */
 }
-.slider_main--extended {
-  /* left: -17.55rem; */
-  /* left: -34.5rem; */
-}
+
 .text-head {
   margin-left: 1.5rem;
   border-bottom: 1px solid rgb(202, 198, 198);
@@ -131,10 +128,5 @@ p {
 @media (max-width: 1500px) {
   .product_slider {
     width: 95%;
-  }
-}
-@media (max-width: 576px) {
-  .remove-btn {
-    display: block;
   }
 }

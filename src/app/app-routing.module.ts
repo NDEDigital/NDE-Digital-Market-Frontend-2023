@@ -23,13 +23,15 @@ import { SellerInvoiceComponent } from './ReportDesign/seller-invoice/seller-inv
 import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoice.component';
 import { BuyerOrderComponent } from './Components/buyer-order/buyer-order.component';
 import { BuyerOrderDetailsComponent } from './Components/buyer-order-details/buyer-order-details.component';
-
+ 
 import { BuyerOnlyGuard } from './services/buyer-only.guard';
 import { SellerOnlyGuard } from './services/seller-only.guard';
 import { AdminSellerOnlyGuard } from './services/admin-seller-only.guard';
 import { NegativeSellerAdminGuardGuard } from './guards/negative-seller-admin-guard.guard';
 import { UserRegistrationComponent } from './Pages/user-registration/user-registration.component';
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
+import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
+import { from } from 'rxjs';
 const routes: Routes = [
   {
     path: '',
@@ -91,6 +93,11 @@ const routes: Routes = [
     canActivate: [NegativeAuthGuard],
   },
   {
+    path: 'invoice',
+    component: InvoiceComponent,
+ 
+  },
+  {
     path: 'checkout',
     component: CheckoutPageComponent,
     canActivate: [BuyerOnlyGuard],
@@ -104,7 +111,11 @@ const routes: Routes = [
     component: UserOrdersComponent,
     canActivate: [BuyerOnlyGuard],
   },
-
+  {
+    path: 'buyerOrders',
+    component: BuyerOrderComponent,
+    canActivate: [BuyerOnlyGuard],
+  },
   {
     path: 'buyerOrderDetails',
     component: BuyerOrderDetailsComponent,
