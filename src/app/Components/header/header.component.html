@@ -125,8 +125,8 @@
            NDE Digital Market</span
         > -->
         <span
-          *ngIf="!isSeller || !isAdmin"
-          [routerLink]="!isSeller || !isAdmin ? '/' : null"
+          *ngIf="!isSeller && !isAdmin"
+          [routerLink]="!isSeller && !isAdmin ? '/' : null"
           style="cursor: pointer"
         >
           <!-- NDE Digital Market -->
