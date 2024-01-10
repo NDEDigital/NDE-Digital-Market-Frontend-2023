@@ -35,7 +35,7 @@ export class SubHeaderComponent {
     if (!this.isSeller && !this.isAdmin) {
       window.location.href = '/';
     } else {
-      // window.location.href = '/login';
+      window.location.href = '/dashboard';
     }
   }
 }
