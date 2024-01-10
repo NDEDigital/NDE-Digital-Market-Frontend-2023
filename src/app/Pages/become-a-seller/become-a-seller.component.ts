@@ -12,6 +12,8 @@ export class BecomeASellerComponent {
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('CompanyImageInput') CompanyImageInput!: ElementRef;
   @ViewChild('TradeLicenseInput') TradeLicenseInput!: ElementRef;
+
+  maxDate: any; // Add this variable
   compnay: any;
   alertTitile: string = 'alertTitile';
   alertmsg: string = 'alertmsg';
@@ -29,6 +31,11 @@ export class BecomeASellerComponent {
     private emailService: EmailService) {}
 
   ngOnInit() {
+    
+    // Set maxDate to the current date in 'YYYY-MM-DD' format
+    const currentDate = new Date();
+    this.maxDate = currentDate.toISOString().split('T')[0];
+
     this.companyResistrationForm = new FormGroup({
       companyName: new FormControl('', Validators.required),
       email: new FormControl('', [
@@ -81,6 +88,8 @@ export class BecomeASellerComponent {
       },
     });
   }
+
+
   isFieldInvalid(fieldName: string): boolean {
     const field = this.companyResistrationForm.get(fieldName);
     // Check if the field is not null before accessing its properties
@@ -177,8 +186,7 @@ export class BecomeASellerComponent {
     Thank you for your patience and understanding. We look forward to having your company on board with us.
 
     Best regards,
-
-    Nimpex HealthCare
+    NDE Digital Market
     `;
     this.emailService
       .sendEmail(mail, sub, message)
