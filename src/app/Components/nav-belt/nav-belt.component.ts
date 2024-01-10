@@ -10,6 +10,7 @@ import {
 import { GoodsDataService } from '../../services/goods-data.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-belt',
@@ -20,6 +21,7 @@ export class NavBeltComponent implements OnInit {
   @ViewChild('navItems', { static: true }) navItems!: ElementRef;
   @ViewChild('navItem', { static: true }) navItem!: ElementRef;
   @Output() dataUpdated = new EventEmitter<void>();
+  private navDataSubscription: Subscription;
   products = new Map();
   // productType = new Map();
   products2 = new Map();
@@ -35,7 +37,9 @@ export class NavBeltComponent implements OnInit {
     private goodsData: GoodsDataService,
     private sharedService: SharedService,
     private router: Router
-  ) {}
+  ) {
+    this.navDataSubscription = new Subscription();
+  }
 
   ngOnInit() {
     this.activeEntry = localStorage.getItem('activeEntry') || '';
@@ -55,9 +59,9 @@ export class NavBeltComponent implements OnInit {
 
 
   loadData(): void {
-    this.goodsData.getNavData().subscribe((data: any[]) => {
+    this.navDataSubscription = this.goodsData.getNavData().subscribe((data: any[]) => {
       this.goods = data;
-      console.log(this.goods, "all products....");
+      // console.log(this.goods, "all products....");
 
       for (let i = 0; i < this.goods.length; i++) {
         this.products.set(this.goods[i].productGroupCode, this.goods[i].productGroupName);
@@ -70,7 +74,7 @@ export class NavBeltComponent implements OnInit {
   getDynamicWidthClass(): string {
    const productCount = this.goods.length;
 
-    console.log(productCount, "sjdfhjdf");
+    // console.log(productCount, "sjdfhjdf");
 
 
     if (productCount <= 3) {
@@ -112,5 +116,11 @@ export class NavBeltComponent implements OnInit {
     const lastNavItem = allNavItems[allNavItems.length - 1];
     this.navItems.nativeElement.insertBefore(lastNavItem, firstNavItem);
     // //console.log('hello prev');
+  }
+  ngOnDestroy() {
+    // Unsubscribe when the component is destroyed
+    if (this.navDataSubscription) {
+      this.navDataSubscription.unsubscribe();
+    }
   }
 }
