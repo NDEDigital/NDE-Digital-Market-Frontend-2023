@@ -10,7 +10,14 @@ export class AddProductService {
   // URL = 'https://localhost:7006';
   // URL = 'http://172.16.5.18:8081'; // liveURL
 
-  private getdetailsData = `${this.URL}/ProductQuantity/GetProductForAddQtyByUserId`;
+  getAddQuantityDatabyUserId = `${this.URL}/ProductQuantity/GetPortalReceivedByUserId`;
+  getProductGroupByUserIdURL = `${this.URL}/ProductQuantity/ProductGroupsDropdownByUserId`;
+  GetPortalDataURL= `${this.URL}/ProductQuantity/GetPortalData`;
+  getdetailsData = `${this.URL}/ProductQuantity/GetProductForAddQtyByUserId`;
+
+
+  updateProductGroupURL = `${this.URL}/api/ProductGroups/UpdateProductGroups`;
+ 
   private postData = `${this.URL}/ProductQuantity/PortalReceivedPost`;
   createProductGroupURL = `${this.URL}/api/ProductGroups/CreateProductGroups`;
 
@@ -31,7 +38,7 @@ export class AddProductService {
   CreateSellerProductPriceURL = `${this.URL}/ProductQuantity/CreateSellerProductPriceAndOffer`;
   GetProductsByStatusURL = `${this.URL}/ProductQuantity/GetSellerProductsByCompanyCode`;
 
-  updateProductGroupURL = `${this.URL}/api/ProductGroups/UpdateProductGroups`;
+ 
 
   updateProductListURL = `${this.URL}/api/ProductList/UpdateProductList`;
 
@@ -41,9 +48,26 @@ export class AddProductService {
     return this.http.post(this.createProductGroupURL, productData);
   }
 
-  // get dfetails data
-  GetProductDetailsData(CompanyCode: any) {
-    return this.http.get(`${this.getdetailsData}/${CompanyCode}`);
+  GetAddQuantityDataByUserId(userId: any) {
+    return this.http.get(this.getAddQuantityDatabyUserId, {
+      params: { userId },
+    });
+  }
+  GetPortalData(PortalReceivedId: any ) {
+    return this.http.get(this.GetPortalDataURL, {
+      params: { PortalReceivedId },
+    });
+  }
+
+
+  getProductGroupsByUserId(userID: any) {
+    return this.http.get(`${this.getProductGroupByUserIdURL}/${userID}`);
+  }
+
+ 
+   // get dfetails data
+   GetProductDetailsData(CompanyCode: any , productGroupId:any) {
+    return this.http.get(`${this.getdetailsData}/${CompanyCode}/${productGroupId}`);
   }
 
   // post data
