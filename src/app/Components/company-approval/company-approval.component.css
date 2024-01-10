@@ -2,7 +2,7 @@
 .companyApproval_header_text {
   color: var(--color-primary);
 }
-.modal-content {
+#showImgModal .modal-content {
   width: 95vw;
   height: 75vh;
   overflow: scroll;
