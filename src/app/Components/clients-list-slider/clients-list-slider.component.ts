@@ -47,7 +47,7 @@ export class ClientsListSliderComponent {
   startAutoSlide(): void {
     this.intervalId = setInterval(() => {
       if (!this.isMouseOverSlider) {
-        console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
+        // console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
 
         this.slide();
       }

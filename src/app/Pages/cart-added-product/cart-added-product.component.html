@@ -61,42 +61,6 @@
           </button>
         </div>
       </div>
-
-      <!-- <div class="cart-product mt-3">
-             <div class="container-fluid cart-product">
-            <div class="ps-3 pt-3">
-                <h3 class="mb-0">Saved for later ({{saveLaterData.size}} item)</h3>
-
-            </div>
-             <hr>
-        <ng-container *ngFor="let entry of saveLaterData| keyvalue; let i = index">
-        <div class="d-flex ps-5">
-         <div>
-             <img class="product-img" src="/assets/images/hc1.jpg" alt="">
-         </div>
-         <div class="ps-3  product-detail">
-            <span class="product-name">{{ entry.value.groupName + ' (' + entry.value.goodsName + ')'}}</span>
-             <p class="fw-bold price">৳{{(entry.value.price)?entry.value.price:""}}</p>
-             <p>{{entry.value.companyName}}</p>
-             <p>Only 5 left in stock - order soon.</p>
-             <div class="product-foot">
-                <span>Qty: {{this.saveLaterDataQt.get(entry.key)}} |</span>
-                <span class="ms-3 cursor"
-                (click) = "deleteSaveProduct(entry.key)"
-                >Delete |</span>
-                <span class="ms-3 cursor"
-                (click) = "moveToCart(entry.key,entry.value)"
-                >Move to Cart </span>
-
-             </div>
-         </div>
-         </div>
-
-          <hr *ngIf="i !== cartDataDetail.size - 1">
-        </ng-container>
-
-        </div>
-        </div> -->
     </div>
 
     <div class="d-flex flex-column subtotal-parent">
