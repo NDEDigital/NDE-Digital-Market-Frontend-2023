@@ -473,7 +473,7 @@
               <div class="col-1 order_col">{{ row.discountAmount }}</div>
               <div class="col-1 order_col">{{ row.deliveryCharge }}</div>
               <div class="col-1 order_col">
-                {{ row.price + row.deliveryCharge }}
+                {{ row.price + row.deliveryCharge - row.discountAmount}}
               </div>
           
             </div>
