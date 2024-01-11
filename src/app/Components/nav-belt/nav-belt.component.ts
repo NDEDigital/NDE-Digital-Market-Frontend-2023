@@ -51,31 +51,37 @@ export class NavBeltComponent implements OnInit {
       }
     });
 
-
-
     this.loadData();
-
   }
 
-
   loadData(): void {
-    this.navDataSubscription = this.goodsData.getNavData().subscribe((data: any[]) => {
-      this.goods = data;
-      // console.log(this.goods, "all products....");
-
-      for (let i = 0; i < this.goods.length; i++) {
-        this.products.set(this.goods[i].productGroupCode, this.goods[i].productGroupName);
-        this.imgProduct.set(this.goods[i].productGroupCode,this.goods[i].imagePath);
-      }
-      this.getDynamicWidthClass();
-    });
+    this.navDataSubscription = this.goodsData
+      .getNavData()
+      .subscribe((data: any[]) => {
+        this.goods = data;
+        // Check if goods array is not empty
+        if (this.goods && this.goods.length > 0) {
+          for (let i = 0; i < this.goods.length; i++) {
+            this.products.set(
+              this.goods[i].productGroupCode,
+              this.goods[i].productGroupName
+            );
+            this.imgProduct.set(
+              this.goods[i].productGroupCode,
+              this.goods[i].imagePath
+            );
+          }
+          this.getDynamicWidthClass(); // This function will be called after the for loop
+        }
+      });
   }
 
   getDynamicWidthClass(): string {
-   const productCount = this.goods.length;
-
+    let productCount = 0;
+    if (this.goods && this.goods.length > 0) {
+      productCount = this.goods.length;
+    }
     // console.log(productCount, "sjdfhjdf");
-
 
     if (productCount <= 3) {
       return 'w-25';
@@ -85,9 +91,6 @@ export class NavBeltComponent implements OnInit {
       return 'w-75';
     }
   }
-
-
-
 
   // shouldShowButtons(): boolean {
   //   return this.products.size > 7;
