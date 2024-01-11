@@ -415,6 +415,8 @@ export class BuyerOrderComponent {
   }
 
   SaveReturnData() {
+    this.formData = new FormData();
+    
     //console.log(' type', this.returnForm.value.typeId);
     if (this.returnForm.value.typeId != null) {
       //console.log(' RETURN fORM ', this.returnForm.value);
@@ -430,26 +432,33 @@ export class BuyerOrderComponent {
       this.formData.append('AddedPc', '0.0.0.0');
 
       // Assuming you have already populated the `this.formData` object
-      //const formDataObject = this.formDataToObject(this.formData);
+      const formDataObject = this.formDataToObject(this.formData);
 
       // Log the FormData as an object
-      //console.log(' form data ', formDataObject);
+      console.log(' form data ', formDataObject);
 
       this.returnService
         .ReturnProductAndChangeOrderDetailsStatus(this.formData)
         .subscribe({
           next: (Response: any) => {
             console.log('return post and status change response', Response);
-            this.getData('Delivered');
-            this.closeModalButton.nativeElement.click();
+            setTimeout(() => {
+              this.getData('Delivered');
+              this.closeModalButton.nativeElement.click();
+              alert(Response.message);
+              this.returnForm.reset();
+            }, 100);
+
           },
           error: (error: any) => {
             console.log(error);
             alert(error);
           },
         });
-    } else {
-      this.returnType = true;
+    } 
+    else {
+      // this.returnType = true;
+      alert("Please Select a return type.")
     }
   }
   // Create a helper function to convert FormData to a plain object
