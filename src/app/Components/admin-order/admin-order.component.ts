@@ -223,7 +223,7 @@ export class AdminOrderComponent {
       //   'this.detailsData.orderMasterId ',
       //   this.detailsData[0].orderMasterId
       // );
-      this.service.GetDetatilsData(orderMasterId).subscribe((data: any) => {
+      this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
         //console.log('details data else if', data); // Use a type if possible for better type checking
         this.detailsData = data;
 
