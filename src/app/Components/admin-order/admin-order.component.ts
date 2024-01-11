@@ -16,6 +16,7 @@ import { SellerOrderOverviewService } from 'src/app/services/SellerOrderOverview
 })
 export class AdminOrderComponent {
   @ViewChild(PaginationComponent) pagination: PaginationComponent;
+  @ViewChild ('allCheck') allCheck!: ElementRef
   ModalText: string = 'No product is selected!';
 
   selectedButtonIndex: string = 'Pending'; // Default selected index is 0
@@ -147,6 +148,7 @@ export class AdminOrderComponent {
     this.detailsCancelledArray = [];
     this.masterId = '';
     this.detailsUnCheckedId = '';
+    this.allCheck.nativeElement.checked=false;
   }
 
   GetData() {
