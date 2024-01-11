@@ -12,13 +12,13 @@ export class ClientsListSliderComponent {
   isMouseOverSlider = false;
   onMouseEnter() {
     this.isMouseOverSlider = true;
-    console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
+    // console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
     this.stopAutoSlide();
   }
 
   onMouseLeave() {
     this.isMouseOverSlider = false;
-    console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
+    // console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
     if (!this.isMouseOverSlider) {
       this.startAutoSlide();
     }
