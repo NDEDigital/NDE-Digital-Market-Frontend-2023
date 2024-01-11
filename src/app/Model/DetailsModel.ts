@@ -7,7 +7,9 @@ export interface DetailsModel {
     price : number;
     deliveryCharge : number;
     orderDetailId : number;
-    productName :string
+    productName :string;
+    discountAmount :number;
+    unit : string;
     // Other properties...
   }
  
