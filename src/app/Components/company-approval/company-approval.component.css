@@ -2,6 +2,12 @@
 .companyApproval_header_text {
   color: var(--color-primary);
 }
+#showImgModal .modal-content {
+  width: 95vw;
+  height: 75vh;
+  overflow: scroll;
+}
+
 .company_images {
   max-width: 100%;
   max-height: 100%;

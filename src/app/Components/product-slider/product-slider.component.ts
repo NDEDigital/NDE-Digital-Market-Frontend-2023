@@ -189,8 +189,9 @@ export class ProductSliderComponent {
         }
 
         // //console.log(this.products3, ' products3');
-        this.updateQuantity();
-
+        // this.updateQuantity();
+          // console.log(this.goods);
+          
         // Add any other code or logic you need here
       },
       (error: HttpErrorResponse) => {
@@ -249,88 +250,84 @@ export class ProductSliderComponent {
   //     );
   //   }, 5000);
   // }
-  shouldRemoveButton(product:any): boolean {
+  shouldRemoveButton(product: any): boolean {
     if (this.windowWidth <= 1400 && product >= 5) {
       return true;
-    }
-    else if (this.windowWidth <= 1200 && product >= 4) {
+    } else if (this.windowWidth <= 1200 && product >= 4) {
+      return true;
+    } else if (this.windowWidth <= 1000 && product >= 4) {
+      return true;
+    } else if (this.windowWidth <= 780 && product >= 3) {
+      return true;
+    } else if (this.windowWidth <= 576 && product >= 3) {
       return true;
     }
-    else if (this.windowWidth <= 1000 && product >= 4) {
-      return true;
-    }
-    else if (this.windowWidth <= 780 && product >= 3) {
-      return true;
-    }
-    else if (this.windowWidth <= 576 && product >= 3 ) {
-      return true;
-    }
-    
-    
+
     return false;
   }
 
-
   updateQuantity() {
-   this.intervalId = setInterval(() => {
-    this.goodsDataObj.getCarouselData().subscribe((data: any[]) => {
-      //console.log(' data error ');
-      this.goods = data;
-      // //console.log(this.goods, 'allGoods');
+    this.intervalId = setInterval(() => {
+      this.goodsDataObj.getCarouselData().subscribe((data: any[]) => {
+        //console.log(' data error ');
+        this.goods = data;
+        console.log(this.goods, 'allGoods');
 
-      for (let i = 0; i < this.goods.length; i++) {
-        let key = this.goods[i].productGroupName;
-        let finObj = this.products3.get(key);
-        if (this.goods[i].approveSalesQty === '0') continue;
-
-        if (finObj) {
-          let product = finObj.find(
-            (p: any) => p.goodsId === this.goods[i].productId
-          );
-          if (product) {
-            // product.stockQty = this.goods[i].stockQty;
-            // product.salesQty = this.goods[i].salesQty;
-            product.approveSalesQty = this.goods[i].availableQty;
-          } else {
-            let obj = {
-              // groupName: this.goods[i].groupName,
-              // groupCode: this.goods[i].groupCode,
-              // goodsId: this.goods[i].goodsId,
-              // goodsName: this.goods[i].goodsName,
-              // specification: this.goods[i].specification,
-              // stockQty: this.goods[i].stockQty,
-              // salesQty: this.goods[i].salesQty,
-              approveSalesQty: this.goods[i].availableQty,
-            };
-            finObj.push(obj);
+        for (let i = 0; i < this.goods.length; i++) {
+          let key = this.goods[i].productGroupName;
+          let finObj = this.products3.get(key);
+          if (this.goods[i].approveSalesQty === '0') continue;
+           console.log(finObj," find");
+           
+          if (finObj) {
+            let product = finObj.find(
+              (p: any) => p.goodsId === this.goods[i].productId
+            );
+            if (product) {
+              // product.stockQty = this.goods[i].stockQty;
+              // product.salesQty = this.goods[i].salesQty;
+              product.approveSalesQty = this.goods[i].availableQty;
+            }
+            // else {
+            //   let obj = {
+            //     // groupName: this.goods[i].groupName,
+            //     // groupCode: this.goods[i].groupCode,
+            //     // goodsId: this.goods[i].goodsId,
+            //     // goodsName: this.goods[i].goodsName,
+            //     // specification: this.goods[i].specification,
+            //     // stockQty: this.goods[i].stockQty,
+            //     // salesQty: this.goods[i].salesQty,
+            //     approveSalesQty: this.goods[i].availableQty,
+            //   };
+            //   finObj.push(obj);
+            // }
+            // } else {
+            //   let obj = {
+            //     // groupName: this.goods[i].groupName,
+            //     // groupCode: this.goods[i].groupCode,
+            //     // goodsId: this.goods[i].goodsId,
+            //     // goodsName: this.goods[i].goodsName,
+            //     // specification: this.goods[i].specification,
+            //     // stockQty: this.goods[i].stockQty,
+            //     // salesQty: this.goods[i].salesQty,
+            //     approveSalesQty: this.goods[i].availableQty,
+            //   };
+            //   this.products3.set(key, [obj]);
           }
-        } else {
-          let obj = {
-            // groupName: this.goods[i].groupName,
-            // groupCode: this.goods[i].groupCode,
-            // goodsId: this.goods[i].goodsId,
-            // goodsName: this.goods[i].goodsName,
-            // specification: this.goods[i].specification,
-            // stockQty: this.goods[i].stockQty,
-            // salesQty: this.goods[i].salesQty,
-            approveSalesQty: this.goods[i].availableQty,
-          };
-          this.products3.set(key, [obj]);
         }
-      }
 
-      // catchError((error: any) => {
-      //   //console.error('Error:', error);
-      //   if (error.status === 401) {
-      //     //console.log('Error status 401. Retrying after 5 seconds...');
-      //     setTimeout(() => this.updateQuantity , 3000);
-      //   }
-      //   return throwError(error);
-      // })
+        // catchError((error: any) => {
+        //   //console.error('Error:', error);
+        //   if (error.status === 401) {
+        //     //console.log('Error status 401. Retrying after 5 seconds...');
+        //     setTimeout(() => this.updateQuantity , 3000);
+        //   }
+        //   return throwError(error);
+        // })
 
-      // //console.log(this.products3, 'products3');
-    });
-     }, 5000);
+        // //console.log(this.products3, 'products3');
+      });
+    }, 5000);
   }
 
   ngOnDestroy() {

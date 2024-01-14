@@ -126,7 +126,10 @@
     </button>
     <div class="logo_container mx-auto companyName">
       <a class="companyName">
-        <span>NDE Digital Market</span>
+        <span>
+          <!-- NDE Digital Market -->
+          <img src="assets/images/Logo/final-logo-6.png" alt="logo" />
+        </span>
         <!-- <img src="assets/images/Logo/final-logo-6.png" alt="logo" /> -->
       </a>
     </div>
@@ -379,7 +382,6 @@
           </div>
         </div>
       </div>
-
       <div *ngIf="isAdmin" class="sidebar_delimiter"></div>
     </div>
   </div>
@@ -425,7 +427,8 @@
       <app-product-approval></app-product-approval>
     </section>
     <section class="sellerOrder" *ngIf="SidebarIndex === 6">
-      <app-seller-order></app-seller-order>
+      <!-- <app-seller-order></app-seller-order> -->
+      <app-seller-orders></app-seller-orders>
     </section>
   </div>
 

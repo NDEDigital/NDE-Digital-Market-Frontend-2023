@@ -1,6 +1,9 @@
 <section class="add_product_container">
   <div class="head">
-    <a class="companyName">NDE Digital Market</a>
+    <a class="companyName">
+      <!-- NDE Digital Market -->
+      <img src="assets/images/Logo/final-logo-6.png" alt="logo" />
+    </a>
   </div>
 
   <form
@@ -48,7 +51,7 @@
             #imageInput
             (change)="onImageChange($event)"
             formControlName="image"
-            accept="image/jpeg, image/jpg, image/png, image/svg+xml, image/webp"
+            accept="image/jpeg, image/jpg, image/png, image/webp"
             required
             [class.border-danger]="imageSizeExceeded"
           />

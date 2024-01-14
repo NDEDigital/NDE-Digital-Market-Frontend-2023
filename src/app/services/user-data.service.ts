@@ -17,7 +17,7 @@ export class UserDataService {
   loginURL = `${this.URL}/login`;
   getSingleUserURL = `${this.URL}/getSingleUserInfo`;
   passURL = `${this.URL}/updatePass`;
-  updateUserURL = `${this.URL}/UpdateUser`;
+  updateUserURL = `${this.URL}/UpdateUserProfile`;
   bankDataURL = `${this.URL}/api/Goods/BankData`;
   MobileBankingTypeURL = `${this.URL}/api/Goods/MobileBankData`;
   constructor(private http: HttpClient) {}
@@ -36,13 +36,14 @@ export class UserDataService {
     return this.http.get(this.getSingleUserURL, { params: { userId } });
   }
   updatePass(passData: any) {
-    // console.log(passData, 'passDatapassData');
+    // //console.log(passData, 'passDatapassData');
     return this.http.put(this.passURL, passData);
-    // console.log('updatepassService aise');
+    // //console.log('updatepassService aise');
   }
   updateUser(updatedUserData: any) {
+    console.log(updatedUserData,'updatepassService aise');
     return this.http.put(this.updateUserURL, updatedUserData);
-    // console.log('updatepassService aise');
+
   }
   GetAccessToken() {
     return localStorage.getItem('AccessToken');
@@ -58,7 +59,7 @@ export class UserDataService {
   }
 
   RenewToken(refreshToken: any) {
-    console.log(' refresh token in service ', refreshToken);
+    //console.log(' refresh token in service ', refreshToken);
     // return this.http.post<any>(`${this.URL}/GenerateRefreshToken`, { token });
     const formData = new FormData();
     formData.append('token', refreshToken);

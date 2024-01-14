@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CartDataService } from 'src/app/services/cart-data.service';
 import { CartItem } from './cart-item.interface';
 import { Router } from '@angular/router';
@@ -10,6 +10,9 @@ import { OrderApiService } from 'src/app/services/order-api.service';
   styleUrls: ['./cart-added-product.component.css'],
 })
 export class CartAddedProductComponent {
+  @ViewChild('loginModalBTN') LoginModalBTN!: ElementRef;
+  @ViewChild('closeLoginModal') CloseLoginModal!: ElementRef;
+
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
   saveLaterData: Map<string, CartItem> = new Map<string, CartItem>();
@@ -67,7 +70,8 @@ export class CartAddedProductComponent {
   procced() {
     //console.log(localStorage.getItem('loginStatus'));
     if (localStorage.getItem('loginStatus') === null) {
-      this.route.navigate(['/login']);
+      // this.route.navigate(['/login']);
+      this.LoginModalBTN.nativeElement.click();
     } else {
       if (this.cartDataDetail.size > 0) {
         this.route.navigate(['/checkout']);

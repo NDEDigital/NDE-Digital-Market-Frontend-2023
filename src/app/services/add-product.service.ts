@@ -10,7 +10,14 @@ export class AddProductService {
   // URL = 'https://localhost:7006';
   // URL = 'http://172.16.5.18:8081'; // liveURL
 
-  private getdetailsData = `${this.URL}/ProductQuantity/GetProductForAddQtyByUserId`;
+  getAddQuantityDatabyUserId = `${this.URL}/ProductQuantity/GetPortalReceivedByUserId`;
+  getProductGroupByUserIdURL = `${this.URL}/ProductQuantity/ProductGroupsDropdownByUserId`;
+  GetPortalDataURL= `${this.URL}/ProductQuantity/GetPortalData`;
+  getdetailsData = `${this.URL}/ProductQuantity/GetProductForAddQtyByUserId`;
+
+
+  updateProductGroupURL = `${this.URL}/api/ProductGroups/UpdateProductGroups`;
+ 
   private postData = `${this.URL}/ProductQuantity/PortalReceivedPost`;
   createProductGroupURL = `${this.URL}/api/ProductGroups/CreateProductGroups`;
 
@@ -25,9 +32,15 @@ export class AddProductService {
 
   createProductListURL = `${this.URL}/api/ProductList/CreateProductList`;
   updateProductURL = `${this.URL}/SellerProductStatusUpdate`;
+  updateProductStatusURL = `${this.URL}/api/ProductList/MakeProductActiveOrInactive`;
+  updateProductGroupStatusURL = `${this.URL}/api/ProductGroups/MakeGroupActiveOrInactive`;
 
   CreateSellerProductPriceURL = `${this.URL}/ProductQuantity/CreateSellerProductPriceAndOffer`;
   GetProductsByStatusURL = `${this.URL}/ProductQuantity/GetSellerProductsByCompanyCode`;
+
+ 
+
+  updateProductListURL = `${this.URL}/api/ProductList/UpdateProductList`;
 
   constructor(private http: HttpClient) {}
 
@@ -35,9 +48,26 @@ export class AddProductService {
     return this.http.post(this.createProductGroupURL, productData);
   }
 
-  // get dfetails data
-  GetProductDetailsData(CompanyCode: any) {
-    return this.http.get(`${this.getdetailsData}/${CompanyCode}`);
+  GetAddQuantityDataByUserId(userId: any) {
+    return this.http.get(this.getAddQuantityDatabyUserId, {
+      params: { userId },
+    });
+  }
+  GetPortalData(PortalReceivedId: any ) {
+    return this.http.get(this.GetPortalDataURL, {
+      params: { PortalReceivedId },
+    });
+  }
+
+
+  getProductGroupsByUserId(userID: any) {
+    return this.http.get(`${this.getProductGroupByUserIdURL}/${userID}`);
+  }
+
+ 
+   // get dfetails data
+   GetProductDetailsData(CompanyCode: any , productGroupId:any) {
+    return this.http.get(`${this.getdetailsData}/${CompanyCode}/${productGroupId}`);
   }
 
   // post data
@@ -87,6 +117,41 @@ export class AddProductService {
   }
   updateProduct(productListData: any) {
     return this.http.put(this.updateProductURL, productListData);
+  }
+  // updateProductStatus(productId: any, IsActive: any) {
+  //   console.log(productId, IsActive, 'service prduct is active');
+  //   return this.http.put(this.updateProductStatusURL, {
+  //     params: { productId, IsActive },
+  //   });
+  // }
+  updateProductStatus(productId: any, IsActive: any) {
+    // Convert IsActive to boolean
+    const convertedIsActive = IsActive === 1 ? true : false;
+
+    console.log(productId, convertedIsActive, 'service product is active');
+
+    return this.http.put(
+      `${this.updateProductStatusURL}?productId=${productId}&IsActive=${convertedIsActive}`,
+      {}
+    );
+  }
+  updateProductGroupStatus(groupId: any, IsActive: any) {
+    // Convert IsActive to boolean
+    const convertedIsActive = IsActive === 1 ? true : false;
+
+    console.log(groupId, convertedIsActive, 'service product is active');
+
+    return this.http.put(
+      `${this.updateProductGroupStatusURL}?groupId=${groupId}&IsActive=${convertedIsActive}`,
+      {}
+    );
+  }
+  updateProductGroup(groupListData: any) {
+    return this.http.put(this.updateProductGroupURL, groupListData);
+  }
+
+  updateProductList(productListData: any) {
+    return this.http.put(this.updateProductListURL, productListData);
   }
 
   getallProducts() {

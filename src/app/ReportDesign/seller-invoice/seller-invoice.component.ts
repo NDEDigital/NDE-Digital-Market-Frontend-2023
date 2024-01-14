@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
+import { Component,ElementRef, ViewChild } from '@angular/core';
 import { OrderApiService } from 'src/app/services/order-api.service';
 import { InvoiceService } from 'src/app/services/invoice.service';
 
+import * as jspdf from 'jspdf'
+import * as html2pdf from 'html2canvas';
+
+
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-seller-invoice',
   templateUrl: './seller-invoice.component.html',
   styleUrls: ['./seller-invoice.component.css'],
 })
 export class SellerInvoiceComponent {
+  @ViewChild('content', { static: false }) content: ElementRef | undefined;
   orderID = 0;
   userId:any=0
   invoice: any = [];
@@ -28,7 +34,10 @@ export class SellerInvoiceComponent {
     ).subscribe({
       next: (response: any) => {
         console.log(' invoice data ', response);
-        this.invoice = response.invoice;
+   
+          this.invoice = response.invoice;
+        
+   
    
       },
       error: (error: any) => {
@@ -38,5 +47,23 @@ export class SellerInvoiceComponent {
   }
   ngOnInit() {
     //console.log('aise');
+  }
+  downloadAsPDF() {
+
+    if (this.content) {
+      const content = this.content.nativeElement;
+
+      html2canvas(content).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jspdf.jsPDF();
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('Invoice.pdf');
+      });
+    } else {
+      console.error('Content element is undefined or not available.');
+    }
   }
 }

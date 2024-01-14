@@ -65,24 +65,8 @@ export class GoodsDataService {
         this.carousalData = response;
         // console.log(this.companyList,"");
       }),
-      // catchError((error: any) => {
-      //   console.error('Error:', error);
-      //   // if (error.status == 401) {
-      //   //   console.log(' error status', error.status);
-      //   //   setTimeout(this.getCarouselData, 5000);
-      //   // }
-      //   return throwError(error);
-      // })
+
       catchError((error: any) => {
-        console.error('Error:', error);
-        // if (error.status === 401) {
-        //   console.log('Error status 401. Retrying after 5 seconds...');
-        //   setTimeout(() => {
-        //     this.getCarouselData().subscribe((data: any[]) => {
-        //       // this.updateQuantity();
-        //     });
-        //   }, 5000);
-        // }
         return throwError(error);
       })
     );
@@ -144,9 +128,8 @@ export class GoodsDataService {
 
   // review and ratings
 
-
   getReviewRatingsData(productId: any) {
-    console.log(productId, "ProductId");
+    console.log(productId, 'ProductId');
     const url = `${this.URL}/api/ReviewAndRating/getReviewRatingsDataForDetailsPage`;
     // const url = `${this.baseUrl}/GetOrderData/${pageNumber}/${pageSize}/${status} `;
     return this.http.get(url, {

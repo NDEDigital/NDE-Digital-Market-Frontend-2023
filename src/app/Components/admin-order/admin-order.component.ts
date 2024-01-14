@@ -16,6 +16,7 @@ import { SellerOrderOverviewService } from 'src/app/services/SellerOrderOverview
 })
 export class AdminOrderComponent {
   @ViewChild(PaginationComponent) pagination: PaginationComponent;
+  @ViewChild ('allCheck') allCheck!: ElementRef
   ModalText: string = 'No product is selected!';
 
   selectedButtonIndex: string = 'Pending'; // Default selected index is 0
@@ -147,6 +148,7 @@ export class AdminOrderComponent {
     this.detailsCancelledArray = [];
     this.masterId = '';
     this.detailsUnCheckedId = '';
+    //this.allCheck.nativeElement.checked=false;
   }
 
   GetData() {
@@ -223,7 +225,7 @@ export class AdminOrderComponent {
       //   'this.detailsData.orderMasterId ',
       //   this.detailsData[0].orderMasterId
       // );
-      this.service.GetDetatilsData(orderMasterId).subscribe((data: any) => {
+      this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
         //console.log('details data else if', data); // Use a type if possible for better type checking
         this.detailsData = data;
 

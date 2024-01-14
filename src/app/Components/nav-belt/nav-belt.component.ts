@@ -10,6 +10,7 @@ import {
 import { GoodsDataService } from '../../services/goods-data.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-belt',
@@ -20,6 +21,7 @@ export class NavBeltComponent implements OnInit {
   @ViewChild('navItems', { static: true }) navItems!: ElementRef;
   @ViewChild('navItem', { static: true }) navItem!: ElementRef;
   @Output() dataUpdated = new EventEmitter<void>();
+  private navDataSubscription: Subscription;
   products = new Map();
   // productType = new Map();
   products2 = new Map();
@@ -35,7 +37,9 @@ export class NavBeltComponent implements OnInit {
     private goodsData: GoodsDataService,
     private sharedService: SharedService,
     private router: Router
-  ) {}
+  ) {
+    this.navDataSubscription = new Subscription();
+  }
 
   ngOnInit() {
     this.activeEntry = localStorage.getItem('activeEntry') || '';
@@ -47,31 +51,37 @@ export class NavBeltComponent implements OnInit {
       }
     });
 
-
-
     this.loadData();
-
   }
 
-
   loadData(): void {
-    this.goodsData.getNavData().subscribe((data: any[]) => {
-      this.goods = data;
-      console.log(this.goods, "all products....");
-
-      for (let i = 0; i < this.goods.length; i++) {
-        this.products.set(this.goods[i].productGroupCode, this.goods[i].productGroupName);
-        this.imgProduct.set(this.goods[i].productGroupCode,this.goods[i].imagePath);
-      }
-      this.getDynamicWidthClass();
-    });
+    this.navDataSubscription = this.goodsData
+      .getNavData()
+      .subscribe((data: any[]) => {
+        this.goods = data;
+        // Check if goods array is not empty
+        if (this.goods && this.goods.length > 0) {
+          for (let i = 0; i < this.goods.length; i++) {
+            this.products.set(
+              this.goods[i].productGroupCode,
+              this.goods[i].productGroupName
+            );
+            this.imgProduct.set(
+              this.goods[i].productGroupCode,
+              this.goods[i].imagePath
+            );
+          }
+          this.getDynamicWidthClass(); // This function will be called after the for loop
+        }
+      });
   }
 
   getDynamicWidthClass(): string {
-   const productCount = this.goods.length;
-
-    console.log(productCount, "sjdfhjdf");
-
+    let productCount = 0;
+    if (this.goods && this.goods.length > 0) {
+      productCount = this.goods.length;
+    }
+    // console.log(productCount, "sjdfhjdf");
 
     if (productCount <= 3) {
       return 'w-25';
@@ -81,9 +91,6 @@ export class NavBeltComponent implements OnInit {
       return 'w-75';
     }
   }
-
-
-
 
   // shouldShowButtons(): boolean {
   //   return this.products.size > 7;
@@ -112,5 +119,11 @@ export class NavBeltComponent implements OnInit {
     const lastNavItem = allNavItems[allNavItems.length - 1];
     this.navItems.nativeElement.insertBefore(lastNavItem, firstNavItem);
     // //console.log('hello prev');
+  }
+  ngOnDestroy() {
+    // Unsubscribe when the component is destroyed
+    if (this.navDataSubscription) {
+      this.navDataSubscription.unsubscribe();
+    }
   }
 }
