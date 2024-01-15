@@ -7,7 +7,7 @@
           ? '/asset' + productData.imagePath.split('asset')[1]
           : ''
       "
-      alt="Not Uploaded Yet"
+      alt="Product image of {{ productData.goodsName }}"
     />
   </div>
   <div class="brief-des">
@@ -32,8 +32,8 @@
           </svg>
         </button>
       </div>
-      <h5 class="m-0"><span class="tk">৳</span>{{ productData.price }}/Ton</h5>
-      <p>1Ton (MOQ)</p>
+      <!-- <h5 class="m-0"><span class="tk">৳</span>{{ productData.price }}/Ton</h5>
+      <p>1Ton (MOQ)</p> -->
 
       <div>
         <p class="fw-bolder">{{ productData.companyName }}</p>

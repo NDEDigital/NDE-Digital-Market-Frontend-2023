@@ -14,6 +14,10 @@ export class ProductSearchComponent {
   @Input() totalSize: any;
   
   constructor(private router: Router) {}
+
+  ngOnInit():void{
+      
+  }
   sendData() {
     const data = {
       ind: this.indx,

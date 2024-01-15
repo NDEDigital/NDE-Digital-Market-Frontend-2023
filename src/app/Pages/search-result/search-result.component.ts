@@ -76,10 +76,12 @@ export class SearchResultComponent {
 
         this.searchData.push(obj);
       }
+    //  console.log(this.searchData," uu");
+      
       if (this.searchData.length > 0) {
         this.compareValues = Array(20).fill('Compare product');
         //console.log(this.searchData, 'sda');
-
+        
         this.totalPages = Math.ceil(this.searchData[0].totalCount / 20);
       }
       this.dataLoadDone();
@@ -120,10 +122,7 @@ export class SearchResultComponent {
       this.start();
     }
   }
-  done(product: any) {
-    //console.log(product, ' done');
-  }
-
+  
   updateCompareValue(index: number) {
     if (this.compareValues[index] === 'Compare product') {
       this.compareValues[index] = 'Added to Compare';
