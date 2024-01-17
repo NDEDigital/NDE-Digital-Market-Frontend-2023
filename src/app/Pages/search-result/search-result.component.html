@@ -8,7 +8,7 @@
 <hr />
 <section class="row justify-content-center search-product mt-2">
   <div class="col-2">
-    <!-- <app-product-sidebar></app-product-sidebar> -->
+    <app-product-sidebar></app-product-sidebar>
   </div>
 
   <div *ngIf="searchData && searchData.length > 0" class="col-4 mt-2">
@@ -61,7 +61,7 @@
       </div>
     </div>
     <div class="" *ngFor="let product of searchData; let i = index">
-      <div (click)="done(product)">
+      <div>
         <app-product-search
           [totalSize]="compareData.length"
           (dataEvent)="receiveDataFromChild($event)"
@@ -153,7 +153,7 @@
                 class="d-flex justify-content-around align-items-center bg-light"
               >
                 <img
-                  [src]="data.imagePath ? data.imagePath.split('src')[1] : ''"
+                  [src]="data.imagePath ? data.imagePath.split('asset')[1] : ''"
                   class="img-fluid compare-img"
                   [alt]=""
                 />
