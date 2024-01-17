@@ -16,7 +16,7 @@ import { SellerOrderOverviewService } from 'src/app/services/SellerOrderOverview
 })
 export class AdminOrderComponent {
   @ViewChild(PaginationComponent) pagination: PaginationComponent;
-  @ViewChild ('allCheck') allCheck!: ElementRef
+  @ViewChild('allCheck') allCheck!: ElementRef;
   ModalText: string = 'No product is selected!';
 
   selectedButtonIndex: string = 'Pending'; // Default selected index is 0
@@ -110,7 +110,7 @@ export class AdminOrderComponent {
         //console.log('Order Details:', data);
       },
       (error) => {
-        //console.error('Error fetching order details:', error);
+        console.error('Error fetching order details:', error);
       }
     );
   }
@@ -120,13 +120,20 @@ export class AdminOrderComponent {
         //console.log('Orders:', data);
       },
       (error) => {
-        //console.error('Error fetching orders:', error);
+        console.error('Error fetching orders:', error);
       }
     );
   }
   private reloadPagination() {
     if (this.pagination) {
       this.pagination.reloadData(); // You need to create this method in your pagination component
+    }
+  }
+  ngAfterViewInit() {
+    // Now, allCheck is defined
+    if (this.allCheck && this.allCheck.nativeElement) {
+      const nativeElement = this.allCheck.nativeElement;
+      nativeElement.checked = false;
     }
   }
 
@@ -148,7 +155,7 @@ export class AdminOrderComponent {
     this.detailsCancelledArray = [];
     this.masterId = '';
     this.detailsUnCheckedId = '';
-    this.allCheck.nativeElement.checked=false;
+    //this.allCheck.nativeElement.checked = false;
   }
 
   GetData() {
@@ -161,7 +168,7 @@ export class AdminOrderComponent {
         // allcheck.checked = false;
       },
       (error) => {
-        //console.error('Error fetching orders:', error);
+        console.error('Error fetching orders:', error);
       }
     );
   }
@@ -189,57 +196,96 @@ export class AdminOrderComponent {
     }
   }
 
-  GetDetailsData(orderMasterId: any, index: any) {
-    //console.log(' orderMasterId', orderMasterId);
+  GetDetailsData(orderMasterId: any, index: any, row: any) {
+    console.log(' orderMasterId', orderMasterId, row);
     // Toggle the rotation state ot icon
-    // this.isIconRotatedMap ={};
+    //this.isIconRotatedMap ={};
     // this.showPendingDetails = true;
     // this.status = 'PendingsDetails'
-
+    // console.log("this.isIconRotatedMap ",this.isIconRotatedMap)
     Object.keys(this.isIconRotatedMap).forEach((key) => {
       if (key !== orderMasterId) {
         this.isIconRotatedMap[key] = false;
         // this.showPendingDetails = false;
-        this.status = 'Pending';
+        //this.status = 'Pending';
       }
     });
+    // console.log(" after making false  ",this.isIconRotatedMap)
+
     this.isIconRotatedMap[orderMasterId] =
       !this.isIconRotatedMap[orderMasterId];
 
+    // console.log(" after making  toggle  ",this.isIconRotatedMap)
+
     if (this.detailsData.length === 0) {
       this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
-        this.detailsData = data;
-        // Add the isChecked property with a default value of false to each object
-        this.detailsData = data.map((item: any) => ({
-          ...item,
-          isChecked: false,
-        }));
-        //  this.togglingDetailsCheckbox(index);
-        //console.log('details data dataaaaaa', this.detailsData); // Use a type if possible for better type checking
-        setTimeout(() => {
-          this.togglingDetailsCheckbox(index, this.detailsData);
-        }, 10);
-      });
-    } else if (this.detailsData[0].orderMasterId != orderMasterId) {
-      //console.log(
-      //   'this.detailsData.orderMasterId ',
-      //   this.detailsData[0].orderMasterId
-      // );
-      this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
-        //console.log('details data else if', data); // Use a type if possible for better type checking
-        this.detailsData = data;
+        // this.detailsData = [];
+        if (this.selectedButtonIndex === 'Cancelled') {
+          console.log(data, 'all data');
 
-        // Add the isChecked property with a default value of false to each object
-        this.detailsData = data.map((item: any) => ({
-          ...item,
-          isChecked: false,
-        }));
-        //console.log('details data dataaaaaa', this.detailsData); // Use a type if possible for better type checking
+          this.detailsData = data.filter(
+            (cancelData: any) => cancelData.status !== 'Approved'
+          );
+
+          console.log(this.detailsData, 'data after filter');
+
+          this.detailsData = this.detailsData.map((item: any) => ({
+            ...item,
+            isChecked: false,
+          }));
+        } else if (this.selectedButtonIndex === 'Approved') {
+          console.log('dsagashd');
+
+          this.detailsData = data;
+
+          this.detailsData = this.detailsData.filter(
+            (approvedData: any) => approvedData.status === 'Approved'
+          );
+
+          this.detailsData = this.detailsData.map((item: any) => ({
+            ...item,
+            isChecked: false,
+          }));
+        } else if (this.selectedButtonIndex === 'Pending') {
+          this.detailsData = data;
+          this.detailsData = this.detailsData.map((item: any) => ({
+            ...item,
+            isChecked: false,
+          }));
+        }
+
+        //  this.togglingDetailsCheckbox(index);
+        console.log('details data dataaaaaa', this.detailsData); // Use a type if possible for better type checking
+
         setTimeout(() => {
           this.togglingDetailsCheckbox(index, this.detailsData);
         }, 10);
       });
-    } else {
+    }
+
+    // else if (this.detailsData[0].orderMasterId != orderMasterId) {
+    //   // console.log(
+    //   //   'this.detailsData.orderMasterId ',
+    //   //   this.detailsData[0].orderMasterId
+    //   // );
+    //   this.detailsData = [];
+    //   console.log(' orderMasterId tytr', orderMasterId);
+    //   this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
+    //     console.log('details data else if', data); // Use a type if possible for better type checking
+    //     this.detailsData = data;
+
+    //     // Add the isChecked property with a default value of false to each object
+    //     this.detailsData = data.map((item: any) => ({
+    //       ...item,
+    //       isChecked: false,
+    //     }));
+    //     //console.log('details data dataaaaaa',    this.detailsData); // Use a type if possible for better type checking
+    //     setTimeout(() => {
+    //       this.togglingDetailsCheckbox(index, this.detailsData);
+    //     }, 10);
+    //   });
+    // }
+    else {
       this.detailsData.length = 0; // clearing the array for  hiding the details data div
     }
 
@@ -247,24 +293,26 @@ export class AdminOrderComponent {
   }
 
   togglingDetailsCheckbox(index: any, detailsData: any) {
-    //console.log(' index ', index);
+    // console.log(' index ', index);
+
     // toggling the checkbox
     const individual_check_master =
-      this.elementRef.nativeElement.querySelectorAll(
-        '.individual_checkbox_Master'
-      );
+      this.elementRef.nativeElement.querySelectorAll('.individual_checkbox_Master');
     const individual_check_details =
-      this.elementRef.nativeElement.querySelectorAll(
-        '.individual_checkbox_details'
-      );
+      this.elementRef.nativeElement.querySelectorAll('.individual_checkbox_details');
 
-    if (individual_check_master[index].checked) {
-      //console.log(' details map ', this.detailsMap);
+    // Ensure that individual_check_master[index] is defined before accessing checked property
+    if (
+      individual_check_master &&
+      individual_check_master.length > index &&
+      individual_check_master[index].checked
+    ) {
+      // console.log(' details map ', this.detailsMap);
 
       for (let i = 0; i < individual_check_details.length; i++) {
-        //console.log(' jafhwafhowauifw');
+        // console.log(' jafhwafhowauifw');
         const id = individual_check_details[i].getAttribute('id');
-        //console.log(' id ', id);
+        // console.log(' id ', id);
 
         if (this.detailsMap[id]) {
           this.detailsData[i].isChecked = false;
@@ -275,9 +323,10 @@ export class AdminOrderComponent {
     }
   }
 
+
   //   ****************** UPDATE STATUS *************
   actionBtn(masterId: any, cancelledId: any, str: string) {
-    //console.log(
+    // console.log(
     //   'masterId,cancelledId,str',
     //   masterId,
 
@@ -391,7 +440,7 @@ export class AdminOrderComponent {
     } else {
       this.searchValue = inputValue;
     }
-    //console.log(
+    // console.log(
     //   ' this.status, this.selectedPageIndex, this.selectedValue',
     //   this.status,
     //   this.selectedPageIndex,
@@ -459,12 +508,20 @@ export class AdminOrderComponent {
     this.selectedValue = data.selectedValue;
     //this.loadData();
 
-    //console.log(
+    // console.log(
     //   ' pagination hapendding ,  this.selectedPageIndex,  this.selectedValue',
     //   this.selectedPageIndex,
     //   this.selectedValue
     // );
     this.checkingReturnORMasterData(); // is this return data or master data
+  }
+
+  // Method to check if all details checkboxes are selected
+  areAllDetailsSelected(orderMasterId: number): boolean {
+    // Log the masterID for debugging
+    console.log(orderMasterId, 'masterID');
+
+    return true;
   }
 
   // checking
@@ -517,7 +574,7 @@ export class AdminOrderComponent {
       '.individual_checkbox_Master'
     ); // individual checkbox
 
-    //console.log(
+    // console.log(
     //   ' individual checkbox ',
     //   checkbox.length,
     //   checkbox,
@@ -634,11 +691,15 @@ export class AdminOrderComponent {
     }
   }
 
-  setID(id: any, status: string, index: any) {
+  setID(row: any, id: any, status: string, index: any) {
     const individual_checkboxes_master =
       this.elementRef.nativeElement.querySelectorAll(
         '.individual_checkbox_Master'
       );
+
+    const isAllSelected = this.areAllDetailsSelected(row);
+    // const status = isAllSelected ? defaultStatus : 'Partial';
+
     for (let i = 0; i < individual_checkboxes_master.length; i++) {
       individual_checkboxes_master[i].checked = false;
     }
@@ -653,8 +714,7 @@ export class AdminOrderComponent {
   GotoInvoice(orderId: any) {
     sessionStorage.setItem('orderMasterID', orderId);
 
-    const urlToOpen = '/invoice'; // Replace with your desired URL
-
+    const urlToOpen = '/buyerInvoice'; // Replace with your desired URL
 
     // Use window.open to open the new window/tab
     window.open(urlToOpen, '_blank');
@@ -756,8 +816,8 @@ export class AdminOrderComponent {
 
   callFunctionIfChecked(event: Event, orderMasterId: number) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    //console.log(' isChecked', isChecked);
-    //console.log(' before detailsData ', this.detailsData);
+    //console.log(" isChecked",isChecked);
+    //console.log(" before detailsData ",this.detailsData)
     const individual_checkbox_details =
       this.elementRef.nativeElement.querySelectorAll(
         '.individual_checkbox_details'
@@ -769,10 +829,7 @@ export class AdminOrderComponent {
         if (isChecked == false) {
           //poping the details id/key from details map
           if (this.detailsMap[this.detailsData[i].orderDetailId]) {
-            //console.log(
-            //   'this.detailsMap[id] ',
-            //   this.detailsMap[this.detailsData[i].orderDetailId]
-            // );
+            //console.log('this.detailsMap[id] ', this.detailsMap[this.detailsData[i].orderDetailId ]);
             delete this.detailsMap[this.detailsData[i].orderDetailId];
           }
         }
@@ -780,17 +837,17 @@ export class AdminOrderComponent {
     }
     //poping the masterId/value  from details map
     const keys = Object.keys(this.detailsMap);
-    //console.log(' KEYS', keys);
+    //console.log(" KEYS", keys)
     // Loop through keys and access their corresponding values
     keys.forEach((key: any) => {
       const value = this.detailsMap[key];
       //console.log(`Key: ${key}, Value: ${value}`);
       if (value == orderMasterId) {
         delete this.detailsMap[key];
-        //console.log('detailsMa after delete', this.detailsMap);
+        //console.log("detailsMa after delete" ,this.detailsMap);
       }
     });
-    //console.log('detailsMap', this.detailsMap);
+    //console.log("detailsMap",this.detailsMap);
   }
 
   detailsCheckBox(event: Event, masterId: any, detailsId: any, index: any) {
@@ -800,6 +857,9 @@ export class AdminOrderComponent {
       this.elementRef.nativeElement.querySelectorAll(
         '.individual_checkbox_Master'
       );
+
+    //console.log(individual_checkbox_Master.length, "master length... ");
+
     let masterIndex = 0;
     let cnt = 0;
 
@@ -817,11 +877,16 @@ export class AdminOrderComponent {
       this.elementRef.nativeElement.querySelectorAll(
         '.individual_checkbox_details'
       );
+
+    //console.log(individual_checkbox_details.length, "detail length...");
+
     for (let i = 0; i < individual_checkbox_details.length; i++) {
       if (!individual_checkbox_details[i].checked) {
         cnt++;
       }
     }
+    // console.log(cnt, "count of checkbox..");
+    // console.log(individual_checkbox_details.length, "details length..");
 
     if (cnt == individual_checkbox_details.length) {
       individual_checkbox_Master[masterIndex].checked = false;
@@ -836,6 +901,8 @@ export class AdminOrderComponent {
       this.elementRef.nativeElement.querySelectorAll(
         '.individual_checkbox_details'
       );
+
+    //console.log("individual_check_details ", individual_check_details.length);
 
     for (let i = 0; i < individual_check_details.length; i++) {
       const id = individual_check_details[i].getAttribute('id');
