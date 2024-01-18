@@ -12,7 +12,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: any;
   refreshToken: string = 'fhwe';
-
+  isCompanyAdmin: boolean = false;
   constructor(
     private userData: UserDataService,
     private sharedServiceData: SharedService,
@@ -47,6 +47,13 @@ export class LoginComponent {
         this.userData.SetAccessToken(response.token);
         this.userData.SetRefreshToken(response.newRefreshToken);
         this.refreshToken = response.newRefreshToken;
+        this.isCompanyAdmin = response.isSellerAdmin;
+
+        if (this.isCompanyAdmin) {
+          localStorage.setItem('isDigitlCompanyAd', 'true');
+        } else {
+          localStorage.setItem('isDigitalCompanyAd', 'false');
+        }
         // //console.log(response.userId);
         this.errorMessage = '';
         this.loginForm.reset();
