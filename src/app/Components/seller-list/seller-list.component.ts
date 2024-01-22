@@ -64,6 +64,8 @@ export class SellerListComponent {
         // alert(this.btnIndex);
        this.sellerList = response.filter((u:any) => u.userId!== Number(this.UserId));   
          console.log(this.sellerList,"seller");
+         this.responseLength=response.length
+         console.log("dfladkfja",this.responseLength);
          
       },
       error: (error: any) => {
