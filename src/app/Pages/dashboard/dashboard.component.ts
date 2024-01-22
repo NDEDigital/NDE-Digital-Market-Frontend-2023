@@ -32,6 +32,8 @@ export class DashboardComponent {
   indx: number = 0;
   sellerCode: any;
   productID: any;
+  companyAdminId:any;
+
   filteredProducts: any[] = []; // Array to hold the filtered products
   showSidebar = true;
   isAdmin: boolean = false;
@@ -52,6 +54,8 @@ export class DashboardComponent {
   sidebarCol8Title = 'Company Approval';
   sidebarCol9Title = 'Price & Discounts';
   sidebarCol10Title = 'Product Approval';
+  sidebarCol11Title='Seller List';
+
   sidebarCol4Link = '/payment';
   sidebarCol2Link = '/addProduct';
   sidebarCol3Link = '/ordersOverview';
@@ -127,6 +131,7 @@ export class DashboardComponent {
       { validators: this.passwordMatchValidator }
     );
   }
+  userId:any;
 
   ngOnInit() {
     // const order = sessionStorage.getItem('checkSidebar');
@@ -138,6 +143,10 @@ export class DashboardComponent {
     // } else {
     //   this.isAdminOrder = false;
     // }
+    this.companyAdminId=localStorage.getItem('isDigitalCompanyAd');
+    console.log(this.companyAdminId,"uts");
+    // console.log(this.companyAdminId);
+    this.userId=localStorage.getItem('code');
     this.getDashboardContents();
 
     setTimeout(() => {

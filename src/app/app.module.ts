@@ -73,6 +73,7 @@ import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { SellerOrdersComponent } from './Components/seller-orders/seller-orders.component';
 import { LoginPopupComponent } from './Components/login-popup/login-popup.component';
+import { SellerListComponent } from './Components/seller-list/seller-list.component';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { LoginPopupComponent } from './Components/login-popup/login-popup.compon
     InvoiceComponent,
     SellerOrdersComponent,
     LoginPopupComponent,
+    SellerListComponent,
   ],
   imports: [
     BrowserModule,
