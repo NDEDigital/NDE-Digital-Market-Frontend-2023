@@ -155,11 +155,7 @@ export class AdminOrderComponent {
     this.detailsCancelledArray = [];
     this.masterId = '';
     this.detailsUnCheckedId = '';
-<<<<<<< HEAD
-    //this.allCheck.nativeElement.checked = false;
-=======
-    //this.allCheck.nativeElement.checked=false;
->>>>>>> 26705e6c71db1d1e5dfb8a2926a1d9cd47088d35
+
   }
 
   GetData() {

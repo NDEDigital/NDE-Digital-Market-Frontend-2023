@@ -50,7 +50,7 @@ export class LoginComponent {
         this.isCompanyAdmin = response.isSellerAdmin;
 
         if (this.isCompanyAdmin) {
-          localStorage.setItem('isDigitlCompanyAd', 'true');
+          localStorage.setItem('isDigitalCompanyAd', 'true');
         } else {
           localStorage.setItem('isDigitalCompanyAd', 'false');
         }
