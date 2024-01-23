@@ -55,6 +55,7 @@ export class DashboardComponent {
   sidebarCol9Title = 'Price & Discounts';
   sidebarCol10Title = 'Product Approval';
   sidebarCol11Title='Seller List';
+  sidebarCol12Title='Seller Permission';
 
   sidebarCol4Link = '/payment';
   sidebarCol2Link = '/addProduct';
