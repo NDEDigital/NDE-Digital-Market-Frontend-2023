@@ -8,34 +8,38 @@
     </div>
   
     <div class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2">
-        <div class="headerbtns">
+        <div class="headerbtns ">
         
            
                 <!-- <p *ngFor="let sl of dropdownValues; let i = index;"> paragraph{{sl}}</p> -->
         
                 <!-- <label for="allcategory " class="font-weight-bold">Select Company Name:</label> -->
                 <select 
-                  class="p-2 border border-1 rounded " 
-                  id="allcategory" 
-                  name="Category"  
-                  style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);"
-                >
-          <option  >All </option>
-          <option  >Option 1</option>
-             
-                </select>
+          class="p-2 border border-1 rounded " 
+          id="allcategory" 
+          name="Category" 
+           
+          style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);"
+        >
+          <!-- <option (click)="getUser()"  >All </option> -->
+          <option *ngFor="let dv of this.sellerList; let i = index;"    [value]="dv.userId">{{dv.fullName}}</option>
+          
+          <!-- Add more options as needed -->
+        </select>
             
      
                 <select 
-                class="p-2 border border-1 rounded " 
+                class="p-2 border border-1 rounded "  
                 id="allcategory" 
                 name="Category"  
-                style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);"
+                style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);margin-left: 5%;"
               >
         <option  >All </option>
         <option  >Option 1</option>
            
               </select>
+
+              <button class="btn btn-primary mx-4 py-2">Add Permission</button>
 
 
         
@@ -71,15 +75,11 @@
     <div class="scrollable-table border border-1 bg-light">
       <!-- TABLE header -->
       <div class="row headerRow sticky-top fw-bolder">
-        <div class="col tableHeader">#</div>
-        <div class="col tableHeader">Full Name</div>
-        <div class="col tableHeader">Phone</div>
-        <div class="col tableHeader">Email</div>
-        <div class="col tableHeader">Address</div>
-        <div class="col tableHeader">Added Date</div>
+        <!-- <div class="col tableHeader">#</div> -->
+        <div class="col tableHeader">Name</div>
+        <div class="col tableHeader">Action</div>
+        
      
-
-        <div class="col tableHeader">Action </div>
 
        
       </div>
