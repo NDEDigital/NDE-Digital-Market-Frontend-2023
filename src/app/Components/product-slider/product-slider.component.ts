@@ -137,8 +137,7 @@ export class ProductSliderComponent {
     this.products.clear();
     this.goodsDataObj.getCarouselData().subscribe(
       (data: any[]) => {
-        this.goods = data;
-
+        this.goods = data;         
         for (let i = 0; i < this.goods.length; i++) {
           let finObj = this.products3.get(this.goods[i].productGroupName);
 

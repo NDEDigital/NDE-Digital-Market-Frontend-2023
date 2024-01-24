@@ -304,14 +304,15 @@ export class ProductComponent {
     if (entry.price === '' || entry.price === undefined) {
       entry.price = 0;
     }
+     
+      
+    let groupCodeIdSellerId = entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
-    let groupCode_groupId = entry.groupCode + '&' + entry.goodsId;
-
-    this.cartDataService.setCartCount(groupCode_groupId);
+    this.cartDataService.setCartCount(groupCodeIdSellerId);
     this.cartDataService.setPrice(
       entry.netPrice,
       parseInt(inputQt),
-      groupCode_groupId
+      groupCodeIdSellerId
     );
     this.cartDataService.setCartData(entry, inputQt);
     this.setServiceData();

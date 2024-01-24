@@ -83,19 +83,12 @@ export class ProductDetailsPageComponent {
     const productData = sessionStorage.getItem('productData');
     if (productData) {
       this.detailsData = JSON.parse(productData);
-      console.log("this.detailsData ",this.detailsData)
     }
     if( this.detailsData.approveSalesQty == 0){
       this.CartButtonText ="Out of stock";
     }
     this.buyerCode = localStorage.getItem('code');
-    //console.log(' buyerCode ', this.buyerCode);
-   //console.log(" detailsData ",this.detailsData )
-    // this.detailsData = this.goodsData.getDetaileData();
 
-    //console.log('this.detailsData.goodsId,this.detailsData.groupCode', this.detailsData.goodsId,this.detailsData.groupCode);
-    // //console.log('goodsName', this.detailsData.goodsName);
-    console.log("this.detailsData.goodsId",this.detailsData.goodsId)
     this.service
       .getReviewRatingsData(
         this.detailsData.goodsId
@@ -293,13 +286,13 @@ export class ProductDetailsPageComponent {
     if (entry.price === '' || entry.price === undefined) {
       entry.price = '0';
     }
-    let groupCode_groupId = entry.groupCode + '&' + entry.goodsId;
+    let groupCodeIdSellerId = entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
-    this.cartDataService.setCartCount(groupCode_groupId);
+    this.cartDataService.setCartCount(groupCodeIdSellerId);
     this.cartDataService.setPrice(
       entry.netPrice,
       parseInt(inputQt),
-      groupCode_groupId
+      groupCodeIdSellerId
     );
     this.cartDataService.setCartData(entry, inputQt);
     this.setServiceData();
