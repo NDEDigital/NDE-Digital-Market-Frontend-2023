@@ -15,32 +15,32 @@
         
                 <!-- <label for="allcategory " class="font-weight-bold">Select Company Name:</label> -->
                 <select 
-          class="p-2 border border-1 rounded " 
-          id="allcategory" 
-          name="Category" 
-           
-          style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);"
-        >
-          <!-- <option (click)="getUser()"  >All </option> -->
-          <option *ngFor="let dv of this.sellerList; let i = index;"    [value]="dv.userId">{{dv.fullName}}</option>
-          
-          <!-- Add more options as needed -->
-        </select>
+                class="p-2 border border-1 rounded " 
+                id="allcategory" 
+                name="Category" 
+                style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);" 
+                [(ngModel)]="selectedUserId" 
+                (change)="onUserChange(selectedUserId)">
+                
+                <!-- <option (click)="getUser()">All</option> -->
+                <!-- <option value="">select Name</option> -->
+                <option *ngFor="let dv of this.sellerList; let i = index;" #selectedUserId [value]="dv.userId">{{dv.fullName}}</option>
+              
+                <!-- Add more options as needed -->
+              </select>
+              
             
      
-                <select 
-                class="p-2 border border-1 rounded "  
-                id="allcategory" 
-                name="Category"  
-                style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);margin-left: 5%;"
-              >
-        <option  >All </option>
-        <option  >Option 1</option>
-           
-              </select>
+              <select 
+  class="p-2 border border-1 rounded"  
+  id="allcategory" 
+  name="Category"  
+  style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1); margin-left: 5%;" 
+  [(ngModel)]="selectedMenu">
+  <option *ngFor="let dv of dropdownValues; let i = index;" #selectedMenu [value]="dv.menuId">{{dv.menuName}}</option>
+</select>
 
-              <button class="btn btn-primary mx-4 py-2">Add Permission</button>
-
+<button (click)="PermissionBtn(selectedUserId, selectedMenu)" class="btn btn-primary mx-4 py-2">Add Permission</button>
 
         
         
@@ -83,11 +83,26 @@
 
        
       </div>
-  
-    
-      <div class="d-flex"  >
-       
-    </div>
+      <section class="row tablebodyRow fw-semibold" *ngIf="tableData && tableData.length > 0">
+        <div class="d-flex" *ngFor="let user of tableData; let i=index">
+          <div class="col tableBody">
+           
+            <div *ngFor="let item of user.items; let j=index">
+              <div>
+                <input type="checkbox" id="{{ 'checkbox_' + i + '_' + j }}" [(ngModel)]="item.selected">
+                <label for="{{ 'checkbox_' + i + '_' + j }}">{{ j === 0 ? item.fullName : '' }} {{ item.menuName }}</label>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      
+      
+      
+      
+   
     </div>
   
  

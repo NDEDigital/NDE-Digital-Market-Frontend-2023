@@ -49,6 +49,13 @@ export class CompanyService {
     
   }
 
+
+
+
+
+
+  
+
   GetSellerInAdmin(status:any,selectedValue:any){
     if(status==1){
       status=true
