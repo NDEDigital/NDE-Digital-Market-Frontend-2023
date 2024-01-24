@@ -85,7 +85,6 @@ export class CartDataService {
 
   setCartCount(key: string) {
     const count = this.cartDataQt.get(key);
-
     if (count === undefined) {
       this.cartCount++;
     }
@@ -94,8 +93,7 @@ export class CartDataService {
   }
 
   setPrice(price: number, qt: number, key: string) {
-    console.log(price," uu ",qt);
-    
+  
     const count = this.cartDataQt.get(key);
     if (this.cartDataQt.has(key) && count !== undefined) {
       this.totalPrice -= count * price;
@@ -123,10 +121,10 @@ export class CartDataService {
   }
 
   setCartData(obj: any, qt: any) {
-    let groupCode_groupId = obj.groupCode + '&' + obj.goodsId;
-    this.cartDataDetail.set(groupCode_groupId, obj);
+    let groupCodeIdSellerId = obj.groupCode + '&' + obj.goodsId + '&' + obj.sellerCode;
+    this.cartDataDetail.set(groupCodeIdSellerId, obj);
 
-    this.cartDataQt.set(groupCode_groupId, qt);
+    this.cartDataQt.set(groupCodeIdSellerId, qt);
 
     // Convert Map to an array of its entries and then stringify
     localStorage.setItem(

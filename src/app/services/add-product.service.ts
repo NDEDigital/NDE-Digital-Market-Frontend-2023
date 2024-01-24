@@ -17,7 +17,7 @@ export class AddProductService {
 
 
   updateProductGroupURL = `${this.URL}/api/ProductGroups/UpdateProductGroups`;
- 
+
   private postData = `${this.URL}/ProductQuantity/PortalReceivedPost`;
   createProductGroupURL = `${this.URL}/api/ProductGroups/CreateProductGroups`;
 
@@ -38,9 +38,11 @@ export class AddProductService {
   CreateSellerProductPriceURL = `${this.URL}/ProductQuantity/CreateSellerProductPriceAndOffer`;
   GetProductsByStatusURL = `${this.URL}/ProductQuantity/GetSellerProductsByCompanyCode`;
 
- 
+
 
   updateProductListURL = `${this.URL}/api/ProductList/UpdateProductList`;
+  
+  updateSellerProductPriceURL = `${this.URL}/ProductQuantity/UpdateSellerProductPriceAndOffer`;
 
   constructor(private http: HttpClient) {}
 
@@ -64,7 +66,7 @@ export class AddProductService {
     return this.http.get(`${this.getProductGroupByUserIdURL}/${userID}`);
   }
 
- 
+
    // get dfetails data
    GetProductDetailsData(CompanyCode: any , productGroupId:any) {
     return this.http.get(`${this.getdetailsData}/${CompanyCode}/${productGroupId}`);
@@ -157,6 +159,13 @@ export class AddProductService {
   getallProducts() {
     return this.http.get(this.getAllproducts);
   }
+
+  updateSellerProductPrice(ProductPrice: any) {
+    return this.http.put(this.updateSellerProductPriceURL, ProductPrice);
+  }
+
+
+
 
   createSellerProductPrice(productListInsertData: any) {
     return this.http.post(
