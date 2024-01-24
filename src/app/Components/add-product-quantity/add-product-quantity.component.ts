@@ -117,7 +117,7 @@ export class AddProductQuantityComponent   {
     });
   
     rowsArray.push(newRow);
-    this.selectedProductNames.push('Select product');
+    this.selectedProductNames.push('Select Product');
     this.selectedProductGroup.push('Select Group');
  
 
@@ -277,7 +277,7 @@ export class AddProductQuantityComponent   {
     const currentValue = rowGroup.get('isDropdownOpen')?.value || false;
     rowGroup.patchValue({ isDropdownOpen: !currentValue });
     const groupName = this.selectedProductGroup[rowIndex];
-    //console.log("index", rowIndex, groupName);
+    // console.log("index", rowIndex, groupName);
     // if group Name is not selected
     if(groupName=="Select Group"){
 
@@ -302,14 +302,16 @@ export class AddProductQuantityComponent   {
   
 
   getDetailsData(productGroupID: number){
-   // console.log("matchGroupName.productGroupID ",productGroupID)
+    // console.log("matchGroupName.productGroupID ",productGroupID)
     const userID = localStorage.getItem('code')
+    console.log(userID);
+    
     if(productGroupID && userID){
       this.addProductService.GetProductDetailsData(userID,productGroupID) .subscribe({
         next: (response) => {
            //console.log( response)
            this.productDertailsData = response;
-         //  console.log("his.productDertailsData ",this.productDertailsData)
+           console.log("his.productDertailsData ",this.productDertailsData)
         if(this.productDertailsData.length>0){
 
           this.NoProductFound= false;
