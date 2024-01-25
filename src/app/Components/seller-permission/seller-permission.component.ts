@@ -6,7 +6,8 @@ import { SellerDasboardPermissionService } from 'src/app/services/seller-dasboar
 @Component({
   selector: 'app-seller-permission',
   templateUrl: './seller-permission.component.html',
-  styleUrls: ['./seller-permission.component.css']
+  styleUrls: ['./seller-permission.component.css'],
+  
 })
 export class SellerPermissionComponent {
   selectedValue:any;
@@ -27,15 +28,15 @@ selectedMenu: any;
   ngOnInit() {
     this.UserId=localStorage.getItem('code');
     this.whoUser=localStorage.getItem('role');
-
+     
     if(this.whoUser === 'seller'){
       console.log("user id is+",this.UserId);
       
-      
+      this.getPermission();
       this.getData();
       // this.getDashboarItem();
     }
-    this.getPermission();
+ 
   
   //  this.getDropdownValues();
     
@@ -102,6 +103,7 @@ selectedMenu: any;
       next: (response: any) => {
        console.log("Response of permission",response);
        this.getPermission();
+       
 
       //  this.getDashboarItem(userId1);
 
@@ -114,31 +116,25 @@ selectedMenu: any;
     });
   
   }
+  currentIndex: number = 0;
+  updateTableData() {
+    // Your existing logic to update tableData...
+    
+    // Increment the index variable
+    this.currentIndex++;
+  }
   // item:any;
   getPermission() {
     // console.log("it enter in ts");
     // console.log("bebe");
     this.SellerDasboardPermissionService.GetPermissionData(this.UserId).subscribe({
       next: (response: any) => {
-      
-        console.log("here is the data",response);
-  
-      const uniqueUserIds = Array.from(new Set(response.map((item:any) => item.userId)));
-
-      // Create a new array with items corresponding to unique user IDs
-      const itemsByUserId = uniqueUserIds.map(userId => {
-        return {
-          userId: userId,
-          items: response.filter((item:any) => item.userId === userId),
-        };
-      });
-      
-      // console.log("Items by User ID:", itemsByUserId);
-      this.tableData=itemsByUserId;
-      console.log("this is tableDta",this.tableData);
-
-        //  this.responseLength=response.length
-         
+     
+        this.tableData = response;
+console.log(this.tableData);
+       
+        
+    
          
       },
       error: (error: any) => {
@@ -147,9 +143,61 @@ selectedMenu: any;
     });
   }
 
+  
+  selectedMenuItems: any = [];
+  user:any=[];
+  checkboxChanged(userId: any, menuId: any) {
+    // Check the state of the checkbox and perform actions accordingly
+    const user = this.tableData[userId];
+   this.selectedMenuItems = user.filter((menuItem:any) => menuItem.isSelected);
 
 
 
 
+    // Now, selectedMenuItems contains the selected menu items for the given user
+    console.log('Selected Menu Items:', this.selectedMenuItems);
+  }
+  UpdatePermission() {
+    console.log("the btn is clicked");
 
+    // Check if selectedMenuItems is undefined or empty before accessing properties
+    if (!this.selectedMenuItems || this.selectedMenuItems.length === 0) {
+        console.log('No selected menu items');
+        return;
+    }
+
+    const menuIds: number[] = this.selectedMenuItems.map((item: any) => item.menuId);
+  
+    // Check if userId is defined before accessing it
+    if (!this.selectedMenuItems[0].userId) {
+        console.log('No userId in selected menu items');
+        return;
+    }
+
+    console.log('Selected Menu Items from UpdatePermission:', this.selectedMenuItems[0].userId);
+console.log(menuIds)
+    // Rest of your code...
+    this.SellerDasboardPermissionService.DeleteMenuId(this.selectedMenuItems[0].userId, menuIds).subscribe({
+        next: (response: any) => {
+            console.log(response);
+       this.getPermission();
+
+        },
+        error: (error: any) => {
+            console.log(error);
+        },
+    });
 }
+
+  
+   
+}
+
+
+
+
+
+
+
+
+

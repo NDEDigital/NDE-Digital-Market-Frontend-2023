@@ -83,26 +83,63 @@
 
        
       </div>
-      <section class="row tablebodyRow fw-semibold" *ngIf="tableData && tableData.length > 0">
-        <div class="d-flex" *ngFor="let user of tableData; let i=index">
-          <div class="col tableBody">
-           
-            <div *ngFor="let item of user.items; let j=index">
-              <div>
-                <input type="checkbox" id="{{ 'checkbox_' + i + '_' + j }}" [(ngModel)]="item.selected">
-                <label for="{{ 'checkbox_' + i + '_' + j }}">{{ j === 0 ? item.fullName : '' }} {{ item.menuName }}</label>
-                
-              </div>
-            </div>
-          </div>
+     
+     
+      <!-- Replace 'your-component' with the correct selector -->
+<!-- Replace 'your-component' with the correct selector -->
+<section class="row tablebodyRow fw-semibold" *ngIf="tableData && tableData.length > 0">
+  <div class="d-flex" *ngFor="let item of tableData; let i = index">
+    <div class="col tableBody">
+      <div>
+        <input type="checkbox" id="{{ 'checkbox_' + i }}" [(ngModel)]="item.selected">
+        <label for="{{ 'checkbox_' + i }}">
+          {{ item.fullName }} - {{ item.menuName }}
+        </label>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="row tableboydRow fw-semibold" *ngFor="let user of tableData | keyvalue">
+  <div class="col-md-12">
+    <div class="d-flex">
+
+
+    </div>
+    <!-- Display fullName outside the *ngFor loop -->
+    
+    <label> {{ user.value[0].fullName }}</label>
+    <div class="d-flex flex-wrap">
+      <div *ngFor="let menuItem of user.value" class="col-md-3">
+        <div class="tableBody d-flex align-items-center">
+          <input type="checkbox" id="{{ menuItem.menuId }}" [(ngModel)]="menuItem.isSelected" (change)="checkboxChanged(user.key, menuItem.menuId)" />
+          <label for="{{ menuItem.menuId }}">{{ menuItem.menuName }}</label>
         </div>
-      </section>
+        <!-- Add other properties as needed -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+      
+      
+      
       
       
       
       
       
    
+    </div>
+  <div class="d-flex justify-content-end my-4">
+    <button class="btn btn-danger" (click)="UpdatePermission()">Delete</button>
+    <!-- <button class="btn btn-danger mx-4">Delete</button> -->
+  </div>
     </div>
   
  

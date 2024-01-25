@@ -5,6 +5,8 @@ import { SharedService } from 'src/app/services/shared.service';
 import { LoginComponent } from '../login/login.component';
 import { DashboardDataService } from 'src/app/services/dashboard-data.service';
 import { Subscription } from 'rxjs';
+import { SellerDasboardPermissionService } from 'src/app/services/seller-dasboard-permission.service';
+
 import {
   AbstractControl,
   FormControl,
@@ -90,13 +92,16 @@ export class DashboardComponent {
   isLoggedIn = false;
   pForm: FormGroup;
   errorMessage: any;
+  sellePermission: any[] = [];
 
   toUserList: any[] = [];
   constructor(
     private dashboardService: DashboardDataService,
     private sharedService: SharedService,
     private userDataService: UserDataService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private SellerDasboardPermissionService:SellerDasboardPermissionService
+
   ) {
     this.sellerCode = localStorage.getItem('code');
     fetch('https://api.ipify.org?format=json')
@@ -149,7 +154,7 @@ export class DashboardComponent {
     // console.log(this.companyAdminId);
     this.userId=localStorage.getItem('code');
     this.getDashboardContents();
-
+this.getPermissionSeller();
     setTimeout(() => {
       const role = localStorage.getItem('role');
       if (role === 'admin') {
@@ -172,6 +177,25 @@ export class DashboardComponent {
     }, 15);
     this.toggleSidebar();
   }
+  getPermissionSeller() {
+    // console.log("it enter in ts");
+    // console.log("bebe");
+    this.SellerDasboardPermissionService.getSellerPermission(this.userId).subscribe({
+      next: (response: any) => {
+     
+       console.log("response it+",      response);
+       
+        this.sellePermission=response;
+    
+         
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
+
+  
   editMode() {
     sessionStorage.clear();
     //window.location.href = this.sidebarCol2Link;

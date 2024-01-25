@@ -28,6 +28,25 @@ console.log(UserId,MenuId);
   GetPermissionData(userId4:any) {
    
         return this.http.get(`${this.URL}/GetPermissionData/${userId4}`);
+        
+     
+        
+      }
+      getSellerPermission(userId5:any) {
+   
+        return this.http.get(`${this.URL}/SellerPermissionData/${userId5}`);
+        
+     
+        
+      }
+
+      DeleteMenuId(userId6:any,menuIds:any) {
+        console.log("userId is +",userId6);
+        console.log("menuIdss is +",menuIds);
+
+   
+        return this.http.delete(`${this.URL}/deleteMenuItems/${userId6}`, { body: menuIds });
+        
      
         
       }
