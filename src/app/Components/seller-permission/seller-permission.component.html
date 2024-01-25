@@ -10,20 +10,15 @@
     <div class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2">
         <div class="headerbtns ">
         
-           
-                <!-- <p *ngFor="let sl of dropdownValues; let i = index;"> paragraph{{sl}}</p> -->
-        
-                <!-- <label for="allcategory " class="font-weight-bold">Select Company Name:</label> -->
+  
                 <select 
-                class="p-2 border border-1 rounded " 
+                class="p-2 border border-1 rounded  " 
                 id="allcategory" 
                 name="Category" 
                 style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);" 
-                [(ngModel)]="selectedUserId" 
-                (change)="onUserChange(selectedUserId)">
-                
-                <!-- <option (click)="getUser()">All</option> -->
-                <!-- <option value="">select Name</option> -->
+                #sellerSelected
+                (change)="onUserChange(sellerSelected.value)">
+                <option [value]="null" disabled selected>Select Seller Name</option>             
                 <option *ngFor="let dv of this.sellerList; let i = index;" #selectedUserId [value]="dv.userId">{{dv.fullName}}</option>
               
                 <!-- Add more options as needed -->
@@ -32,15 +27,17 @@
             
      
               <select 
-  class="p-2 border border-1 rounded"  
-  id="allcategory" 
-  name="Category"  
-  style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1); margin-left: 5%;" 
-  [(ngModel)]="selectedMenu">
-  <option *ngFor="let dv of dropdownValues; let i = index;" #selectedMenu [value]="dv.menuId">{{dv.menuName}}</option>
-</select>
+                  class="p-2 border border-1 rounded"  
+                  id="allcategory" 
+                  name="Category"  
+                  style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1); margin-left: 5%;" 
+                   #menuSelected
+                 >
+                  <option [value]="null" disabled selected>Select Menu Name</option>
+                  <option *ngFor="let dv of dropdownValues; let i = index;" #selectedMenu [value]="dv.menuId">{{dv.menuName}}</option>
+                </select>
 
-<button (click)="PermissionBtn(selectedUserId, selectedMenu)" class="btn btn-primary mx-4 py-2">Add Permission</button>
+                <button (click)="PermissionBtn(sellerSelected.value, menuSelected.value)" class="btn btn-primary mx-4 py-2">Add Permission</button>
 
         
         
@@ -87,7 +84,7 @@
      
       <!-- Replace 'your-component' with the correct selector -->
 <!-- Replace 'your-component' with the correct selector -->
-<section class="row tablebodyRow fw-semibold" *ngIf="tableData && tableData.length > 0">
+<section class="row  fw-semibold" *ngIf="tableData && tableData.length > 0">
   <div class="d-flex" *ngFor="let item of tableData; let i = index">
     <div class="col tableBody">
       <div>
@@ -110,7 +107,7 @@
     <!-- Display fullName outside the *ngFor loop -->
     
     <label> {{ user.value[0].fullName }}</label>
-    <div class="d-flex flex-wrap">
+    <div class="d-flex ">
       <div *ngFor="let menuItem of user.value" class="col-md-3">
         <div class="tableBody d-flex align-items-center">
           <input type="checkbox" id="{{ menuItem.menuId }}" [(ngModel)]="menuItem.isSelected" (change)="checkboxChanged(user.key, menuItem.menuId)" />

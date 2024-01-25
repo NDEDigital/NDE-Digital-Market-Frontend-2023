@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
 import { SellerDasboardPermissionService } from 'src/app/services/seller-dasboard-permission.service';
 
@@ -20,6 +20,8 @@ export class SellerPermissionComponent {
   responseLength:any;
 selectedUserId: any;
 selectedMenu: any;
+@ViewChild('sellerSelected') sellerSelected!: ElementRef;
+@ViewChild('menuSelected') menuSelected!: ElementRef;
 
   constructor(
     private companyService: CompanyService,
@@ -45,12 +47,11 @@ selectedMenu: any;
 
 
   getDashboarItem(sellerId:any) {
-    console.log("it enter in getboard");
-    // console.log("bebe");
+  
     console.log("the getDashoard",  sellerId);
     this.SellerDasboardPermissionService.GetSellerDashboardPermission(sellerId).subscribe({
       next: (response: any) => {
-       console.log(response);
+      
          this.dropdownValues=response;
          
       },
@@ -82,32 +83,28 @@ selectedMenu: any;
       },
     });
   }
-  
+
   onUserChange(userId1:any) {
     
-    // Filter dropdownValues based on the selected user
-   console.log("the user Id is in onUser +", userId1);
-   console.log("first");
    this.getDashboarItem(userId1);
-  //  alert(userId1);
-
-  
+ 
   }
 
 
   PermissionBtn(userId2:any,MenuId:any) {
-    console.log("it enter in getboard");
-    // console.log("bebe");
+    console.log(userId2," ---- ", MenuId);
+    console.log(typeof userId2," tui ke ");
    
     this.SellerDasboardPermissionService.GivePermissionToDash(userId2,MenuId).subscribe({
       next: (response: any) => {
-       console.log("Response of permission",response);
+      
        this.getPermission();
-       
-
-      //  this.getDashboarItem(userId1);
-
-        
+      
+       this.menuSelected.nativeElement.value = null;
+       MenuId = parseInt(MenuId);
+       console.log(typeof MenuId," ebar bol ",typeof this.dropdownValues[0].menuId);
+       this.dropdownValues = this.dropdownValues.filter((user) => MenuId !== user.menuId);
+         console.log(this.dropdownValues," dekhi");
          
       },
       error: (error: any) => {
@@ -132,7 +129,7 @@ selectedMenu: any;
      
         this.tableData = response;
 console.log(this.tableData);
-       
+// window.location.reload();
         
     
          
