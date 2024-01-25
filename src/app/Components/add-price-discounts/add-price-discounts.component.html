@@ -178,27 +178,22 @@
           <form [formGroup]="addPriceDiscountForm">
 
 
-            <!-- <div >
+            <div >
               <label for="productId">
                 <span class="text-danger" *ngIf="!isEditMode">*</span>Product Group
                 Name
               </label>
-              <select
-
-
-                (change)="onGroupChange($event)"
-              >
-                <option [value]="null" disabled selected>
-                  Select Group Name
+              <select #groupSelect (change)="onGroupChange($event)">
+                <option [value]="null" disabled selected>Select Group Name</option>
+                <option *ngFor="let group of allGroupData" [value]="group.productGroupID">
+                    {{ group.productGroupName }}
                 </option>
-                <option *ngFor="let prod of products" [value]="prod.productId">
-                  {{ prod.productName }}
-                </option>
-              </select>
-              <span class="text-danger" *ngIf="isFieldInvalid('productId')"
-                >Product Name is required.</span
-              >
-            </div> -->
+            </select>
+
+              <!-- <span class="text-danger" *ngIf="isFieldInvalid('productId')"
+                >Product Group Name is required.</span
+              > -->
+            </div>
 
 
 
@@ -208,6 +203,7 @@
                 Name
               </label>
               <select
+                #productSelect
                 id="productId"
                 formControlName="productId"
                 [class.error]="isFieldInvalid('productId')"
