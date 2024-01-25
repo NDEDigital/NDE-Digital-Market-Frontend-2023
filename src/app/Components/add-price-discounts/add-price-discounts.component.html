@@ -176,6 +176,32 @@
           </div>
           <hr />
           <form [formGroup]="addPriceDiscountForm">
+
+
+            <!-- <div >
+              <label for="productId">
+                <span class="text-danger" *ngIf="!isEditMode">*</span>Product Group
+                Name
+              </label>
+              <select
+
+
+                (change)="onGroupChange($event)"
+              >
+                <option [value]="null" disabled selected>
+                  Select Group Name
+                </option>
+                <option *ngFor="let prod of products" [value]="prod.productId">
+                  {{ prod.productName }}
+                </option>
+              </select>
+              <span class="text-danger" *ngIf="isFieldInvalid('productId')"
+                >Product Name is required.</span
+              >
+            </div> -->
+
+
+
             <div class="form-group">
               <label for="productId">
                 <span class="text-danger" *ngIf="!isEditMode">*</span>Product
