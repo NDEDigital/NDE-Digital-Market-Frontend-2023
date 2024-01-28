@@ -388,7 +388,7 @@ export class AddPriceDiscountsComponent {
       this.addPriceDiscountForm
         .get('endDate')
         ?.setValue('', { emitEvent: false });
-        
+
     } else if (price > 0 && discountAmount > 0) {
       const discountPct = (discountAmount / price) * 100;
       this.addPriceDiscountForm
@@ -616,9 +616,8 @@ export class AddPriceDiscountsComponent {
     this.displayImage(product.imagePath);
     this.existingImagePath = product.imagepath;
     this.selectedUnitName = product.unitName;
-    // this.groupSelect.nativeElement.value = product.productGroupName;
-    this.groupSelect.nativeElement.value = product.productGroupID;
-    //this.groupSelect.nativeElement.value = null;
+    //this.groupSelect.nativeElement.value = product.productGroupID;
+
 
     console.log(product.unitName, this.selectedUnitName, 'unit name::');
   }
