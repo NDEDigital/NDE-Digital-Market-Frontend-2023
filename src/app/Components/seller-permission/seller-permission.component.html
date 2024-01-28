@@ -69,11 +69,11 @@
 
 
 
-    <div class="scrollable-table border border-1 bg-light">
+    <div class="scrollable-table border border-1 bg-light " >
       <!-- TABLE header -->
       <div class="row headerRow sticky-top fw-bolder">
         <!-- <div class="col tableHeader">#</div> -->
-        <div class="col tableHeader">Name</div>
+        <div class="col tableHeader col-1">Name</div>
         <div class="col tableHeader">Action</div>
         
      
@@ -84,7 +84,7 @@
      
       <!-- Replace 'your-component' with the correct selector -->
 <!-- Replace 'your-component' with the correct selector -->
-<section class="row  fw-semibold" *ngIf="tableData && tableData.length > 0">
+<!-- <section class="row  fw-semibold" *ngIf="tableData && tableData.length > 0">
   <div class="d-flex" *ngFor="let item of tableData; let i = index">
     <div class="col tableBody">
       <div>
@@ -95,29 +95,40 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 
-<div class="row tableboydRow fw-semibold" *ngFor="let user of tableData | keyvalue">
+<div class="row tableboydRow fw-semibold" *ngFor="let user of tableData | keyvalue ">
   <div class="col-md-12">
-    <div class="d-flex">
-
-
-    </div>
-    <!-- Display fullName outside the *ngFor loop -->
     
-    <label> {{ user.value[0].fullName }}</label>
-    <div class="d-flex ">
-      <div *ngFor="let menuItem of user.value" class="col-md-3">
+   
+    
+    <!-- Loop through menu items for the current user -->
+    <div class="d-flex align-items-center">
+      <div *ngFor="let menuItem of user.value let i=index" class="col-md-3">
         <div class="tableBody d-flex align-items-center">
+          <div class="col-lg-4 col-md-4 mx-4">
+
+            <label *ngIf="i === 0" >{{ user.value[0].fullName }}</label>
+          </div>
+        <div class="col-lg-8 col-sm-9 col-md-9  " >
+
+          <!-- Checkbox for each menu item -->
           <input type="checkbox" id="{{ menuItem.menuId }}" [(ngModel)]="menuItem.isSelected" (change)="checkboxChanged(user.key, menuItem.menuId)" />
+          
+          <!-- Label for the checkbox -->
           <label for="{{ menuItem.menuId }}">{{ menuItem.menuName }}</label>
         </div>
+        </div>
+        
         <!-- Add other properties as needed -->
       </div>
     </div>
   </div>
 </div>
+
+
+
 
 
 
@@ -134,7 +145,7 @@
    
     </div>
   <div class="d-flex justify-content-end my-4">
-    <button class="btn btn-danger" (click)="UpdatePermission()">Delete</button>
+    <button class="btn btn-danger" (click)="UpdatePermission(sellerSelected.value)">Delete</button>
     <!-- <button class="btn btn-danger mx-4">Delete</button> -->
   </div>
     </div>

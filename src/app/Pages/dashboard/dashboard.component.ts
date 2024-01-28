@@ -65,7 +65,7 @@ export class DashboardComponent {
   activeButton: string | null = 'new';
   status: string | null = 'new';
   // sellerInventory: boolean = false;
-  SidebarIndex = 4;
+  SidebarIndex = 0;
   newCount = 0;
   editedCount = 0;
   approvedCount = 0;
@@ -92,7 +92,7 @@ export class DashboardComponent {
   isLoggedIn = false;
   pForm: FormGroup;
   errorMessage: any;
-  sellePermission: any[] = [];
+  userPermission: any[] = [];
 
   toUserList: any[] = [];
   constructor(
@@ -154,14 +154,16 @@ export class DashboardComponent {
     // console.log(this.companyAdminId);
     this.userId=localStorage.getItem('code');
     this.getDashboardContents();
-this.getPermissionSeller();
+    this.getPermissionUser();
     setTimeout(() => {
       const role = localStorage.getItem('role');
       if (role === 'admin') {
         this.isAdmin = true;
+        //this.SidebarIndex = 7;
       }
       if (role === 'seller') {
         this.isSeller = true;
+       // this.SidebarIndex = 1;
       }
 
       if (role === 'buyer') {
@@ -170,24 +172,26 @@ this.getPermissionSeller();
 
       //console.log(this.isAdmin, 'isAdmin');
       if (this.isAdmin == true) {
-        this.sidebarCol1Title = 'Product Approval old';
-        this.SidebarIndex = 2;
+        // this.sidebarCol1Title = 'Product Approval old';
+        // this.SidebarIndex = 2;
         // this.sidebarCol2Link = '/becomeASeller'; // userList
       }
+      console.log(this.SidebarIndex,"sidebar index");
+      
     }, 15);
     this.toggleSidebar();
   }
-  getPermissionSeller() {
+  getPermissionUser() {
     // console.log("it enter in ts");
     // console.log("bebe");
-    this.SellerDasboardPermissionService.getSellerPermission(this.userId).subscribe({
+    this.SellerDasboardPermissionService.getUserPermission(this.userId).subscribe({
       next: (response: any) => {
      
        console.log("response it+",      response);
        
-        this.sellePermission=response;
+        this.userPermission=response;
     
-         
+        this.SidebarIndex = this.userPermission[0].menuId;
       },
       error: (error: any) => {
         console.log(error);

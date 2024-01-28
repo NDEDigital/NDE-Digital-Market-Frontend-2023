@@ -32,7 +32,7 @@ console.log(UserId,MenuId);
      
         
       }
-      getSellerPermission(userId5:any) {
+      getUserPermission(userId5:any) {
    
         return this.http.get(`${this.URL}/SellerPermissionData/${userId5}`);
         

@@ -154,7 +154,7 @@ console.log(this.tableData);
     // Now, selectedMenuItems contains the selected menu items for the given user
     console.log('Selected Menu Items:', this.selectedMenuItems);
   }
-  UpdatePermission() {
+  UpdatePermission(selectedSeller:any) {
     console.log("the btn is clicked");
 
     // Check if selectedMenuItems is undefined or empty before accessing properties
@@ -178,6 +178,12 @@ console.log(menuIds)
         next: (response: any) => {
             console.log(response);
        this.getPermission();
+       this.menuSelected.nativeElement.value = null;
+       console.log("selectedUser:",selectedSeller);
+       this.getDashboarItem(selectedSeller);
+      //  this.menuSelected.nativeElement.value = null;
+      // this.getData();
+
 
         },
         error: (error: any) => {
