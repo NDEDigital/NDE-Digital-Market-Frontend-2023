@@ -6,7 +6,7 @@ import {
   ValidatorFn,
   AbstractControl,
   ValidationErrors,
-  FormBuilder
+  FormBuilder,
 } from '@angular/forms';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
@@ -44,8 +44,6 @@ export class AddPriceDiscountsComponent {
   filteredProducts: any[] = [];
   selectedProduct: any;
   allProducts: any[] = [];
-
-
 
   onProductChange(event: any) {
     const productId = event.target.value;
@@ -101,7 +99,6 @@ export class AddPriceDiscountsComponent {
     private goodsService: GoodsDataService
   ) {}
 
-
   ngOnInit() {
     this.addPriceDiscountForm = new FormGroup({
       productId: new FormControl('', Validators.required),
@@ -137,7 +134,7 @@ export class AddPriceDiscountsComponent {
     this.getProductList();
     this.getGroupList();
     this.addPriceDiscountForm.get('productId')?.setValue(null);
-    console.log(this.addPriceDiscountForm.get('productGroupID'), "group");
+    console.log(this.addPriceDiscountForm.get('productGroupID'), 'group');
 
     //this.addPriceDiscountForm.get('productGroupID')?.setValue(null);
   }
@@ -165,10 +162,6 @@ export class AddPriceDiscountsComponent {
     console.log('Filtered Products:', this.filteredProducts);
   }
 
-
-
-
-
   isFieldInvalid(fieldName: string): boolean {
     const field = this.addPriceDiscountForm.get(fieldName);
     return field ? field.invalid && (field.dirty || field.touched) : false;
@@ -195,8 +188,6 @@ export class AddPriceDiscountsComponent {
         : { maxDiscountPct: true };
     };
   }
-
-
 
   openAddGroupModal(): void {
     this.resetForm();
@@ -236,7 +227,6 @@ export class AddPriceDiscountsComponent {
     this.groupSelect.nativeElement.value = null;
 
     //this.addPriceDiscountForm.controls['productGroupID'].setValue(null);
-
   }
 
   // setupFormValueChanges() {
@@ -398,6 +388,7 @@ export class AddPriceDiscountsComponent {
       this.addPriceDiscountForm
         .get('endDate')
         ?.setValue('', { emitEvent: false });
+        
     } else if (price > 0 && discountAmount > 0) {
       const discountPct = (discountAmount / price) * 100;
       this.addPriceDiscountForm
@@ -426,6 +417,7 @@ export class AddPriceDiscountsComponent {
       this.addPriceDiscountForm
         .get('endDate')
         ?.setValue('', { emitEvent: false });
+
     } else if (price > 0 && discountPct > 0) {
       const discountAmount = (discountPct / 100) * price;
       this.addPriceDiscountForm
@@ -624,7 +616,9 @@ export class AddPriceDiscountsComponent {
     this.displayImage(product.imagePath);
     this.existingImagePath = product.imagepath;
     this.selectedUnitName = product.unitName;
-    this.groupSelect.nativeElement.value = null;
+    // this.groupSelect.nativeElement.value = product.productGroupName;
+    this.groupSelect.nativeElement.value = product.productGroupID;
+    //this.groupSelect.nativeElement.value = null;
 
     console.log(product.unitName, this.selectedUnitName, 'unit name::');
   }
