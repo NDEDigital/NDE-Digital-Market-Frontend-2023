@@ -22,6 +22,8 @@ selectedUserId: any;
 selectedMenu: any;
 @ViewChild('sellerSelected') sellerSelected!: ElementRef;
 @ViewChild('menuSelected') menuSelected!: ElementRef;
+@ViewChild('msgModalBTN') modalButton!: ElementRef;
+@ViewChild('yesButton') yesButton!: ElementRef;
 
   constructor(
     private companyService: CompanyService,
@@ -90,29 +92,35 @@ selectedMenu: any;
  
   }
 
+  PermissionBtn(userId2: any, MenuId: any) {
+    console.log("userId is ", userId2);
+    console.log("MenuId is", MenuId);
+    
+    // Check if either userId or MenuId is null
+    if (userId2 === 'null' || MenuId === 'null') {
+        alert("Please select both Seller Name and Menu Name before adding permission.");
+    } else {
+        console.log(userId2, " ---- ", MenuId);
+        console.log(typeof MenuId, " tui ke ");
+        
+        this.SellerDasboardPermissionService.GivePermissionToDash(userId2, MenuId).subscribe({
+            next: (response: any) => {
+                this.getPermission();
+                
+                this.menuSelected.nativeElement.value = null;
+                MenuId = parseInt(MenuId);
+                console.log(typeof MenuId, " ebar bol ", typeof this.dropdownValues[0].menuId);
+                this.dropdownValues = this.dropdownValues.filter((user) => MenuId !== user.menuId);
+                console.log(this.dropdownValues, " dekhi");
+            },
+            error: (error: any) => {
+                console.log(error);
+            },
+        });
+    }
+}
 
-  PermissionBtn(userId2:any,MenuId:any) {
-    console.log(userId2," ---- ", MenuId);
-    console.log(typeof userId2," tui ke ");
-   
-    this.SellerDasboardPermissionService.GivePermissionToDash(userId2,MenuId).subscribe({
-      next: (response: any) => {
-      
-       this.getPermission();
-      
-       this.menuSelected.nativeElement.value = null;
-       MenuId = parseInt(MenuId);
-       console.log(typeof MenuId," ebar bol ",typeof this.dropdownValues[0].menuId);
-       this.dropdownValues = this.dropdownValues.filter((user) => MenuId !== user.menuId);
-         console.log(this.dropdownValues," dekhi");
-         
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
-  
-  }
+
   currentIndex: number = 0;
   updateTableData() {
     // Your existing logic to update tableData...
@@ -128,7 +136,7 @@ selectedMenu: any;
       next: (response: any) => {
      
         this.tableData = response;
-console.log(this.tableData);
+console.log("data of the table:",this.tableData);
 // window.location.reload();
         
     
@@ -144,22 +152,53 @@ console.log(this.tableData);
   selectedMenuItems: any = [];
   user:any=[];
   checkboxChanged(userId: any, menuId: any) {
+    // console.log("is selected is in checkbox:", this.selectedMenuItems);
+  console.log("the table data is in checkbox",this.tableData);
+    // Unselect checkboxes for other users
+    for (const key in this.tableData) {
+      console.log("the key are:",key);
+      if (key !== userId) {
+        const otherUser = this.tableData[key];
+        for (const item of otherUser) {
+          item.isSelected = false;
+        }
+      }
+    }
+  
     // Check the state of the checkbox and perform actions accordingly
     const user = this.tableData[userId];
-   this.selectedMenuItems = user.filter((menuItem:any) => menuItem.isSelected);
-
-
-
-
-    // Now, selectedMenuItems contains the selected menu items for the given user
+    this.selectedMenuItems = user.filter((menuItem: any) => menuItem.isSelected);
     console.log('Selected Menu Items:', this.selectedMenuItems);
+  
+    // Now, selectedMenuItems contains the selected menu items for the given user
   }
+  
+ openModal(){
+  console.log("selected menu is",this.selectedMenuItems);
+  if(this.selectedMenuItems.length>0){
+
+    const modalButton = document.getElementById('msgModalBTN');
+    if (this.modalButton) {
+      this.modalButton.nativeElement.click();
+    }
+  }
+ }
+
+ yesBtn(sellerSelected:any){
+   console.log("Seller Selected:",sellerSelected.value);
+  this.UpdatePermission(sellerSelected);
+ }
   UpdatePermission(selectedSeller:any) {
     console.log("the btn is clicked");
+ 
+// console.log("yes btn is+",this.yesButton);
+
+    
 
     // Check if selectedMenuItems is undefined or empty before accessing properties
     if (!this.selectedMenuItems || this.selectedMenuItems.length === 0) {
-        console.log('No selected menu items');
+      alert('No Item is selected menu items');
+     
         return;
     }
 
@@ -167,12 +206,17 @@ console.log(this.tableData);
   
     // Check if userId is defined before accessing it
     if (!this.selectedMenuItems[0].userId) {
-        console.log('No userId in selected menu items');
+        alert('No userId in selected menu items');
         return;
     }
 
     console.log('Selected Menu Items from UpdatePermission:', this.selectedMenuItems[0].userId);
-console.log(menuIds)
+console.log(menuIds);
+const modalButton = document.getElementById('msgModalBTN');
+if (this.modalButton) {
+  this.modalButton.nativeElement.click();
+}
+console.log("selected value are",this.selectedMenuItems);
     // Rest of your code...
     this.SellerDasboardPermissionService.DeleteMenuId(this.selectedMenuItems[0].userId, menuIds).subscribe({
         next: (response: any) => {
@@ -192,7 +236,10 @@ console.log(menuIds)
     });
 }
 
-  
+onYesButtonClick() {
+  // Handle the logic when the "Yes" button is clicked
+  alert('Yes button clicked');
+}  
    
 }
 

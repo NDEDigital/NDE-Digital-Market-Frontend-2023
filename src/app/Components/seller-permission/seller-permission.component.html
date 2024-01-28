@@ -96,31 +96,29 @@
     </div>
   </div>
 </section> -->
-
-
-<div class="row tableboydRow fw-semibold" *ngFor="let user of tableData | keyvalue ">
+<!-- <div class="tableBody d-flex align-items-center" *ngIf="this.UserId != menuItem.userId"></div> -->
+<div class="row tableboydRow fw-semibold" *ngFor="let user of tableData | keyvalue">
   <div class="col-md-12">
-    
-   
-    
     <!-- Loop through menu items for the current user -->
     <div class="d-flex align-items-center">
-      <div *ngFor="let menuItem of user.value let i=index" class="col-md-3">
-        <div class="tableBody d-flex align-items-center">
+      <div *ngFor="let menuItem of user.value let i=index" class="col-md-3" >
+        <div class="tableBody d-flex align-items-center" *ngIf="this.UserId!=menuItem.userId">
           <div class="col-lg-4 col-md-4 mx-4">
-
-            <label *ngIf="i === 0" >{{ user.value[0].fullName }}</label>
+            <label *ngIf="i === 0">{{ user.value[0].fullName }}</label>
           </div>
-        <div class="col-lg-8 col-sm-9 col-md-9  " >
-
-          <!-- Checkbox for each menu item -->
-          <input type="checkbox" id="{{ menuItem.menuId }}" [(ngModel)]="menuItem.isSelected" (change)="checkboxChanged(user.key, menuItem.menuId)" />
-          
-          <!-- Label for the checkbox -->
-          <label for="{{ menuItem.menuId }}">{{ menuItem.menuName }}</label>
+          <div class="col-lg-8 col-sm-9 col-md-9">
+            <!-- Checkbox for each menu item -->
+            <input
+              type="checkbox"
+              id="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}"
+              [(ngModel)]="menuItem.isSelected"
+              (change)="checkboxChanged(user.key, menuItem.menuId)"
+              [attr.data-user-id]="user.key"
+            />
+            <!-- Label for the checkbox -->
+            <label for="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}">{{ menuItem.menuName }}</label>
+          </div>
         </div>
-        </div>
-        
         <!-- Add other properties as needed -->
       </div>
     </div>
@@ -145,10 +143,51 @@
    
     </div>
   <div class="d-flex justify-content-end my-4">
-    <button class="btn btn-danger" (click)="UpdatePermission(sellerSelected.value)">Delete</button>
+    <button class="btn btn-danger" (click)="openModal()">Delete</button>
     <!-- <button class="btn btn-danger mx-4">Delete</button> -->
   </div>
     </div>
   
  
+    <button
+    type="button"
+    class="btn btn-primary d-none"
+    data-bs-toggle="modal"
+    data-bs-target="#msgModal"
+    #msgModalBTN
+  >
+    Launch demo modal
+  </button>
   
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="msgModal"
+    tabindex="-1"
+    aria-labelledby="msgModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header fs-5 fw-bold text-danger">
+          <h1 class="modal-title fs-5" id="msgModalLabel">
+           Delete
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Are you want to Delete Permission?
+        </div>
+        <div class="modal-footer">
+          <button (click)="yesBtn(sellerSelected.value)"  type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
