@@ -226,6 +226,8 @@ export class AddPriceDiscountsComponent {
     this.activeProductPriceId = null;
     this.groupSelect.nativeElement.value = null;
 
+    this.getProductList();
+
     //this.addPriceDiscountForm.controls['productGroupID'].setValue(null);
   }
 
@@ -616,7 +618,7 @@ export class AddPriceDiscountsComponent {
     this.displayImage(product.imagePath);
     this.existingImagePath = product.imagepath;
     this.selectedUnitName = product.unitName;
-    //this.groupSelect.nativeElement.value = product.productGroupID;
+    this.groupSelect.nativeElement.value = product.productGroupID;
 
 
     console.log(product.unitName, this.selectedUnitName, 'unit name::');
