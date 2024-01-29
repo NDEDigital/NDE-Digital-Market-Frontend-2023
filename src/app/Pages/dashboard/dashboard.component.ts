@@ -84,7 +84,7 @@ export class DashboardComponent {
   productDetails: any = [];
   isAdminOrderString: string = '';
   checkSidebar: string = '';
-
+   AdminStatus:any;
   loading: boolean = false;
   // SellerQuantity: boolean = false;
   productOthersSales: boolean = false;
@@ -184,7 +184,18 @@ export class DashboardComponent {
   getPermissionUser() {
     // console.log("it enter in ts");
     // console.log("bebe");
-    this.SellerDasboardPermissionService.getUserPermission(this.userId).subscribe({
+    // console.log("admin",this.companyAdminId);
+    console.log("type ki bol",typeof this.companyAdminId)
+    if(this.companyAdminId==='true'){
+      // console.log("true bol");
+      this.AdminStatus=1;
+      // console.log("admin Status",typeof this.AdminStatus);
+
+    }
+    else{
+      this.AdminStatus=0;
+    }
+    this.SellerDasboardPermissionService.getUserPermission(this.userId,this.AdminStatus).subscribe({
       next: (response: any) => {
      
        console.log("response it+",      response);

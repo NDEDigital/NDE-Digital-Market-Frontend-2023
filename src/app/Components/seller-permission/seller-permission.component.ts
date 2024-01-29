@@ -68,12 +68,15 @@ selectedMenu: any;
   getData() {
     // console.log("it enter in ts");
     // console.log("bebe");
+    console.log("getData is called");
     this.companyService.GetSellerList(1).subscribe({
       next: (response: any) => {
         // console.log(this.btnIndex);
         // alert(this.btnIndex);
+
+        console.log("this is the data for dropdown",response);
        this.sellerList = response.filter((u:any) => u.userId!== Number(this.UserId));   
-         console.log(this.sellerList,"this is the data for dropdown");
+        //  console.log(this.sellerList,"this is the data for dropdown");
 
 
         //  this.responseLength=response.length

@@ -37,6 +37,7 @@ export class CompanyService {
 
   
   GetSellerList(status: any) {
+    // console.log("GetSellerList",status);
     if(status==1){
       status=true
     }

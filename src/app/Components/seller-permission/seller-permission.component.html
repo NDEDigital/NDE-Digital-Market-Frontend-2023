@@ -18,7 +18,8 @@
                 style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);" 
                 #sellerSelected
                 (change)="onUserChange(sellerSelected.value)">
-                <option [value]="null" disabled selected>Select Seller Name</option>             
+                <option [value]="null" disabled selected>Select Seller Name</option> 
+                          
                 <option *ngFor="let dv of this.sellerList; let i = index;" #selectedUserId [value]="dv.userId">{{dv.fullName}}</option>
               
                 <!-- Add more options as needed -->
@@ -67,66 +68,41 @@
 
 
 
-
-
-    <div class="scrollable-table border border-1 bg-light " >
+    <div class="scrollable-table border border-1 bg-white">
       <!-- TABLE header -->
-      <div class="row headerRow sticky-top fw-bolder">
+      <div class="row headerRow sticky-top fw-bolder text-start px-2">
         <!-- <div class="col tableHeader">#</div> -->
-        <div class="col tableHeader col-1">Name</div>
-        <div class="col tableHeader">Action</div>
-        
-     
-
-       
+        <div class="col tableHeader col-2">Name</div>
+        <div class="col tableHeader col-10">Action</div>
       </div>
-     
-     
-      <!-- Replace 'your-component' with the correct selector -->
-<!-- Replace 'your-component' with the correct selector -->
-<!-- <section class="row  fw-semibold" *ngIf="tableData && tableData.length > 0">
-  <div class="d-flex" *ngFor="let item of tableData; let i = index">
-    <div class="col tableBody">
-      <div>
-        <input type="checkbox" id="{{ 'checkbox_' + i }}" [(ngModel)]="item.selected">
-        <label for="{{ 'checkbox_' + i }}">
-          {{ item.fullName }} - {{ item.menuName }}
-        </label>
-      </div>
-    </div>
-  </div>
-</section> -->
-<!-- <div class="tableBody d-flex align-items-center" *ngIf="this.UserId != menuItem.userId"></div> -->
-<div class="row tableboydRow fw-semibold" *ngFor="let user of tableData | keyvalue">
-  <div class="col-md-12">
-    <!-- Loop through menu items for the current user -->
-    <div class="d-flex align-items-center">
-      <div *ngFor="let menuItem of user.value let i=index" class="col-md-3" >
-        <div class="tableBody d-flex align-items-center" *ngIf="this.UserId!=menuItem.userId">
-          <div class="col-lg-4 col-md-4 mx-4">
-            <label *ngIf="i === 0">{{ user.value[0].fullName }}</label>
+    
+      <!-- TABLE body -->
+      <div class="tablebodyRow fw-semibold col-12 text-start px-2" *ngFor="let user of tableData | keyvalue">
+        <div class="d-flex align-items-center border-bottom row">
+          <div class="col-2">
+            <label>{{ user.value[0].fullName }}</label>
           </div>
-          <div class="col-lg-8 col-sm-9 col-md-9">
-            <!-- Checkbox for each menu item -->
-            <input
-              type="checkbox"
-              id="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}"
-              [(ngModel)]="menuItem.isSelected"
-              (change)="checkboxChanged(user.key, menuItem.menuId)"
-              [attr.data-user-id]="user.key"
-            />
-            <!-- Label for the checkbox -->
-            <label for="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}">{{ menuItem.menuName }}</label>
+          <div class="col-10 d-flex ">
+            <div *ngFor="let menuItem of user.value; let i = index">
+              <div class="d-flex align-items-center  tableBody" style="height: 70px">
+                <div class="d-flex">
+                  <input
+                    type="checkbox"
+                    id="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}"
+                    [(ngModel)]="menuItem.isSelected"
+                    (change)="checkboxChanged(user.key, menuItem.menuId)"
+                    [attr.data-user-id]="user.key"
+                    class="me-2"
+                  />
+                  <!-- Label for the checkbox -->
+                  <label for="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}">{{ menuItem.menuName }}</label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Add other properties as needed -->
       </div>
-    </div>
-  </div>
-</div>
-
-
-
+    
 
 
 
