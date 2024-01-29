@@ -39,9 +39,9 @@
       <div class="col tableHeader">Company Code</div>
       <div class="col tableHeader">Company Name</div>
       <div class="col tableHeader">Email</div>
+      <div class="col tableHeader">Business Registration Number</div>
       <div class="col tableHeader">Tax Id. Number</div>
       <div class="col tableHeader">Foundation Date</div>
-      <div class="col tableHeader">Business Registration Number</div>
       <div class="col tableHeader">Trade Licence File</div>
       <div class="col tableHeader">Company Image</div>
       <div class="col tableHeader">Prefered Method</div>
@@ -106,7 +106,9 @@
       <div class="col tableBody">
         <div class="d-flex justify-content-center align-items-center">
           <div>
-            <button class="actionBtn">
+            <button class="actionBtn"
+            *ngIf="btnIndex != 1"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"

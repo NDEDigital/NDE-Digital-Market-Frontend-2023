@@ -41,6 +41,8 @@ export class AddProductService {
 
   updateSellerProductPriceURL = `${this.URL}/ProductQuantity/UpdateSellerProductPriceAndOffer`;
 
+  GetProductNameByProductGroupIdURL = `${this.URL}/api/ProductList/GetProductNameByProductGroupId`;
+
   constructor(private http: HttpClient) {}
 
   createProductGroup(productData: any) {
@@ -109,6 +111,12 @@ export class AddProductService {
 
   getUnitGroups() {
     return this.http.get(this.getUnitURL);
+  }
+
+  GetProductByGroupName(ProductGroupId: number){
+    return this.http.get(this.GetProductNameByProductGroupIdURL, {
+      params: {ProductGroupId},
+    });
   }
 
   createProductList(productStatus: any) {
