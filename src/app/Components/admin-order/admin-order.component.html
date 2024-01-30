@@ -441,11 +441,9 @@
               <div class="col-1 order_col">Product</div>
               <div class="col-1 order_col_big">Description</div>
               <div class="col-1 order_col">Unit</div>
-              <div class="col-1 order_col">Unit</div>
               <div class="col-1 order_col">Quantity</div>
               <div class="col-1 order_col">price</div>
-              <div class="col-1 order_col">discount</div>
-              <div class="col-1 order_col">discount</div>
+              <div class="col-1 order_col">discount (%)</div>
               <div class="col-1 order_col">Delivery Charge</div>
               <div class="col-1 order_col">Sub Total</div>
             </div>
@@ -470,6 +468,7 @@
                 />
               </div>
 
+
               <div class="col-1 order_col">{{ row.productName }}</div>
               <div class="col-1 order_col_big">{{ row.specification }}</div>
               <div class="col-1 order_col">{{ row.unit }}</div>
@@ -478,8 +477,9 @@
               <div class="col-1 order_col">{{ row.discountAmount }}</div>
               <div class="col-1 order_col">{{ row.deliveryCharge }}</div>
               <div class="col-1 order_col">
-                {{ row.price + row.deliveryCharge - row.discountAmount }}
+                {{ row.netPrice}}
               </div>
+
             </div>
           </div>
         </div>
