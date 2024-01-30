@@ -37,6 +37,7 @@ export class CompanyService {
 
   
   GetSellerList(status: any) {
+    // console.log("GetSellerList",status);
     if(status==1){
       status=true
     }
@@ -44,9 +45,17 @@ export class CompanyService {
       status=false;
       // alert(status);
     }
+    // console.log("the status",status);
     return this.http.get(`${this.URL}/CompanySellerDetails/${localStorage.getItem('code')}/${status}`);
     
   }
+
+
+
+
+
+
+  
 
   GetSellerInAdmin(status:any,selectedValue:any){
     if(status==1){

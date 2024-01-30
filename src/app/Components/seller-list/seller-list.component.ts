@@ -62,11 +62,12 @@ export class SellerListComponent {
       next: (response: any) => {
         // console.log(this.btnIndex);
         // alert(this.btnIndex);
+        // console.log("this is the active",response);
        this.sellerList = response.filter((u:any) => u.userId!== Number(this.UserId));   
-        //  console.log(this.sellerList,"seller");
-
-         this.responseLength=response.length
-         
+        //  console.log("btn index is",this.btnIndex);
+// console.log("")
+         this.responseLength=response.length;
+        //  console.log("the response is :",this.responseLength);
          
       },
       error: (error: any) => {
@@ -95,8 +96,10 @@ export class SellerListComponent {
     this.companyService.GetSellerInAdmin(this.btnIndex,this.selectedValue).subscribe({
       next: (response: any) => {
         // console.log(this.btnIndex, "admin", response);
+        // console.log("hello helo koi tuii",response);
         this.sellerList = response;
-        this.responseLength=response.length
+        this.responseLength=response.length;
+       
         // console.log("dfladkfja",this.responseLength);
         // console.log(typeof this.responseLength);
         
