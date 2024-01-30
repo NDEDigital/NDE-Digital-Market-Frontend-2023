@@ -20,7 +20,7 @@ export class SellerDasboardPermissionService {
   }
 
   GivePermissionToDash(UserId: any,MenuId:any) {
-console.log(UserId,MenuId);
+// console.log(UserId,MenuId);
     return this.http.post(`${this.URL}/GiveAcessDashboard/${UserId}/${MenuId}`,{});
  
     
@@ -41,8 +41,8 @@ console.log(UserId,MenuId);
       }
 
       DeleteMenuId(userId6:any,menuIds:any) {
-        console.log("userId is +",userId6);
-        console.log("menuIdss is +",menuIds);
+        // console.log("userId is +",userId6);
+        // console.log("menuIdss is +",menuIds);
 
    
         return this.http.delete(`${this.URL}/deleteMenuItems/${userId6}`, { body: menuIds });

@@ -45,7 +45,7 @@ export class CompanyService {
       status=false;
       // alert(status);
     }
-    console.log("the status",status);
+    // console.log("the status",status);
     return this.http.get(`${this.URL}/CompanySellerDetails/${localStorage.getItem('code')}/${status}`);
     
   }

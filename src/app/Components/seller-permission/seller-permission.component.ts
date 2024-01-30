@@ -34,7 +34,7 @@ selectedMenu: any;
     this.whoUser=localStorage.getItem('role');
      
     if(this.whoUser === 'seller'){
-      console.log("user id is+",this.UserId);
+      // console.log("user id is+",this.UserId);
       
       this.getPermission();
       this.getData();
@@ -50,7 +50,7 @@ selectedMenu: any;
 
   getDashboarItem(sellerId:any) {
   
-    console.log("the getDashoard",  sellerId);
+    // console.log("the getDashoard",  sellerId);
     this.SellerDasboardPermissionService.GetSellerDashboardPermission(sellerId).subscribe({
       next: (response: any) => {
       
@@ -68,13 +68,13 @@ selectedMenu: any;
   getData() {
     // console.log("it enter in ts");
     // console.log("bebe");
-    console.log("getData is called");
+    // console.log("getData is called");
     this.companyService.GetSellerList(1).subscribe({
       next: (response: any) => {
         // console.log(this.btnIndex);
         // alert(this.btnIndex);
 
-        console.log("this is the data for dropdown",response);
+        // console.log("this is the data for dropdown",response);
        this.sellerList = response.filter((u:any) => u.userId!== Number(this.UserId));   
         //  console.log(this.sellerList,"this is the data for dropdown");
 
@@ -96,15 +96,15 @@ selectedMenu: any;
   }
 
   PermissionBtn(userId2: any, MenuId: any) {
-    console.log("userId is ", userId2);
-    console.log("MenuId is", MenuId);
+    // console.log("userId is ", userId2);
+    // console.log("MenuId is", MenuId);
     
     // Check if either userId or MenuId is null
     if (userId2 === 'null' || MenuId === 'null') {
         alert("Please select both Seller Name and Menu Name before adding permission.");
     } else {
-        console.log(userId2, " ---- ", MenuId);
-        console.log(typeof MenuId, " tui ke ");
+        // console.log(userId2, " ---- ", MenuId);
+        // console.log(typeof MenuId, " tui ke ");
         
         this.SellerDasboardPermissionService.GivePermissionToDash(userId2, MenuId).subscribe({
             next: (response: any) => {
@@ -112,9 +112,9 @@ selectedMenu: any;
                 
                 this.menuSelected.nativeElement.value = null;
                 MenuId = parseInt(MenuId);
-                console.log(typeof MenuId, " ebar bol ", typeof this.dropdownValues[0].menuId);
+                // console.log(typeof MenuId, " ebar bol ", typeof this.dropdownValues[0].menuId);
                 this.dropdownValues = this.dropdownValues.filter((user) => MenuId !== user.menuId);
-                console.log(this.dropdownValues, " dekhi");
+                // console.log(this.dropdownValues, " dekhi");
             },
             error: (error: any) => {
                 console.log(error);
@@ -139,7 +139,7 @@ selectedMenu: any;
       next: (response: any) => {
      
         this.tableData = response;
-console.log("data of the table:",this.tableData);
+// console.log("data of the table:",this.tableData);
 // window.location.reload();
         
     
@@ -156,10 +156,10 @@ console.log("data of the table:",this.tableData);
   user:any=[];
   checkboxChanged(userId: any, menuId: any) {
     // console.log("is selected is in checkbox:", this.selectedMenuItems);
-  console.log("the table data is in checkbox",this.tableData);
+  // console.log("the table data is in checkbox",this.tableData);
     // Unselect checkboxes for other users
     for (const key in this.tableData) {
-      console.log("the key are:",key);
+      // console.log("the key are:",key);
       if (key !== userId) {
         const otherUser = this.tableData[key];
         for (const item of otherUser) {
@@ -171,13 +171,13 @@ console.log("data of the table:",this.tableData);
     // Check the state of the checkbox and perform actions accordingly
     const user = this.tableData[userId];
     this.selectedMenuItems = user.filter((menuItem: any) => menuItem.isSelected);
-    console.log('Selected Menu Items:', this.selectedMenuItems);
+    // console.log('Selected Menu Items:', this.selectedMenuItems);
   
     // Now, selectedMenuItems contains the selected menu items for the given user
   }
   
  openModal(){
-  console.log("selected menu is",this.selectedMenuItems);
+  // console.log("selected menu is",this.selectedMenuItems);
   if(this.selectedMenuItems.length>0){
 
     const modalButton = document.getElementById('msgModalBTN');
@@ -188,11 +188,11 @@ console.log("data of the table:",this.tableData);
  }
 
  yesBtn(sellerSelected:any){
-   console.log("Seller Selected:",sellerSelected.value);
+  //  console.log("Seller Selected:",sellerSelected.value);
   this.UpdatePermission(sellerSelected);
  }
   UpdatePermission(selectedSeller:any) {
-    console.log("the btn is clicked");
+    // console.log("the btn is clicked");
  
 // console.log("yes btn is+",this.yesButton);
 
@@ -213,20 +213,20 @@ console.log("data of the table:",this.tableData);
         return;
     }
 
-    console.log('Selected Menu Items from UpdatePermission:', this.selectedMenuItems[0].userId);
-console.log(menuIds);
+//     console.log('Selected Menu Items from UpdatePermission:', this.selectedMenuItems[0].userId);
+// console.log(menuIds);
 const modalButton = document.getElementById('msgModalBTN');
 if (this.modalButton) {
   this.modalButton.nativeElement.click();
 }
-console.log("selected value are",this.selectedMenuItems);
+// console.log("selected value are",this.selectedMenuItems);
     // Rest of your code...
     this.SellerDasboardPermissionService.DeleteMenuId(this.selectedMenuItems[0].userId, menuIds).subscribe({
         next: (response: any) => {
-            console.log(response);
+            // console.log(response);
        this.getPermission();
        this.menuSelected.nativeElement.value = null;
-       console.log("selectedUser:",selectedSeller);
+      //  console.log("selectedUser:",selectedSeller);
        this.getDashboarItem(selectedSeller);
       //  this.menuSelected.nativeElement.value = null;
       // this.getData();

@@ -150,7 +150,7 @@ export class DashboardComponent {
     //   this.isAdminOrder = false;
     // }
     this.companyAdminId=localStorage.getItem('isDigitalCompanyAd');
-    console.log(this.companyAdminId,"uts");
+    // console.log(this.companyAdminId,"uts");
     // console.log(this.companyAdminId);
     this.userId=localStorage.getItem('code');
     this.getDashboardContents();
@@ -176,7 +176,7 @@ export class DashboardComponent {
         // this.SidebarIndex = 2;
         // this.sidebarCol2Link = '/becomeASeller'; // userList
       }
-      console.log(this.SidebarIndex,"sidebar index");
+      // console.log(this.SidebarIndex,"sidebar index");
       
     }, 15);
     this.toggleSidebar();
@@ -185,7 +185,7 @@ export class DashboardComponent {
     // console.log("it enter in ts");
     // console.log("bebe");
     // console.log("admin",this.companyAdminId);
-    console.log("type ki bol",typeof this.companyAdminId)
+    // console.log("type ki bol",typeof this.companyAdminId)
     if(this.companyAdminId==='true'){
       // console.log("true bol");
       this.AdminStatus=1;
@@ -198,7 +198,7 @@ export class DashboardComponent {
     this.SellerDasboardPermissionService.getUserPermission(this.userId,this.AdminStatus).subscribe({
       next: (response: any) => {
      
-       console.log("response it+",      response);
+      //  console.log("response it+",      response);
        
         this.userPermission=response;
     
