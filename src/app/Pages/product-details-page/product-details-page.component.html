@@ -549,7 +549,8 @@
               "
             />
           </div> -->
-          <div class="reviewImage d-flex mb-2"  *ngIf="row.imagePath !== ' '">
+          <div class="reviewImage d-flex mb-2"  *ngIf="row.imagePath != ''">
+           
             <img
             [src]="
             row.imagePath
