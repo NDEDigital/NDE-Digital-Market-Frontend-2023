@@ -22,7 +22,7 @@ export class CheckoutPageComponent {
   productList: any = [1, 2, 3];
   cartDataDetail = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
-  totalPrice = 0;
+  totalPrice:number = 0;
   deliveryFee = 100;
   userData: any;
   totalPriceWithDiscount:number = 0;
@@ -66,10 +66,10 @@ export class CheckoutPageComponent {
     // }, 90);
     for(let entry of this.cartDataDetail){
       let Qty = Number(this.cartDataQt.get(entry[0]));
-      let price =  parseInt(entry[1].price);
+      let price =  parseFloat(entry[1].price);
      
       if (typeof Qty === 'number') {
-          this.totalPrice += Qty * price;
+          this.totalPrice += (Qty * price);
       }
          console.log(typeof Qty, Qty ,price);
          
