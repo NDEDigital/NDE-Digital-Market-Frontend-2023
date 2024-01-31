@@ -34,7 +34,7 @@
         >
           Cancelled
         </button> -->
-  
+
         <button
           class="custom-btn"
           [ngClass]="{ active: btnIndex === 3 }"
@@ -101,7 +101,7 @@
         </button>
       </div>
     </div>
-  
+
     <div *ngIf="loading" class="text-center mt-5">
       <h5>Loading products...</h5>
     </div>
@@ -140,7 +140,7 @@
               <div>
                 Total Amount: : <span>{{ order.totalAmount }}</span>
               </div> -->
-  
+
               <div>
                 <button
                   class="actionBtn"
@@ -189,7 +189,7 @@
               </div>
             </div>
           </div>
-  
+
           <div
             class="row mt-3"
             *ngFor="let detail of order.orderDetailsListForSeller"
@@ -236,7 +236,9 @@
                   'red-bg': detail.status === 'Cancelled'
                 }"
               >
-                {{ detail.status }}
+                <!-- {{ detail.status }} -->
+                {{ btnIndex === -1 ? 'New Order' : detail.status }}
+
               </button>
             </div>
             <div class="col-2 text-success fw-semibold">
@@ -305,13 +307,13 @@
           </div>
         </div>
       </div>
-  
+
       <div *ngIf="sellerOrder.length == 0" class="text-danger text-center">
         <h3>No Order are made yet!</h3>
       </div>
-  
+
       <!-- pag -->
-  
+
       <app-pagination
         *ngIf="activeNav === 'All' && sellerOrder.length > 0"
         [inputdata]="data"
@@ -320,4 +322,3 @@
       </app-pagination>
     </div>
   </section>
-  
