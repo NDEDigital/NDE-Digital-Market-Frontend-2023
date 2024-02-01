@@ -91,7 +91,7 @@
         {{ row.effectivateDate | date : "dd MMM yyyy" }}<br />
         {{ row.effectivateDate | date : "hh:mm a" }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.endDate | date : "dd MMM yyyy" }}<br />
         {{ row.endDate | date : "hh:mm a" }}
       </div>
