@@ -290,6 +290,8 @@ export class BuyerOrderComponent {
           this.resetFormAndStars();
           this.CloseReviewFormModalBTN.nativeElement.click();
           alert('Review added successfully');
+          this.getData('Reviewed');
+          this.btnIndex=7;
         },
         error: (error) => {
           console.error('Error during submission:', error);
@@ -298,6 +300,8 @@ export class BuyerOrderComponent {
     } else {
       console.log('form is invalid');
     }
+   
+   
   }
 
   loadData() {
