@@ -682,3 +682,4 @@ export class AddPriceDiscountsComponent {
     this.AddGroupModalCenterG.nativeElement.click();
   }
 }
+
