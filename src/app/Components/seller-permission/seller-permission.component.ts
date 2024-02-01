@@ -13,6 +13,7 @@ export class SellerPermissionComponent {
   selectedValue:any;
   dropdownValues: any[] = [];
   tableData: any[] = [];
+  isHovered: any | null = null;
 
   whoUser:any;
   UserId:any;

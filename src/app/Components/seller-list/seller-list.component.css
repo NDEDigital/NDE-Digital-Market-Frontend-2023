@@ -101,4 +101,7 @@
     background: none;
     border: none;
   }
- 
+  .active-row {
+    background-color:rgb(233, 238, 243);
+  }
+  

@@ -11,6 +11,8 @@ export class CompanyApprovalComponent {
   btnIndex = -1;
   companies: any;
   imagePath = '';
+  isHovered: any | null = null;
+
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: any } = {};
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;

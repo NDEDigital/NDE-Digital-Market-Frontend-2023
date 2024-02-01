@@ -10,6 +10,8 @@ import { EmailService } from 'src/app/services/email.service';
   styleUrls: ['./seller-list.component.css']
 })
 export class SellerListComponent {
+  isHovered: any | null = null;
+  
   buyerResponse:any;
   responseLength:any;
   dropdownValues: any[] = [];

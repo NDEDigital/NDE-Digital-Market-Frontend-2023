@@ -13,6 +13,7 @@ export class ProductApprovalComponent {
   status = 'Pending';
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: number } = {};
+  isHovered: any | null = null;
 
   showModal = false;
   selectedProduct: any = null;

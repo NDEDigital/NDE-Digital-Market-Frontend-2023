@@ -83,9 +83,9 @@
           <label>{{ user.value[0].fullName }}</label>
         </div>
         <div class="col-10 d-flex ">
-          <div *ngFor="let menuItem of user.value; let i = index">
+          <div *ngFor="let menuItem of user.value; let i = index"  >
             <div class="d-flex align-items-center  tableBody" style="height: 70px">
-              <div class="d-flex">
+              <div class="d-flex" >
                 <input
                   type="checkbox"
                   id="{{ 'checkbox_' + user.key + '_' + menuItem.menuId }}"
