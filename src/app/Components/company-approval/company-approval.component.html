@@ -189,6 +189,8 @@
     </section>
   </div>
 </div>
+
+
 <button
   type="button"
   class="btn btn-primary d-none"
@@ -198,6 +200,7 @@
 >
   Launch demo modal
 </button>
+
 
 <!-- Modal -->
 <div
@@ -211,7 +214,14 @@
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
         <h1 class="modal-title fs-5" id="msgModalLabel">
-          {{ alertTitle }}
+          <span
+          [ngClass]="{
+            'text-success': isApproved,
+            'text-danger': isRejected
+          }"
+        >
+          {{ alertTitle }}</span
+        >
         </h1>
         <button
           type="button"
@@ -221,7 +231,10 @@
         ></button>
       </div>
       <div class="modal-body">
-        {{ alertMsg }}
+        <span
+        [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
+        >{{ alertMsg }}</span
+      >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
