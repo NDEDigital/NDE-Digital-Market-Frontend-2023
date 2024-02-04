@@ -342,18 +342,20 @@ export class SellerOrdersComponent {
           //   this.getData('Rejected');
           // }
           if (status === 'Rejected') {
-            this.btnIndex = 2;
+            this.btnIndex = -1;
           } else if (status === 'Processing') {
             // Set btnIndex to the appropriate value for Processing
-            this.btnIndex = 3;
+            this.btnIndex = 2;
+            this.getData('Approved');
           } else if (status === 'ReadyToShip') {
-            this.btnIndex = 4;
+            this.btnIndex = 3;
+            this.getData('Processing');
           } else if (status === 'ToDeliver') {
-            this.btnIndex = 5;
+            this.btnIndex = 4;
           } else if (status === 'Delivered') {
-            this.btnIndex = 6;
+            this.btnIndex = 5;
           } else if (status === 'Returned') {
-            this.btnIndex = 9;
+            this.btnIndex = 6;
           } else {
             // Handle other status values as needed
             // You may want to set a default value for btnIndex or handle unknown status
