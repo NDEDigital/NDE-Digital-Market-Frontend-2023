@@ -54,7 +54,7 @@
         <input
           type="checkbox"
           [(ngModel)]="selectAll"
-          (change)="toggleAllCheckboxes()"
+          (ngModelChange)="toggleAllCheckboxes()"
         />
         Select All
       </div>
@@ -87,7 +87,12 @@
           'active-row': product.productId === activeProductId || isHovered === i
         }"
       >
-        <input type="checkbox" [(ngModel)]="product.isSelected" />
+        <input
+          type="checkbox"
+          [(ngModel)]="product.isSelected"
+          (change)="checkboxSelected(product.productId, $event)"
+        />
+    
       </div>
       <div
         class="col tableBody"

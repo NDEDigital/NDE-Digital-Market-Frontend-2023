@@ -284,18 +284,46 @@ export class AddProductsComponent implements OnInit {
     });
   }
   selectAll = false;
+  selectedProductIds: any[] = [];
 
+  selectedProducts: any[] = [];
   toggleAllCheckboxes() {
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     this.productList.forEach(
-      (product: { isSelected: boolean }) =>
-        (product.isSelected = this.selectAll)
-        
+      (product: { isSelected: boolean, productId: any }) => {
+        product.isSelected = this.selectAll;
+  
+        // Update the selectedProducts array based on the state of each checkbox
+        if (this.selectAll && !this.selectedProducts.includes(product.productId)) {
+          this.selectedProducts.push(product.productId);
+        } else if (!this.selectAll && this.selectedProducts.includes(product.productId)) {
+          this.selectedProducts = this.selectedProducts.filter(id => id !== product.productId);
+        }
+      }
     );
-    const selectedProductIds = this.productList
-    .filter((product:any) => product.isSelected)
-    .map((product:any) => product.productId);
+  
+    console.log('Selected Product IDs:', this.selectedProducts);
+  }
+  
 
-  console.log('Selected product ids are:', selectedProductIds);
+
+
+  checkboxSelected(productId: any, event: any) {
+    const isSelected: boolean = event.target.checked;
+
+    if (isSelected && !this.selectedProducts.includes(productId)) {
+      // Add the selected product to the list
+      this.selectedProducts.push(productId);
+    } else if (!isSelected && this.selectedProducts.includes(productId)) {
+      // Remove the deselected product from the list
+      this.selectedProducts = this.selectedProducts.filter(
+        (id) => id !== productId
+      );
+    }
+
+    // Update the selectedProductIds array with the current list of selected product IDs
+    this.selectedProductIds = this.selectedProducts.slice();
+
+    console.log('Selected Product IDs:', this.selectedProductIds);
   }
 }
