@@ -268,10 +268,10 @@
     </section>
   </div>
   <div class="d-flex justify-content-end">
-    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn">
+    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn" (click)="chageActiveInactive(1)">
       Active
     </button>
-    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn">
+    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn" (click)="chageActiveInactive(0)">
       Inactive
     </button>
   </div>

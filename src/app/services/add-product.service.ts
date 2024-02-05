@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { API_URL } from '../config';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; // Import Observable from 'rxjs'
 @Injectable({
   providedIn: 'root',
@@ -131,17 +131,25 @@ export class AddProductService {
   //     params: { productId, IsActive },
   //   });
   // }
-  updateProductStatus(productId: any, IsActive: any) {
+  updateProductStatus(productIds: number[], IsActive: any) {
+    // console.log("product Id's are",productIds);
+    // console.log("IsActive are",IsActive);
     // Convert IsActive to boolean
     const convertedIsActive = IsActive === 1 ? true : false;
 
-    console.log(productId, convertedIsActive, 'service product is active');
+    console.log(productIds, convertedIsActive, 'service product is active');
+
+    // Construct the URL with IsActive parameter
+    const url = `${this.updateProductStatusURL}?IsActive=${convertedIsActive}`;
 
     return this.http.put(
-      `${this.updateProductStatusURL}?productId=${productId}&IsActive=${convertedIsActive}`,
-      {}
+        url,
+        productIds // Pass productIds as the request body
     );
-  }
+}
+
+
+
   updateProductGroupStatus(groupId: any, IsActive: any) {
     // Convert IsActive to boolean
     const convertedIsActive = IsActive === 1 ? true : false;
