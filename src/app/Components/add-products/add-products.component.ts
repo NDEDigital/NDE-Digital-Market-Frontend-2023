@@ -283,4 +283,19 @@ export class AddProductsComponent implements OnInit {
       },
     });
   }
+  selectAll = false;
+
+  toggleAllCheckboxes() {
+    // Toggle the state of all checkboxes based on the "Select All" checkbox
+    this.productList.forEach(
+      (product: { isSelected: boolean }) =>
+        (product.isSelected = this.selectAll)
+        
+    );
+    const selectedProductIds = this.productList
+    .filter((product:any) => product.isSelected)
+    .map((product:any) => product.productId);
+
+  console.log('Selected product ids are:', selectedProductIds);
+  }
 }

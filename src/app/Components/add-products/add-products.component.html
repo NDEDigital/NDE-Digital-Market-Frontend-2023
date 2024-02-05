@@ -50,6 +50,15 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
+      <div class="col tableHeader">
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAll"
+          (change)="toggleAllCheckboxes()"
+        />
+        Select All
+      </div>
+
       <div class="col tableHeader">Index</div>
       <!-- <div class="col tableHeader">productId</div> -->
 
@@ -67,13 +76,24 @@
 
     <section
       class="row tablebodyRow fw-semibold"
-      *ngFor="let product of productList; let i = index"   (mouseover)="isHovered = i;"
+      *ngFor="let product of productList; let i = index"
+      (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
       (dblclick)="openModalWithData(product)"
     >
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
+      >
+        <input type="checkbox" [(ngModel)]="product.isSelected" />
+      </div>
+      <div
+        class="col tableBody"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         #{{ i + 1 }}
       </div>
@@ -87,38 +107,50 @@
 
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.productGroupName }}
       </div>
 
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.productName }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.productSubName }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.unit }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.specification }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         <img
           class="product_image"
@@ -132,12 +164,18 @@
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId ||isHovered===i}"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.addedDate | date : "dd MMM yyyy" }}
       </div>
 
-      <div class="col tableBody" *ngIf="btnIndex != -1"  [ngClass]="{ 'active-row':isHovered===i}">
+      <div
+        class="col tableBody"
+        *ngIf="btnIndex != -1"
+        [ngClass]="{ 'active-row': isHovered === i }"
+      >
         <div class="d-flex justify-content-center align-items-center">
           <div>
             <button
@@ -223,6 +261,14 @@
         </div>
       </div>
     </section>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn">
+      Active
+    </button>
+    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn">
+      Inactive
+    </button>
   </div>
 </div>
 
@@ -349,7 +395,7 @@
             </div>
 
             <div *ngIf="isEditMode" class="image-preview">
-              <label > Product Image Preview </label>
+              <label> Product Image Preview </label>
               <img
                 [src]="imagePathPreview"
                 alt="Product Image"
@@ -358,7 +404,7 @@
             </div>
 
             <div class="form-group">
-              <label 
+              <label
                 ><span class="text-danger">*</span>Upload Product Image
               </label>
 
