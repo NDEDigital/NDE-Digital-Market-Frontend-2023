@@ -353,7 +353,12 @@
         ></button>
       </div>
       <div class="modal-body">
-        <p>{{ alertMsg }}</p>
+        <p
+          class="fs-5 fw-bolder"
+          [ngStyle]="{ color: alertMsg.includes('Rejected') ? 'red' : 'green' }"
+        >
+          {{ alertMsg }}
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">

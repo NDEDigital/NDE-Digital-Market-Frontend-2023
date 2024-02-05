@@ -256,6 +256,10 @@ export class AddGroupsComponent {
           console.log(response);
           this.getProductGroup(isActive);
           this.btnIndex = isActive;
+          this.UserExistModalBTN.nativeElement.click();
+          this.alertMsg = isActive
+            ? 'Group is  Approved!'
+            : 'Group is Rejected!';
         },
         error: (error: any) => {
           //console.log(error);
