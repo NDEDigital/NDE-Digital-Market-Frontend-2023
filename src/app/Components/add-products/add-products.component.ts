@@ -200,12 +200,16 @@ export class AddProductsComponent implements OnInit {
       console.log('form is not valid');
     }
   }
-
+  selectedProducts1: any[] = [];
   getProducts(status: any) {
+    this.selectAll=false;
+    // this.selectedProducts1.length=0;
     this.productService.GetProductListByStatus(status).subscribe({
       next: (response: any) => {
         console.log(response);
         this.productList = response;
+    this.selectedProducts1.length=0;
+
       },
       error: (error: any) => {
         //console.log(error);
@@ -289,9 +293,9 @@ export class AddProductsComponent implements OnInit {
   }
   selectedProductIds: any[] = [];
   
-  selectedProducts1: any[] = [];
   selectAll = false;
   toggleAllCheckboxes() {
+  
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     this.productList.forEach(
@@ -302,6 +306,13 @@ export class AddProductsComponent implements OnInit {
         if (this.selectAll && !this.selectedProducts1.includes(product.productId)) {
           this.selectedProducts1.push(product.productId);
         }
+        else if (!this.selectAll && this.selectedProducts1.includes(product.productId)) {
+          // Remove the deselected product from the list
+          this.selectedProducts1 = this.selectedProducts1.filter(
+            (id) => id !== product.productId
+          );
+        }
+        
       }
     );
    
