@@ -270,7 +270,7 @@
     .headerbtns .btn-inactive {
       border: 1px solid #a4a554;
     }
-    
+
     .headerbtns .new-btn.active {
       background-color: var(--color-primary-dark) !important ;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -286,7 +286,7 @@
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       color: #ebf8ff !important;
     }
-    
+
     .btn-trade-company {
       width: 4rem !important;
     } */
@@ -301,3 +301,12 @@
   height: 4rem;
   width: 6rem;
 }
+
+.alert-green {
+  color: green;
+}
+
+.alert-red {
+  color: red;
+}
+
