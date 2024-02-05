@@ -179,7 +179,7 @@
       <div
         class="col tableBody"
         *ngIf="btnIndex != -1"
-        [ngClass]="{ 'active-row': isHovered === i }"
+        [ngClass]="{ 'active-row': product.productId === activeProductId || isHovered === i }"
       >
         <div class="d-flex justify-content-center align-items-center">
           <div>

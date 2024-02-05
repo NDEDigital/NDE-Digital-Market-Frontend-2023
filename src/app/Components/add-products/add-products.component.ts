@@ -268,7 +268,7 @@ export class AddProductsComponent implements OnInit {
   }
 
   updateIsActive(isActive: any, producID: any) {
-    console.log("for type", typeof producID);
+    // console.log("for type", typeof producID);
 
     // console.log(isActive, 'isActive', producID, 'productID');
     this.productService.updateProductStatus([producID], isActive).subscribe({
@@ -301,8 +301,6 @@ export class AddProductsComponent implements OnInit {
         // Update the selectedProducts array based on the state of each checkbox
         if (this.selectAll && !this.selectedProducts1.includes(product.productId)) {
           this.selectedProducts1.push(product.productId);
-        } else if (!this.selectAll && this.selectedProducts1.includes(product.productId)) {
-          this.selectedProducts1 = this.selectedProducts1.filter(id => id !== product.productId);
         }
       }
     );
@@ -310,7 +308,7 @@ export class AddProductsComponent implements OnInit {
     
     console.log('Selected Product IDs:', this.selectedProducts1);
   }
-  @ViewChild('selectAllCheckbox') selectAllCheckbox: ElementRef | undefined
+ 
   chageActiveInactive(isActive:any){
     if(this.selectedProducts1.length>0){
 
@@ -334,6 +332,11 @@ export class AddProductsComponent implements OnInit {
           this.alertMsg = error.error.message;
         },
       });
+    }
+    else{
+      this.PrdouctExistModalBTN.nativeElement.click();
+
+      this.alertMsg='No Product is selected'
     }
 
   }
