@@ -78,7 +78,7 @@
 
   <div class="order_search_div">
     <!-- search_by_all -->
-    <div class="search_by_all">
+    <!-- <div class="search_by_all">
       <div class="search-container">
         <input
           id="searchInput"
@@ -142,7 +142,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
     <!-- search_by_all end -->
     <div class="search_by_date">
       <label for="toDate">From: </label>
@@ -468,7 +468,6 @@
                 />
               </div>
 
-
               <div class="col-1 order_col">{{ row.productName }}</div>
               <div class="col-1 order_col_big">{{ row.specification }}</div>
               <div class="col-1 order_col">{{ row.unit }}</div>
@@ -477,9 +476,8 @@
               <div class="col-1 order_col">{{ row.discountAmount }}</div>
               <div class="col-1 order_col">{{ row.deliveryCharge }}</div>
               <div class="col-1 order_col">
-                {{ row.netPrice}}
+                {{ row.netPrice }}
               </div>
-
             </div>
           </div>
         </div>
@@ -488,12 +486,12 @@
   </div>
 
   <div
-    class="pagination_button_div d-flex justify-content-between align-items-center"
+    class="pagination_button_div d-flex justify-content-end align-items-center"
   >
-    <app-pagination
+    <!-- <app-pagination
       [inputdata]="totalPages"
       (myData)="paginationData($event)"
-    ></app-pagination>
+    ></app-pagination> -->
 
     <div
       class="d-flex gap-2"
