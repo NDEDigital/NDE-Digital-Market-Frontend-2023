@@ -324,16 +324,11 @@ export class AddProductsComponent implements OnInit {
     
     console.log('Selected Product IDs:', this.selectedProducts1);
     console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-console.log("this.selectedProducts1.length",this.productList.length);
+    console.log("this.selectedProducts1.length",this.productList.length);
   
   }
  
   chageActiveInactive(isActive:any){
-//     if(this.selectedProducts1.length!=this.productList.length){
-
-//       this.selectAll=false;
-
-// }
 
 
  
@@ -375,7 +370,7 @@ console.log("this.selectedProducts1.length",this.productList.length);
 
   checkboxSelected(productId: any, event: any) {
     const isSelected: boolean = event.target.checked;
-
+// console.log(isSelected);
     if (isSelected && !this.selectedProducts1.includes(productId)) {
       // Add the selected product to the list
       this.selectedProducts1.push(productId);
@@ -388,7 +383,7 @@ console.log("this.selectedProducts1.length",this.productList.length);
     this.allSelectedCheckbox.nativeElement.checked=false;
     // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
-if(this.selectedProducts1.length===this.productList.length){
+  if(this.selectedProducts1.length===this.productList.length){
   this.allSelectedCheckbox.nativeElement.checked=true;
 
 }
