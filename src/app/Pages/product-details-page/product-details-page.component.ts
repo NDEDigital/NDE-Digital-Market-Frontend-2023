@@ -25,6 +25,7 @@ export class ProductDetailsPageComponent {
   emptyStar: any = 0;
   emptyStarArray: any = [];
   isSeller = false;
+  isBuyer = false;
   // Add cart related data
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
@@ -76,6 +77,9 @@ export class ProductDetailsPageComponent {
     if (role === 'seller') {
       this.isSeller = true;
     }
+    if (role === 'buyer') {
+      this.isBuyer = true;
+    }
     // this.detailsData = this.goodsData.getDetaileData();
     // this.cartDataService.clearCartData();
     this.cartDataService.initializeAndLoadData();
@@ -84,15 +88,13 @@ export class ProductDetailsPageComponent {
     if (productData) {
       this.detailsData = JSON.parse(productData);
     }
-    if( this.detailsData.approveSalesQty == 0){
-      this.CartButtonText ="Out of stock";
+    if (this.detailsData.approveSalesQty == 0) {
+      this.CartButtonText = 'Out of stock';
     }
     this.buyerCode = localStorage.getItem('code');
 
     this.service
-      .getReviewRatingsData(
-        this.detailsData.goodsId
-      )
+      .getReviewRatingsData(this.detailsData.goodsId)
       .subscribe((data: any) => {
         console.log(' dAta ', data);
         this.reviewData = data.reviewsAndRatings;
@@ -286,7 +288,8 @@ export class ProductDetailsPageComponent {
     if (entry.price === '' || entry.price === undefined) {
       entry.price = '0';
     }
-    let groupCodeIdSellerId = entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
+    let groupCodeIdSellerId =
+      entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
     this.cartDataService.setCartCount(groupCodeIdSellerId);
     this.cartDataService.setPrice(

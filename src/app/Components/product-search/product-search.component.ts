@@ -12,12 +12,10 @@ export class ProductSearchComponent {
   @Input() indx: any;
   @Input() compare: string = '';
   @Input() totalSize: any;
-  
+
   constructor(private router: Router) {}
 
-  ngOnInit():void{
-      
-  }
+  ngOnInit(): void {}
   sendData() {
     const data = {
       ind: this.indx,
