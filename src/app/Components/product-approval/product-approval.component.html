@@ -56,10 +56,11 @@
 
     <section
       class="row tablebodyRow fw-semibold"
-      *ngFor="let row of productsData; let i = index"
+      *ngFor="let row of productsData; let i = index"  (mouseover)="isHovered = i;"
+      (mouseout)="isHovered = null"
     >
-      <div class="col tableBody">#{{ i + 1 }}</div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">#{{ i + 1 }}</div>
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <!-- {{ row.imagePath }} -->
         <img
           class="product_image"
@@ -67,35 +68,35 @@
           alt="no image was uploaded!"
         />
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.productName }}
       </div>
-      <div class="col tableBody">{{ row.fullName }}</div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">{{ row.fullName }}</div>
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.companyName }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.price }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.discountAmount }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.discountPct }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.totalPrice }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.effectivateDate | date : "dd MMM yyyy" }}<br />
         {{ row.effectivateDate | date : "hh:mm a" }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ row.endDate | date : "dd MMM yyyy" }}<br />
         {{ row.endDate | date : "hh:mm a" }}
       </div>
 
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <button
           class="custom-btn"
           data-bs-toggle="modal"
@@ -106,7 +107,7 @@
         </button>
       </div>
 
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <div class="d-flex justify-content-center align-items-center">
           <div>
             <button class="actionBtn" *ngIf="btnIndex != 1">
@@ -246,6 +247,12 @@
                     >{{ selectedProduct?.previousDiscountPct }}%</span
                   >
                 </p>
+                <p class="card-text">
+                  Total Price:
+                  <span class="text-muted fw-bold">{{
+                    selectedProduct?.previousTotalPrice
+                  }}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -273,10 +280,72 @@
                     >{{ selectedProduct?.discountPct }}%</span
                   >
                 </p>
+
+                <p class="card-text">
+                  Total Price:
+                  <span class="text-muted fw-bold">{{
+                    selectedProduct?.totalPrice
+                  }}</span>
+                </p>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal for success or rejected product -->
+
+<button
+  type="button"
+  class="btn btn-primary d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#msgModal"
+  #msgModalBTN
+>
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="msgModal"
+  tabindex="-1"
+  aria-labelledby="msgModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header fs-5 fw-bold">
+        <h1 class="modal-title fs-5" id="msgModalLabel">
+          <span
+            [ngClass]="{
+              'text-success': isApproved,
+              'text-danger': isRejected
+            }"
+          >
+            {{ alertTitle }}</span
+          >
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <span
+          [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
+          >{{ alertMsg }}</span
+        >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
       </div>
     </div>
   </div>

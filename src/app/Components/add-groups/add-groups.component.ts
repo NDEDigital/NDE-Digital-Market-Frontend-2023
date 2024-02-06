@@ -19,6 +19,7 @@ export class AddGroupsComponent {
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
   //@ViewChild('modalGroupImage') ModalGroupImage!: ElementRef;
   @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
+  isHovered: any | null = null;
 
   addGroupForm!: FormGroup;
   alertMsg = '';
@@ -255,6 +256,10 @@ export class AddGroupsComponent {
           console.log(response);
           this.getProductGroup(isActive);
           this.btnIndex = isActive;
+          this.UserExistModalBTN.nativeElement.click();
+          this.alertMsg = isActive
+            ? 'Group is  Approved!'
+            : 'Group is Rejected!';
         },
         error: (error: any) => {
           //console.log(error);

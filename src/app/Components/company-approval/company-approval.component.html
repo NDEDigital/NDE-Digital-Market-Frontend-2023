@@ -39,9 +39,9 @@
       <div class="col tableHeader">Company Code</div>
       <div class="col tableHeader">Company Name</div>
       <div class="col tableHeader">Email</div>
+      <div class="col tableHeader">Business Registration Number</div>
       <div class="col tableHeader">Tax Id. Number</div>
       <div class="col tableHeader">Foundation Date</div>
-      <div class="col tableHeader">Business Registration Number</div>
       <div class="col tableHeader">Trade Licence File</div>
       <div class="col tableHeader">Company Image</div>
       <div class="col tableHeader">Prefered Method</div>
@@ -54,27 +54,29 @@
     <section
       class="row tablebodyRow fw-semibold"
       *ngFor="let cmp of companies; let i = index"
+      (mouseover)="isHovered = i;"
+      (mouseout)="isHovered = null"
     >
-      <div class="col tableBody">#{{ i + 1 }}</div>
-      <div class="col tableBody">{{ cmp.companyCode }}</div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">#{{ i + 1 }}</div>
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">{{ cmp.companyCode }}</div>
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ cmp.companyName }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ cmp.email.split("@")[0] }}
 
         @{{ cmp.email.split("@")[1] }}
       </div>
-      <div class="col tableBody text-break">
+      <div class="col tableBody text-break" [ngClass]="{ 'active-row':isHovered===i}">
         {{ cmp.businessRegistrationNumber }}
       </div>
-      <div class="col tableBody text-break">
+      <div class="col tableBody text-break" [ngClass]="{ 'active-row':isHovered===i}">
         {{ cmp.taxIdentificationNumber }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         {{ cmp.companyFoundationDate | date : "dd MMM yyyy" }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <button
           class="custom-btn btn-trade-company"
           data-bs-toggle="modal"
@@ -84,7 +86,7 @@
           view
         </button>
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <button
           class="custom-btn btn-trade-company"
           data-bs-toggle="modal"
@@ -94,8 +96,8 @@
           view
         </button>
       </div>
-      <div class="col tableBody">{{ cmp.preferredPaymentMethodName }}</div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">{{ cmp.preferredPaymentMethodName }}</div>
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <input
           [(ngModel)]="selectedCompanyCodeValues[cmp.companyCode]"
           type="number"
@@ -103,10 +105,12 @@
           min="0"
         />
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
         <div class="d-flex justify-content-center align-items-center">
           <div>
-            <button class="actionBtn">
+            <button class="actionBtn"
+            *ngIf="btnIndex != 1"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -187,6 +191,8 @@
     </section>
   </div>
 </div>
+
+
 <button
   type="button"
   class="btn btn-primary d-none"
@@ -196,6 +202,7 @@
 >
   Launch demo modal
 </button>
+
 
 <!-- Modal -->
 <div
@@ -209,7 +216,14 @@
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
         <h1 class="modal-title fs-5" id="msgModalLabel">
-          {{ alertTitle }}
+          <span
+          [ngClass]="{
+            'text-success': isApproved,
+            'text-danger': isRejected
+          }"
+        >
+          {{ alertTitle }}</span
+        >
         </h1>
         <button
           type="button"
@@ -219,7 +233,10 @@
         ></button>
       </div>
       <div class="modal-body">
-        {{ alertMsg }}
+        <span
+        [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
+        >{{ alertMsg }}</span
+      >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">

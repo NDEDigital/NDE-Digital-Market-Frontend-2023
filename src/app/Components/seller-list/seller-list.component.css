@@ -26,6 +26,7 @@
   .headerRow,
   .tablebodyRow {
     flex-wrap: nowrap;
+    height: 15%;
   }
   .scrollable-table {
     height: 35rem; /* Adjust the height as needed */
@@ -50,6 +51,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  cursor: pointer;
+
   }
   
   .tableHeader {
@@ -100,5 +103,8 @@
     cursor: pointer;
     background: none;
     border: none;
+  }
+  .active-row {
+    background-color:rgb(233, 238, 243);
   }
   

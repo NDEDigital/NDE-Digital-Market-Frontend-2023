@@ -20,6 +20,7 @@ export class AddProductsComponent implements OnInit {
   showProductDiv: boolean = false;
   productList: any;
   btnIndex = -1;
+  isHovered: any | null = null;
 
   isEditMode = false;
   activeProductId: number | null = null;
@@ -271,6 +272,10 @@ export class AddProductsComponent implements OnInit {
         console.log(response);
         this.getProducts(isActive);
         this.btnIndex = isActive;
+        this.PrdouctExistModalBTN.nativeElement.click();
+        this.alertMsg = isActive
+          ? 'Product is  Approved!'
+          : 'Product is Rejected!';
       },
       error: (error: any) => {
         //console.log(error);

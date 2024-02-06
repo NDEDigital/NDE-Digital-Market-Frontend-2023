@@ -166,7 +166,12 @@ select {
 }
 .tablebodyRow {
   text-align: center;
+
+
 }
+/* .tablebodyRow:hover{
+  background-color: #78ac8b;
+} */
 .tableHeader,
 .tableBody {
   min-width: 10rem;
@@ -179,6 +184,7 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .tableHeader {
@@ -200,9 +206,11 @@ select {
 
 .headerbtns .btn-active {
   border: 1px solid #78ac8b;
+  padding: 0 0rem;
 }
 .headerbtns .btn-inactive {
   border: 1px solid #a4a554;
+  padding: 0 0rem;
 }
 
 .headerbtns .new-btn.active {
@@ -244,5 +252,10 @@ select {
 }
 
 .active-row {
-  background-color: #f1f1dd;
+  background-color:rgb(233, 238, 243);
 }
+
+
+
+
+

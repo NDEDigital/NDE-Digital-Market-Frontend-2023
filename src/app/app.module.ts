@@ -74,6 +74,7 @@ import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { SellerOrdersComponent } from './Components/seller-orders/seller-orders.component';
 import { LoginPopupComponent } from './Components/login-popup/login-popup.component';
 import { SellerListComponent } from './Components/seller-list/seller-list.component';
+import { SellerPermissionComponent } from './Components/seller-permission/seller-permission.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +141,7 @@ import { SellerListComponent } from './Components/seller-list/seller-list.compon
     SellerOrdersComponent,
     LoginPopupComponent,
     SellerListComponent,
+    SellerPermissionComponent,
   ],
   imports: [
     BrowserModule,
