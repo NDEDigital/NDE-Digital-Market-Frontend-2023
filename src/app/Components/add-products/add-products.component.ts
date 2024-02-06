@@ -12,7 +12,7 @@ export class AddProductsComponent implements OnInit {
   @ViewChild('ProductImageInput') ProductImageInput!: ElementRef;
   @ViewChild('prdouctExistModalBTN') PrdouctExistModalBTN!: ElementRef;
   @ViewChild('addProductModalCenterG') AddProductModalCenterG!: ElementRef;
-
+  @ViewChild('allselected', { static: false }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
   addProductForm!: FormGroup;
   productGroups: any[] = [];
   units: any[] = [];
@@ -295,22 +295,27 @@ export class AddProductsComponent implements OnInit {
   
   selectAll = false;
   toggleAllCheckboxes() {
+    console.log("all seelcted",)
+    // console.log('Selected Product IDs:', this.selectedProducts1);
   
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     this.productList.forEach(
       (product: { isSelected: boolean, productId: any }) => {
         product.isSelected = this.selectAll;
-  
+        
         // Update the selectedProducts array based on the state of each checkbox
         if (this.selectAll && !this.selectedProducts1.includes(product.productId)) {
           this.selectedProducts1.push(product.productId);
+          
         }
         else if (!this.selectAll && this.selectedProducts1.includes(product.productId)) {
           // Remove the deselected product from the list
           this.selectedProducts1 = this.selectedProducts1.filter(
             (id) => id !== product.productId
           );
+          // this.selectAll=false;
+        
         }
         
       }
@@ -318,10 +323,22 @@ export class AddProductsComponent implements OnInit {
    
     
     console.log('Selected Product IDs:', this.selectedProducts1);
+    console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+console.log("this.selectedProducts1.length",this.productList.length);
+  
   }
  
   chageActiveInactive(isActive:any){
+//     if(this.selectedProducts1.length!=this.productList.length){
+
+//       this.selectAll=false;
+
+// }
+
+
+ 
     if(this.selectedProducts1.length>0){
+      
 
       this.productService.updateProductStatus(this.selectedProducts1,isActive).subscribe({
         next: (response: any) => {
@@ -368,10 +385,13 @@ export class AddProductsComponent implements OnInit {
         (id) => id !== productId
       );
     }
-
+    this.allSelectedCheckbox.nativeElement.checked=false;
     // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
+if(this.selectedProducts1.length===this.productList.length){
+  this.allSelectedCheckbox.nativeElement.checked=true;
 
+}
  
   }
 }
