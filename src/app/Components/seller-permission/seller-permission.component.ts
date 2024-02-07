@@ -183,12 +183,14 @@ selectedMenu: any;
  openModal(){
   // console.log("selected menu is",this.selectedMenuItems);
   if(this.selectedMenuItems.length>0){
+    console.log("selectedMenu",this.selectedMenuItems);
 
     const modalButton = document.getElementById('msgModalBTN');
     if (this.modalButton) {
       this.modalButton.nativeElement.click();
     }
   }
+  
  }
 
  yesBtn(sellerSelected:any){
@@ -196,9 +198,7 @@ selectedMenu: any;
   this.UpdatePermission(sellerSelected);
  }
   UpdatePermission(selectedSeller:any) {
-    // console.log("the btn is clicked");
  
-// console.log("yes btn is+",this.yesButton);
 
     
 
@@ -213,7 +213,7 @@ selectedMenu: any;
   
     // Check if userId is defined before accessing it
     if (!this.selectedMenuItems[0].userId) {
-        alert('No userId in selected menu items');
+        alert('No userName in selected menu items');
         return;
     }
 
@@ -230,7 +230,11 @@ if (this.modalButton) {
             // console.log(response);
        this.getPermission();
        this.menuSelected.nativeElement.value = null;
-      //  console.log("selectedUser:",selectedSeller);
+      // this.selectedMenuItems[0].userId=null;
+      this.selectedMenuItems.length=0;
+      // console.log("selected menu",this.selectedMenuItems);
+      
+      
        this.getDashboarItem(selectedSeller);
       //  this.menuSelected.nativeElement.value = null;
       // this.getData();
