@@ -92,7 +92,8 @@
           <!-- Table body - rows -->
           <tbody>
             <tr  class="border border-1 details-row "  *ngFor="let row of rowsFormArray.controls; let i = index;" [formGroupName]="i">
-              <td><div class="dropdown">
+              <td>
+                <div class="dropdown">
                 <button   (click)="getGroupName()" class="dropbtn   dropdown-toggle border border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false"  [disabled]="receivedCode.value">
                   {{selectedProductGroup[i]}}
                  </button>
@@ -103,6 +104,7 @@
                   
                 </ul>
               </div></td>
+
               <!-- <td><input formControlName="productName" placeholder="ProductName"></td> -->
               <td><div class="dropdown mx-2" (click)="toggleDropdown(i)" >
                 <button class="dropbtn dropdown-toggle"  >{{ selectedProductNames[i]   }}</button>
@@ -116,7 +118,8 @@
                   <a   *ngFor="let item of productDertailsData; let j = index" (click)="SetDropDownName(item, i)">
                     {{item.productName}}</a>
                 </div>
-              </div></td>           
+              </div></td>      
+                   
               <!-- Add input fields for other columns -->
               <td><input formControlName="specification" placeholder="Specification" readonly class="center-placeholder"></td>
               <td><input formControlName="unit" placeholder="Unit" readonly class="center-placeholder"></td>
