@@ -207,7 +207,7 @@ export class AddProductsComponent implements OnInit {
     // this.selectedProducts1.length=0;
     this.productService.GetProductListByStatus(status).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.productList = response;
     this.selectedProducts1.length=0;
 
@@ -278,7 +278,7 @@ export class AddProductsComponent implements OnInit {
     // console.log(isActive, 'isActive', producID, 'productID');
     this.productService.updateProductStatus([producID], isActive).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.getProducts(isActive);
         this.btnIndex = isActive;
         this.PrdouctExistModalBTN.nativeElement.click();
@@ -300,7 +300,7 @@ export class AddProductsComponent implements OnInit {
   
   selectAll = false;
   toggleAllCheckboxes() {
-    console.log("all seelcted",)
+    // console.log("all seelcted",)
     // console.log('Selected Product IDs:', this.selectedProducts1);
   
 
@@ -327,9 +327,9 @@ export class AddProductsComponent implements OnInit {
     );
    
     
-    console.log('Selected Product IDs:', this.selectedProducts1);
-    console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-    console.log("this.selectedProducts1.length",this.productList.length);
+    // console.log('Selected Product IDs:', this.selectedProducts1);
+    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+    // console.log("this.selectedProducts1.length",this.productList.length);
   
   }
  
@@ -342,7 +342,7 @@ export class AddProductsComponent implements OnInit {
 
       this.productService.updateProductStatus(this.selectedProducts1,isActive).subscribe({
         next: (response: any) => {
-          console.log(response);
+          // console.log(response);
           this.getProducts(isActive);
           this.btnIndex = isActive;
           this.PrdouctExistModalBTN.nativeElement.click();

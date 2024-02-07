@@ -24,7 +24,8 @@ export class ProductApprovalComponent {
 
   isApproved: boolean = false;
   isRejected: boolean = false;
-  @ViewChild('allselected', { static: false }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+  @ViewChild('allselected', { static: true }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+
 
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
   constructor(private productService: AddProductService) {}
@@ -34,11 +35,12 @@ export class ProductApprovalComponent {
   }
 
   getData(status: string) {
-    // this.selectedProducts1=[];
-    this.selectedProducts1.length=0
+    this.allSelectedCheckbox.nativeElement.checked=false;
+
+    this.selectedProducts1.length=0;
     this.productService.getProductData(status).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.productsData = response;
         //console.log(this.productsData);
       },
@@ -191,10 +193,10 @@ export class ProductApprovalComponent {
       this.selectedProducts.forEach((product) => {
         product.status = Status;
       });
-      console.log("the data are after staatsu",this.selectedProducts);
+      // console.log("the data are after staatsu",this.selectedProducts);
       this.productService.updateProduct(this.selectedProducts).subscribe({
         next: (response: any) => {
-          console.log(response);
+          // console.log(response);
           // this.getProducts(isActive);
           // this.btnIndex = isActive;
           // this.PrdouctExistModalBTN.nativeElement.click();
@@ -267,14 +269,15 @@ export class ProductApprovalComponent {
   // }
   
   toggleAllCheckboxes() {
-
-    console.log("all seelcted",this.selectAll)
+    
+    // console.log("all seelcted",this.selectAll)
     // console.log('Selected Product IDs:', this.selectedProducts1);
-
-    console.log(this.productsData,"ijhnon'lonsf'amn");
-
-if(this.selectAll===true){
+    
+    // console.log(this.productsData,"ijhnon'lonsf'amn");
+    
+    if(this.selectAll===true){
   this.selectedProducts1.length=0;
+  
   this.productsData.forEach((product:any) => {
     product.isSelected = this.selectAll;
     this.selectedProducts1.push({
@@ -283,7 +286,8 @@ if(this.selectAll===true){
                productId: product.productId
               });
   });
-  console.log(this.productsData,"asfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsf");
+ 
+  // console.log(this.productsData,"asfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsf");
 }
    else{
    this.selectedProducts1.length=0;
@@ -292,9 +296,9 @@ if(this.selectAll===true){
   });
    }
     
-    console.log('Selected Product IDs:', this.selectedProducts1);
-    console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-console.log("this.productsData.length",this.productsData.length);
+//     console.log('Selected Product IDs:', this.selectedProducts1);
+//     console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+// console.log("this.productsData.length",this.productsData.length);
   
   }
 
@@ -332,6 +336,7 @@ console.log("this.productsData.length",this.productsData.length);
     this.allSelectedCheckbox.nativeElement.checked=false;
     // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
+    
   if(this.selectedProducts1.length===this.productsData.length){
   this.allSelectedCheckbox.nativeElement.checked=true;
 

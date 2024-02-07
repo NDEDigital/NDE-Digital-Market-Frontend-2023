@@ -19,7 +19,7 @@ export class AddGroupsComponent {
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
   //@ViewChild('modalGroupImage') ModalGroupImage!: ElementRef;
   @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
-  @ViewChild('allselected', { static: false }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+  @ViewChild('allselected', { static: true }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
 
   isHovered: any | null = null;
 
@@ -187,6 +187,9 @@ alertTitle: any;
   }
 
   getProductGroup(status: any) {
+    this.allSelectedCheckbox.nativeElement.checked=false;
+    this.selectedProducts1.length=0;
+    this.selectAll=false;
     this.addProductService.GetProductGroupsListByStatus(status).subscribe({
       next: (response: any) => {
         console.log(response);
@@ -317,14 +320,14 @@ alertTitle: any;
     );
    
     
-    console.log('Selected Product IDs:', this.selectedProducts1);
-    console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+    // console.log('Selected Product IDs:', this.selectedProducts1);
+    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
     // console.log("this.selectedProducts1.length",this.productList.length);
   
   }
 
   chageActiveInactive(isActive:any){
-    console.log("hello ");
+    // console.log("hello ");
     
 // console.log("get groupIds are ",this.selectedProducts1);
 // console.log("is active are",isActive);

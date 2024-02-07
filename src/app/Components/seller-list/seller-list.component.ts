@@ -25,7 +25,7 @@ export class SellerListComponent {
   selectedCompanyCodeValues: { [key: string]: any } = {};
   UserId:any;
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
-  @ViewChild('allselected', { static: false }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+  @ViewChild('allselected', { static: true }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
 
   alertTitle: string = '';
   alertMsg: string = '';
@@ -61,6 +61,10 @@ export class SellerListComponent {
 //   }
   getData() {
     // console.log("bebe");
+    // this.allSelectedCheckbox.nativeElement.checked=false;
+    // this.selectedProducts1.length=0;
+    // this.selectAll=false;
+
     
     this.companyService.GetSellerList(this.btnIndex).subscribe({
       next: (response: any) => {
@@ -71,6 +75,9 @@ export class SellerListComponent {
         //  console.log("btn index is",this.btnIndex);
 // console.log("")
          this.responseLength=response.length;
+    //       this.allSelectedCheckbox.nativeElement.checked=false;
+    // this.selectedProducts1.length=0;
+    // this.selectAll=false;
         //  console.log("the response is :",this.responseLength);
          
       },
@@ -96,7 +103,9 @@ export class SellerListComponent {
   getSeller(): void {
     // console.log("got in getSeller", this.selectedValue);
     let responseCount = 0;
-    
+    this.allSelectedCheckbox.nativeElement.checked=false;
+    this.selectedProducts1.length=0;
+    this.selectAll=false;
     // Assuming this.btnIndex is defined somewhere in your code
     this.companyService.GetSellerInAdmin(this.btnIndex,this.selectedValue).subscribe({
       next: (response: any) => {
@@ -154,6 +163,9 @@ export class SellerListComponent {
   
 
 getBuyer(){
+  this.allSelectedCheckbox.nativeElement.checked=false;
+  this.selectedProducts1.length=0;
+  this.selectAll=false;
   this.companyService.GetBuyerInAdmin(this.btnIndex).subscribe({
     next: (response: any) => {
       console.log("btn index is ",this.userBtnIndex);
@@ -269,10 +281,11 @@ getUser(){
   selectedProducts1: any[] = [];
   
   selectAll = false;
+
   toggleAllCheckboxes() {
     console.log("all seelcted",)
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-  
+ 
+
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     this.sellerList.forEach(
@@ -290,6 +303,7 @@ getUser(){
             (id) => id !== product.userId
           );
           this.selectAll=false;
+          
         
         }
         
