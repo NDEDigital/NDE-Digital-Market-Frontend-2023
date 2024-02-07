@@ -17,6 +17,7 @@ export class AddProductsComponent implements OnInit {
   productGroups: any[] = [];
   units: any[] = [];
   alertMsg: string = '';
+  alertTitle: string = '';
   isError: boolean = false;
   showProductDiv: boolean = false;
   productList: any;
@@ -282,8 +283,12 @@ export class AddProductsComponent implements OnInit {
         this.btnIndex = isActive;
         this.PrdouctExistModalBTN.nativeElement.click();
         this.alertMsg = isActive
-          ? 'Product is  Approved!'
-          : 'Product is Rejected!';
+          ? 'Product is  Activated!'
+          : 'Product is Deactiveted!';
+        this.alertTitle = isActive
+          ? 'Activated!'
+          : 'Deactiveted!';
+
       },
       error: (error: any) => {
         //console.log(error);
@@ -342,8 +347,11 @@ export class AddProductsComponent implements OnInit {
           this.btnIndex = isActive;
           this.PrdouctExistModalBTN.nativeElement.click();
           this.alertMsg = isActive
-          ? 'Product is  Approved!'
-          : 'Product is Rejected!';
+          ? 'Product is  Activated!'
+          : 'Product is Deactiveted!';
+        this.alertTitle = isActive
+          ? 'Activated!'
+          : 'Deactiveted!';
   //         this.selectAll = false;
   
            this.selectAll=false;

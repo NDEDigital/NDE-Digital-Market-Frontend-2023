@@ -372,9 +372,9 @@
 >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header modal-heading">
-        <h1 class="modal-title fs-5 text-light" id="productGroupModalLabel">
-          Add Product Groups Name
+      <div class="modal-header ">
+        <h1 class="modal-title fs-5 " id="productGroupModalLabel"   [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }">
+          {{alertTitle}}
         </h1>
         <button
           type="button"
@@ -386,7 +386,7 @@
       <div class="modal-body">
         <p
           class="fs-5 fw-bolder"
-          [ngStyle]="{ color: alertMsg.includes('Rejected') ? 'red' : 'green' }"
+          [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
         >
           {{ alertMsg }}
         </p>

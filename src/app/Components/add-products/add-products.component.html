@@ -465,7 +465,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="userExistModalLabel">product Modal</h1>
+        <h1 class="modal-title fs-5" id="userExistModalLabel" [ngStyle]="{ color: alertTitle.includes('Deactiveted') ? 'red' : 'green' }">{{alertTitle}}</h1>
         <button
           type="button"
           class="btn-close"
@@ -476,7 +476,7 @@
       <div class="modal-body">
         <p
           class="fs-5 fw-bolder"
-          [ngStyle]="{ color: alertMsg.includes('Rejected') ? 'red' : 'green' }"
+          [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
         >
           {{ alertMsg }}
         </p>

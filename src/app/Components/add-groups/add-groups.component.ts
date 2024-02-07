@@ -34,6 +34,7 @@ export class AddGroupsComponent {
   currentGroup: any = null;
   activeGroupId: number | null = null;
   imagePathPreview: string = '';
+alertTitle: any;
 
   constructor(private addProductService: AddProductService) {}
 
@@ -261,9 +262,12 @@ export class AddGroupsComponent {
           this.getProductGroup(isActive);
           this.btnIndex = isActive;
           this.UserExistModalBTN.nativeElement.click();
-          this.alertMsg = isActive
-            ? 'Group is  Approved!'
-            : 'Group is Rejected!';
+           this.alertMsg = isActive
+          ? 'Product is  Activated!'
+          : 'Product is Deactiveted!';
+        this.alertTitle = isActive
+          ? 'Activated!'
+          : 'Deactiveted!';
         },
         error: (error: any) => {
           //console.log(error);
@@ -341,8 +345,11 @@ export class AddGroupsComponent {
           this.btnIndex = isActive;
           this.UserExistModalBTN.nativeElement.click();
           this.alertMsg = isActive
-            ? 'Group is  Approved!'
-            : 'Group is Rejected!';
+            ? 'Group is  Activated!'
+            : 'Group is Deactiveted!';
+            this.alertTitle = isActive
+            ? 'Activated!'
+            : 'Deactiveted!';
            this.selectAll=false;
            this.selectedProducts1.length=0;
           // console.log("product id's are",this.selectedProductIds)
