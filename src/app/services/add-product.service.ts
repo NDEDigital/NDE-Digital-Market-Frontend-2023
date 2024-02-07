@@ -150,14 +150,16 @@ export class AddProductService {
 
 
 
-  updateProductGroupStatus(groupId: any, IsActive: any) {
+  updateProductGroupStatus(groupIds: any, IsActive: any) {
     // Convert IsActive to boolean
-    const convertedIsActive = IsActive === 1 ? true : false;
+    // const convertedIsActive = IsActive === 1 ? true : false;
 
-    console.log(groupId, convertedIsActive, 'service product is active');
+    // console.log(groupIds, convertedIsActive, 'service product is active');
+    console.log("active are",IsActive);
+    console.log("group id's are ",groupIds)
 
     return this.http.put(
-      `${this.updateProductGroupStatusURL}?groupId=${groupId}&IsActive=${convertedIsActive}`,
+      `${this.updateProductGroupStatusURL}?groupIds=${groupIds}&IsActive=${IsActive}`,
       {}
     );
   }
