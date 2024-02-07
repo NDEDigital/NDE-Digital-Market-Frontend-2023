@@ -194,6 +194,14 @@
               Placed on <span class="fw-semibold">{{ order.orderDate }}</span>
             </p>
           </div>
+
+          <div>
+            Total Price:
+            <span class="fs-6 fw-bold">{{
+              calculateTotalPrice(order.orderDetailsListForBuyer)
+            }}</span>
+          </div>
+
           <!-- <div><Button class="pay-now-btn fst-italic">Manage</Button></div> -->
         </div>
 
