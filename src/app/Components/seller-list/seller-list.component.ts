@@ -311,8 +311,8 @@ getUser(){
     );
    
     
-    console.log('Selected Product IDs:', this.selectedProducts1);
-    console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+    // console.log('Selected Product IDs:', this.selectedProducts1);
+    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
     // console.log("this.selectedProducts1.length",this.productList.length);
   
   }
@@ -377,9 +377,9 @@ getUser(){
       });
     }
     else{
-      // this.PrdouctExistModalBTN.nativeElement.click();
-
-      this.alertMsg='No Product is selected'
+      this.msgModalBTN.nativeElement.click();
+      this.alertTitle = "No Activation!";
+      this.alertMsg = "User not selected";
     }
 
   }

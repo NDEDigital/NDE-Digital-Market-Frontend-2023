@@ -366,6 +366,7 @@ export class AddProductsComponent implements OnInit {
     }
     else{
       this.PrdouctExistModalBTN.nativeElement.click();
+      this.alertTitle='No Selection!'
 
       this.alertMsg='No Product is selected'
     }
@@ -379,10 +380,10 @@ export class AddProductsComponent implements OnInit {
   checkboxSelected(productId: any, event: any) {
     const isSelected: boolean = event.target.checked;
 // console.log(isSelected);
-    if (isSelected && !this.selectedProducts1.includes(productId)) {
+    if (isSelected ) {
       // Add the selected product to the list
       this.selectedProducts1.push(productId);
-    } else if (!isSelected && this.selectedProducts1.includes(productId)) {
+    } else if (!isSelected ) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
         (id) => id !== productId

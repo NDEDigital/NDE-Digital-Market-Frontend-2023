@@ -254,6 +254,7 @@ alertTitle: any;
   }
 
   updateIsActive(isActive: any, groupIds: any) {
+    
     console.log(isActive, 'isActive', groupIds, 'groupId');
     this.addProductService
       .updateProductGroupStatus(groupIds.toString(), isActive)
@@ -364,9 +365,9 @@ alertTitle: any;
       });
     }
     else{
-      // this.PrdouctExistModalBTN.nativeElement.click();
-
-      this.alertMsg='No Product is selected'
+       this.UserExistModalBTN.nativeElement.click();
+this.alertTitle="No Selection!"
+      this.alertMsg='No group is selected'
     }
 
   }
