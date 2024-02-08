@@ -22,7 +22,7 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserDataService } from 'src/app/services/user-data.service';
-
+import { PROJECT_TITLE } from 'src/app/config';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -38,7 +38,7 @@ export class HeaderComponent {
   isBuyer: boolean = false;
   isAdmin: boolean = false;
   isSeller: boolean = false;
-
+  projectTitle = '';
   private subscription: Subscription;
   isCategoriesVisible = false;
   goods: any;
@@ -140,6 +140,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+    this.projectTitle = PROJECT_TITLE;
     const count = localStorage.getItem('cartCount');
     if (count !== null && count !== undefined) {
       this.cartCountLocal = JSON.parse(count);

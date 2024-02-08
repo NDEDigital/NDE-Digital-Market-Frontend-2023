@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
+import { PROJECT_TITLE } from 'src/app/config';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,6 +14,7 @@ export class LoginComponent {
   errorMessage: any;
   refreshToken: string = 'fhwe';
   isCompanyAdmin: boolean = false;
+  projectTitle = '';
   constructor(
     private userData: UserDataService,
     private sharedServiceData: SharedService,
@@ -22,6 +24,9 @@ export class LoginComponent {
       phoneNumber: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required),
     });
+  }
+  ngOnInit() {
+    this.projectTitle = PROJECT_TITLE;
   }
 
   onLoginClick() {

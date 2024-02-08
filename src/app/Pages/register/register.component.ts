@@ -16,7 +16,7 @@ import {
   signInWithPhoneNumber,
 } from 'firebase/auth';
 import { firebaseConfig } from 'src/app/environment/environment';
-
+import { PROJECT_TITLE } from 'src/app/config';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -55,7 +55,7 @@ export class RegisterComponent implements AfterViewInit {
   enableResendBTN = false;
   reset: boolean = false;
   widgetId: number = 0;
-
+  projectTitle = '';
   constructor(
     private userData: UserDataService,
     private sharedServiceData: SharedService,
@@ -100,6 +100,9 @@ export class RegisterComponent implements AfterViewInit {
       },
       { validators: this.passwordMatchValidator }
     );
+  }
+  ngOnInit() {
+    this.projectTitle = PROJECT_TITLE;
   }
   ngAfterViewInit() {
     // this.captchaVerify();

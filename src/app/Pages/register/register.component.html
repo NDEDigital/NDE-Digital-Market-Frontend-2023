@@ -2,7 +2,12 @@
   <a routerLink=" " class="companyName">
     <span>
       <!-- NDE Digital Market -->
-      <img src="assets/images/Logo/final-logo-6.png" alt="logo" />
+      <img
+        *ngIf="projectTitle === 'NDE_DIGITAL_MARKET'"
+        src="assets/images/Logo/final-logo-6.png"
+        alt="logo"
+      />
+      <p *ngIf="projectTitle === 'HEALTHCARE'">Nimpex HealthCare</p>
     </span>
     <!-- <img src="assets/images/Logo/final-logo-6.png" alt="logo" />-->
   </a>
