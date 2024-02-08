@@ -61,7 +61,10 @@
 
       <div class="col tableHeader">Action</div>
     </div>
+    <div>
 
+      <h1 *ngIf="productsData.length==0" class="text-center " style="color: red;margin-top: 15%"> Product Not Found</h1>
+    </div>
     <!-- table body -->
 
     <section
@@ -353,10 +356,13 @@
       <div class="modal-header fs-5 fw-bold">
         <h1 class="modal-title fs-5" id="msgModalLabel">
           <span
+          
             [ngClass]="{
               'text-success': isApproved,
               'text-danger': isRejected
             }"
+        [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+            
           >
             {{ alertTitle }}</span
           >
@@ -371,6 +377,7 @@
       <div class="modal-body">
         <span
           [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
           >{{ alertMsg }}</span
         >
       </div>

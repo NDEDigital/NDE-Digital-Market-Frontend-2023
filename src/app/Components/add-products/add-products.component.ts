@@ -348,10 +348,10 @@ export class AddProductsComponent implements OnInit {
           this.PrdouctExistModalBTN.nativeElement.click();
           this.alertMsg = isActive
           ? 'Product is  Activated!'
-          : 'Product is Deactiveted!';
+          : 'Product is Deactivated!';
         this.alertTitle = isActive
-          ? 'Activated!'
-          : 'Deactiveted!';
+          ? 'Activatad!'
+          : 'Deactivated!';
   //         this.selectAll = false;
   
            this.selectAll=false;

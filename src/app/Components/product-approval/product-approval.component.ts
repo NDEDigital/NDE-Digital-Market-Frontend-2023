@@ -232,7 +232,8 @@ export class ProductApprovalComponent {
       });
     }
     else{
-      // this.PrdouctExistModalBTN.nativeElement.click();
+   this.msgModalBTN.nativeElement.click();
+   this.alertTitle='No Selection!'
 
       this.alertMsg='No Product is selected'
     }

@@ -192,7 +192,7 @@ alertTitle: any;
     this.selectAll=false;
     this.addProductService.GetProductGroupsListByStatus(status).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.groupList = response;
       },
       error: (error: any) => {
@@ -255,12 +255,12 @@ alertTitle: any;
 
   updateIsActive(isActive: any, groupIds: any) {
     
-    console.log(isActive, 'isActive', groupIds, 'groupId');
+    // console.log(isActive, 'isActive', groupIds, 'groupId');
     this.addProductService
       .updateProductGroupStatus(groupIds.toString(), isActive)
       .subscribe({
         next: (response: any) => {
-          console.log(response);
+          // console.log(response);
           isActive = isActive === true ? 0: 1;
 
           this.getProductGroup(isActive);
@@ -268,10 +268,10 @@ alertTitle: any;
           this.UserExistModalBTN.nativeElement.click();
            this.alertMsg = isActive
           ? 'Product is  Activated!'
-          : 'Product is Deactiveted!';
+          : 'Product is Deactivated!';
         this.alertTitle = isActive
           ? 'Activated!'
-          : 'Deactiveted!';
+          : 'Deactivated!';
         },
         error: (error: any) => {
           //console.log(error);
@@ -349,11 +349,11 @@ alertTitle: any;
           this.btnIndex = isActive;
           this.UserExistModalBTN.nativeElement.click();
           this.alertMsg = isActive
-            ? 'Group is  Activated!'
-            : 'Group is Deactiveted!';
+            ? 'Group is  Deactivated!'
+            : 'Group is Activated!';
             this.alertTitle = isActive
-            ? 'Activated!'
-            : 'Deactiveted!';
+            ? 'Deactiveted!'
+            : 'Activeted!';
            this.selectAll=false;
            this.selectedProducts1.length=0;
           // console.log("product id's are",this.selectedProductIds)
@@ -366,7 +366,8 @@ alertTitle: any;
     }
     else{
        this.UserExistModalBTN.nativeElement.click();
-this.alertTitle="No Selection!"
+this.alertTitle="No Selection!";
+
       this.alertMsg='No group is selected'
     }
 
@@ -375,10 +376,10 @@ this.alertTitle="No Selection!"
 
   
   checkboxSelected(groupId: any, event: any) {
-    console.log("productId",groupId);
+    // console.log("productId",groupId);
     
     const isSelected: boolean = event.target.checked;
-    console.log("event is",isSelected);
+    // console.log("event is",isSelected);
 // console.log(isSelected);
     if (isSelected && !this.selectedProducts1.includes(groupId)) {
       // Add the selected product to the list
@@ -396,7 +397,7 @@ this.alertTitle="No Selection!"
   this.allSelectedCheckbox.nativeElement.checked=true;
 
 }
- console.log("selected areee",this.selectedProducts1);
+//  console.log("selected areee",this.selectedProducts1);
   }
  
 }

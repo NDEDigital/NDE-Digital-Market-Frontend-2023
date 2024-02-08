@@ -231,7 +231,7 @@ getUser(){
         if(this.btnIndex === 1&& this.userBtnIndex===1){
 
           this.alertTitle = "Buyer Deactivation!";
-          this.alertMsg = "Buyer is Deactivated Successfully.";
+          this.alertMsg = "Buyer is Deactivation Successfully.";
         } 
        else if(this.btnIndex === 1&& this.userBtnIndex===0){
 

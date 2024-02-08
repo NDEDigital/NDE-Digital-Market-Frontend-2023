@@ -382,7 +382,11 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header fs-5 fw-bold text-success">
-          <h1 class="modal-title fs-5" id="msgModalLabel">
+          <h1 class="modal-title fs-5" id="msgModalLabel"
+          [ngStyle]="{ color: alertMsg.includes('Deactivation') ? 'red' : 'green' }"
+
+          [ngStyle]="{ color: alertTitle.includes('No') ? 'red' : 'green' }"
+  >
             {{ alertTitle }}
           </h1>
           <button
@@ -392,7 +396,10 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body"           [ngStyle]="{ color: alertMsg.includes('Deactivation') ? 'red' : 'green' }"
+        
+        [ngStyle]="{ color: alertTitle.includes('No') ? 'red' : 'green' }"
+>
           {{ alertMsg }}
         </div>
         <div class="modal-footer">
