@@ -24,8 +24,12 @@ export class ProductApprovalComponent {
 
   isApproved: boolean = false;
   isRejected: boolean = false;
-  @ViewChild('allselected', { static: true }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
 
+  searchTerm: string = '';
+  filteredProductsData: any;
+
+  @ViewChild('allselected', { static: true })
+  allSelectedCheckbox!: ElementRef<HTMLInputElement>;
 
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
   constructor(private productService: AddProductService) {}
@@ -35,14 +39,15 @@ export class ProductApprovalComponent {
   }
 
   getData(status: string) {
-    this.allSelectedCheckbox.nativeElement.checked=false;
+    this.allSelectedCheckbox.nativeElement.checked = false;
 
-    this.selectedProducts1.length=0;
+    this.selectedProducts1.length = 0;
     this.productService.getProductData(status).subscribe({
       next: (response: any) => {
         // console.log(response);
         this.productsData = response;
         //console.log(this.productsData);
+        this.filteredProductsData = response;
       },
       error: (error: any) => {
         //console.log(error);
@@ -116,7 +121,7 @@ export class ProductApprovalComponent {
       Status,
     };
     console.log(Status, 'Status');
-    this.selectedProducts=[{... productStatus}];
+    this.selectedProducts = [{ ...productStatus }];
     this.productService.updateProduct(this.selectedProducts).subscribe({
       next: (response: any) => {
         //console.log(response);
@@ -185,11 +190,11 @@ export class ProductApprovalComponent {
   //   // });
   // }
 
-  changeStatus(Status: any){
-     this.selectedProducts=this.selectedProducts1;
-   console.log("the data are",this.selectedProducts);
- 
-    if(this.selectedProducts.length>0){
+  changeStatus(Status: any) {
+    this.selectedProducts = this.selectedProducts1;
+    console.log('the data are', this.selectedProducts);
+
+    if (this.selectedProducts.length > 0) {
       this.selectedProducts.forEach((product) => {
         product.status = Status;
       });
@@ -201,11 +206,11 @@ export class ProductApprovalComponent {
           // this.btnIndex = isActive;
           // this.PrdouctExistModalBTN.nativeElement.click();
 
-  //         this.selectAll = false;
-  
-           this.selectAll=false;
-           this.selectedProducts.length=0;
-           this.selectedProducts1.length=0;
+          //         this.selectAll = false;
+
+          this.selectAll = false;
+          this.selectedProducts.length = 0;
+          this.selectedProducts1.length = 0;
           // console.log("product id's are",this.selectedProductIds)
           this.getData(Status);
           if (Status == 'Approved') {
@@ -222,7 +227,7 @@ export class ProductApprovalComponent {
             this.alertTitle = 'Rejected!';
             this.alertMsg = 'Product is rejected.';
           }
-  
+
           this.msgModalBTN.nativeElement.click();
         },
         error: (error: any) => {
@@ -230,28 +235,26 @@ export class ProductApprovalComponent {
           this.alertMsg = error.error.message;
         },
       });
-    }
-    else{
-   this.msgModalBTN.nativeElement.click();
-   this.alertTitle='No Selection!'
+    } else {
+      this.msgModalBTN.nativeElement.click();
+      this.alertTitle = 'No Selection!';
 
-      this.alertMsg='No Product is selected'
+      this.alertMsg = 'No Product is selected';
     }
-
   }
   selectedProducts: any[] = [];
 
   selectedProductIds: any[] = [];
-  selectedProducts1:any[]=[];  
+  selectedProducts1: any[] = [];
   selectAll = false;
   // toggleAllCheckboxes() {
   //   console.log("all products",this.selectedProducts);
-  
+
   //   // Toggle the state of all checkboxes based on the "Select All" checkbox
   //   this.productsData.forEach(
   //     (product: { isSelected: boolean, productId: any, userId: any, companyCode: any }) => {
   //       product.isSelected = this.selectAll;
-  
+
   //       // Update the selectedProducts array based on the state of each checkbox
   //       if (this.selectAll && !this.isSelected(product.productId)) {
   //         this.selectedProducts.push({
@@ -268,44 +271,41 @@ export class ProductApprovalComponent {
   //     }
   //   );
   // }
-  
+
   toggleAllCheckboxes() {
-    
     // console.log("all seelcted",this.selectAll)
     // console.log('Selected Product IDs:', this.selectedProducts1);
-    
+
     // console.log(this.productsData,"ijhnon'lonsf'amn");
-    
-    if(this.selectAll===true){
-  this.selectedProducts1.length=0;
-  
-  this.productsData.forEach((product:any) => {
-    product.isSelected = this.selectAll;
-    this.selectedProducts1.push({
-      userId: product.userId,
-               companyCode: product.companyCode,
-               productId: product.productId
-              });
-  });
- 
-  // console.log(this.productsData,"asfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsf");
-}
-   else{
-   this.selectedProducts1.length=0;
-   this.productsData.forEach((product:any) => {
-    product.isSelected = this.selectAll;
-  });
-   }
-    
-//     console.log('Selected Product IDs:', this.selectedProducts1);
-//     console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-// console.log("this.productsData.length",this.productsData.length);
-  
+
+    if (this.selectAll === true) {
+      this.selectedProducts1.length = 0;
+
+      this.productsData.forEach((product: any) => {
+        product.isSelected = this.selectAll;
+        this.selectedProducts1.push({
+          userId: product.userId,
+          companyCode: product.companyCode,
+          productId: product.productId,
+        });
+      });
+
+      // console.log(this.productsData,"asfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsf");
+    } else {
+      this.selectedProducts1.length = 0;
+      this.productsData.forEach((product: any) => {
+        product.isSelected = this.selectAll;
+      });
+    }
+
+    //     console.log('Selected Product IDs:', this.selectedProducts1);
+    //     console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+    // console.log("this.productsData.length",this.productsData.length);
   }
 
   // checkboxSelected(userId: any, companyCode: any, productId: any, event: any) {
   //   const isSelected: boolean = event.target.checked;
-  
+
   //   if (isSelected && !this.isSelected(productId)) {
   //     // Add the selected product to the list
   //     this.selectedProducts.push({ userId, companyCode, productId });
@@ -315,10 +315,10 @@ export class ProductApprovalComponent {
   //       (product) => product.productId !== productId
   //     );
   //   }
-  
+
   //   console.log(this.selectedProducts, "selectedProducts");
   // }
-  
+
   // isSelected(productId: any): boolean {
   //   return this.selectedProducts.some((product) => product.productId === productId);
   // }
@@ -328,21 +328,36 @@ export class ProductApprovalComponent {
     if (isSelected) {
       // Add the selected product to the list
       this.selectedProducts1.push({ userId, companyCode, productId });
-    } else{
+    } else {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (product) => !(product.productId === productId && product.userId === userId && product.companyCode === companyCode)
+        (product) =>
+          !(
+            product.productId === productId &&
+            product.userId === userId &&
+            product.companyCode === companyCode
+          )
       );
     }
-    this.allSelectedCheckbox.nativeElement.checked=false;
+    this.allSelectedCheckbox.nativeElement.checked = false;
     // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
-    
-  if(this.selectedProducts1.length===this.productsData.length){
-  this.allSelectedCheckbox.nativeElement.checked=true;
 
-}
-console.log(this.selectedProducts1, "selectedProducts");
-  }  
-    
+    if (this.selectedProducts1.length === this.productsData.length) {
+      this.allSelectedCheckbox.nativeElement.checked = true;
+    }
+    console.log(this.selectedProducts1, 'selectedProducts');
+  }
+
+  filterProducts() {
+    if (!this.searchTerm) {
+      this.filteredProductsData = this.productsData;
+    } else {
+      this.filteredProductsData = this.productsData.filter((product: any) =>
+        product.companyName
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase())
+      );
+    }
+  }
 }
