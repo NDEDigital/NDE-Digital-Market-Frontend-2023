@@ -36,12 +36,25 @@ export class CartAddedProductComponent {
     const cartData = this.cartDataService.getCartData();
     this.cartDataDetail = cartData.cartDataDetail;
     this.cartDataQt = cartData.cartDataQt;
+    // console.log("cartDataQt",this.cartDataQt);
     this.cartCount = this.cartDataService.getCartCount();
+    
     this.totalPrice = this.cartDataService.getTotalPrice();
     //console.log(this.cartCount);
   }
 
+
   // delete data
+  sentCardDetails(entry:any,changeValue:any,key:any){
+      //  console.log(entry," uts ",changeValue);
+       
+    // console.log("object ta holo",entry);
+
+    this.cartDataService.setPrice(entry.netPrice,Number(changeValue),key);
+    this.cartDataService.setCartData(entry,parseFloat(changeValue));
+     this.fetchCartData();
+  }
+
 
   deleteCartProduct(entry: any) {
     this.cartDataService.deleteCartData(entry);

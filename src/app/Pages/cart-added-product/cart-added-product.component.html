@@ -41,7 +41,8 @@
                 soon.
               </p>
               <div class="product-foot">
-                <span>Qty: {{ cartDataQt.get(entry.key) }} |</span>
+                <span>Qty: <input type="number" class="bg-light" #changeValue value="{{ cartDataQt.get(entry.key) }}"  > |</span>
+                <button class="btn btn-success" (click)="sentCardDetails(entry.value,changeValue.value,entry.key)">Update</button>
                 <span class="ms-3 cursor" (click)="deleteCartProduct(entry.key)"
                   >Delete</span
                 >
