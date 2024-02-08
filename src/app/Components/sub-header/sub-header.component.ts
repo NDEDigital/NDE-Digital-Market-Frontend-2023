@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { PROJECT_TITLE } from 'src/app/config';
 
 @Component({
   selector: 'app-sub-header',
@@ -10,7 +11,10 @@ export class SubHeaderComponent {
   isBuyer: boolean = false;
   isAdmin: boolean = false;
   isSeller: boolean = false;
-  ngOnInit() {}
+  projectTitle = '';
+  ngOnInit() {
+    this.projectTitle = PROJECT_TITLE;
+  }
 
   redirect() {
     const role = localStorage.getItem('role');

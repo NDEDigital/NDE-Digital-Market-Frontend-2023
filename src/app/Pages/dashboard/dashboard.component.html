@@ -128,7 +128,12 @@
       <a class="companyName">
         <span>
           <!-- NDE Digital Market -->
-          <img src="assets/images/Logo/final-logo-6.png" alt="logo" />
+          <img
+            *ngIf="projectTitle === 'NDE_DIGITAL_MARKET'"
+            src="assets/images/Logo/final-logo-6.png"
+            alt="logo"
+          />
+          <p *ngIf="projectTitle === 'HEALTHCARE'">Nimpex HealthCare</p>
         </span>
         <!-- <img src="assets/images/Logo/final-logo-6.png" alt="logo" /> -->
       </a>
@@ -482,8 +487,8 @@
     </section>
 
     <section class="admin_order_body" *ngIf="isAdmin && SidebarIndex === 11">
-  <app-admin-order></app-admin-order>
-</section>
+      <app-admin-order></app-admin-order>
+    </section>
 
     <!-- sellers inventory -->
     <section class="seller_inventory_body" *ngIf="SidebarIndex === 1">
@@ -525,15 +530,13 @@
     <section class="sellerPermission" *ngIf="SidebarIndex === 6">
       <app-seller-permission *ngIf="userId"></app-seller-permission>
     </section>
-
- 
   </div>
 
   <div *ngIf="userPermission.length === 0" class="bg-white pt-5">
     <h1 class="text-center mx-auto my-auto text-danger">
       Contact Your Company Manager For Permission
     </h1>
-       </div>
+  </div>
 
   <!-- </div> -->
 

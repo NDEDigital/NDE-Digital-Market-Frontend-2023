@@ -231,7 +231,7 @@ getUser(){
         if(this.btnIndex === 1&& this.userBtnIndex===1){
 
           this.alertTitle = "Buyer Deactivation!";
-          this.alertMsg = "Buyer is Deactivated Successfully.";
+          this.alertMsg = "Buyer is Deactivation Successfully.";
         } 
        else if(this.btnIndex === 1&& this.userBtnIndex===0){
 
@@ -311,8 +311,8 @@ getUser(){
     );
    
     
-    console.log('Selected Product IDs:', this.selectedProducts1);
-    console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+    // console.log('Selected Product IDs:', this.selectedProducts1);
+    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
     // console.log("this.selectedProducts1.length",this.productList.length);
   
   }
@@ -377,9 +377,9 @@ getUser(){
       });
     }
     else{
-      // this.PrdouctExistModalBTN.nativeElement.click();
-
-      this.alertMsg='No Product is selected'
+      this.msgModalBTN.nativeElement.click();
+      this.alertTitle = "No Activation!";
+      this.alertMsg = "User not selected";
     }
 
   }

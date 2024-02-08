@@ -73,7 +73,10 @@
       <div class="col tableHeader">Date Added</div>
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
+    <div>
 
+      <h1 *ngIf="productList.length==0" class="text-center " style="color: red;margin-top: 15%"> Product Not Found</h1>
+    </div>
     <!-- table body -->
 
     <section
@@ -465,7 +468,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="userExistModalLabel" [ngStyle]="{ color: alertTitle.includes('Deactiveted') ? 'red' : 'green' }">{{alertTitle}}</h1>
+        <h1 class="modal-title fs-5" id="userExistModalLabel" 
+        [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
+
+        [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }">{{alertTitle}}</h1>
         <button
           type="button"
           class="btn-close"
@@ -477,6 +483,8 @@
         <p
           class="fs-5 fw-bolder"
           [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
+        
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
         >
           {{ alertMsg }}
         </p>
