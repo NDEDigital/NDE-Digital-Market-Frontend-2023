@@ -6,7 +6,7 @@ import { LoginComponent } from '../login/login.component';
 import { DashboardDataService } from 'src/app/services/dashboard-data.service';
 import { Subscription } from 'rxjs';
 import { SellerDasboardPermissionService } from 'src/app/services/seller-dasboard-permission.service';
-
+import { PROJECT_TITLE } from 'src/app/config';
 import {
   AbstractControl,
   FormControl,
@@ -34,7 +34,7 @@ export class DashboardComponent {
   indx: number = 0;
   sellerCode: any;
   productID: any;
-  companyAdminId:any;
+  companyAdminId: any;
 
   filteredProducts: any[] = []; // Array to hold the filtered products
   showSidebar = true;
@@ -56,8 +56,8 @@ export class DashboardComponent {
   sidebarCol8Title = 'Company Approval';
   sidebarCol9Title = 'Price & Discounts';
   sidebarCol10Title = 'Product Approval';
-  sidebarCol11Title='Seller List';
-  sidebarCol12Title='Seller Permission';
+  sidebarCol11Title = 'Seller List';
+  sidebarCol12Title = 'Seller Permission';
 
   sidebarCol4Link = '/payment';
   sidebarCol2Link = '/addProduct';
@@ -84,7 +84,7 @@ export class DashboardComponent {
   productDetails: any = [];
   isAdminOrderString: string = '';
   checkSidebar: string = '';
-   AdminStatus:any;
+  AdminStatus: any;
   loading: boolean = false;
   // SellerQuantity: boolean = false;
   productOthersSales: boolean = false;
@@ -95,13 +95,13 @@ export class DashboardComponent {
   userPermission: any[] = [];
 
   toUserList: any[] = [];
+  projectTitle = '';
   constructor(
     private dashboardService: DashboardDataService,
     private sharedService: SharedService,
     private userDataService: UserDataService,
     private emailService: EmailService,
-    private SellerDasboardPermissionService:SellerDasboardPermissionService
-
+    private SellerDasboardPermissionService: SellerDasboardPermissionService
   ) {
     this.sellerCode = localStorage.getItem('code');
     fetch('https://api.ipify.org?format=json')
@@ -137,9 +137,10 @@ export class DashboardComponent {
       { validators: this.passwordMatchValidator }
     );
   }
-  userId:any;
+  userId: any;
 
   ngOnInit() {
+    this.projectTitle = PROJECT_TITLE;
     // const order = sessionStorage.getItem('checkSidebar');
     // //console.log('  admin order clicked ', order);
     // if (order == 'active') {
@@ -149,10 +150,10 @@ export class DashboardComponent {
     // } else {
     //   this.isAdminOrder = false;
     // }
-    this.companyAdminId=localStorage.getItem('isDigitalCompanyAd');
+    this.companyAdminId = localStorage.getItem('isDigitalCompanyAd');
     // console.log(this.companyAdminId,"uts");
     // console.log(this.companyAdminId);
-    this.userId=localStorage.getItem('code');
+    this.userId = localStorage.getItem('code');
     this.getDashboardContents();
     this.getPermissionUser();
     setTimeout(() => {
@@ -163,7 +164,7 @@ export class DashboardComponent {
       }
       if (role === 'seller') {
         this.isSeller = true;
-       // this.SidebarIndex = 1;
+        // this.SidebarIndex = 1;
       }
 
       if (role === 'buyer') {
@@ -177,7 +178,6 @@ export class DashboardComponent {
         // this.sidebarCol2Link = '/becomeASeller'; // userList
       }
       // console.log(this.SidebarIndex,"sidebar index");
-      
     }, 15);
     this.toggleSidebar();
   }
@@ -186,22 +186,22 @@ export class DashboardComponent {
     // console.log("bebe");
     // console.log("admin",this.companyAdminId);
     // console.log("type ki bol",typeof this.companyAdminId)
-    if(this.companyAdminId==='true'){
+    if (this.companyAdminId === 'true') {
       // console.log("true bol");
-      this.AdminStatus=1;
+      this.AdminStatus = 1;
       // console.log("admin Status",typeof this.AdminStatus);
-
+    } else {
+      this.AdminStatus = 0;
     }
-    else{
-      this.AdminStatus=0;
-    }
-    this.SellerDasboardPermissionService.getUserPermission(this.userId,this.AdminStatus).subscribe({
+    this.SellerDasboardPermissionService.getUserPermission(
+      this.userId,
+      this.AdminStatus
+    ).subscribe({
       next: (response: any) => {
-     
-      //  console.log("response it+",      response);
-       
-        this.userPermission=response;
-    
+        //  console.log("response it+",      response);
+
+        this.userPermission = response;
+
         this.SidebarIndex = this.userPermission[0].menuId;
       },
       error: (error: any) => {
@@ -210,7 +210,6 @@ export class DashboardComponent {
     });
   }
 
-  
   editMode() {
     sessionStorage.clear();
     //window.location.href = this.sidebarCol2Link;
@@ -435,7 +434,7 @@ export class DashboardComponent {
   }
   // Functions to Get Dashboard Contents
   getDashboardContents() {
-     //console.log(
+    //console.log(
     //   this.sellerCode,
     //   this.status,
     //   this.searchedProductName,
