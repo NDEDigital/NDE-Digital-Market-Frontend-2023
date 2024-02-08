@@ -130,7 +130,11 @@
           style="cursor: pointer"
         >
           <!-- NDE Digital Market -->
-          <img src="assets/images/Logo/final-logo-6.png" alt="logo" />
+          <img
+            *ngIf="projectTitle === 'NDE_DIGITAL_MARKET'"
+            src="assets/images/Logo/final-logo-6.png"
+            alt="logo"
+          />
         </span>
       </a>
 
