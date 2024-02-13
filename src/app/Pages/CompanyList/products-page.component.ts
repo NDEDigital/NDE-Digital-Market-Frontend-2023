@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { switchMap } from 'rxjs/operators';
@@ -18,23 +18,39 @@ export class ProductsPageComponent {
   constructor(
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
-    private router: Router
-  ) {}
+    private router: Router,
+ private route: ActivatedRoute
+  ) {
+    var groupCode;
+    // var groupCode;
+    this.route.queryParams.subscribe(params => {
+
+      groupCode = params['groupCode'];
+      console.log('Group Code in constructor 1:', this.groupCode);
+      if (groupCode) {
+        console.log("got the data");
+        this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
+          this.companyList = data;
+          this.sharedService.setNavSelectData(this.groupCode,'');
+
+
+        });
+      }
+    });
+
+    
+  }
 
   ngOnInit() {
-    // this.goodsData.getProductCompanyList().pipe(
-    //   switchMap(() => this.goodsData.getProductCompanyList())
-    // ).subscribe((data: any) => {
-    //   //console.log(data);
-    //   this.products = data;
-    // });
-    this.callApi();
-    // //console.log(this.groupName, this.groupCode, 'products');
+this.callApi()
   }
 
   handleDataUpdated() {
-    this.callApi();
-    // //console.log(this.groupName, this.groupCode, 'products inside handleUpdate');
+ 
+
+      this.callApi();
+ 
+    
   }
 
   callApi() {
@@ -42,15 +58,13 @@ export class ProductsPageComponent {
     this.groupName = sessionStorage.getItem('groupName') || '';
     // //console.log(this.groupName, this.groupCode, 'products inside callapi');
     setTimeout(() => {
-      if (this.groupCode != '') {
+      if (this.groupCode !='') {
         this.goodsData
           .getProductCompanyList(this.groupCode)
           .subscribe((data: any) => {
-            //console.log(data, 'data');
-
-            //console.log(this.sharedService.groupCode);
-
+  
             this.companyList = data;
+            this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
           });
       }
     }, 10);

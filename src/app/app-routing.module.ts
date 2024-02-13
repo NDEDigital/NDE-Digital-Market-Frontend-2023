@@ -122,6 +122,7 @@ const routes: Routes = [
     canActivate: [BuyerOnlyGuard],
   },
   { path: '**', component: HomeComponent },
+  { path: 'productsPageComponent/:groupCode', component: ProductsPageComponent },
 ];
 
 @NgModule({

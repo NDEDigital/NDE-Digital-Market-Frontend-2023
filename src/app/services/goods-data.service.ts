@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, throwError } from 'rxjs';
 import { compileNgModule } from '@angular/compiler';
 import { API_URL } from '../config';
-
+import { ActivatedRoute, Router, Params } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class GoodsDataService {
+export class GoodsDataService implements OnInit{
   private navData: any[] = [];
   private allData: any[] = [];
   private companyList: any;
@@ -32,8 +32,16 @@ export class GoodsDataService {
   navUrl = `${this.URL}/api/Goods/GetNavData`;
 
   searchProuct = '';
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    // this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
+  
+  
+  }
 
-  constructor(private http: HttpClient) {}
+ngOnInit(): void {
+
+  
+}
 
   getSearchResult() {
     this.searchProuct = `${this.URL}/api/ProductSearch/GetSearchedProduct?productName=${this.searchKey}&sortDirection=${this.sortedKey}&nextCount=${this.item}&offset=${this.page}`;
@@ -73,32 +81,32 @@ export class GoodsDataService {
   }
 
   getProductCompanyList(groupCode: string) {
-    // this.groupCode = groupCode;
-    // this.groupName = groupName;
-    // console.log( this.groupCode, "dsdsds");
-    // this.groupCode = groupCode;
-    // this.groupName = groupName;
     this.groupCode = sessionStorage.getItem('groupCode') || '';
     this.groupName = sessionStorage.getItem('groupName') || '';
-    // this.groupName = localStorage.getItem('activeEntry') || '';
     console.log(this.groupCode, 'groupCode', this.groupName, 'groupname');
-
+    
     const encodedGroupName = encodeURIComponent(this.groupName);
     console.log('encodedGroupName ', encodedGroupName);
-    const productCompany = `${this.URL}/api/Goods/GetProductCompany/${this.groupCode}`;
+    const productCompany = `${this.URL}/api/Goods/GetProductCompany/${groupCode}`;
     console.log(productCompany, ' produ');
+    console.log("hello 1");
+
 
     return this.http.get<any[]>(productCompany).pipe(
       tap((response: any[]) => {
         this.companyList = response;
-        console.log(this.companyList, 'companyList');
+        
+     
+   
       }),
       catchError((error: any) => {
-        // console.error('Error:', error);
+        console.error('Error:', error);
         return throwError(() => error);
       })
+      
     );
-  }
+}
+
 
   getProductList(companyCode: string) {
     // this.companyCode = companyCode;
