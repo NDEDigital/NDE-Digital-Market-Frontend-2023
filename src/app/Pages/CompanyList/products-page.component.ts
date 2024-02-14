@@ -26,14 +26,14 @@ export class ProductsPageComponent {
     this.route.queryParams.subscribe(params => {
 
       groupCode = params['groupCode'];
-      console.log('Group Code in constructor 1:', this.groupCode);
+      // console.log('Group Code in constructor 1:', this.groupCode);
       if (groupCode) {
     sessionStorage.setItem('groupCode', groupCode);
 
-        console.log("got the data");
+        // console.log("got the data");
         this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
           this.companyList = data;
-          console.log("the group code code",this.groupCode)
+          // console.log("the group code code",this.groupCode)
          
 
 

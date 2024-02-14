@@ -45,7 +45,7 @@ ngOnInit(): void {
 
   getSearchResult() {
     this.searchProuct = `${this.URL}/api/ProductSearch/GetSearchedProduct?productName=${this.searchKey}&sortDirection=${this.sortedKey}&nextCount=${this.item}&offset=${this.page}`;
-    console.log(this.searchKey, 'ddddd', this.searchProuct);
+    // console.log(this.searchKey, 'ddddd', this.searchProuct);
     return this.http
       .get<any[]>(this.searchProuct)
       .pipe(tap((response: any[]) => {}));
@@ -83,13 +83,13 @@ ngOnInit(): void {
   getProductCompanyList(groupCode: string) {
     this.groupCode = sessionStorage.getItem('groupCode') || '';
     this.groupName = sessionStorage.getItem('groupName') || '';
-    console.log(this.groupCode, 'groupCode', this.groupName, 'groupname');
+    // console.log(this.groupCode, 'groupCode', this.groupName, 'groupname');
     
-    const encodedGroupName = encodeURIComponent(this.groupName);
-    console.log('encodedGroupName ', encodedGroupName);
+    // const encodedGroupName = encodeURIComponent(this.groupName);
+    // console.log('encodedGroupName ', encodedGroupName);
     const productCompany = `${this.URL}/api/Goods/GetProductCompany/${groupCode}`;
-    console.log(productCompany, ' produ');
-    console.log("hello 1");
+    // console.log(productCompany, ' produ');
+    // console.log("hello 1");
 
 
     return this.http.get<any[]>(productCompany).pipe(
