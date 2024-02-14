@@ -28,10 +28,13 @@ export class ProductsPageComponent {
       groupCode = params['groupCode'];
       console.log('Group Code in constructor 1:', this.groupCode);
       if (groupCode) {
+    sessionStorage.setItem('groupCode', groupCode);
+
         console.log("got the data");
         this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
           this.companyList = data;
-          this.sharedService.setNavSelectData(this.groupCode,'');
+          console.log("the group code code",this.groupCode)
+         
 
 
         });
@@ -42,12 +45,14 @@ export class ProductsPageComponent {
   }
 
   ngOnInit() {
-this.callApi()
+    // this.sharedService.setNavSelectData(this.groupCode,'');
+this.callApi();
   }
 
   handleDataUpdated() {
  
 
+    // this.sharedService.setNavSelectData(this.groupCode,'');
       this.callApi();
  
     

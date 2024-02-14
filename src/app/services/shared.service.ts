@@ -53,7 +53,7 @@ export class SharedService {
     // this.groupCode = groupCode;
     // this.groupName = groupName;
     sessionStorage.setItem('groupCode', groupCode);
-    console.log("it's working");
+    console.log("it's workingaaa",groupCode);
     // sessionStorage.setItem('groupName', groupName);
   }
 
