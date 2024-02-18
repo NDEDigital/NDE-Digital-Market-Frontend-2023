@@ -43,6 +43,7 @@ export class ProductComponent {
 
         for (let i = 0; i < this.goods.length; i++) {
           let obj = {
+            companyId:this.goods[i].companyId,
             companyName: this.goods[i].companyName,
             groupCode: this.goods[i].productGroupID,
             goodsId: this.goods[i].productId,

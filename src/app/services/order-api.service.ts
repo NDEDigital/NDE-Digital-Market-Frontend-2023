@@ -18,6 +18,7 @@ interface OrderMaster {
 }
 
 interface OrderDetail {
+  companyId:number;
   productId: number;
   qty: number;
   discountPct: number;
@@ -109,6 +110,7 @@ export class OrderApiService {
     this.cartDataQt = cart.cartDataQt;
     this.totalPriceWithDeliveryCharge = this.cartDataService.getTotalPrice(); //+ 100;
 
+
     this.buyerCode = localStorage.getItem('code');
 
     this.orderdata = {
@@ -126,6 +128,8 @@ export class OrderApiService {
     };
 
     for (const [key, entry] of this.cartDataDetail.entries()) {
+       console.log(entry, " ----- u");
+       
       let qt: number | undefined = this.cartDataQt.get(key);
       if (qt === undefined) {
         qt = 0;
@@ -134,6 +138,7 @@ export class OrderApiService {
         qt === undefined ? 0 : typeof qt === 'string' ? parseInt(qt, 10) : qt;
 
       const detailData: OrderDetail = {
+        companyId:entry.companyId,
         productId: parseInt(entry.goodsId),
         qty: qt,
         price: entry.netPrice,
