@@ -48,10 +48,12 @@ showUpBtn: any ;
 
   // delete data
   sentCardDetails(entry:any,changeValue:any,key:any){
-      //  console.log(entry," uts ",changeValue);
-       
-    // console.log("object ta holo",entry);
-
+ 
+  
+  if(changeValue===''){
+  
+  changeValue=1;
+  }
     this.cartDataService.setPrice(entry.netPrice,Number(changeValue),key);
     this.cartDataService.setCartData(entry,parseFloat(changeValue));
      this.fetchCartData();
@@ -100,23 +102,31 @@ showUpBtn: any ;
   productPage() {
     this.route.navigate(['/']);
   }
-  validateInput(event:any,qty:any){
-    console.log("type value",event.target.value);
-    if ( event.target.value < 1) {
-      // event.target.value=1;
-      event.target.value=1;
+  validateInput(event: any, qty: any) {
 
-      // event.target.value=event;
-    
-    } 
-    else if(event.target.value>qty){
-      event.target.value=event;
+    if (event.target.value < 1 ) {
+
+      event.target.value = 1;
     }
+  
+  
+    if (event.target.value > qty) {
     
-    // else if(event.target.value===0){
-    // }
-     
+      event.target.value = event.value;
+    }
+   
   }
+  
+
+  
+
+    // Additional commented-out code that sets the value to 1 if it's 0
+    // Uncomment this section if needed
+    // else if (event.target.value === 0) {
+    //     event.target.value = 1;
+    // }
+
+
   // save later
   // saveForLater(key: any, value: any) {
   //   this.saveLaterData.set(key, value);
