@@ -49,6 +49,7 @@
                 <!-- <span class="ms-3 cursor"
                  (click) = "saveForLater(entry.key,entry.value)"
                 >Save for later</span> -->
+                <p *ngIf="showUpBtn===entry.key&&this.procedBtn===false" #updateQty>Update the Qty</p>
               </div>
             </div>
           </div>
@@ -82,6 +83,7 @@
           class="btn btn-warning mt-2 w-100"
           [disabled]="this.totalPrice === 0"
           (click)="procced()"
+          
         >
           Proceed to checkout
         </button>
