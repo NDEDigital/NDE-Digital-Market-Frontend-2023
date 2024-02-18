@@ -19,7 +19,7 @@ export class CartAddedProductComponent {
   saveLaterDataQt = new Map<string, number>();
   cartCount: number = 0;
   totalPrice: number = 0;
-showUpBtn: boolean =false;
+showUpBtn: any ;
   constructor(
     private cartDataService: CartDataService,
     private route: Router,
@@ -36,6 +36,7 @@ showUpBtn: boolean =false;
     this.cartDataService.initializeAndLoadData();
     const cartData = this.cartDataService.getCartData();
     this.cartDataDetail = cartData.cartDataDetail;
+    console.log
     this.cartDataQt = cartData.cartDataQt;
     // console.log("cartDataQt",this.cartDataQt);
     this.cartCount = this.cartDataService.getCartCount();
@@ -54,6 +55,7 @@ showUpBtn: boolean =false;
     this.cartDataService.setPrice(entry.netPrice,Number(changeValue),key);
     this.cartDataService.setCartData(entry,parseFloat(changeValue));
      this.fetchCartData();
+     this.showUpBtn=false;
   }
 
 
