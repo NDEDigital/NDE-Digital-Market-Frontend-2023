@@ -100,7 +100,16 @@ showUpBtn: any ;
   productPage() {
     this.route.navigate(['/']);
   }
-
+  validateInput(event:any,qty:any){
+    console.log("type value",event.target.value);
+    if ( event.target.value < 1) {
+      event.target.value=event;
+    } 
+    else if(event.target.value>qty){
+      event.target.value=event;
+    }
+     
+  }
   // save later
   // saveForLater(key: any, value: any) {
   //   this.saveLaterData.set(key, value);
