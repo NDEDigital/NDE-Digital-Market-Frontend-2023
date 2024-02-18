@@ -19,6 +19,7 @@ export class CartAddedProductComponent {
   saveLaterDataQt = new Map<string, number>();
   cartCount: number = 0;
   totalPrice: number = 0;
+showUpBtn: boolean =false;
   constructor(
     private cartDataService: CartDataService,
     private route: Router,
