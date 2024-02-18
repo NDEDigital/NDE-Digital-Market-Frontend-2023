@@ -12,6 +12,7 @@
 // }
 
 export interface CartItem {
+  companyId:number;
   imagePath: any;
   companyName: string;
   groupCode: string;
