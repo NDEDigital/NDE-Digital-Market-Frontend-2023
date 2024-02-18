@@ -103,11 +103,18 @@ showUpBtn: any ;
   validateInput(event:any,qty:any){
     console.log("type value",event.target.value);
     if ( event.target.value < 1) {
-      event.target.value=event;
+      // event.target.value=1;
+      event.target.value=1;
+
+      // event.target.value=event;
+    
     } 
     else if(event.target.value>qty){
       event.target.value=event;
     }
+    
+    // else if(event.target.value===0){
+    // }
      
   }
   // save later
