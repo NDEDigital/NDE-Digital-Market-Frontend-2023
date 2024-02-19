@@ -111,26 +111,26 @@ procedBtn:any;
   productPage() {
     this.route.navigate(['/']);
   }
+  
   validateInput(event: any, qty: any) {
-
-    if (event.target.value < 1 ) {
-
-      event.target.value = 1;
-    }
   
+    if (String(event.target.value).match(/^\d+$/)) {
+      let inputNumber = parseInt(event.target.value);
   
-  else  if (event.target.value > qty) {
-    console.log("event data",event);
-  if(event.data==0){
-
-    event.target.value = 1;
-  }
-  else{
-    event.target.value = event.data; 
-  }
+      if (inputNumber < 1) {
+        inputNumber = 1;
+      } else if (inputNumber > qty) {
+        // console.log("event data", event);
+        inputNumber = parseInt(event.value) || 1; 
+      }
+  
+      event.target.value = inputNumber; 
+    } else {
+     
+      event.target.value = event.target.value.slice(0, -1); // Remove last character if invalid
     }
-   
   }
+
   
 
   

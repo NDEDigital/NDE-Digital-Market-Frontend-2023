@@ -41,7 +41,7 @@
                 soon.
               </p>
               <div class="product-foot">
-                <span>Qty: <input type="number" (focus)="showUpBtn=entry.key" min="1" max="{{entry.value.approveSalesQty}}" (input)="validateInput($event,entry.value.approveSalesQty)"   class="bg-light" #changeValue value="{{ cartDataQt.get(entry.key) }}" > |</span>
+                <span>Qty: <input type="number"  (focus)="showUpBtn=entry.key" min="1" max="{{entry.value.approveSalesQty}}" (input)="validateInput($event,entry.value.approveSalesQty)"   class="bg-light" #changeValue value="{{ cartDataQt.get(entry.key) }}" > |</span>
                 <button *ngIf="showUpBtn===entry.key" class="btn btn-success ms-2" (click)="sentCardDetails(entry.value,changeValue.value,entry.key)" >Update</button>
                 <span class="ms-3 cursor" (click)="deleteCartProduct(entry.key)"
                   >Delete</span
@@ -49,7 +49,7 @@
                 <!-- <span class="ms-3 cursor"
                  (click) = "saveForLater(entry.key,entry.value)"
                 >Save for later</span> -->
-                <p *ngIf="showUpBtn===entry.key&&this.procedBtn===false" #updateQty>Update the Qty</p>
+                <p *ngIf="showUpBtn===entry.key&&this.procedBtn===false" #updateQty class="text-danger">Update the Qty</p>
               </div>
             </div>
           </div>
