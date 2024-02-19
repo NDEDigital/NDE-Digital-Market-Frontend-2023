@@ -137,16 +137,15 @@ export class ProductSliderComponent {
     this.products.clear();
     this.goodsDataObj.getCarouselData().subscribe(
       (data: any[]) => {
-          
-        this.goods = data;         
+        this.goods = data;
         for (let i = 0; i < this.goods.length; i++) {
           let finObj = this.products3.get(this.goods[i].productGroupName);
-        
+
           if (this.goods[i].approveSalesQty === '0') continue;
 
           if (finObj) {
             let obj = {
-              companyId:this.goods[i].companyId,
+              companyCode: this.goods[i].companyCode,
               companyName: this.goods[i].companyName,
               groupCode: this.goods[i].productGroupID,
               goodsId: this.goods[i].productId,
@@ -168,7 +167,7 @@ export class ProductSliderComponent {
             this.products3.set(this.goods[i].productGroupName, finObj);
           } else {
             let obj = {
-              companyId:this.goods[i].companyId,
+              companyId: this.goods[i].companyId,
               companyName: this.goods[i].companyName,
               groupCode: this.goods[i].productGroupID,
               goodsId: this.goods[i].productId,
@@ -192,8 +191,8 @@ export class ProductSliderComponent {
 
         // //console.log(this.products3, ' products3');
         // this.updateQuantity();
-          // console.log(this.goods);
-          
+        // console.log(this.goods);
+
         // Add any other code or logic you need here
       },
       (error: HttpErrorResponse) => {
@@ -273,14 +272,12 @@ export class ProductSliderComponent {
       this.goodsDataObj.getCarouselData().subscribe((data: any[]) => {
         //console.log(' data error ');
         this.goods = data;
-      
 
         for (let i = 0; i < this.goods.length; i++) {
           let key = this.goods[i].productGroupName;
           let finObj = this.products3.get(key);
           if (this.goods[i].approveSalesQty === '0') continue;
-           
-           
+
           if (finObj) {
             let product = finObj.find(
               (p: any) => p.goodsId === this.goods[i].productId

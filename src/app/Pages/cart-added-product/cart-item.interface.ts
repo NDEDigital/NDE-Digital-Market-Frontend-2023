@@ -12,7 +12,7 @@
 // }
 
 export interface CartItem {
-  companyId:number;
+  companyCode: string;
   imagePath: any;
   companyName: string;
   groupCode: string;
@@ -23,17 +23,16 @@ export interface CartItem {
   approveSalesQty: string;
   price: string;
   sellerCode: string;
-  unitId:number;
-  quantityUnit:string;
-  discountAmount:number;
-  discountPct:number;
-  netPrice:number;
-
+  unitId: number;
+  quantityUnit: string;
+  discountAmount: number;
+  discountPct: number;
+  netPrice: number;
 }
 // companyName: this.goods[i].companyName,
 // groupCode: this.goods[i].productGroupID,
 // goodsId: this.goods[i].productId,
-// groupName: this.goods[i].productGroupName,                
+// groupName: this.goods[i].productGroupName,
 // goodsName: this.goods[i].productName,
 // specification: this.goods[i].specification,
 // approveSalesQty: this.goods[i].availableQty,
