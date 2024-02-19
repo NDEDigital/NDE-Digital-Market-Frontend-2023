@@ -167,7 +167,7 @@ export class ProductSliderComponent {
             this.products3.set(this.goods[i].productGroupName, finObj);
           } else {
             let obj = {
-              companyId: this.goods[i].companyId,
+              companyCode: this.goods[i].companyCode,
               companyName: this.goods[i].companyName,
               groupCode: this.goods[i].productGroupID,
               goodsId: this.goods[i].productId,
