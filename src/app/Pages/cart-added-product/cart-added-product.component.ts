@@ -127,7 +127,7 @@ procedBtn:any;
       event.target.value = inputNumber; 
     } else {
      
-      event.target.value = event.target.value.slice(0, -1); // Remove last character if invalid
+      event.target.value = ''; 
     }
   }
 

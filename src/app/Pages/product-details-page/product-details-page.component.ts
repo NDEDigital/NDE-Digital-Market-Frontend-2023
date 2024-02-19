@@ -49,7 +49,7 @@ export class ProductDetailsPageComponent {
 
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
-
+allrole:any;
   // this.totalPages = Array.from(
   //   { length: Math.ceil(this.TotalRow / this.selectedValue) },
   //   (_, index) => index + 1
@@ -73,7 +73,10 @@ export class ProductDetailsPageComponent {
   }
 
   ngOnInit() {
+
     const role = localStorage.getItem('role');
+    this.allrole=role;
+    // alert(this.allrole)
     if (role === 'seller') {
       this.isSeller = true;
     }

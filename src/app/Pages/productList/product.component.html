@@ -309,7 +309,7 @@
                           data-bs-toggle="modal"
                           data-bs-target="#exampleModal"
                           (click)="entry.approveSalesQty !== 0 && setCart(entry,qtyInput.value)"
-                          [disabled]="entry.approveSalesQty === 0"
+                          [disabled]="entry.approveSalesQty === 0 || this.role===null"
 
                         >
                           <svg

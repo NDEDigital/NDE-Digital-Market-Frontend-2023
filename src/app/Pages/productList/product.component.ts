@@ -22,7 +22,7 @@ export class ProductComponent {
   loading: boolean = true;
   role: any;
   isBuyer = true;
-
+allRole:any;
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
 

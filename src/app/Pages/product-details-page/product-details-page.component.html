@@ -370,10 +370,10 @@
                 [class.btn-secondary]="detailsData.approveSalesQty === 0"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
-                [disabled]="detailsData.approveSalesQty === 0"
+                [disabled]="detailsData.approveSalesQty === 0 ||this.allrole==null"
               >
                 {{ CartButtonText }}
-              </button>
+         </button>
 
               <!-- Only render the modal trigger if approveSalesQty is not 0 -->
             </div>
