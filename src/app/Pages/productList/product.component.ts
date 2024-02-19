@@ -43,7 +43,7 @@ export class ProductComponent {
 
         for (let i = 0; i < this.goods.length; i++) {
           let obj = {
-            companyId:this.goods[i].companyId,
+            companyCode: this.goods[i].companyCode,
             companyName: this.goods[i].companyName,
             groupCode: this.goods[i].productGroupID,
             goodsId: this.goods[i].productId,
@@ -305,9 +305,9 @@ export class ProductComponent {
     if (entry.price === '' || entry.price === undefined) {
       entry.price = 0;
     }
-     
-      
-    let groupCodeIdSellerId = entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
+
+    let groupCodeIdSellerId =
+      entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
     this.cartDataService.setCartCount(groupCodeIdSellerId);
     this.cartDataService.setPrice(
