@@ -153,9 +153,9 @@ export class SellerOrdersComponent {
   }
 
   loadData() {
-    const userCode = localStorage.getItem('code');
+    const companyCode = localStorage.getItem('CompanyCode');
 
-    this.orderService.getOrdersForSeller(userCode, '').subscribe({
+    this.orderService.getOrdersForSeller(companyCode, '').subscribe({
       next: (response: any) => {
         console.log(response, 'newsellerorder');
         this.sellerOrder = response;

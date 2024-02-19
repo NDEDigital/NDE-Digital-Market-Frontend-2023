@@ -203,20 +203,20 @@ export class OrderApiService {
       });
     }
   }
-  getOrdersForSeller(userid: any, status: any) {
-    console.log(status, userid);
+  getOrdersForSeller(CompanyCode: any, status: any) {
+    console.log(status, CompanyCode);
 
     //console.log(buyerCode, PageNumber, rowCount, status);
     if (status === '') {
       return this.http.get(this.getOrdersForSellerURL, {
         params: {
-          userid,
+          CompanyCode,
         },
       });
     } else {
       return this.http.get(this.getOrdersForSellerURL, {
         params: {
-          userid,
+          CompanyCode,
           status,
         },
       });
