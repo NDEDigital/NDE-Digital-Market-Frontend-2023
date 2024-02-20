@@ -244,7 +244,7 @@ export class AddPriceDiscountsComponent {
   // }
 
   getGroupList() {
-    this.goodsService.getNavData().subscribe((data: any[]) => {
+    this.goodsService.getGroupData().subscribe((data: any[]) => {
       this.allGroupData = data;
       console.log(data, 'data:: ');
     });

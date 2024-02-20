@@ -4,7 +4,7 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { ReviewRatingsService } from 'src/app/services/review-ratings.service';
 import { CartItem } from '../cart-added-product/cart-item.interface';
-
+import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
 @Component({
   selector: 'app-product-details-page',
@@ -32,7 +32,8 @@ export class ProductDetailsPageComponent {
   popUpCount: number = 0;
   totalPrice = 0;
   cartCount: number = 0;
-
+  productIdPa: number =0;
+  companyCodePa: string ='';
   reviewData: any = [];
   CartButtonText = 'Add to Cart';
   enableTextarea = false; // Initial state is read-only
@@ -59,7 +60,8 @@ allrole:any;
     private service: GoodsDataService,
     private elementRef: ElementRef,
     private reviewService: ReviewRatingsService,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private route: ActivatedRoute
   ) {
     this.reviewForm = new FormGroup({
       rating: new FormControl(Validators.required),
@@ -69,6 +71,14 @@ allrole:any;
     this.reviewForm.valueChanges.subscribe(() => {
       this.isFormValid = this.reviewForm.valid;
       // //console.log(this.isFormValid);
+    });
+    this.route.queryParams.subscribe(params => {
+      // Extracting productId and companyCode
+      this.productIdPa = params['productId'];
+      this.companyCodePa = params['companyCode'];
+      // alert(this.productIdPa);
+      // alert(this.companyCodePa)
+      // Now you can use this.productId and this.companyCode in your component
     });
   }
 
@@ -88,14 +98,30 @@ allrole:any;
     this.cartDataService.initializeAndLoadData();
     this.setServiceData();
     const productData = sessionStorage.getItem('productData');
-    if (productData) {
-      this.detailsData = JSON.parse(productData);
-    }
-    if (this.detailsData.approveSalesQty == 0) {
-      this.CartButtonText = 'Out of stock';
-    }
+    // if (productData) {
+    //   this.detailsData = JSON.parse(productData);
+    //   console.log("details data",this.detailsData)
+    // }
+    // if (this.detailsData.approveSalesQty == 0) {
+    //   this.CartButtonText = 'Out of stock';
+    // }
     this.buyerCode = localStorage.getItem('code');
+    this.service.UrlGetOfHome(this.productIdPa, this.companyCodePa)
+    .subscribe((data: any) => {
+if(this.detailsData){
 
+  
+        this.detailsData=data[0];
+        console.log("getdata",data[0]);
+}
+if (this.detailsData.approveSalesQty == 0) {
+     this.CartButtonText = 'Out of stock';
+    }
+
+
+    });
+  
+  
     this.service
       .getReviewRatingsData(this.detailsData.goodsId)
       .subscribe((data: any) => {

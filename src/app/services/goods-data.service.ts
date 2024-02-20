@@ -30,7 +30,7 @@ export class GoodsDataService implements OnInit{
   getGoodsListURL = `${this.URL}/api/Goods/GetGoodsList`;
   sellersProductListURL = `${this.URL}/GetProduct`;
   navUrl = `${this.URL}/api/Goods/GetNavData`;
-
+  dropUrl= `${this.URL}/api/Goods/GetDataForDropdown`;
   searchProuct = '';
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
     // this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
@@ -58,6 +58,14 @@ ngOnInit(): void {
       })
     );
   }
+ getGroupData(){
+  return this.http.get<any[]>(this.dropUrl).pipe(
+    tap((response: any[]) => {
+      this.navData = response;
+    })
+  );
+ }
+
 
   setDetailData(entry: any) {
     this.detailData = entry;
@@ -71,6 +79,8 @@ ngOnInit(): void {
     return this.http.get<any[]>(carouselURL).pipe(
       tap((response: any[]) => {
         this.carousalData = response;
+        // console.log("you are in home");
+        
         // console.log(this.companyList,"");
       }),
 
@@ -144,4 +154,20 @@ ngOnInit(): void {
       params: { ProductId: productId.toString() }, // Ensure productId is a string
     });
   }
+
+  UrlGetOfHome(productId: Number,companyCode:string) {
+    console.log(productId, 'ProductId');
+    console.log(companyCode,'companycde');
+    
+    const url = `${this.URL}/api/Goods/GetGoodsDetails/${companyCode}/${productId}`;
+ 
+    return this.http.get(url, {
+      params: {}, // Ensure productId is a string
+    });
+  }
+
+
+
+
+
 }
