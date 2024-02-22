@@ -3,16 +3,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { Router } from '@angular/router';
+import { PROJECT_TITLE } from 'src/app/config';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  companyCode:any;
   loginForm: FormGroup;
   errorMessage: any;
   refreshToken: string = 'fhwe';
   isCompanyAdmin: boolean = false;
+  projectTitle = '';
   constructor(
     private userData: UserDataService,
     private sharedServiceData: SharedService,
@@ -22,6 +25,9 @@ export class LoginComponent {
       phoneNumber: new FormControl('', [Validators.required]),
       password: new FormControl('', Validators.required),
     });
+  }
+  ngOnInit() {
+    this.projectTitle = PROJECT_TITLE;
   }
 
   onLoginClick() {
@@ -48,12 +54,16 @@ export class LoginComponent {
         this.userData.SetRefreshToken(response.newRefreshToken);
         this.refreshToken = response.newRefreshToken;
         this.isCompanyAdmin = response.isSellerAdmin;
+// console.log(response);
+this.companyCode=response.companyCode;
+localStorage.setItem('CompanyCode',this.companyCode);
 
         if (this.isCompanyAdmin) {
           localStorage.setItem('isDigitalCompanyAd', 'true');
         } else {
           localStorage.setItem('isDigitalCompanyAd', 'false');
         }
+        // localStorage.setItem('CompanyCode',);
         // //console.log(response.userId);
         this.errorMessage = '';
         this.loginForm.reset();

@@ -31,12 +31,13 @@ export class CompanyService {
     });
   }
   UpdateCompany(companyDto: any) {
-    console.log('Data sent to server:', companyDto);
+    // console.log('Data sent to server:', companyDto);
     return this.http.put(this.UpdateCompanyURL, companyDto);
   }
 
   
   GetSellerList(status: any) {
+    // console.log("GetSellerList",status);
     if(status==1){
       status=true
     }
@@ -44,9 +45,17 @@ export class CompanyService {
       status=false;
       // alert(status);
     }
+    // console.log("the status",status);
     return this.http.get(`${this.URL}/CompanySellerDetails/${localStorage.getItem('code')}/${status}`);
     
   }
+
+
+
+
+
+
+  
 
   GetSellerInAdmin(status:any,selectedValue:any){
     if(status==1){
@@ -88,18 +97,10 @@ export class CompanyService {
 
 
 
-  UpdateSellerActiveInActive(companyDto: any) {
-   if(companyDto.Isactive == 1){
-    companyDto.Isactive=true
+  UpdateSellerActiveInActive(userIds: string, isActive: boolean) {
+    return this.http.put(`${this.URL}/updateSellerActive&Inactive?userIds=${userIds}&isActive=${isActive}`, {});
   }
-  else{
-    companyDto.Isactive=false;
-  }
-  return this.http.put(`${this.URL}/CompanySellerDetailsUpdateUserStatus/${companyDto.userId}/${companyDto.Isactive}`, null)
   
-
-  }
-
 
 
 

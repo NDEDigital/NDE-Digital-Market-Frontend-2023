@@ -93,8 +93,11 @@ export class CartDataService {
   }
 
   setPrice(price: number, qt: number, key: string) {
-  
+    
+    // console.log(price ,"keyy",  qt)
     const count = this.cartDataQt.get(key);
+    // console.log("counter",count," --",this.totalPrice);
+    
     if (this.cartDataQt.has(key) && count !== undefined) {
       this.totalPrice -= count * price;
     }
@@ -102,7 +105,7 @@ export class CartDataService {
     if (this.totalPrice < 0) {
       this.totalPrice = 0;
     }
-
+// console.log("totoal price",this.totalPrice);
     localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
   }
 
@@ -125,7 +128,7 @@ export class CartDataService {
     this.cartDataDetail.set(groupCodeIdSellerId, obj);
 
     this.cartDataQt.set(groupCodeIdSellerId, qt);
-
+// console.log("entry ta holoddd",obj);
     // Convert Map to an array of its entries and then stringify
     localStorage.setItem(
       'cartDataDetail',

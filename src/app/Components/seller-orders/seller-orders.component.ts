@@ -25,10 +25,11 @@ interface ProductType {
 })
 export class SellerOrdersComponent {
   @ViewChild('closeModalButton') closeModalButton!: ElementRef;
-
+  @ViewChild('productStatusModalBTN') productStatusModalBTN!: ElementRef;
   @ViewChild('closeBTN') closeBTN!: ElementRef;
   orderSection: boolean = true;
   activeNav: string = '';
+  alertMsg = '';
   pageNum = 1;
   rowCount = 10;
   toShipCount = 0;
@@ -152,9 +153,9 @@ export class SellerOrdersComponent {
   }
 
   loadData() {
-    const userCode = localStorage.getItem('code');
+    const companyCode = localStorage.getItem('CompanyCode');
 
-    this.orderService.getOrdersForSeller(userCode, '').subscribe({
+    this.orderService.getOrdersForSeller(companyCode, '').subscribe({
       next: (response: any) => {
         console.log(response, 'newsellerorder');
         this.sellerOrder = response;
@@ -176,11 +177,14 @@ export class SellerOrdersComponent {
   }
 
   getData(status: string) {
-    const userCode = localStorage.getItem('code');
+    // console.log("status",status);
+    
+    const companyCode = localStorage.getItem('CompanyCode');
+// console.log("user code",companyCode);
 
-    this.orderService.getOrdersForSeller(userCode, status).subscribe({
+    this.orderService.getOrdersForSeller(companyCode, status).subscribe({
       next: (response: any) => {
-        console.log(response, 'newsellerorder');
+        // console.log(response, 'newsellerorder');
         this.sellerOrder = response;
 
         // setTimeout(() => {
@@ -237,27 +241,38 @@ export class SellerOrdersComponent {
     if (this.btnIndex === -1) {
       if (stat === 'Rejected') {
         status = 'Rejected';
+        this.alertMsg = `Order status is ${status}!`;
       } else {
         status = 'Processing';
+        this.alertMsg = `Order status is ${status}!`;
+        this.productStatusModalBTN.nativeElement.click();
       }
     }
     if (this.btnIndex === 3) {
+      this.productStatusModalBTN.nativeElement.click();
       status = 'ReadyToShip';
+      this.alertMsg = `Order status is ${status}!`;
     }
     if (this.btnIndex === 4) {
+      this.productStatusModalBTN.nativeElement.click();
       status = 'ToDeliver';
+      this.alertMsg = `Order status is ${status}!`;
     }
     if (this.btnIndex === 5) {
+      this.productStatusModalBTN.nativeElement.click();
       status = 'Delivered';
+      this.alertMsg = `Order status is ${status}!`;
     }
     if (this.btnIndex === 8) {
+      this.productStatusModalBTN.nativeElement.click();
       status = 'Returned';
+      this.alertMsg = `Order status is ${status}!`;
     }
-    console.log(order.orderDetailsListForSeller);
+    // console.log(order.orderDetailsListForSeller);
 
     //detailID = product.orderDetailId.toString();
-    console.log(order, 'order');
-    console.log(order.orderDetailsListForSeller, 'orderDetailsListForSeller');
+    // console.log(order, 'order');
+    // console.log(order.orderDetailsListForSeller, 'orderDetailsListForSeller');
 
     // if (btnIndex === 2) {
     //   status = 'Rejected';
@@ -326,12 +341,12 @@ export class SellerOrdersComponent {
       // Adding the created object to the sellerSalesDetailsList array
       sellerSalesMasterDto.sellerSalesDetailsList.push(salesDetail);
     });
-    console.log(status, 'status');
+    // console.log(status, 'status');
     this.sellerService
       .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
-          console.log(response);
+          // console.log(response);
           // this.productsData = response;
           // //console.log(this.productsData);
           // if ((this.btnIndex = -1)) {
@@ -342,24 +357,36 @@ export class SellerOrdersComponent {
           //   this.getData('Rejected');
           // }
           if (status === 'Rejected') {
-            this.btnIndex = 2;
+            //this.btnIndex = -1;
+            this.getData('Approved');
+            this.productStatusModalBTN.nativeElement.click();
           } else if (status === 'Processing') {
             // Set btnIndex to the appropriate value for Processing
-            this.btnIndex = 3;
+            // this.btnIndex = 2;
+            this.getData('Approved');
+            this.productStatusModalBTN.nativeElement.click();
           } else if (status === 'ReadyToShip') {
-            this.btnIndex = 4;
+            //this.btnIndex = 3;
+            this.getData('Processing');
+            this.productStatusModalBTN.nativeElement.click();
           } else if (status === 'ToDeliver') {
-            this.btnIndex = 5;
+            //this.btnIndex = 4;
+            this.getData('ReadyToShip');
+            this.productStatusModalBTN.nativeElement.click();
           } else if (status === 'Delivered') {
-            this.btnIndex = 6;
+            // this.btnIndex = 5;
+            this.getData('ToDeliver');
+            this.productStatusModalBTN.nativeElement.click();
           } else if (status === 'Returned') {
-            this.btnIndex = 9;
+            //this.btnIndex = 6;
+            this.getData('Delivered');
+            this.productStatusModalBTN.nativeElement.click();
           } else {
             // Handle other status values as needed
             // You may want to set a default value for btnIndex or handle unknown status
             // this.btnIndex = ???;
           }
-          this.getData(status);
+          // this.getData(status);
         },
         error: (error: any) => {
           //console.log(error);

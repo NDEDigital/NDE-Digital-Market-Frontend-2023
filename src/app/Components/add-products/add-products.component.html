@@ -23,6 +23,7 @@
         (click)="getProducts(1)"
         [ngClass]="{ active: btnIndex === 1 }"
         (click)="btnIndex = 1"
+        
       >
         Active
       </button>
@@ -50,6 +51,16 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
+      <div class="col tableHeader">
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAll"
+          (ngModelChange)="toggleAllCheckboxes()"
+          #allselected
+        />
+        Select All
+      </div>
+
       <div class="col tableHeader">Index</div>
       <!-- <div class="col tableHeader">productId</div> -->
 
@@ -62,17 +73,37 @@
       <div class="col tableHeader">Date Added</div>
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
+    <div>
 
+      <h1 *ngIf="productList.length==0" class="text-center " style="color: red;margin-top: 15%"> Product Not Found</h1>
+    </div>
     <!-- table body -->
 
     <section
       class="row tablebodyRow fw-semibold"
       *ngFor="let product of productList; let i = index"
+      (mouseover)="isHovered = i"
+      (mouseout)="isHovered = null"
       (dblclick)="openModalWithData(product)"
     >
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="product.isSelected"
+          (change)="checkboxSelected(product.productId, $event)"
+        />
+    
+      </div>
+      <div
+        class="col tableBody"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         #{{ i + 1 }}
       </div>
@@ -86,38 +117,50 @@
 
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.productGroupName }}
       </div>
 
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.productName }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.productSubName }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.unit }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.specification }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         <img
           class="product_image"
@@ -131,12 +174,18 @@
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         {{ product.addedDate | date : "dd MMM yyyy" }}
       </div>
 
-      <div class="col tableBody" *ngIf="btnIndex != -1">
+      <div
+        class="col tableBody"
+        *ngIf="btnIndex != -1"
+        [ngClass]="{ 'active-row': product.productId === activeProductId || isHovered === i }"
+      >
         <div class="d-flex justify-content-center align-items-center">
           <div>
             <button
@@ -222,6 +271,14 @@
         </div>
       </div>
     </section>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn " (click)="chageActiveInactive(1)">
+      Active
+    </button>
+    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn" (click)="chageActiveInactive(0)">
+      Inactive
+    </button>
   </div>
 </div>
 
@@ -348,7 +405,7 @@
             </div>
 
             <div *ngIf="isEditMode" class="image-preview">
-              <label for="productImage"> Product Image Preview </label>
+              <label> Product Image Preview </label>
               <img
                 [src]="imagePathPreview"
                 alt="Product Image"
@@ -357,7 +414,7 @@
             </div>
 
             <div class="form-group">
-              <label for="productImage"
+              <label
                 ><span class="text-danger">*</span>Upload Product Image
               </label>
 
@@ -411,7 +468,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="userExistModalLabel">product Modal</h1>
+        <h1 class="modal-title fs-5" id="userExistModalLabel" 
+        [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
+
+        [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }">{{alertTitle}}</h1>
         <button
           type="button"
           class="btn-close"
@@ -421,9 +481,10 @@
       </div>
       <div class="modal-body">
         <p
-          class="fs-5 fw-semibold"
-          [class.text-success]="!isError"
-          [class.text-danger]="isError"
+          class="fs-5 fw-bolder"
+          [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
+        
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
         >
           {{ alertMsg }}
         </p>

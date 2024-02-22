@@ -18,6 +18,7 @@ interface OrderMaster {
 }
 
 interface OrderDetail {
+  companyCode: string;
   productId: number;
   qty: number;
   discountPct: number;
@@ -126,6 +127,8 @@ export class OrderApiService {
     };
 
     for (const [key, entry] of this.cartDataDetail.entries()) {
+      // console.log(entry, ' ----- u');
+
       let qt: number | undefined = this.cartDataQt.get(key);
       if (qt === undefined) {
         qt = 0;
@@ -134,6 +137,7 @@ export class OrderApiService {
         qt === undefined ? 0 : typeof qt === 'string' ? parseInt(qt, 10) : qt;
 
       const detailData: OrderDetail = {
+        companyCode: entry.companyCode,
         productId: parseInt(entry.goodsId),
         qty: qt,
         price: entry.netPrice,
@@ -199,20 +203,20 @@ export class OrderApiService {
       });
     }
   }
-  getOrdersForSeller(userid: any, status: any) {
-    console.log(status, userid);
+  getOrdersForSeller(CompanyCode: any, status: any) {
+    console.log(status, CompanyCode);
 
     //console.log(buyerCode, PageNumber, rowCount, status);
     if (status === '') {
       return this.http.get(this.getOrdersForSellerURL, {
         params: {
-          userid,
+          CompanyCode,
         },
       });
     } else {
       return this.http.get(this.getOrdersForSellerURL, {
         params: {
-          userid,
+          CompanyCode,
           status,
         },
       });

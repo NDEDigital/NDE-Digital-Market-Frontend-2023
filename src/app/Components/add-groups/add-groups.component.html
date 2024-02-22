@@ -48,6 +48,15 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
+      <div class="col tableHeader">
+        <input
+        type="checkbox"
+        [(ngModel)]="selectAll"
+        (ngModelChange)="toggleAllCheckboxes()"
+        #allselected
+      />
+      Select All
+      </div>
       <div class="col tableHeader">Index</div>
       <!-- <div class="col tableHeader">Product Group ID</div> -->
       <div class="col tableHeader">Image</div>
@@ -58,17 +67,39 @@
       <div class="col tableHeader">Date Added</div>
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
+    <div>
 
+      <h1 *ngIf="groupList.length==0" class="text-center " style="color: red;margin-top: 15%"> Group Not Found</h1>
+    </div>
     <!-- table body -->
 
     <section
       class="row tablebodyRow fw-semibold"
       *ngFor="let group of groupList; let i = index"
+      (mouseover)="isHovered = i"
+      (mouseout)="isHovered = null"
       (dblclick)="openModalWithData(group)"
     >
+    <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row': isHovered === i
+    }"
+  >
+  <input
+  type="checkbox"
+  [(ngModel)]="group.isSelected"
+  (change)="checkboxSelected(group.productGroupID, $event)"
+/>
+
+
+  </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         #{{ i + 1 }}
       </div>
@@ -80,7 +111,10 @@
       </div> -->
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         <img
           #groupImage
@@ -93,43 +127,62 @@
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         {{ group.productGroupCode }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         {{ group.productGroupName }}
       </div>
 
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         {{ group.productGroupPrefix }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         {{ group.productGroupDetails }}
       </div>
       <div
         class="col tableBody"
-        [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+        [ngClass]="{
+          'active-row':
+            group.productGroupID === activeGroupId || isHovered === i
+        }"
       >
         {{ group.dateAdded | date : "dd MMM yyyy" }}
       </div>
 
-      <div class="col tableBody" *ngIf="btnIndex != -1">
+      <div
+        class="col tableBody"
+        *ngIf="btnIndex != -1"
+        [ngClass]="{ 'active-row': isHovered === i }"
+      >
         <div class="d-flex justify-content-center align-items-center">
           <div>
             <button
               class="actionBtn"
               *ngIf="btnIndex === 0"
-              (click)="updateIsActive(1, group.productGroupID)"
+              (click)="updateIsActive(true, group.productGroupID)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +202,7 @@
             <button
               class="actionBtn"
               *ngIf="btnIndex === 1"
-              (click)="updateIsActive(0, group.productGroupID)"
+              (click)="updateIsActive(false, group.productGroupID)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -169,6 +222,14 @@
       </div>
     </section>
   </div>
+  <div class="d-flex justify-content-end">
+    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn " (click)="chageActiveInactive(true)">
+      Active
+    </button>
+    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn" (click)="chageActiveInactive(false)">
+      Inactive
+    </button>
+</div>
 </div>
 
 <!-- add Group modal   -->
@@ -225,7 +286,7 @@
               >
             </div>
             <div *ngIf="isEditMode" class="image-preview">
-              <label for="productGroupImage"> Group Image Preview </label>
+              <label> Group Image Preview </label>
               <img
                 [src]="imagePathPreview"
                 alt="Product Group Image"
@@ -233,7 +294,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="productGroupImage"
+              <label
                 ><span class="text-danger">*</span>Upload Product Group Image
               </label>
               <input
@@ -314,9 +375,12 @@
 >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header modal-heading">
-        <h1 class="modal-title fs-5 text-light" id="productGroupModalLabel">
-          Add Product Groups Name
+      <div class="modal-header ">
+        <h1 class="modal-title fs-5 " id="productGroupModalLabel"   [ngStyle]="{ color: alertMsg.includes('Deactivated') ? 'red' : 'green' }"
+        [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+        >
+          
+          {{alertTitle}}
         </h1>
         <button
           type="button"
@@ -326,7 +390,14 @@
         ></button>
       </div>
       <div class="modal-body">
-        <p>{{ alertMsg }}</p>
+        <p
+          class="fs-5 fw-bolder"
+          [ngStyle]="{ color: alertMsg.includes('Deactivated') ? 'red' : 'green' }"
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+
+        >
+          {{ alertMsg }}
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">

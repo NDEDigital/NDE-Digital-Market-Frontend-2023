@@ -11,11 +11,16 @@ export class CompanyApprovalComponent {
   btnIndex = -1;
   companies: any;
   imagePath = '';
+  isHovered: any | null = null;
+
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: any } = {};
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
   alertTitle: string = '';
   alertMsg: string = '';
+  isApproved: boolean = false;
+  isRejected: boolean = false;
+
   constructor(
     private companyService: CompanyService,
     private emailService: EmailService
@@ -29,6 +34,7 @@ export class CompanyApprovalComponent {
     this.companyService.GetCompaniesBasedOnStatus(this.btnIndex).subscribe({
       next: (response: any) => {
         this.companies = response;
+        // console.log(this.companies, 'companies....');
       },
       error: (error: any) => {
         //console.log(error);
@@ -86,9 +92,13 @@ export class CompanyApprovalComponent {
         this.selectedCompanyCodeValues[companyCode] = null;
 
         if (Isactive) {
+          this.isApproved = true;
+          this.isRejected = false;
           this.alertTitle = 'Success!';
           this.alertMsg = 'Company is approved sucessfully.';
         } else {
+          this.isApproved = false;
+          this.isRejected = true;
           this.alertTitle = 'Rejected!';
           this.alertMsg = 'Company is rejected.';
         }

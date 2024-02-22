@@ -74,12 +74,12 @@ export class AdminOrderDataGetService {
     detailsCancelledId: string | null,
     status: string
   ): Observable<any> {
-    console.log(
-      ' orderMasterId, detailsCancelledId, status',
-      orderMasterId,
-      detailsCancelledId,
-      status
-    );
+    // console.log(
+    //   ' orderMasterId, detailsCancelledId, status',
+    //   orderMasterId,
+    //   detailsCancelledId,
+    //   status
+    // );
     const url = `${this.baseUrl}/AdminOrderUpdateStatus`;
     let params = new HttpParams().set('orderMasterId', orderMasterId);
 
@@ -103,7 +103,7 @@ export class AdminOrderDataGetService {
     fromDate: any,
     toDate: any
   ): Observable<AdminOrderModel[]> {
-    console.log(' sent in api status', fromDate, toDate);
+    // console.log(' sent in api status', fromDate, toDate);
 
     const formData = new FormData();
     // if (fromDate!=""&& toDate!="" ){
@@ -127,7 +127,7 @@ export class AdminOrderDataGetService {
 
   // invoice
   getInvoiceForAdminOrder(OrderID: number) {
-    console.log('service e aise');
+    // console.log('service e aise');
     return this.http.get(`${this.invoiceUrl}/GetInvoiceDataForAdmin`, {
       params: { OrderID },
     });

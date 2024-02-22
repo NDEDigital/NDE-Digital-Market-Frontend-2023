@@ -137,7 +137,7 @@ export class ProductSliderComponent {
     this.products.clear();
     this.goodsDataObj.getCarouselData().subscribe(
       (data: any[]) => {
-        this.goods = data;         
+        this.goods = data;
         for (let i = 0; i < this.goods.length; i++) {
           let finObj = this.products3.get(this.goods[i].productGroupName);
 
@@ -145,6 +145,7 @@ export class ProductSliderComponent {
 
           if (finObj) {
             let obj = {
+              companyCode: this.goods[i].companyCode,
               companyName: this.goods[i].companyName,
               groupCode: this.goods[i].productGroupID,
               goodsId: this.goods[i].productId,
@@ -166,6 +167,7 @@ export class ProductSliderComponent {
             this.products3.set(this.goods[i].productGroupName, finObj);
           } else {
             let obj = {
+              companyCode: this.goods[i].companyCode,
               companyName: this.goods[i].companyName,
               groupCode: this.goods[i].productGroupID,
               goodsId: this.goods[i].productId,
@@ -189,8 +191,8 @@ export class ProductSliderComponent {
 
         // //console.log(this.products3, ' products3');
         // this.updateQuantity();
-          // console.log(this.goods);
-          
+        // console.log(this.goods);
+
         // Add any other code or logic you need here
       },
       (error: HttpErrorResponse) => {
@@ -270,14 +272,12 @@ export class ProductSliderComponent {
       this.goodsDataObj.getCarouselData().subscribe((data: any[]) => {
         //console.log(' data error ');
         this.goods = data;
-        console.log(this.goods, 'allGoods');
 
         for (let i = 0; i < this.goods.length; i++) {
           let key = this.goods[i].productGroupName;
           let finObj = this.products3.get(key);
           if (this.goods[i].approveSalesQty === '0') continue;
-           console.log(finObj," find");
-           
+
           if (finObj) {
             let product = finObj.find(
               (p: any) => p.goodsId === this.goods[i].productId
@@ -472,6 +472,9 @@ export class ProductSliderComponent {
 
   navigateToData(detail: any) {
     sessionStorage.setItem('productData', JSON.stringify(detail));
-    window.open('/productDetails', '_blank');
+  console.log(detail);
+  // alert('hh');
+  
+    window.open('/productDetails?productId='+detail.goodsId+'&companyCode='+detail.companyCode, '_blank');
   }
 }

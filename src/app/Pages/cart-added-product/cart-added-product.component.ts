@@ -19,6 +19,7 @@ export class CartAddedProductComponent {
   saveLaterDataQt = new Map<string, number>();
   cartCount: number = 0;
   totalPrice: number = 0;
+showUpBtn: any ;
   constructor(
     private cartDataService: CartDataService,
     private route: Router,
@@ -35,13 +36,30 @@ export class CartAddedProductComponent {
     this.cartDataService.initializeAndLoadData();
     const cartData = this.cartDataService.getCartData();
     this.cartDataDetail = cartData.cartDataDetail;
+    console.log
     this.cartDataQt = cartData.cartDataQt;
+    // console.log("cartDataQt",this.cartDataQt);
     this.cartCount = this.cartDataService.getCartCount();
+    
     this.totalPrice = this.cartDataService.getTotalPrice();
     //console.log(this.cartCount);
   }
 
+
   // delete data
+  sentCardDetails(entry:any,changeValue:any,key:any){
+ 
+  
+  if(changeValue===''){
+  
+  changeValue=1;
+  }
+    this.cartDataService.setPrice(entry.netPrice,Number(changeValue),key);
+    this.cartDataService.setCartData(entry,parseFloat(changeValue));
+     this.fetchCartData();
+     this.showUpBtn='';
+  }
+
 
   deleteCartProduct(entry: any) {
     this.cartDataService.deleteCartData(entry);
@@ -66,17 +84,26 @@ export class CartAddedProductComponent {
   //   this.cartDataQt.delete(entry.groupCode + '&' + entry.goodsID);
   //   this.cartDataService.updateData(this.cartDataDetail, this.cartDataQt);
   // }
-
+procedBtn:any;
   procced() {
-    //console.log(localStorage.getItem('loginStatus'));
-    if (localStorage.getItem('loginStatus') === null) {
-      // this.route.navigate(['/login']);
-      this.LoginModalBTN.nativeElement.click();
-    } else {
-      if (this.cartDataDetail.size > 0) {
-        this.route.navigate(['/checkout']);
+    // alert(this.showUpBtn);
+    if(this.showUpBtn){
+      // alert('Update the value');
+      this.procedBtn=false;
+    }
+    else{
+
+
+      //console.log(localStorage.getItem('loginStatus'));
+      if (localStorage.getItem('loginStatus') === null) {
+        // this.route.navigate(['/login']);
+        this.LoginModalBTN.nativeElement.click();
       } else {
-        //console.log('select product');
+        if (this.cartDataDetail.size > 0) {
+          this.route.navigate(['/checkout']);
+        } else {
+          //console.log('select product');
+        }
       }
     }
   }
@@ -84,6 +111,36 @@ export class CartAddedProductComponent {
   productPage() {
     this.route.navigate(['/']);
   }
+  
+  validateInput(event: any, qty: any) {
+  
+    if (String(event.target.value).match(/^\d+$/)) {
+      let inputNumber = parseInt(event.target.value);
+  
+      if (inputNumber < 1) {
+        inputNumber = 1;
+      } else if (inputNumber > qty) {
+        // console.log("event data", event);
+        inputNumber = parseInt(event.value) || 1; 
+      }
+  
+      event.target.value = inputNumber; 
+    } else {
+     
+      event.target.value = ''; 
+    }
+  }
+
+  
+
+  
+
+    // Additional commented-out code that sets the value to 1 if it's 0
+    // Uncomment this section if needed
+    // else if (event.target.value === 0) {
+    //     event.target.value = 1;
+    // }
+
 
   // save later
   // saveForLater(key: any, value: any) {

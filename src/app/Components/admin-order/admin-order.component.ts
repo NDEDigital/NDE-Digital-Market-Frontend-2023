@@ -36,6 +36,7 @@ export class AdminOrderComponent {
   AdminOrderData: AdminOrderModel[] = [];
 
   ordersData: AdminOrderModel[] = [];
+  filteredOrdersData: AdminOrderModel[] = [];
   // statusCount: AdminOrderModel[] = [];
   selectedPageIndex: number = 1; // Default selected index is 0
   // orderMasterIds:any =3;
@@ -142,26 +143,31 @@ export class AdminOrderComponent {
     this.dataIndexNumber =
       this.selectedValue * (this.selectedPageIndex - 1) + 1;
     const searchInput =
-      this.elementRef.nativeElement.querySelector('#searchInput');
-    // const inputValue = searchInput.value;
+      // this.elementRef.nativeElement.querySelector('#searchInput');
+      // const inputValue = searchInput.value;
 
-    const inputValue = searchInput.value.trim(); // Trim leading and trailing spaces
-    if (inputValue.trim() === '') {
-      this.searchValue = 'All';
-    } else {
-      this.searchValue = inputValue;
-    }
+      // const inputValue = searchInput.value.trim(); // Trim leading and trailing spaces
+      // if (inputValue.trim() === '') {
+      (this.searchValue = 'All');
+    // }
+    //  else {
+    //   this.searchValue = inputValue;
+    // }
     this.GetData();
     this.detailsCancelledArray = [];
     this.masterId = '';
     this.detailsUnCheckedId = '';
-
   }
 
   GetData() {
     this.service.getOrderMasterData(this.status).subscribe(
       (data: any[]) => {
-        //console.log('Orders:', data);
+        // console.log('Orders:', data);
+        // this.filteredOrdersData = data;
+        // console.log(
+        //   'filteredOrdersData',
+        //   this.filteredOrdersData
+        // );
         this.dataDistribute(data);
         // const allcheck =
         //   this.elementRef.nativeElement.querySelector('.check_all_Master');
@@ -221,20 +227,20 @@ export class AdminOrderComponent {
       this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
         // this.detailsData = [];
         if (this.selectedButtonIndex === 'Cancelled') {
-          console.log(data, 'all data');
+          // console.log(data, 'all data');
 
           this.detailsData = data.filter(
             (cancelData: any) => cancelData.status !== 'Approved'
           );
 
-          console.log(this.detailsData, 'data after filter');
+          // console.log(this.detailsData, 'data after filter');
 
           this.detailsData = this.detailsData.map((item: any) => ({
             ...item,
             isChecked: false,
           }));
         } else if (this.selectedButtonIndex === 'Approved') {
-          console.log('dsagashd');
+          // console.log('dsagashd');
 
           this.detailsData = data;
 
@@ -255,7 +261,7 @@ export class AdminOrderComponent {
         }
 
         //  this.togglingDetailsCheckbox(index);
-        console.log('details data dataaaaaa', this.detailsData); // Use a type if possible for better type checking
+        // console.log('details data dataaaaaa', this.detailsData); 
 
         setTimeout(() => {
           this.togglingDetailsCheckbox(index, this.detailsData);
@@ -297,9 +303,13 @@ export class AdminOrderComponent {
 
     // toggling the checkbox
     const individual_check_master =
-      this.elementRef.nativeElement.querySelectorAll('.individual_checkbox_Master');
+      this.elementRef.nativeElement.querySelectorAll(
+        '.individual_checkbox_Master'
+      );
     const individual_check_details =
-      this.elementRef.nativeElement.querySelectorAll('.individual_checkbox_details');
+      this.elementRef.nativeElement.querySelectorAll(
+        '.individual_checkbox_details'
+      );
 
     // Ensure that individual_check_master[index] is defined before accessing checked property
     if (
@@ -322,7 +332,6 @@ export class AdminOrderComponent {
       }
     }
   }
-
 
   //   ****************** UPDATE STATUS *************
   actionBtn(masterId: any, cancelledId: any, str: string) {
@@ -469,8 +478,6 @@ export class AdminOrderComponent {
 
           this.ordersData = data.ordersData;
 
-          //console.log(' return data  ordersData', this.ordersData);
-
           if (this.ordersData.length > 0) {
             this.TotalRow = this.ordersData[0].totalRowsCount;
             //console.log('   this.TotalRow of return data ', this.TotalRow);
@@ -493,9 +500,9 @@ export class AdminOrderComponent {
   }
 
   clearDate() {
-    const searchInput =
-      this.elementRef.nativeElement.querySelector('#searchInput');
-    searchInput.value = '';
+    // const searchInput =
+    //   this.elementRef.nativeElement.querySelector('#searchInput');
+    // searchInput.value = '';
     this.searchValue = 'All';
     this.fromDate = '';
     this.toDate = '';
@@ -519,7 +526,7 @@ export class AdminOrderComponent {
   // Method to check if all details checkboxes are selected
   areAllDetailsSelected(orderMasterId: number): boolean {
     // Log the masterID for debugging
-    console.log(orderMasterId, 'masterID');
+    // console.log(orderMasterId, 'masterID');
 
     return true;
   }
@@ -767,8 +774,33 @@ export class AdminOrderComponent {
   }
 
   searchByDate() {
-    if (this.fromDate != '' && this.toDate != '') {
-      this.checkingReturnORMasterData();
+    // Check if both fromDate and toDate are provided
+    if (this.fromDate && this.toDate) {
+      // console.log(this.fromDate, this.toDate);
+
+      // Perform the search based on orderDate between the given dates
+
+      // Assuming this.ordersData contains the original data
+      const filteredData = this.filteredOrdersData.filter((order) => {
+        const orderDate = new Date(order.orderDate.split('T')[0]).getTime();
+        const fromDate = new Date(this.fromDate).getTime();
+        const toDate = new Date(this.toDate).getTime();
+        console.log(orderDate, fromDate, toDate, 'DATES');
+        return orderDate >= fromDate && orderDate <= toDate;
+      });
+
+      // Update this.ordersData with the filtered data
+      this.ordersData = filteredData;
+
+      // If needed, update other logic related to displaying the filtered data
+      // ...
+    } else {
+      this.ordersData = this.filteredOrdersData;
+      // Handle the case where fromDate or toDate is not provided
+      // You can show a message or handle it according to your requirements
+      // console.log(
+      //   'Both fromDate and toDate are required for date-based search.'
+      // );
     }
   }
 

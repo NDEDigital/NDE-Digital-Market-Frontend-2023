@@ -4,7 +4,7 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { ReviewRatingsService } from 'src/app/services/review-ratings.service';
 import { CartItem } from '../cart-added-product/cart-item.interface';
-
+import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
 @Component({
   selector: 'app-product-details-page',
@@ -25,13 +25,15 @@ export class ProductDetailsPageComponent {
   emptyStar: any = 0;
   emptyStarArray: any = [];
   isSeller = false;
+  isBuyer = false;
   // Add cart related data
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
   popUpCount: number = 0;
   totalPrice = 0;
   cartCount: number = 0;
-
+  productIdPa: number =0;
+  companyCodePa: string ='';
   reviewData: any = [];
   CartButtonText = 'Add to Cart';
   enableTextarea = false; // Initial state is read-only
@@ -43,12 +45,13 @@ export class ProductDetailsPageComponent {
   formData = new FormData();
   errorMsg = false;
   reviewUpdateData: any;
+  goods:any;
   // Convert the object into an array of objects
   imageArray = Array.from({ length: Math.ceil(4) }, (_, index) => index + 1);
 
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
-
+allrole:any;
   // this.totalPages = Array.from(
   //   { length: Math.ceil(this.TotalRow / this.selectedValue) },
   //   (_, index) => index + 1
@@ -58,7 +61,8 @@ export class ProductDetailsPageComponent {
     private service: GoodsDataService,
     private elementRef: ElementRef,
     private reviewService: ReviewRatingsService,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private route: ActivatedRoute
   ) {
     this.reviewForm = new FormGroup({
       rating: new FormControl(Validators.required),
@@ -69,44 +73,70 @@ export class ProductDetailsPageComponent {
       this.isFormValid = this.reviewForm.valid;
       // //console.log(this.isFormValid);
     });
+    this.route.queryParams.subscribe(params => {
+      // Extracting productId and companyCode
+      this.productIdPa = params['productId'];
+      this.companyCodePa = params['companyCode'];
+      // alert(this.productIdPa);
+      // alert(this.companyCodePa)
+      // Now you can use this.productId and this.companyCode in your component
+    });
   }
 
   ngOnInit() {
+
     const role = localStorage.getItem('role');
+    this.allrole=role;
+    // alert(this.allrole)
     if (role === 'seller') {
       this.isSeller = true;
+    }
+    if (role === 'buyer') {
+      this.isBuyer = true;
     }
     // this.detailsData = this.goodsData.getDetaileData();
     // this.cartDataService.clearCartData();
     this.cartDataService.initializeAndLoadData();
     this.setServiceData();
     const productData = sessionStorage.getItem('productData');
-    if (productData) {
-      this.detailsData = JSON.parse(productData);
-    }
-    if( this.detailsData.approveSalesQty == 0){
-      this.CartButtonText ="Out of stock";
-    }
+    // if (productData) {
+    //   this.detailsData = JSON.parse(productData);
+    //   console.log("details data",this.detailsData)
+    // }
+    // if (this.detailsData.approveSalesQty == 0) {
+    //   this.CartButtonText = 'Out of stock';
+    // }
     this.buyerCode = localStorage.getItem('code');
+    this.service.UrlGetOfHome(this.productIdPa, this.companyCodePa)
+    .subscribe((goods: any) => {
+       this.detailsData = {
+          companyCode: goods.companyCode,
+          companyName: goods.companyName,
+          groupCode: goods.productGroupID,
+          goodsId: goods.productId,
+          groupName: goods.productGroupName,
+          goodsName: goods.productName,
+          specification:goods.specification,
+          approveSalesQty: goods.availableQty,
+          sellerCode: goods.sellerId,
+          unitId: goods.unitId,
+          quantityUnit: goods.unit,
+          imagePath: goods.imagePath,
+          price: goods.price,
+          discountAmount: goods.discountAmount,
+          discountPct: goods.discountPct,
+          netPrice:goods.totalPrice,
+        }
+      
+if (this.detailsData.approveSalesQty == 0) {
+     this.CartButtonText = 'Out of stock';
+    }
+    this.RatingsAndReview(this.detailsData.goodsId);
 
-    this.service
-      .getReviewRatingsData(
-        this.detailsData.goodsId
-      )
-      .subscribe((data: any) => {
-        console.log(' dAta ', data);
-        this.reviewData = data.reviewsAndRatings;
-        this.perRatingCount = data.ratingsArray;
-        this.totalRatings = data.totalCount;
-        //console.log(this.perRatingCount, this.totalRatings, 'count');
-        const reviewsAndRatingsArray = JSON.parse(
-          data.reviewsAndRatings[0].ratingArray
-        );
-        //console.log(' json convert', reviewsAndRatingsArray);
-        //console.log(' review data dataaaaaa', this.reviewData); // Use a type if possible for better type checking
-
-        this.ratingsColor();
-      });
+    });
+  
+  
+   
 
     this.reviewForm.get('rating')?.valueChanges.subscribe((rating) => {
       //console.log('Rating selected:', rating);
@@ -115,6 +145,27 @@ export class ProductDetailsPageComponent {
       // You can do something with the rating value here
     });
   }
+
+RatingsAndReview(ProductID:any){
+  this.service
+  .getReviewRatingsData(ProductID)
+  .subscribe((data: any) => {
+    console.log('review', data);
+    this.reviewData = data.reviewsAndRatings;
+    this.perRatingCount = data.ratingsArray;
+    this.totalRatings = data.totalCount;
+    //console.log(this.perRatingCount, this.totalRatings, 'count');
+    const reviewsAndRatingsArray = JSON.parse(
+      data.reviewsAndRatings[0].ratingArray
+    );
+    //console.log(' json convert', reviewsAndRatingsArray);
+    //console.log(' review data dataaaaaa', this.reviewData); // Use a type if possible for better type checking
+
+    this.ratingsColor();
+  });
+}
+
+
 
   setDetail(detail: any) {
     this.reviewUpdateData = detail;
@@ -286,7 +337,8 @@ export class ProductDetailsPageComponent {
     if (entry.price === '' || entry.price === undefined) {
       entry.price = '0';
     }
-    let groupCodeIdSellerId = entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
+    let groupCodeIdSellerId =
+      entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
     this.cartDataService.setCartCount(groupCodeIdSellerId);
     this.cartDataService.setPrice(

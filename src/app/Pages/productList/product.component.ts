@@ -5,6 +5,7 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-product',
@@ -22,7 +23,7 @@ export class ProductComponent {
   loading: boolean = true;
   role: any;
   isBuyer = true;
-
+allRole:any;
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
 
@@ -40,9 +41,11 @@ export class ProductComponent {
       .getProductList(this.sharedService.companyCode)
       .subscribe((data: any[]) => {
         this.goods = data;
+        
 
         for (let i = 0; i < this.goods.length; i++) {
           let obj = {
+            companyCode: this.goods[i].companyCode,
             companyName: this.goods[i].companyName,
             groupCode: this.goods[i].productGroupID,
             goodsId: this.goods[i].productId,
@@ -61,7 +64,7 @@ export class ProductComponent {
           };
           this.products.push(obj);
         }
-
+      
         // this.products = goods;
         this.filteredProducts = [...this.products];
         this.loading = false;
@@ -117,8 +120,11 @@ export class ProductComponent {
 
   activeGroupName = localStorage.getItem('activeEntry');
   filteredProducts: any[] = [];
-
+  companyCode:any;
   ngOnInit() {
+    this.companyCode=sessionStorage.getItem('companyCode');
+    // alert(this.companyCode);
+
     //  setTimeout(()=>{
     //   this.productType=this.sharedService.getProductType();
     //   this.GroupdCode=this.sharedService.getProductCode();
@@ -271,11 +277,17 @@ export class ProductComponent {
     return maxLength;
   }
 
-  dataClick(entry: string) {
+  dataClick(entry: any) {
     // this.goodsData.setDetailData(entry);
     sessionStorage.setItem('productData', JSON.stringify(entry));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails', '_blank');
+    // console.log(entry.goodsId,"type o bo",typeof entry);
+
+
+  
+    window.open('/productDetails?productId='+entry.goodsId+'&companyCode='+this.companyCode, '_blank');
+    
+    // window.open('/productDetails', '_blank');
   }
 
   splitProductKey(key: string) {
@@ -304,9 +316,9 @@ export class ProductComponent {
     if (entry.price === '' || entry.price === undefined) {
       entry.price = 0;
     }
-     
-      
-    let groupCodeIdSellerId = entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
+
+    let groupCodeIdSellerId =
+      entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
     this.cartDataService.setCartCount(groupCodeIdSellerId);
     this.cartDataService.setPrice(

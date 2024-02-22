@@ -8,11 +8,12 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./seller-inventory.component.css'],
 })
 export class SellerInventoryComponent {
-  SearchByname = 'Search by';
+  SearchByname = 'GoodsName';
   placeholder = 'Search by';
   searchby = ' Goods Name';
   searchInputValue = '';
   inventoryData: any = [];
+  filteredData: any = [];
   goodsName: string = '';
   groupCode: string = '';
   sellerId: any;
@@ -27,7 +28,7 @@ export class SellerInventoryComponent {
   setSearchOption(text: string) {
     this.searchInputValue = '';
     this.SearchByname = text;
-    console.log(' this.SearchByname ', this.SearchByname);
+    // console.log(' this.SearchByname ', this.SearchByname);
     this.searchby = text;
     this.placeholder = ' Search by ';
     // clearing search value and call data with out search
@@ -39,20 +40,32 @@ export class SellerInventoryComponent {
   onKeyUp(event: KeyboardEvent) {
     // Check if the pressed key is Enter (keycode 13) or Backspace (keycode 8)
     if (event.keyCode === 13 || event.keyCode === 8) {
-      console.log('  searchInputValue', this.searchInputValue);
+      this.searchInputValue = this.searchInputValue.trim(); // Trim spaces before searching
+      // console.log('searchInputValue', this.searchInputValue);
       this.Search();
+    }
+    if (!this.searchInputValue) {
+      this.filteredData = this.inventoryData;
     }
   }
 
   Search() {
+    // console.log(this.SearchByname, '   this.SearchByname');
+
     // checking
     if (this.SearchByname == 'GroupCode') {
       this.groupCode = this.searchInputValue.trim();
+      this.filteredData = this.inventoryData.filter(
+        (item: any) => item.productGroupName === this.groupCode
+      );
     } else {
       this.goodsName = this.searchInputValue.trim();
+      this.filteredData = this.inventoryData.filter(
+        (item: any) => item.productName === this.goodsName
+      );
     }
 
-    this.GetData();
+    //this.GetData();
   }
 
   searchIcon() {
@@ -65,8 +78,9 @@ export class SellerInventoryComponent {
 
     this.SellerService.getSellerInventory(this.sellerId).subscribe(
       (data: any) => {
-        console.log(' load dataaaaaa', data); // Use a type if possible for better type checking
+        // console.log(' load dataaaaaa', data); 
         this.inventoryData = data;
+        this.filteredData = this.inventoryData;
       }
     );
   }

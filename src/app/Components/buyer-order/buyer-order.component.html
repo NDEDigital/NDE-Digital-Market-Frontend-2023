@@ -193,6 +193,15 @@
             <p class="m-0 p-0">
               Placed on <span class="fw-semibold">{{ order.orderDate }}</span>
             </p>
+            <p class="m-0 p-0">
+              TotalPrice:
+              <span class="fw-semibold">
+                <img
+                  src="../../../assets/images/takaIcon.png"
+                  class="taKa_icon"
+                />{{ order.totalPrice }}</span
+              >
+            </p>
           </div>
           <!-- <div><Button class="pay-now-btn fst-italic">Manage</Button></div> -->
         </div>
@@ -215,16 +224,16 @@
               alt=""
             />
           </div>
-          <div class="col-3" (click)="goToDetail(detail)">
+          <div class="col-1" (click)="goToDetail(detail)">
             {{ detail.productName }}
           </div>
-          <div class="col-3 col-lg-2 col-sm-2">
+          <div class="col-1 col-sm-2">
             <span class="qty-design">Qty: {{ detail.qty }}</span>
           </div>
-          <div class="col-3 col-lg-2 col-sm-2">
+          <div class="col-1 col-sm-2">
             <span class="color-primary">Price: {{ detail.price }}</span>
           </div>
-          <div class="col-2 col-lg-3 col-sm-3">
+          <div class="col-1 col-sm-3">
             <button
               class="p-2 p-lg-1 p-sm-1 process-btn"
               [ngClass]="{
@@ -557,7 +566,7 @@
                 type="button"
                 class="custom-btn"
                 (click)="onSubmit()"
-                (click)="btnIndex = -1"
+                (click)="btnIndex = -7"
               >
                 submit
               </button>

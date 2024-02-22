@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { empty } from 'rxjs';
 import { AddProductService } from 'src/app/services/add-product.service';
 
 @Component({
@@ -11,15 +12,17 @@ export class AddProductsComponent implements OnInit {
   @ViewChild('ProductImageInput') ProductImageInput!: ElementRef;
   @ViewChild('prdouctExistModalBTN') PrdouctExistModalBTN!: ElementRef;
   @ViewChild('addProductModalCenterG') AddProductModalCenterG!: ElementRef;
-
+  @ViewChild('allselected', { static: false }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
   addProductForm!: FormGroup;
   productGroups: any[] = [];
   units: any[] = [];
   alertMsg: string = '';
+  alertTitle: string = '';
   isError: boolean = false;
   showProductDiv: boolean = false;
   productList: any;
   btnIndex = -1;
+  isHovered: any | null = null;
 
   isEditMode = false;
   activeProductId: number | null = null;
@@ -56,6 +59,7 @@ export class AddProductsComponent implements OnInit {
     this.getUnit();
     this.getProducts(-1);
   }
+
   openAddProductModal(): void {
     this.resetForm();
     this.isEditMode = false;
@@ -153,10 +157,10 @@ export class AddProductsComponent implements OnInit {
       }
 
       if (this.isEditMode) {
-        console.log('this.isEditMode: ', this.isEditMode);
+        // console.log('this.isEditMode: ', this.isEditMode);
 
         let updateByUser = localStorage.getItem('code');
-        console.log(updateByUser, 'code...');
+        // console.log(updateByUser, 'code...');
         formData.append('ProductId', this.currentProduct.productId);
         if (updateByUser !== null) {
           formData.append('UpdatedBy', updateByUser);
@@ -171,7 +175,7 @@ export class AddProductsComponent implements OnInit {
         this.productService.updateProductList(formData).subscribe({
           next: (response: any) => {
             // Handle successful response here
-            console.log('Update successful:', response);
+            // console.log('Update successful:', response);
             this.alertMsg = 'Product  updated successfully';
             this.isEditMode = false;
             // Optionally, reset the form and refresh the group list
@@ -194,15 +198,19 @@ export class AddProductsComponent implements OnInit {
         });
       }
     } else {
-      console.log('form is not valid');
+      // console.log('form is not valid');
     }
   }
-
+  selectedProducts1: any[] = [];
   getProducts(status: any) {
+    this.selectAll=false;
+    // this.selectedProducts1.length=0;
     this.productService.GetProductListByStatus(status).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.productList = response;
+    this.selectedProducts1.length=0;
+
       },
       error: (error: any) => {
         //console.log(error);
@@ -227,7 +235,7 @@ export class AddProductsComponent implements OnInit {
   openModalWithData(product: any): void {
     this.isEditMode = true;
     this.updateFormValidators();
-    console.log('productId', product);
+    // console.log('productId', product);
     this.populateForm(product);
     this.currentProduct = product;
 
@@ -251,12 +259,12 @@ export class AddProductsComponent implements OnInit {
   }
 
   displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
+    // console.log('Received imagePath:', imagePath);
 
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
 
-      console.log('Constructed imageUrl:', imageUrl);
+      // console.log('Constructed imageUrl:', imageUrl);
       this.imagePathPreview = imageUrl;
     } else {
       this.imagePathPreview = 'not upload yet';
@@ -265,17 +273,129 @@ export class AddProductsComponent implements OnInit {
   }
 
   updateIsActive(isActive: any, producID: any) {
-    console.log(isActive, 'isActive', producID, 'productID');
-    this.productService.updateProductStatus(producID, isActive).subscribe({
+    // console.log("for type", typeof producID);
+
+    // console.log(isActive, 'isActive', producID, 'productID');
+    this.productService.updateProductStatus([producID], isActive).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.getProducts(isActive);
         this.btnIndex = isActive;
+        this.PrdouctExistModalBTN.nativeElement.click();
+        this.alertMsg = isActive
+          ? 'Product is  Activated!'
+          : 'Product is Deactiveted!';
+        this.alertTitle = isActive
+          ? 'Activated!'
+          : 'Deactiveted!';
+
       },
       error: (error: any) => {
         //console.log(error);
         this.alertMsg = error.error.message;
       },
     });
+  }
+  selectedProductIds: any[] = [];
+  
+  selectAll = false;
+  toggleAllCheckboxes() {
+    // console.log("all seelcted",)
+    // console.log('Selected Product IDs:', this.selectedProducts1);
+  
+
+    // Toggle the state of all checkboxes based on the "Select All" checkbox
+    this.productList.forEach(
+      (product: { isSelected: boolean, productId: any }) => {
+        product.isSelected = this.selectAll;
+        
+        // Update the selectedProducts array based on the state of each checkbox
+        if (this.selectAll && !this.selectedProducts1.includes(product.productId)) {
+          this.selectedProducts1.push(product.productId);
+          
+        }
+        else if (!this.selectAll && this.selectedProducts1.includes(product.productId)) {
+          // Remove the deselected product from the list
+          this.selectedProducts1 = this.selectedProducts1.filter(
+            (id) => id !== product.productId
+          );
+          // this.selectAll=false;
+        
+        }
+        
+      }
+    );
+   
+    
+    // console.log('Selected Product IDs:', this.selectedProducts1);
+    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
+    // console.log("this.selectedProducts1.length",this.productList.length);
+  
+  }
+ 
+  chageActiveInactive(isActive:any){
+
+
+ 
+    if(this.selectedProducts1.length>0){
+      
+
+      this.productService.updateProductStatus(this.selectedProducts1,isActive).subscribe({
+        next: (response: any) => {
+          // console.log(response);
+          this.getProducts(isActive);
+          this.btnIndex = isActive;
+          this.PrdouctExistModalBTN.nativeElement.click();
+          this.alertMsg = isActive
+          ? 'Product is  Activated!'
+          : 'Product is Deactivated!';
+        this.alertTitle = isActive
+          ? 'Activatad!'
+          : 'Deactivated!';
+  //         this.selectAll = false;
+  
+           this.selectAll=false;
+           this.selectedProducts1.length=0;
+          // console.log("product id's are",this.selectedProductIds)
+        },
+        error: (error: any) => {
+          //console.log(error);
+          this.alertMsg = error.error.message;
+        },
+      });
+    }
+    else{
+      this.PrdouctExistModalBTN.nativeElement.click();
+      this.alertTitle='No Selection!'
+
+      this.alertMsg='No Product is selected'
+    }
+
+  }
+  
+  
+
+
+
+  checkboxSelected(productId: any, event: any) {
+    const isSelected: boolean = event.target.checked;
+// console.log(isSelected);
+    if (isSelected ) {
+      // Add the selected product to the list
+      this.selectedProducts1.push(productId);
+    } else if (!isSelected ) {
+      // Remove the deselected product from the list
+      this.selectedProducts1 = this.selectedProducts1.filter(
+        (id) => id !== productId
+      );
+    }
+    this.allSelectedCheckbox.nativeElement.checked=false;
+    // Update the selectedProductIds array with the current list of selected product IDs
+    this.selectedProductIds = this.selectedProducts1.slice();
+  if(this.selectedProducts1.length===this.productList.length){
+  this.allSelectedCheckbox.nativeElement.checked=true;
+
+}
+ 
   }
 }

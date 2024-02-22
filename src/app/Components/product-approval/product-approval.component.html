@@ -4,7 +4,9 @@
   >
     <h1 class="companyApproval_header_text">Product Approval</h1>
   </div>
-  <div class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2">
+  <div
+    class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between align-items-center"
+  >
     <div class="headerbtns">
       <button
         class="custom-btn new-btn active"
@@ -31,11 +33,32 @@
         Cancelled
       </button>
     </div>
+
+    <div class="d-flex align-items-center">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search Company"
+        aria-label="Search"
+        [(ngModel)]="searchTerm"
+        (keyup)="filterProducts()"
+      />
+    </div>
   </div>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
+
     <div class="row headerRow sticky-top fw-bolder">
-      <div class="col tableHeader"></div>
+      <div class="col tableHeader">
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAll"
+          (ngModelChange)="toggleAllCheckboxes()"
+          #allselected
+        />
+        Select All
+      </div>
+      <div class="col tableHeader">Index</div>
       <div class="col tableHeader">Image</div>
       <div class="col tableHeader">Product Name</div>
       <div class="col tableHeader">Seller Name</div>
@@ -51,15 +74,41 @@
 
       <div class="col tableHeader">Action</div>
     </div>
-
+    <div>
+      <h1
+        *ngIf="productsData.length == 0"
+        class="text-center"
+        style="color: red; margin-top: 15%"
+      >
+        Product Not Found
+      </h1>
+    </div>
     <!-- table body -->
 
     <section
       class="row tablebodyRow fw-semibold"
-      *ngFor="let row of productsData; let i = index"
+      *ngFor="let row of filteredProductsData; let i = index"
+      (mouseover)="isHovered = i"
+      (mouseout)="isHovered = null"
     >
-      <div class="col tableBody">#{{ i + 1 }}</div>
-      <div class="col tableBody">
+      <div
+        class="col tableBody"
+        [ngClass]="{
+          'active-row': isHovered === i
+        }"
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="row.isSelected"
+          (change)="
+            checkboxSelected(row.userId, row.companyCode, row.productId, $event)
+          "
+        />
+      </div>
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+        #{{ i + 1 }}
+      </div>
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <!-- {{ row.imagePath }} -->
         <img
           class="product_image"
@@ -67,35 +116,37 @@
           alt="no image was uploaded!"
         />
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.productName }}
       </div>
-      <div class="col tableBody">{{ row.fullName }}</div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+        {{ row.fullName }}
+      </div>
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.companyName }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.price }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.discountAmount }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.discountPct }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.totalPrice }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.effectivateDate | date : "dd MMM yyyy" }}<br />
         {{ row.effectivateDate | date : "hh:mm a" }}
       </div>
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ row.endDate | date : "dd MMM yyyy" }}<br />
         {{ row.endDate | date : "hh:mm a" }}
       </div>
 
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <button
           class="custom-btn"
           data-bs-toggle="modal"
@@ -106,7 +157,7 @@
         </button>
       </div>
 
-      <div class="col tableBody">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <div class="d-flex justify-content-center align-items-center">
           <div>
             <button class="actionBtn" *ngIf="btnIndex != 1">
@@ -246,6 +297,12 @@
                     >{{ selectedProduct?.previousDiscountPct }}%</span
                   >
                 </p>
+                <p class="card-text">
+                  Total Price:
+                  <span class="text-muted fw-bold">{{
+                    selectedProduct?.previousTotalPrice
+                  }}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -273,10 +330,90 @@
                     >{{ selectedProduct?.discountPct }}%</span
                   >
                 </p>
+
+                <p class="card-text">
+                  Total Price:
+                  <span class="text-muted fw-bold">{{
+                    selectedProduct?.totalPrice
+                  }}</span>
+                </p>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-end">
+  <button
+    *ngIf="btnIndex === 0 || btnIndex === -1"
+    class="custom-btn"
+    (click)="changeStatus('Approved')"
+  >
+    Approve
+  </button>
+  <button
+    *ngIf="btnIndex === 1 || btnIndex === -1"
+    class="custom-btn"
+    (click)="changeStatus('Rejected')"
+  >
+    Reject
+  </button>
+</div>
+
+<!-- modal for success or rejected product -->
+
+<button
+  type="button"
+  class="btn btn-primary d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#msgModal"
+  #msgModalBTN
+>
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="msgModal"
+  tabindex="-1"
+  aria-labelledby="msgModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header fs-5 fw-bold">
+        <h1 class="modal-title fs-5" id="msgModalLabel">
+          <span
+            [ngClass]="{
+              'text-success': isApproved,
+              'text-danger': isRejected
+            }"
+            [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+          >
+            {{ alertTitle }}</span
+          >
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <span
+          [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+          >{{ alertMsg }}</span
+        >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
       </div>
     </div>
   </div>

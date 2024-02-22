@@ -166,7 +166,12 @@ select {
 }
 .tablebodyRow {
   text-align: center;
+
+
 }
+/* .tablebodyRow:hover{
+  background-color: #78ac8b;
+} */
 .tableHeader,
 .tableBody {
   min-width: 10rem;
@@ -179,6 +184,7 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .tableHeader {
@@ -246,5 +252,10 @@ select {
 }
 
 .active-row {
-  background-color: #f1f1dd;
+  background-color:rgb(233, 238, 243);
 }
+
+
+
+
+
