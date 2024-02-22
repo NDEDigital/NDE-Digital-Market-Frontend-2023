@@ -472,6 +472,9 @@ export class ProductSliderComponent {
 
   navigateToData(detail: any) {
     sessionStorage.setItem('productData', JSON.stringify(detail));
-    window.open('/productDetails', '_blank');
+  console.log(detail);
+  // alert('hh');
+  
+    window.open('/productDetails?productId='+detail.goodsId+'&companyCode='+detail.companyCode, '_blank');
   }
 }

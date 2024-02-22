@@ -10,6 +10,7 @@ import { PROJECT_TITLE } from 'src/app/config';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  companyCode:any;
   loginForm: FormGroup;
   errorMessage: any;
   refreshToken: string = 'fhwe';
@@ -53,12 +54,16 @@ export class LoginComponent {
         this.userData.SetRefreshToken(response.newRefreshToken);
         this.refreshToken = response.newRefreshToken;
         this.isCompanyAdmin = response.isSellerAdmin;
+// console.log(response);
+this.companyCode=response.companyCode;
+localStorage.setItem('CompanyCode',this.companyCode);
 
         if (this.isCompanyAdmin) {
           localStorage.setItem('isDigitalCompanyAd', 'true');
         } else {
           localStorage.setItem('isDigitalCompanyAd', 'false');
         }
+        // localStorage.setItem('CompanyCode',);
         // //console.log(response.userId);
         this.errorMessage = '';
         this.loginForm.reset();

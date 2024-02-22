@@ -153,9 +153,9 @@ export class SellerOrdersComponent {
   }
 
   loadData() {
-    const userCode = localStorage.getItem('code');
+    const companyCode = localStorage.getItem('CompanyCode');
 
-    this.orderService.getOrdersForSeller(userCode, '').subscribe({
+    this.orderService.getOrdersForSeller(companyCode, '').subscribe({
       next: (response: any) => {
         console.log(response, 'newsellerorder');
         this.sellerOrder = response;
@@ -177,9 +177,12 @@ export class SellerOrdersComponent {
   }
 
   getData(status: string) {
-    const userCode = localStorage.getItem('code');
+    console.log("status",status);
+    
+    const companyCode = localStorage.getItem('CompanyCode');
+console.log("user code",companyCode);
 
-    this.orderService.getOrdersForSeller(userCode, status).subscribe({
+    this.orderService.getOrdersForSeller(companyCode, status).subscribe({
       next: (response: any) => {
         console.log(response, 'newsellerorder');
         this.sellerOrder = response;
