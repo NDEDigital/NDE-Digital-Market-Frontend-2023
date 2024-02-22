@@ -118,8 +118,11 @@ allRole:any;
 
   activeGroupName = localStorage.getItem('activeEntry');
   filteredProducts: any[] = [];
-
+  companyCode:any;
   ngOnInit() {
+    this.companyCode=sessionStorage.getItem('companyCode');
+    // alert(this.companyCode);
+
     //  setTimeout(()=>{
     //   this.productType=this.sharedService.getProductType();
     //   this.GroupdCode=this.sharedService.getProductCode();
@@ -272,11 +275,17 @@ allRole:any;
     return maxLength;
   }
 
-  dataClick(entry: string) {
+  dataClick(entry: any) {
     // this.goodsData.setDetailData(entry);
     sessionStorage.setItem('productData', JSON.stringify(entry));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails', '_blank');
+    // console.log(entry.goodsId,"type o bo",typeof entry);
+
+
+  
+    window.open('/productDetails?productId='+entry.goodsId+'&companyCode='+this.companyCode, '_blank');
+    
+    // window.open('/productDetails', '_blank');
   }
 
   splitProductKey(key: string) {
