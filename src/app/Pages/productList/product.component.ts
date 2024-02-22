@@ -5,6 +5,7 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 
+
 declare var bootstrap: any;
 @Component({
   selector: 'app-product',
@@ -40,6 +41,7 @@ allRole:any;
       .getProductList(this.sharedService.companyCode)
       .subscribe((data: any[]) => {
         this.goods = data;
+        
 
         for (let i = 0; i < this.goods.length; i++) {
           let obj = {
@@ -62,7 +64,7 @@ allRole:any;
           };
           this.products.push(obj);
         }
-
+      
         // this.products = goods;
         this.filteredProducts = [...this.products];
         this.loading = false;

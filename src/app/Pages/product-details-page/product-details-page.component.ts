@@ -131,7 +131,7 @@ allrole:any;
 if (this.detailsData.approveSalesQty == 0) {
      this.CartButtonText = 'Out of stock';
     }
-    this.RatingsAndReview(this.detailsData.productId);
+    this.RatingsAndReview(this.detailsData.goodsId);
 
     });
   
