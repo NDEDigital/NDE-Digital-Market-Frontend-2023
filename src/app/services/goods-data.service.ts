@@ -31,6 +31,7 @@ export class GoodsDataService implements OnInit{
   sellersProductListURL = `${this.URL}/GetProduct`;
   navUrl = `${this.URL}/api/Goods/GetNavData`;
   dropDownGroupUrl= `${this.URL}/api/Goods/GetDataForDropdown`;
+
   searchProuct = '';
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
     // this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
@@ -58,13 +59,6 @@ ngOnInit(): void {
       })
     );
   }
- getGroupData(){
-  return this.http.get<any[]>(this.dropDownGroupUrl).pipe(
-    tap((response: any[]) => {
-      this.navData = response;
-    })
-  );
- }
 
 
   setDetailData(entry: any) {
@@ -144,6 +138,14 @@ ngOnInit(): void {
     });
   }
 
+  getGroupData(){
+    return this.http.get<any[]>(this.dropDownGroupUrl).pipe(
+      tap((response: any[]) => {
+        this.navData = response;
+      })
+    );
+   }
+  
   // review and ratings
 
   getReviewRatingsData(productId: any) {

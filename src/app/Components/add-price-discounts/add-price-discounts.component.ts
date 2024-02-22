@@ -250,6 +250,7 @@ export class AddPriceDiscountsComponent {
     });
   }
 
+  
   resetForm(): void {
     this.addPriceDiscountForm.reset();
     this.selectedUnitName = '';
