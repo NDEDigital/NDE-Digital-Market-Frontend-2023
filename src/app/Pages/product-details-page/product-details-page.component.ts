@@ -45,6 +45,7 @@ export class ProductDetailsPageComponent {
   formData = new FormData();
   errorMsg = false;
   reviewUpdateData: any;
+  goods:any;
   // Convert the object into an array of objects
   imageArray = Array.from({ length: Math.ceil(4) }, (_, index) => index + 1);
 
@@ -107,13 +108,26 @@ allrole:any;
     // }
     this.buyerCode = localStorage.getItem('code');
     this.service.UrlGetOfHome(this.productIdPa, this.companyCodePa)
-    .subscribe((data: any) => {
-if(this.detailsData){
-
-  
-        this.detailsData=data[0];
-        console.log("getdata",this.detailsData);
-}
+    .subscribe((goods: any) => {
+       this.detailsData = {
+          companyCode: goods.companyCode,
+          companyName: goods.companyName,
+          groupCode: goods.productGroupID,
+          goodsId: goods.productId,
+          groupName: goods.productGroupName,
+          goodsName: goods.productName,
+          specification:goods.specification,
+          approveSalesQty: goods.availableQty,
+          sellerCode: goods.sellerId,
+          unitId: goods.unitId,
+          quantityUnit: goods.unit,
+          imagePath: goods.imagePath,
+          price: goods.price,
+          discountAmount: goods.discountAmount,
+          discountPct: goods.discountPct,
+          netPrice:goods.totalPrice,
+        }
+      
 if (this.detailsData.approveSalesQty == 0) {
      this.CartButtonText = 'Out of stock';
     }
