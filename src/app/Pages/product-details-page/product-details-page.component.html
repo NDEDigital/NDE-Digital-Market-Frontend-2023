@@ -370,10 +370,12 @@
                 [class.btn-secondary]="detailsData.approveSalesQty === 0"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
-                [disabled]="detailsData.approveSalesQty === 0 ||this.allrole==null"
+                [disabled]="
+                  detailsData.approveSalesQty === 0 || this.allrole == null
+                "
               >
                 {{ CartButtonText }}
-         </button>
+              </button>
 
               <!-- Only render the modal trigger if approveSalesQty is not 0 -->
             </div>
@@ -389,7 +391,7 @@
             <button type="button" class="buyNowButton">Buy Now</button>
             <button type="button" class="AddToCartButton">Add to Cart</button>
           </div> -->
-      </div>
+        </div>
       </div>
       <!-- product delivery part -->
       <!-- <div class="col-12 col-lg-4 col-md-6 col-sm-12 p-4   p-2"> -->
@@ -576,7 +578,7 @@
         </div>
         <!-- review part end -->
 
-        <div class="reviewEdit" *ngIf="row.buyerCode == buyerCode">
+        <div class="reviewEdit" *ngIf="row.buyerId == buyerCode">
           <a
             #reviewBTN
             data-bs-toggle="modal"
