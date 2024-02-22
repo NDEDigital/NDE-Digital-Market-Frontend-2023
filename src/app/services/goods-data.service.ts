@@ -59,13 +59,6 @@ ngOnInit(): void {
       })
     );
   }
- getGroupData(){
-  return this.http.get<any[]>(this.dropDownGroupUrl).pipe(
-    tap((response: any[]) => {
-      this.navData = response;
-    })
-  );
- }
 
 
   setDetailData(entry: any) {
