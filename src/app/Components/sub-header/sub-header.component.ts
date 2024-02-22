@@ -34,7 +34,7 @@ export class SubHeaderComponent {
       this.isAdmin = false;
       this.isSeller = false;
     }
-    console.log(role);
+    // console.log(role);
 
     if (!this.isSeller && !this.isAdmin) {
       window.location.href = '/';

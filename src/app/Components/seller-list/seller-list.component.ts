@@ -82,7 +82,7 @@ export class SellerListComponent {
          
       },
       error: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
     });
   }
@@ -119,7 +119,7 @@ export class SellerListComponent {
         
       },
       error: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
       
     });
@@ -152,7 +152,7 @@ export class SellerListComponent {
        
       },
       error: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
     });
   }
@@ -168,7 +168,7 @@ getBuyer(){
   this.selectAll=false;
   this.companyService.GetBuyerInAdmin(this.btnIndex).subscribe({
     next: (response: any) => {
-      console.log("btn index is ",this.userBtnIndex);
+      // console.log("btn index is ",this.userBtnIndex);
     
       // console.log("This is ")
       // console.log(this.btnIndex,"getBuyerInAdmin",response);
@@ -180,7 +180,7 @@ getBuyer(){
        
     },
     error: (error: any) => {
-      console.log(error);
+      // console.log(error);
     },
   });
 
@@ -218,10 +218,10 @@ getUser(){
     userIds: any,
     Isactive: any,
   ) {
-   console.log("userIds",userIds);  
-   console.log("IsActive",Isactive);
+  //  console.log("userIds",userIds);  
+  //  console.log("IsActive",Isactive);
    userIds=userIds.toString();
-   console.log("userIds",typeof userIds);  
+  //  console.log("userIds",typeof userIds);  
 
     this.companyService.UpdateSellerActiveInActive(userIds,Isactive).subscribe({
       next: (response: any) => {
@@ -273,7 +273,7 @@ getUser(){
          
       },
       error: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
     });
   }
@@ -283,7 +283,7 @@ getUser(){
   selectAll = false;
 
   toggleAllCheckboxes() {
-    console.log("all seelcted",)
+    // console.log("all seelcted",)
  
 
 
@@ -407,7 +407,7 @@ getUser(){
   this.allSelectedCheckbox.nativeElement.checked=true;
 
 }
- console.log("selected areee",this.selectedProducts1);
+//  console.log("selected areee",this.selectedProducts1);
   }
  
 }

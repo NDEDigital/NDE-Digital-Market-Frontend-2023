@@ -157,7 +157,7 @@ export class AddProductsComponent implements OnInit {
       }
 
       if (this.isEditMode) {
-        console.log('this.isEditMode: ', this.isEditMode);
+        // console.log('this.isEditMode: ', this.isEditMode);
 
         let updateByUser = localStorage.getItem('code');
         // console.log(updateByUser, 'code...');
@@ -198,7 +198,7 @@ export class AddProductsComponent implements OnInit {
         });
       }
     } else {
-      console.log('form is not valid');
+      // console.log('form is not valid');
     }
   }
   selectedProducts1: any[] = [];
@@ -235,7 +235,7 @@ export class AddProductsComponent implements OnInit {
   openModalWithData(product: any): void {
     this.isEditMode = true;
     this.updateFormValidators();
-    console.log('productId', product);
+    // console.log('productId', product);
     this.populateForm(product);
     this.currentProduct = product;
 
@@ -259,12 +259,12 @@ export class AddProductsComponent implements OnInit {
   }
 
   displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
+    // console.log('Received imagePath:', imagePath);
 
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
 
-      console.log('Constructed imageUrl:', imageUrl);
+      // console.log('Constructed imageUrl:', imageUrl);
       this.imagePathPreview = imageUrl;
     } else {
       this.imagePathPreview = 'not upload yet';

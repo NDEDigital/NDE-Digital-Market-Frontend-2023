@@ -48,14 +48,14 @@ export class AddPriceDiscountsComponent {
   isHovered: any | null = null;
   onProductChange(event: any) {
     const productId = event.target.value;
-    console.log(productId, 'productId..');
+    // console.log(productId, 'productId..');
 
     const selectedProduct = this.products.find(
       (prod) => prod.productId == productId
     );
     this.selectedUnitName = selectedProduct ? selectedProduct.unitName : '';
-    console.log(this.selectedUnitName, 'name');
-    console.log(selectedProduct, 'product name of unit');
+    // console.log(this.selectedUnitName, 'name');
+    // console.log(selectedProduct, 'product name of unit');
     //console.log(productName, "Prod name");
   }
 
@@ -139,7 +139,7 @@ export class AddPriceDiscountsComponent {
     //this.getProductList();
     this.getGroupList();
     this.addPriceDiscountForm.get('productId')?.setValue(null);
-    console.log(this.addPriceDiscountForm.get('productGroupID'), 'group');
+    // console.log(this.addPriceDiscountForm.get('productGroupID'), 'group');
 
     //this.addPriceDiscountForm.get('productGroupID')?.setValue(null);
   }
@@ -170,19 +170,19 @@ export class AddPriceDiscountsComponent {
     }
 
     // Debugging logs
-    console.log('Selected Group ID:', selectedGroupId);
-    console.log('Filtered Products:', this.filteredProducts);
+    // console.log('Selected Group ID:', selectedGroupId);
+    // console.log('Filtered Products:', this.filteredProducts);
 
     this.getProductData(selectedGroupId);
   }
 
   getProductData(GroupID: number) {
-    console.log(GroupID, 'group id : ');
+    // console.log(GroupID, 'group id : ');
 
     this.productService.GetProductByGroupName(GroupID).subscribe({
       next: (response: any) => {
         this.allProductAndGroup = response;
-        console.log(this.allProductAndGroup, 'get products');
+        // console.log(this.allProductAndGroup, 'get products');
         this.products = [...this.allProductAndGroup];
         console.log(this.products, 'products...');
       },
@@ -529,7 +529,7 @@ export class AddPriceDiscountsComponent {
       for (let pair of (formData as any).entries()) {
         //console.log(`${pair[0]}: `, pair[1]);
       }
-      console.log(this.isEditMode, 'edit modal...');
+      // console.log(this.isEditMode, 'edit modal...');
 
       if (!this.isEditMode) {
         console.log('submit mode!');
@@ -559,9 +559,9 @@ export class AddPriceDiscountsComponent {
       }
       if (this.isEditMode) {
         let updateByUser = localStorage.getItem('code');
-        console.log(updateByUser, 'code...');
+        // console.log(updateByUser, 'code...');
 
-        console.log('edit mode');
+        // console.log('edit mode');
         // formData.append('ProductGroupID', this.currentGroup.productGroupID);
         if (updateByUser !== null) {
           formData.append('UpdatedBy', updateByUser);
@@ -621,7 +621,7 @@ export class AddPriceDiscountsComponent {
   openModalWithData(product: any): void {
     this.isEditMode = true;
     this.updateFormValidators();
-    console.log('product', product);
+    // console.log('product', product);
 
 
     this.getProductData(product.productGroupID);
@@ -637,10 +637,10 @@ export class AddPriceDiscountsComponent {
   }
 
   populateForm(product: any): void {
-    console.log(product, 'populate form.. ');
+    // console.log(product, 'populate form.. ');
 
-    console.log('Product ID:', product.productName);
-    console.log(this.products, "products all");
+    // console.log('Product ID:', product.productName);
+    // console.log(this.products, "products all");
 
     const isDefaultDate = (date: string) =>
       date.startsWith('0001-01-01T00:00:00');
@@ -658,7 +658,7 @@ export class AddPriceDiscountsComponent {
       totalPrice: product.totalPrice,
     });
 
-    console.log('product price:  ', product.discountAmount);
+    // console.log('product price:  ', product.discountAmount);
 
     this.displayImage(product.imagePath);
     this.existingImagePath = product.imagepath;
@@ -666,16 +666,16 @@ export class AddPriceDiscountsComponent {
     this.groupSelect.nativeElement.value = product.productGroupID;
     this.productSelect.nativeElement.value = product.productId
 
-    console.log(product.unitName, this.selectedUnitName, 'unit name::');
+    // console.log(product.unitName, this.selectedUnitName, 'unit name::');
   }
 
   displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
+    // console.log('Received imagePath:', imagePath);
 
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
 
-      console.log('Constructed imageUrl:', imageUrl);
+      // console.log('Constructed imageUrl:', imageUrl);
       this.imagePathPreview = imageUrl;
     } else {
       this.imagePathPreview = 'not upload yet';

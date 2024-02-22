@@ -244,7 +244,7 @@ export class BuyerOrderComponent {
   // adding review
   openReviewModal(detail: any): void {
     this.currentOrderDetailId = detail.orderDetailId;
-    console.log(detail, 'row value');
+    // console.log(detail, 'row value');
   }
 
   onSubmit(): void {
@@ -257,7 +257,7 @@ export class BuyerOrderComponent {
       const formValue = this.reviewForm.value;
 
       let buyerId = localStorage.getItem('code');
-      console.log(buyerId, 'buyerId..');
+      // console.log(buyerId, 'buyerId..');
 
       const file = this.ProductImageInput.nativeElement.files[0];
       if (file) {
@@ -275,18 +275,18 @@ export class BuyerOrderComponent {
       if (buyerId) {
         formData.append('buyerId', buyerId);
       } else {
-        console.log('Buyer ID is not available');
+        // console.log('Buyer ID is not available');
       }
 
       formData.append('orderDetailId', this.currentOrderDetailId.toString());
 
       formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
+        // console.log(`${key}:`, value);
       });
 
       this.reviewService.addReview(formData).subscribe({
         next: (response) => {
-          console.log(response, 'response');
+          // console.log(response, 'response');
           this.resetFormAndStars();
           this.CloseReviewFormModalBTN.nativeElement.click();
           alert('Review added successfully');
@@ -298,7 +298,7 @@ export class BuyerOrderComponent {
         },
       });
     } else {
-      console.log('form is invalid');
+      // console.log('form is invalid');
     }
   }
 
@@ -307,16 +307,16 @@ export class BuyerOrderComponent {
 
     this.orderService.getOrdersForBuyer(userCode, '').subscribe({
       next: (response: any) => {
-        console.log(response, 'newbuyerorder');
+        // console.log(response, 'newbuyerorder');
         this.buyerOrder = response;
 
         setTimeout(() => {
-          console.log(
-            this.buyerOrder,
-            'byer order array',
-            this.buyerOrder.length,
-            'this.buyerOrder.length'
-          );
+          // console.log(
+          //   this.buyerOrder,
+          //   'byer order array',
+          //   this.buyerOrder.length,
+          //   'this.buyerOrder.length'
+          // );
         }, 500);
         this.loading = false;
       },
@@ -390,7 +390,7 @@ export class BuyerOrderComponent {
     this.returnType = false;
     this.returnService.getReturnType().subscribe((data: any) => {
       //console.log(' typeId', data[0].typeId); // Use a type if possible for better type checking
-      console.log('get returnType data', data); // Use a type if possible for better type checking
+      // console.log('get returnType data', data); 
       this.returnTypeData = data;
     });
 
@@ -437,13 +437,13 @@ export class BuyerOrderComponent {
       const formDataObject = this.formDataToObject(this.formData);
 
       // Log the FormData as an object
-      console.log(' form data ', formDataObject);
+      // console.log(' form data ', formDataObject);
 
       this.returnService
         .ReturnProductAndChangeOrderDetailsStatus(this.formData)
         .subscribe({
           next: (Response: any) => {
-            console.log('return post and status change response', Response);
+            // console.log('return post and status change response', Response);
             setTimeout(() => {
               this.getData('Delivered');
               this.closeModalButton.nativeElement.click();
@@ -452,7 +452,7 @@ export class BuyerOrderComponent {
             }, 100);
           },
           error: (error: any) => {
-            console.log(error);
+            // console.log(error);
             alert(error);
           },
         });

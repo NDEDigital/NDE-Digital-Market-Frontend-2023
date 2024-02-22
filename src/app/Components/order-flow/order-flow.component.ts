@@ -96,18 +96,18 @@ export class OrderFlowComponent {
   GetReturnTypeForSelectOption() {
     this.productReturnService.getReturnType().subscribe({
       next: (Response: any) => {
-        console.log(Response);
+        // console.log(Response);
         this.returntype = Response;
       },
       error: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
     });
   }
 
   setreturnDataArrayIndex(index: any) {
     this.arrayindex = index;
-    console.log('classname', index);
+    // console.log('classname', index);
   }
 
   ProductReturnFunction(): void {
@@ -121,13 +121,13 @@ export class OrderFlowComponent {
       const returnType = this.returnForm.get('returntype')?.value;
       const remarks = this.returnForm.get('remarks')?.value;
 
-      console.log('Return Type:', returnType);
-      console.log('Remarks:', remarks);
+      // console.log('Return Type:', returnType);
+      // console.log('Remarks:', remarks);
 
-      console.log('return product array', this.productsData);
+      // console.log('return product array', this.productsData);
       if (this.arrayindex >= 0 && this.arrayindex < this.productsData.length) {
         const selectedProduct = this.productsData[this.arrayindex];
-        console.log('Selected Product:', selectedProduct);
+        // console.log('Selected Product:', selectedProduct);
         // Append individual values to the FormData
         returnData.append('ReturnTypeId', returnType);
         // formData.append('ProductGroupId', '1');
@@ -145,19 +145,19 @@ export class OrderFlowComponent {
       }
 
       returnData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
+        // console.log(`${key}: ${value}`);
       });
 
       this.productReturnService
         .ReturnProductAndChangeOrderDetailsStatus(returnData)
         .subscribe({
           next: (Response: any) => {
-            console.log('return post and status change response', Response);
+            // console.log('return post and status change response', Response);
             this.getData('Delivered');
             this.CloseReturnFormModalBTN.nativeElement.click();
           },
           error: (error: any) => {
-            console.log(error);
+            // console.log(error);
             alert(error);
           },
         });
@@ -295,7 +295,7 @@ export class OrderFlowComponent {
 
   openReviewModal(row: any): void {
     this.currentOrderDetailId = row.orderDetailId;
-    console.log(row, 'row value');
+    // console.log(row, 'row value');
   }
 
   onSubmit(): void {
@@ -308,7 +308,7 @@ export class OrderFlowComponent {
       const formValue = this.reviewForm.value;
 
       let buyerId = localStorage.getItem('code');
-      console.log(buyerId, 'buyerId..');
+      // console.log(buyerId, 'buyerId..');
 
       const file = this.ProductImageInput.nativeElement.files[0];
       if (file) {
@@ -326,18 +326,18 @@ export class OrderFlowComponent {
       if (buyerId) {
         formData.append('buyerId', buyerId);
       } else {
-        console.log('Buyer ID is not available');
+        // console.log('Buyer ID is not available');
       }
 
       formData.append('orderDetailId', this.currentOrderDetailId.toString());
 
       formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
+        // console.log(`${key}:`, value);
       });
 
       this.ReviewandRatingsService.addReview(formData).subscribe({
         next: (response) => {
-          console.log(response, 'response');
+          // console.log(response, 'response');
           this.resetFormAndStars();
           this.CloseReviewFormModalBTN.nativeElement.click();
         },
@@ -346,7 +346,7 @@ export class OrderFlowComponent {
         },
       });
     } else {
-      console.log('form is invalid');
+      // console.log('form is invalid');
     }
   }
 }

@@ -29,7 +29,7 @@ export class SslPaymentService {
       .post(this.paymentAPI, postSSL, { responseType: 'text' })
       .subscribe(
         (response) => {
-          console.log('payment redirect link', response);
+          // console.log('payment redirect link', response);
           window.location.href = response;
         },
         (error) => {
@@ -47,7 +47,7 @@ export class SslPaymentService {
       .post(this.paymentDataPostAPI, payment, { responseType: 'text' })
       .subscribe(
         (response) => {
-          console.log('payment redirect link', response);
+          // console.log('payment redirect link', response);
           // window.location.href = response;
         },
         (error) => {

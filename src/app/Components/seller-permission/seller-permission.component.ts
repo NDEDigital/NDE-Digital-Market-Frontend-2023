@@ -50,7 +50,7 @@ selectedMenu: any;
 
 
   getDashboarItem(sellerId:any) {
-    console.log("the sellerId is",sellerId)
+    // console.log("the sellerId is",sellerId)
   
     // console.log("the getDashoard",  sellerId);
     this.SellerDasboardPermissionService.GetSellerDashboardPermission(sellerId).subscribe({
@@ -61,7 +61,7 @@ selectedMenu: any;
          
       },
       error: (error: any) => {
-        console.log(error);
+        // console.log(error);
       },
     });
   }
@@ -183,7 +183,7 @@ selectedMenu: any;
  openModal(){
   // console.log("selected menu is",this.selectedMenuItems);
   if(this.selectedMenuItems.length>0){
-    console.log("selectedMenu",this.selectedMenuItems);
+    // console.log("selectedMenu",this.selectedMenuItems);
 
     const modalButton = document.getElementById('msgModalBTN');
     if (this.modalButton) {

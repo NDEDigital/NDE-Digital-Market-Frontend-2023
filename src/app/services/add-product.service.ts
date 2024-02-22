@@ -155,8 +155,8 @@ export class AddProductService {
     // const convertedIsActive = IsActive === 1 ? true : false;
 
     // console.log(groupIds, convertedIsActive, 'service product is active');
-    console.log("active are",IsActive);
-    console.log("group id's are ",groupIds)
+    // console.log("active are",IsActive);
+    // console.log("group id's are ",groupIds)
 
     return this.http.put(
       `${this.updateProductGroupStatusURL}?groupIds=${groupIds}&IsActive=${IsActive}`,

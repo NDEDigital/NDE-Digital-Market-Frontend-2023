@@ -34,7 +34,7 @@ export class CompanyApprovalComponent {
     this.companyService.GetCompaniesBasedOnStatus(this.btnIndex).subscribe({
       next: (response: any) => {
         this.companies = response;
-        console.log(this.companies, 'companies....');
+        // console.log(this.companies, 'companies....');
       },
       error: (error: any) => {
         //console.log(error);

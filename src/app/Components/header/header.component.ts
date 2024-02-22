@@ -223,7 +223,7 @@ export class HeaderComponent {
         oldPassword: this.pForm.value.currentPassword,
         newPassword: this.pForm.value.newPassword,
       };
-      console.log(passData, ' passData');
+      // console.log(passData, ' passData');
 
       this.userDataService.updatePass(passData).subscribe({
         next: (response: any) => {

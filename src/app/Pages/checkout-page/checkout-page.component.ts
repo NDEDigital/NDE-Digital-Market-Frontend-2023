@@ -71,7 +71,7 @@ export class CheckoutPageComponent {
       if (typeof Qty === 'number') {
           this.totalPrice += (Qty * price);
       }
-         console.log(typeof Qty, Qty ,price);
+        //  console.log(typeof Qty, Qty ,price);
          
     }
 

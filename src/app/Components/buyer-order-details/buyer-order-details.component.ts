@@ -23,7 +23,7 @@ export class BuyerOrderDetailsComponent implements OnInit {
     }
     this.orderApi.getSingleOrderForBuyer(this.orderNo).subscribe({
       next: (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.order = response;
 
         // console.log(this.productsData,"all data");

@@ -162,12 +162,12 @@ export class AdminOrderComponent {
   GetData() {
     this.service.getOrderMasterData(this.status).subscribe(
       (data: any[]) => {
-        console.log('Orders:', data);
-        this.filteredOrdersData = data;
-        console.log(
-          'filteredOrdersData',
-          this.filteredOrdersData
-        );
+        // console.log('Orders:', data);
+        // this.filteredOrdersData = data;
+        // console.log(
+        //   'filteredOrdersData',
+        //   this.filteredOrdersData
+        // );
         this.dataDistribute(data);
         // const allcheck =
         //   this.elementRef.nativeElement.querySelector('.check_all_Master');
@@ -227,20 +227,20 @@ export class AdminOrderComponent {
       this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
         // this.detailsData = [];
         if (this.selectedButtonIndex === 'Cancelled') {
-          console.log(data, 'all data');
+          // console.log(data, 'all data');
 
           this.detailsData = data.filter(
             (cancelData: any) => cancelData.status !== 'Approved'
           );
 
-          console.log(this.detailsData, 'data after filter');
+          // console.log(this.detailsData, 'data after filter');
 
           this.detailsData = this.detailsData.map((item: any) => ({
             ...item,
             isChecked: false,
           }));
         } else if (this.selectedButtonIndex === 'Approved') {
-          console.log('dsagashd');
+          // console.log('dsagashd');
 
           this.detailsData = data;
 
@@ -261,7 +261,7 @@ export class AdminOrderComponent {
         }
 
         //  this.togglingDetailsCheckbox(index);
-        console.log('details data dataaaaaa', this.detailsData); // Use a type if possible for better type checking
+        // console.log('details data dataaaaaa', this.detailsData); 
 
         setTimeout(() => {
           this.togglingDetailsCheckbox(index, this.detailsData);
@@ -526,7 +526,7 @@ export class AdminOrderComponent {
   // Method to check if all details checkboxes are selected
   areAllDetailsSelected(orderMasterId: number): boolean {
     // Log the masterID for debugging
-    console.log(orderMasterId, 'masterID');
+    // console.log(orderMasterId, 'masterID');
 
     return true;
   }
@@ -776,7 +776,7 @@ export class AdminOrderComponent {
   searchByDate() {
     // Check if both fromDate and toDate are provided
     if (this.fromDate && this.toDate) {
-      console.log(this.fromDate, this.toDate);
+      // console.log(this.fromDate, this.toDate);
 
       // Perform the search based on orderDate between the given dates
 
@@ -798,9 +798,9 @@ export class AdminOrderComponent {
       this.ordersData = this.filteredOrdersData;
       // Handle the case where fromDate or toDate is not provided
       // You can show a message or handle it according to your requirements
-      console.log(
-        'Both fromDate and toDate are required for date-based search.'
-      );
+      // console.log(
+      //   'Both fromDate and toDate are required for date-based search.'
+      // );
     }
   }
 

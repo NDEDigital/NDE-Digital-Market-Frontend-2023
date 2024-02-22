@@ -30,7 +30,7 @@ export class SellerOrderOverviewService {
     pageNumber: number,
     pageSize: number
   ) {
-    console.log(status, "asodfjofasdhnpodnp'fp");
+    // console.log(status, "asodfjofasdhnpodnp'fp");
 
     return this.http.get<orderInfo[]>(this.getOrderInfoURL, {
       params: {
@@ -50,16 +50,16 @@ export class SellerOrderOverviewService {
     SearchedPaymentMethod: any,
     SearchedStatus: any
   ) {
-    console.log(status, "asodfjofasdhnpodnp'fp");
-    console.log(
-      sellerId,
-      status,
-      pageNumber,
-      pageSize,
-      SearchOrderNumber,
-      SearchedPaymentMethod,
-      SearchedStatus
-    );
+    // console.log(status, "asodfjofasdhnpodnp'fp");
+    // console.log(
+    //   sellerId,
+    //   status,
+    //   pageNumber,
+    //   pageSize,
+    //   SearchOrderNumber,
+    //   SearchedPaymentMethod,
+    //   SearchedStatus
+    // );
 
     return this.http.get<orderInfo[]>(this.getOrderInfoURL, {
       params: {
@@ -104,7 +104,7 @@ export class SellerOrderOverviewService {
     StatusValue: string,
     sellerCode: any
   ) {
-    console.log(OrderMasterIds, StatusValue, 'dsadsaasd');
+    // console.log(OrderMasterIds, StatusValue, 'dsadsaasd');
     const formData = new FormData();
     formData.append('idList', OrderMasterIds);
     formData.append('status', StatusValue);
@@ -114,7 +114,7 @@ export class SellerOrderOverviewService {
 
   // by marufa
   GetReturnData(status: string, pageNumber: number, pageSize: number) {
-    console.log('service e aise stua', status);
+    // console.log('service e aise stua', status);
     const formData = new FormData();
     formData.append('status', status);
     return this.http.post(
@@ -132,7 +132,7 @@ export class SellerOrderOverviewService {
     fromDate: any,
     toDate: any
   ) {
-    console.log('load return data', status);
+    // console.log('load return data', status);
     const formData = new FormData();
     formData.append('status', status);
     formData.append('searchby', searchby);
@@ -146,11 +146,11 @@ export class SellerOrderOverviewService {
   }
 
   updateDetailsStatus(OrderDetailsIds: string, StatusValue: string) {
-    console.log(
-      OrderDetailsIds,
-      StatusValue,
-      'OrderDetailsIds, StatusValue on Return Update'
-    );
+    // console.log(
+    //   OrderDetailsIds,
+    //   StatusValue,
+    //   'OrderDetailsIds, StatusValue on Return Update'
+    // );
     const formData = new FormData();
     formData.append('idList', OrderDetailsIds);
     formData.append('status', StatusValue);
@@ -158,7 +158,7 @@ export class SellerOrderOverviewService {
     return this.http.put(this.updateDetaiilsOrderStatusURL, formData);
   }
   getUsersData(idList: any) {
-    console.log(idList);
+    // console.log(idList);
     return this.http.get(this.getUsersDataURL, { params: { idList } });
   }
 

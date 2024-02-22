@@ -12,8 +12,8 @@ export class EmailService {
 
   constructor(private http: HttpClient) {}
   sendEmail(to: any, subject: any, emailBody: any) {
-    console.log('come to dubaiiiiiii habiibiiiiiiiiiiiiii');
-    console.log(to, subject, emailBody);
+    // console.log('come to dubaiiiiiii habiibiiiiiiiiiiiiii');
+    // console.log(to, subject, emailBody);
 
     const emailRequest = {
       To: to,

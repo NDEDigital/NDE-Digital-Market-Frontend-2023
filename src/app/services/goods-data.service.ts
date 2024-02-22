@@ -149,7 +149,7 @@ ngOnInit(): void {
   // review and ratings
 
   getReviewRatingsData(productId: any) {
-    console.log(productId, 'ProductId');
+    // console.log(productId, 'ProductId');
     const url = `${this.URL}/api/ReviewAndRating/getReviewRatingsDataForDetailsPage`;
     // const url = `${this.baseUrl}/GetOrderData/${pageNumber}/${pageSize}/${status} `;
     return this.http.get(url, {
@@ -158,8 +158,8 @@ ngOnInit(): void {
   }
 
   UrlGetOfHome(productId: Number,companyCode:string) {
-    console.log(productId, 'ProductId');
-    console.log(companyCode,'companycde');
+    // console.log(productId, 'ProductId');
+    // console.log(companyCode,'companycde');
     
     const url = `${this.URL}/api/Goods/GetGoodsDetails/${companyCode}/${productId}`;
  

@@ -34,7 +34,7 @@ export class CarouselComponent {
     this.products.clear();
 
     this.goodsData.getCarouselData().subscribe((data: any[]) => {
-      console.log(data);
+      // console.log(data);
 
       this.goods = data;
 
@@ -78,7 +78,7 @@ export class CarouselComponent {
           );
         }
       }
-      console.log(this.products3, ' dsdsdsd');
+      // console.log(this.products3, ' dsdsdsd');
 
       this.loadData(this.products3);
     });
@@ -95,7 +95,7 @@ export class CarouselComponent {
     for (const [key, value] of products.entries()) {
       this.finalProducts.set(key, []);
       let obj = [];
-      console.log(value[0].approveSalesQty, ' check bro');
+      // console.log(value[0].approveSalesQty, ' check bro');
       for (let i = 0; i < value.length; i++) {
         if (i % 4 != 0 || i == 0) {
           let d = {

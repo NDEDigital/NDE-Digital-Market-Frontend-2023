@@ -177,14 +177,14 @@ export class SellerOrdersComponent {
   }
 
   getData(status: string) {
-    console.log("status",status);
+    // console.log("status",status);
     
     const companyCode = localStorage.getItem('CompanyCode');
-console.log("user code",companyCode);
+// console.log("user code",companyCode);
 
     this.orderService.getOrdersForSeller(companyCode, status).subscribe({
       next: (response: any) => {
-        console.log(response, 'newsellerorder');
+        // console.log(response, 'newsellerorder');
         this.sellerOrder = response;
 
         // setTimeout(() => {
@@ -268,11 +268,11 @@ console.log("user code",companyCode);
       status = 'Returned';
       this.alertMsg = `Order status is ${status}!`;
     }
-    console.log(order.orderDetailsListForSeller);
+    // console.log(order.orderDetailsListForSeller);
 
     //detailID = product.orderDetailId.toString();
-    console.log(order, 'order');
-    console.log(order.orderDetailsListForSeller, 'orderDetailsListForSeller');
+    // console.log(order, 'order');
+    // console.log(order.orderDetailsListForSeller, 'orderDetailsListForSeller');
 
     // if (btnIndex === 2) {
     //   status = 'Rejected';
@@ -341,12 +341,12 @@ console.log("user code",companyCode);
       // Adding the created object to the sellerSalesDetailsList array
       sellerSalesMasterDto.sellerSalesDetailsList.push(salesDetail);
     });
-    console.log(status, 'status');
+    // console.log(status, 'status');
     this.sellerService
       .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
-          console.log(response);
+          // console.log(response);
           // this.productsData = response;
           // //console.log(this.productsData);
           // if ((this.btnIndex = -1)) {

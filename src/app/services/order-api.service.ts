@@ -127,7 +127,7 @@ export class OrderApiService {
     };
 
     for (const [key, entry] of this.cartDataDetail.entries()) {
-      console.log(entry, ' ----- u');
+      // console.log(entry, ' ----- u');
 
       let qt: number | undefined = this.cartDataQt.get(key);
       if (qt === undefined) {
