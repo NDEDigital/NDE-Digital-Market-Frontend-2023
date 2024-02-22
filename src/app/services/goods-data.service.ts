@@ -30,7 +30,7 @@ export class GoodsDataService implements OnInit{
   getGoodsListURL = `${this.URL}/api/Goods/GetGoodsList`;
   sellersProductListURL = `${this.URL}/GetProduct`;
   navUrl = `${this.URL}/api/Goods/GetNavData`;
-  dropUrl= `${this.URL}/api/Goods/GetDataForDropdown`;
+  dropDownGroupUrl= `${this.URL}/api/Goods/GetDataForDropdown`;
   searchProuct = '';
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
     // this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
@@ -59,7 +59,7 @@ ngOnInit(): void {
     );
   }
  getGroupData(){
-  return this.http.get<any[]>(this.dropUrl).pipe(
+  return this.http.get<any[]>(this.dropDownGroupUrl).pipe(
     tap((response: any[]) => {
       this.navData = response;
     })

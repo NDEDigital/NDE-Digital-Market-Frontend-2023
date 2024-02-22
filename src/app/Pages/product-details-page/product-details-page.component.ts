@@ -112,32 +112,17 @@ if(this.detailsData){
 
   
         this.detailsData=data[0];
-        console.log("getdata",data[0]);
+        console.log("getdata",this.detailsData);
 }
 if (this.detailsData.approveSalesQty == 0) {
      this.CartButtonText = 'Out of stock';
     }
-
+    this.RatingsAndReview(this.detailsData.productId);
 
     });
   
   
-    this.service
-      .getReviewRatingsData(this.detailsData.goodsId)
-      .subscribe((data: any) => {
-        console.log(' dAta ', data);
-        this.reviewData = data.reviewsAndRatings;
-        this.perRatingCount = data.ratingsArray;
-        this.totalRatings = data.totalCount;
-        //console.log(this.perRatingCount, this.totalRatings, 'count');
-        const reviewsAndRatingsArray = JSON.parse(
-          data.reviewsAndRatings[0].ratingArray
-        );
-        //console.log(' json convert', reviewsAndRatingsArray);
-        //console.log(' review data dataaaaaa', this.reviewData); // Use a type if possible for better type checking
-
-        this.ratingsColor();
-      });
+   
 
     this.reviewForm.get('rating')?.valueChanges.subscribe((rating) => {
       //console.log('Rating selected:', rating);
@@ -146,6 +131,27 @@ if (this.detailsData.approveSalesQty == 0) {
       // You can do something with the rating value here
     });
   }
+
+RatingsAndReview(ProductID:any){
+  this.service
+  .getReviewRatingsData(ProductID)
+  .subscribe((data: any) => {
+    console.log('review', data);
+    this.reviewData = data.reviewsAndRatings;
+    this.perRatingCount = data.ratingsArray;
+    this.totalRatings = data.totalCount;
+    //console.log(this.perRatingCount, this.totalRatings, 'count');
+    const reviewsAndRatingsArray = JSON.parse(
+      data.reviewsAndRatings[0].ratingArray
+    );
+    //console.log(' json convert', reviewsAndRatingsArray);
+    //console.log(' review data dataaaaaa', this.reviewData); // Use a type if possible for better type checking
+
+    this.ratingsColor();
+  });
+}
+
+
 
   setDetail(detail: any) {
     this.reviewUpdateData = detail;
