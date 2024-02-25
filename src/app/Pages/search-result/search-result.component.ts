@@ -55,7 +55,7 @@ export class SearchResultComponent {
       // this.searchData = data;
       for (let i = 0; i < this.goods.length; i++) {
         let obj = {
-          companyId:this.goods[i].companyId,
+          companyCode:this.goods[i].companyCode,
           companyName: this.goods[i].companyName,
           groupCode: this.goods[i].productGroupID,
           goodsId: this.goods[i].productId,

@@ -26,6 +26,7 @@ export class ProductSearchComponent {
     this.router.navigate(['/contactSupplierComponent']);
   }
   viewDetail() {
+    
     sessionStorage.setItem('productData', JSON.stringify(this.productData));
     // this.route.navigate(['/productDetails']);
     window.open('/productDetails', '_blank');
