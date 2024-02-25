@@ -173,7 +173,8 @@ export class HeaderComponent {
   setSelectData(groupName: string, groupCode: string) {
     this.sharedService.setNavSelectData(groupCode, groupName);
     // this.router.navigate(['/productsPageComponent']);
-    window.open('/productsPageComponent?groupCode='+btoa(groupCode) );
+    window.location.href = '/productsPageComponent?groupCode=' + btoa(groupCode);
+
 
     this.dataUpdated.emit();
     // Update active entry
