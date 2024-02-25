@@ -29,6 +29,7 @@ export class ProductSearchComponent {
     
     sessionStorage.setItem('productData', JSON.stringify(this.productData));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails', '_blank');
+    window.open('/productDetails?productId='+this.productData.goodsId+'&companyCode='+this.productData.companyCode, '_blank');
+
   }
 }
