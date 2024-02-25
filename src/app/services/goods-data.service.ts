@@ -21,7 +21,7 @@ export class GoodsDataService implements OnInit{
 
   item: number = 20;
   page: number = 0;
-  searchKey: string = 'a';
+  searchKey: string = '';
   sortedKey: string = 'NAME';
   URL = API_URL;
   // URL = 'https://localhost:7006'; // LocalURL
@@ -35,7 +35,11 @@ export class GoodsDataService implements OnInit{
   searchProuct = '';
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
     // this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
-  
+    this.route.queryParams.subscribe(params => {
+      this.searchKey=(params['searchkey']);
+      
+   
+    });
   
   }
 

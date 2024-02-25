@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -35,12 +35,16 @@ export class SearchResultComponent {
   constructor(
     private goodsDataService: GoodsDataService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+ private route: ActivatedRoute
+
   ) {
-    this.start();
+  
+ this.start();
+    
   }
 
-  // Method to get the range of pages to display in the pagination
+ 
 
   start() {
     if (this.searchKey != this.goodsDataService.searchKey) {
@@ -50,6 +54,7 @@ export class SearchResultComponent {
     }
     this.searchData = [];
     this.searchKey = this.goodsDataService.searchKey;
+    this.router.navigate(['/searchResult'], { queryParams: { searchkey:this.searchKey} });
     this.goodsDataService.getSearchResult().subscribe((data: any[]) => {
       this.goods = data;
       // this.searchData = data;
@@ -77,6 +82,8 @@ export class SearchResultComponent {
 
         this.searchData.push(obj);
       }
+
+
     //  console.log(this.searchData," uu");
       
       if (this.searchData.length > 0) {
