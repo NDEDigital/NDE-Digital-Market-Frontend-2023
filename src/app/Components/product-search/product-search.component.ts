@@ -27,9 +27,9 @@ export class ProductSearchComponent {
   }
   viewDetail() {
     
-    sessionStorage.setItem('productData', JSON.stringify(this.productData));
+    // sessionStorage.setItem('productData', JSON.stringify(this.productData));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails?productId='+this.productData.goodsId+'&companyCode='+this.productData.companyCode, '_blank');
+    window.open('/productDetails?productId='+btoa(this.productData.goodsId)+'&companyCode='+btoa(this.productData.companyCode), '_blank');
 
   }
 }

@@ -104,7 +104,8 @@ export class NavBeltComponent implements OnInit {
     this.activeEntry = groupName;
 
     localStorage.setItem('activeEntry', this.activeEntry);
-    this.router.navigate(['/productsPageComponent']);
+    this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: btoa(groupCode) } });
+
     // //console.log(this.activeEntry, 'activeEntry');
   }
 

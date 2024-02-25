@@ -22,18 +22,16 @@ export class ProductsPageComponent {
  private route: ActivatedRoute
   ) {
     var groupCode;
-    // var groupCode;
     this.route.queryParams.subscribe(params => {
 
-      groupCode = params['groupCode'];
-      // console.log('Group Code in constructor 1:', this.groupCode);
+      groupCode =atob( params['groupCode']);
       if (groupCode) {
-    sessionStorage.setItem('groupCode', groupCode);
+     sessionStorage.setItem('groupCode', groupCode);
 
         // console.log("got the data");
         this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
           this.companyList = data;
-          // console.log("the group code code",this.groupCode)
+      
          
 
 
@@ -45,23 +43,24 @@ export class ProductsPageComponent {
   }
 
   ngOnInit() {
-    // this.sharedService.setNavSelectData(this.groupCode,'');
+
 this.callApi();
   }
 
   handleDataUpdated() {
  
 
-    // this.sharedService.setNavSelectData(this.groupCode,'');
       this.callApi();
  
     
   }
 
   callApi() {
-    this.groupCode = sessionStorage.getItem('groupCode') || '';
-    this.groupName = sessionStorage.getItem('groupName') || '';
-    // //console.log(this.groupName, this.groupCode, 'products inside callapi');
+    // this.groupCode = sessionStorage.getItem('groupCode') || '';
+    // this.groupName = sessionStorage.getItem('groupName') || '';
+    // console.log("group code is",this.groupCode);
+
+   
     setTimeout(() => {
       if (this.groupCode !='') {
         this.goodsData
@@ -69,7 +68,6 @@ this.callApi();
           .subscribe((data: any) => {
   
             this.companyList = data;
-            this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
           });
       }
     }, 10);

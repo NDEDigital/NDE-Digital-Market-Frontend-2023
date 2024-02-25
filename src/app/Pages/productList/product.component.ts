@@ -279,13 +279,13 @@ allRole:any;
 
   dataClick(entry: any) {
     // this.goodsData.setDetailData(entry);
-    sessionStorage.setItem('productData', JSON.stringify(entry));
+    // sessionStorage.setItem('productData', JSON.stringify(entry));
     // this.route.navigate(['/productDetails']);
     // console.log(entry.goodsId,"type o bo",typeof entry);
 
 
   
-    window.open('/productDetails?productId='+entry.goodsId+'&companyCode='+this.companyCode, '_blank');
+    window.open('/productDetails?productId='+btoa(entry.goodsId) +'&companyCode='+btoa(this.companyCode), '_blank');
     
     // window.open('/productDetails', '_blank');
   }

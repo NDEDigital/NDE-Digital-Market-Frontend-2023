@@ -32,7 +32,7 @@ export class ProductDetailsPageComponent {
   popUpCount: number = 0;
   totalPrice = 0;
   cartCount: number = 0;
-  productIdPa: number =0;
+  productIdPa: any =0;
   companyCodePa: string ='';
   reviewData: any = [];
   CartButtonText = 'Add to Cart';
@@ -75,8 +75,8 @@ allrole:any;
     });
     this.route.queryParams.subscribe(params => {
       // Extracting productId and companyCode
-      this.productIdPa = params['productId'];
-      this.companyCodePa = params['companyCode'];
+      this.productIdPa = atob(params['productId']);
+      this.companyCodePa = atob(params['companyCode']);
       // alert(this.productIdPa);
       // alert(this.companyCodePa)
       // Now you can use this.productId and this.companyCode in your component
@@ -107,7 +107,10 @@ allrole:any;
     //   this.CartButtonText = 'Out of stock';
     // }
     this.buyerCode = localStorage.getItem('code');
-    this.service.UrlGetOfHome(this.productIdPa, this.companyCodePa)
+    console.log("company code is",this.companyCodePa);
+    
+    // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
+    this.service.UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
     .subscribe((goods: any) => {
        this.detailsData = {
           companyCode: goods.companyCode,
