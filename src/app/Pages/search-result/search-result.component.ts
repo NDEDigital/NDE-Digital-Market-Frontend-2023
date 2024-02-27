@@ -44,7 +44,7 @@ export class SearchResultComponent {
     
   }
 
- 
+  
 
   start() {
     if (this.searchKey != this.goodsDataService.searchKey) {

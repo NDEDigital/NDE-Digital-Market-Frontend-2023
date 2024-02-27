@@ -108,7 +108,7 @@ allrole:any;
     // }
     this.buyerCode = localStorage.getItem('code');
     console.log("company code is",this.companyCodePa);
-    
+   
     // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
     this.service.UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
     .subscribe((goods: any) => {
@@ -335,6 +335,7 @@ RatingsAndReview(ProductID:any){
     this.totalPrice = this.cartDataService.getTotalPrice();
   }
   setCart(entry: any, inputQt: string) {
+alert('h')
     //console.log(entry.approveSalesQty, 'approveSalesQty');
 
     if (entry.price === '' || entry.price === undefined) {

@@ -13,6 +13,8 @@ export class ProductsPageComponent {
   selectedProductCode: string = '';
   companyList: any;
   groupCode: string = '';
+  groupCodePa: string = '';
+
   groupName: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   constructor(
@@ -25,6 +27,7 @@ export class ProductsPageComponent {
     this.route.queryParams.subscribe(params => {
 
       groupCode =atob( params['groupCode']);
+      this.groupCodePa=groupCode;
       if (groupCode) {
      sessionStorage.setItem('groupCode', groupCode);
 
@@ -93,10 +96,17 @@ this.callApi();
   }
 
   productCardClick(companyCode: string) {
+    // alert('he')
     this.sharedService.setCompanyCode(companyCode);
     // //console.log(companyCode, 'companyCode');
 
-    this.router.navigate(['/product']);
+    this.router.navigate(['/product'], {
+      queryParams: {
+        companyCode:btoa( companyCode),
+        groupCode:btoa(this.groupCodePa)
+      }
+    });
+    
     // window.location.href = '/product';
   }
 }

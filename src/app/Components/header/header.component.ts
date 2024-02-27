@@ -134,16 +134,22 @@ export class HeaderComponent {
 
     if (currentRoute !== '/searchResult') {
       this.router.navigate(['/searchResult']);
-    console.log(currentRoute);
+    console.log(currentRoute);  
+this.someEvent.emit()
+    } 
+    // else {
+      
+    //   //  this.router.navigate(['/searchResult'], { queryParams: { searchkey: this.searchQuery } });
+      
+      
+    //   // this.someEvent.emit();
+    //   // console.log(currentRoute);
+      
+    //   // this.router.navigate(['/searchResult']);
 
-    } else {
-      this.router.navigate(['/searchResult']);
+    //   console.log(currentRoute);
 
-      this.someEvent.emit();
-
-      console.log(currentRoute);
-
-    }
+    // }
   }
 
   ngOnInit() {

@@ -116,15 +116,15 @@ ngOnInit(): void {
 }
 
 
-  getProductList(companyCode: string) {
+  getProductList(companyCode: string,groupCode:string) {
     // this.companyCode = companyCode;
     // console.log(companyCode," ----------");
 
-    this.companyCode = sessionStorage.getItem('companyCode') || '';
-    this.groupName = localStorage.getItem('activeEntry') || '';
-    this.groupCode = sessionStorage.getItem('groupCode') || '';
+    // this.companyCode = sessionStorage.getItem('companyCode') || '';
+    // this.groupName = localStorage.getItem('activeEntry') || '';
+    // this.groupCode = sessionStorage.getItem('groupCode') || '';
 
-    const productCompany = `${this.URL}/api/Goods/GetProductList?CompanyCode=${this.companyCode}&ProductGroupCode=${this.groupCode}`;
+    const productCompany = `${this.URL}/api/Goods/GetProductList?CompanyCode=${companyCode}&ProductGroupCode=${groupCode}`;
 
     return this.http.get<any[]>(productCompany).pipe(
       tap((response: any[]) => {

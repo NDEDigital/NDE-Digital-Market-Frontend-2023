@@ -1,5 +1,6 @@
+import { LocationStrategy } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartItem } from 'src/app/Pages/cart-added-product/cart-item.interface';
 import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
@@ -31,45 +32,15 @@ allRole:any;
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
     private cartDataService: CartDataService,
-    private route: Router
+    private route: Router,
+ private router: ActivatedRoute
+
   ) {
     this.role = localStorage.getItem('role');
     if (this.role === 'seller' || this.role === 'admin') {
       this.isBuyer = false;
     }
-    this.goodsData
-      .getProductList(this.sharedService.companyCode)
-      .subscribe((data: any[]) => {
-        this.goods = data;
-        
-
-        for (let i = 0; i < this.goods.length; i++) {
-          let obj = {
-            companyCode: this.goods[i].companyCode,
-            companyName: this.goods[i].companyName,
-            groupCode: this.goods[i].productGroupID,
-            goodsId: this.goods[i].productId,
-            groupName: this.goods[i].productGroupName,
-            goodsName: this.goods[i].productName,
-            specification: this.goods[i].specification,
-            approveSalesQty: this.goods[i].availableQty,
-            sellerCode: this.goods[i].sellerId,
-            unitId: this.goods[i].unitId,
-            quantityUnit: this.goods[i].unit,
-            imagePath: this.goods[i].imagePath,
-            price: this.goods[i].price,
-            discountAmount: this.goods[i].discountAmount,
-            discountPct: this.goods[i].discountPct,
-            netPrice: this.goods[i].totalPrice,
-          };
-          this.products.push(obj);
-        }
-      
-        // this.products = goods;
-        this.filteredProducts = [...this.products];
-        this.loading = false;
-        ////console.log(this.filteredProducts, 'u');
-      });
+  
 
     // this.interval = setInterval(() => {
     //   this.goodsData
@@ -122,7 +93,56 @@ allRole:any;
   filteredProducts: any[] = [];
   companyCode:any;
   ngOnInit() {
-    this.companyCode=sessionStorage.getItem('companyCode');
+    
+    this.router.queryParams.subscribe(params => {
+
+      this.companyCode =atob( params['companyCode']);
+      this.GroupdCode=atob(params['groupCode']);
+   
+    
+    });
+    // console.log(this.companyCode);
+    // console.log(this.GroupdCode);
+    
+    
+    this.goodsData
+    .getProductList(this.companyCode,this.GroupdCode)
+    .subscribe((data: any[]) => {
+      this.goods = data;
+      
+
+      for (let i = 0; i < this.goods.length; i++) {
+        let obj = {
+          companyCode: this.goods[i].companyCode,
+          companyName: this.goods[i].companyName,
+          groupCode: this.goods[i].productGroupID,
+          goodsId: this.goods[i].productId,
+          groupName: this.goods[i].productGroupName,
+          goodsName: this.goods[i].productName,
+          specification: this.goods[i].specification,
+          approveSalesQty: this.goods[i].availableQty,
+          sellerCode: this.goods[i].sellerId,
+          unitId: this.goods[i].unitId,
+          quantityUnit: this.goods[i].unit,
+          imagePath: this.goods[i].imagePath,
+          price: this.goods[i].price,
+          discountAmount: this.goods[i].discountAmount,
+          discountPct: this.goods[i].discountPct,
+          netPrice: this.goods[i].totalPrice,
+        };
+        this.products.push(obj);
+      }
+    
+      // this.products = goods;
+      this.filteredProducts = [...this.products];
+      this.loading = false;
+      // console.log('hello');
+      
+      ////console.log(this.filteredProducts, 'u');
+    });
+//     alert(this.companyCode)
+// alert(this.GroupdCode);
+    // this.companyCode=sessionStorage.getItem('companyCode');
     // alert(this.companyCode);
 
     //  setTimeout(()=>{
@@ -278,6 +298,7 @@ allRole:any;
   }
 
   dataClick(entry: any) {
+  
     // this.goodsData.setDetailData(entry);
     // sessionStorage.setItem('productData', JSON.stringify(entry));
     // this.route.navigate(['/productDetails']);
