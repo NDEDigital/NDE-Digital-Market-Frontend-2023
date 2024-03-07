@@ -261,7 +261,7 @@ export class AdminOrderComponent {
         }
 
         //  this.togglingDetailsCheckbox(index);
-        // console.log('details data dataaaaaa', this.detailsData); 
+        // console.log('details data dataaaaaa', this.detailsData);
 
         setTimeout(() => {
           this.togglingDetailsCheckbox(index, this.detailsData);
@@ -721,7 +721,7 @@ export class AdminOrderComponent {
   GotoInvoice(orderId: any) {
     sessionStorage.setItem('orderMasterID', orderId);
 
-    const urlToOpen = '/buyerInvoice'; // Replace with your desired URL
+    const urlToOpen = '/invoice'; // Replace with your desired URL
 
     // Use window.open to open the new window/tab
     window.open(urlToOpen, '_blank');
