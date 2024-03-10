@@ -20,6 +20,7 @@ export class UserDataService {
   updateUserURL = `${this.URL}/UpdateUserProfile`;
   bankDataURL = `${this.URL}/api/Goods/BankData`;
   MobileBankingTypeURL = `${this.URL}/api/Goods/MobileBankData`;
+  options = { withCredentials: true };
   constructor(private http: HttpClient) {}
   UserExist(userData: any) {
     return this.http.post(this.UserExistURL, userData);
@@ -28,12 +29,16 @@ export class UserDataService {
     return this.http.post(this.createUsersURL, userData);
   }
 
+  // loginUser(loginData: any) {
+  //   return this.http.post(this.loginURL, loginData);
+  // }
   loginUser(loginData: any) {
     return this.http.post(this.loginURL, loginData);
   }
-
   getSingleUser(userId: any) {
-    return this.http.get(this.getSingleUserURL, { params: { userId } });
+    return this.http.get(this.getSingleUserURL, {
+      params: { userId },
+    });
   }
   updatePass(passData: any) {
     // //console.log(passData, 'passDatapassData');
@@ -41,9 +46,8 @@ export class UserDataService {
     // //console.log('updatepassService aise');
   }
   updateUser(updatedUserData: any) {
-    console.log(updatedUserData,'updatepassService aise');
+    console.log(updatedUserData, 'updatepassService aise');
     return this.http.put(this.updateUserURL, updatedUserData);
-
   }
   GetAccessToken() {
     return localStorage.getItem('AccessToken');
@@ -61,8 +65,8 @@ export class UserDataService {
   RenewToken() {
     //console.log(' refresh token in service ', refreshToken);
     // return this.http.post<any>(`${this.URL}/GenerateRefreshToken`, { token });
-   // const formData = new FormData();
-   // formData.append('token', refreshToken);
+    // const formData = new FormData();
+    // formData.append('token', refreshToken);
     return this.http.get(`${this.URL}/GenerateRefreshToken`);
   }
 
