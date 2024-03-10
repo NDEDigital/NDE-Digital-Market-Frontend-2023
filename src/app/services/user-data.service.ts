@@ -20,7 +20,7 @@ export class UserDataService {
   updateUserURL = `${this.URL}/UpdateUserProfile`;
   bankDataURL = `${this.URL}/api/Goods/BankData`;
   MobileBankingTypeURL = `${this.URL}/api/Goods/MobileBankData`;
-
+  options = { withCredentials: true };
   constructor(private http: HttpClient) {}
   UserExist(userData: any) {
     return this.http.post(this.UserExistURL, userData);
@@ -33,12 +33,11 @@ export class UserDataService {
   //   return this.http.post(this.loginURL, loginData);
   // }
   loginUser(loginData: any) {
-    return this.http.post(this.loginURL, loginData, { withCredentials: true });
+    return this.http.post(this.loginURL, loginData);
   }
   getSingleUser(userId: any) {
     return this.http.get(this.getSingleUserURL, {
       params: { userId },
-      withCredentials: true,
     });
   }
   updatePass(passData: any) {
