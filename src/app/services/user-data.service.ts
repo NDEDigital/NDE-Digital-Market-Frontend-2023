@@ -58,12 +58,12 @@ export class UserDataService {
     localStorage.setItem('RefreshToken', refreshToken);
   }
 
-  RenewToken(refreshToken: any) {
+  RenewToken() {
     //console.log(' refresh token in service ', refreshToken);
     // return this.http.post<any>(`${this.URL}/GenerateRefreshToken`, { token });
-    const formData = new FormData();
-    formData.append('token', refreshToken);
-    return this.http.post(`${this.URL}/GenerateRefreshToken`, formData);
+   // const formData = new FormData();
+   // formData.append('token', refreshToken);
+    return this.http.get(`${this.URL}/GenerateRefreshToken`);
   }
 
   GetBankdata() {
