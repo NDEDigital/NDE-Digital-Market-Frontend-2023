@@ -115,7 +115,11 @@ export class UserTokenInterceptor implements HttpInterceptor {
                   'Token refreshed successfully. Retrying the original request.'
                 );
                 // If the token renewal is successful, retry the original request
-                return next.handle(request);
+                const updatedRequest = request.clone({
+                  withCredentials: true,
+                });
+                // Retry the updated request
+                return next.handle(updatedRequest);
               } else {
                 console.log('Token refresh failed.');
                 // If token refresh fails, log out the user
