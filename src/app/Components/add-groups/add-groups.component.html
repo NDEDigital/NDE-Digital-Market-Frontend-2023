@@ -50,12 +50,12 @@
     <div class="row headerRow sticky-top fw-bolder">
       <div class="col tableHeader">
         <input
-        type="checkbox"
-        [(ngModel)]="selectAll"
-        (ngModelChange)="toggleAllCheckboxes()"
-        #allselected
-      />
-      Select All
+          type="checkbox"
+          [(ngModel)]="selectAll"
+          (ngModelChange)="toggleAllCheckboxes()"
+          #allselected
+        />
+        Select All
       </div>
       <div class="col tableHeader">Index</div>
       <!-- <div class="col tableHeader">Product Group ID</div> -->
@@ -68,8 +68,13 @@
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
     <div>
-
-      <h1 *ngIf="groupList.length==0" class="text-center " style="color: red;margin-top: 15%"> Group Not Found</h1>
+      <h1
+        *ngIf="groupList && groupList.length == 0"
+        class="text-center"
+        style="color: red; margin-top: 15%"
+      >
+        Group Not Found
+      </h1>
     </div>
     <!-- table body -->
 
@@ -80,20 +85,18 @@
       (mouseout)="isHovered = null"
       (dblclick)="openModalWithData(group)"
     >
-    <div
-    class="col tableBody"
-    [ngClass]="{
-      'active-row': isHovered === i
-    }"
-  >
-  <input
-  type="checkbox"
-  [(ngModel)]="group.isSelected"
-  (change)="checkboxSelected(group.productGroupID, $event)"
-/>
-
-
-  </div>
+      <div
+        class="col tableBody"
+        [ngClass]="{
+          'active-row': isHovered === i
+        }"
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="group.isSelected"
+          (change)="checkboxSelected(group.productGroupID, $event)"
+        />
+      </div>
       <div
         class="col tableBody"
         [ngClass]="{
@@ -223,13 +226,21 @@
     </section>
   </div>
   <div class="d-flex justify-content-end">
-    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn " (click)="chageActiveInactive(true)">
+    <button
+      *ngIf="btnIndex === 0 || btnIndex === -1"
+      class="custom-btn"
+      (click)="chageActiveInactive(true)"
+    >
       Active
     </button>
-    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn" (click)="chageActiveInactive(false)">
+    <button
+      *ngIf="btnIndex === 1 || btnIndex === -1"
+      class="custom-btn"
+      (click)="chageActiveInactive(false)"
+    >
       Inactive
     </button>
-</div>
+  </div>
 </div>
 
 <!-- add Group modal   -->
@@ -375,12 +386,16 @@
 >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header ">
-        <h1 class="modal-title fs-5 " id="productGroupModalLabel"   [ngStyle]="{ color: alertMsg.includes('Deactivated') ? 'red' : 'green' }"
-        [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+      <div class="modal-header">
+        <h1
+          class="modal-title fs-5"
+          id="productGroupModalLabel"
+          [ngStyle]="{
+            color: alertMsg.includes('Deactivated') ? 'red' : 'green'
+          }"
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
         >
-          
-          {{alertTitle}}
+          {{ alertTitle }}
         </h1>
         <button
           type="button"
@@ -392,9 +407,10 @@
       <div class="modal-body">
         <p
           class="fs-5 fw-bolder"
-          [ngStyle]="{ color: alertMsg.includes('Deactivated') ? 'red' : 'green' }"
+          [ngStyle]="{
+            color: alertMsg.includes('Deactivated') ? 'red' : 'green'
+          }"
           [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
-
         >
           {{ alertMsg }}
         </p>

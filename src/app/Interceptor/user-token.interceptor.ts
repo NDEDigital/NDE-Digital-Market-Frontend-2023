@@ -39,13 +39,13 @@
 //         if (err instanceof HttpErrorResponse && err.status === 401) {
 //           // const refreshToken = localStorage.getItem('RefreshToken');
 //           // console.log(' refresh ', refreshToken);
-          
+
 //             return this.user.RenewToken().pipe(
 //               switchMap((response: any) => {
 //                 console.log(response.accessToken,"usss");
-                
+
 //                 if (response.accessToken) {
-                
+
 //                   return next.handle(request) as Observable<HttpEvent<any>>;
 //                 }
 //                 return throwError('Token refresh failed') as Observable<
@@ -53,7 +53,7 @@
 //                 >;
 //               })
 //             );
-          
+
 //         } else if (err instanceof HttpErrorResponse && err.status === 403) {
 //           // console.log('  forbiddddddddddd');
 //           this.logout();
@@ -83,7 +83,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -103,13 +103,30 @@ export class UserTokenInterceptor implements HttpInterceptor {
       withCredentials: true,
     });
 
-    // Pass the modified request to the next handler
     return next.handle(modifiedRequest).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
-          // Handle unauthorized access, e.g., redirect to login page or show a login modal
-          this.logout();
+          console.log('Came for renew token');
+          // Renew the token or perform other actions as needed
+          return this.user.RenewToken().pipe(
+            switchMap((response: any) => {
+              if (response.tokenRefreshed) {
+                console.log(
+                  'Token refreshed successfully. Retrying the original request.'
+                );
+                // If the token renewal is successful, retry the original request
+                return next.handle(request);
+              } else {
+                console.log('Token refresh failed.');
+                // If token refresh fails, log out the user
+                this.logout();
+                return throwError('Token refresh failed');
+              }
+            })
+          );
         } else if (err instanceof HttpErrorResponse && err.status === 403) {
+          console.log('Forbidden access detected.');
+          this.logout();
           // Handle forbidden access, e.g., redirect to a forbidden page or show an access denied message
           // You might want to perform additional actions based on your requirements
         }
@@ -120,6 +137,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
   }
 
   logout() {
+    console.log('Logging out...');
     this.sharedService.updateLoginStatus(false, null, null);
     localStorage.clear();
     sessionStorage.clear();
