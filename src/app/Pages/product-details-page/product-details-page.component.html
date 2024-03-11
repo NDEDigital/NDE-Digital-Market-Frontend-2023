@@ -141,16 +141,17 @@
             <img
               class="p-3"
               [src]="
-                detailsData.imagePath
+                detailsData && detailsData.imagePath
                   ? detailsData.imagePath.substring(
                       detailsData.imagePath.indexOf('assets')
                     )
                   : '../../../assets/images/medical/' +
-                    detailsData.groupName.trim() +
+                    (detailsData && detailsData.groupName
+                      ? detailsData.groupName.trim()
+                      : '') +
                     '.jpg'
               "
             />
-            <!-- <img src="../../../assets/images/medical/{{ detailsData.groupName.trim()}}.jpg" /> -->
           </div>
           <div
             id="carouselExampleIndicators"
@@ -169,7 +170,9 @@
                             detailsData.imagePath.indexOf('assets')
                           )
                         : '../../../assets/images/medical/' +
-                          detailsData.groupName.trim() +
+                          (detailsData && detailsData.groupName
+                            ? detailsData.groupName.trim()
+                            : '') +
                           '.jpg'
                     "
                   />
@@ -186,7 +189,9 @@
                             detailsData.imagePath.indexOf('assets')
                           )
                         : '../../../assets/images/medical/' +
-                          detailsData.groupName.trim() +
+                          (detailsData && detailsData.groupName
+                            ? detailsData.groupName.trim()
+                            : '') +
                           '.jpg'
                     "
                   />
@@ -202,7 +207,9 @@
                             detailsData.imagePath.indexOf('assets')
                           )
                         : '../../../assets/images/medical/' +
-                          detailsData.groupName.trim() +
+                          (detailsData && detailsData.groupName
+                            ? detailsData.groupName.trim()
+                            : '') +
                           '.jpg'
                     "
                   />
