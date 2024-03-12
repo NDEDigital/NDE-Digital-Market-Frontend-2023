@@ -50,16 +50,16 @@ export class UserDataService {
     return this.http.put(this.updateUserURL, updatedUserData);
   }
   GetAccessToken() {
-    return localStorage.getItem('AccessToken');
+    // return localStorage.getItem('AccessToken');
   }
   GetRefreshToken() {
-    return localStorage.getItem('RefreshToken');
+    // return localStorage.getItem('RefreshToken');
   }
   SetAccessToken(AccessToken: any) {
-    localStorage.setItem('AccessToken', AccessToken);
+    // localStorage.setItem('AccessToken', AccessToken);
   }
   SetRefreshToken(refreshToken: any) {
-    localStorage.setItem('RefreshToken', refreshToken);
+    // localStorage.setItem('RefreshToken', refreshToken);
   }
 
   RenewToken() {
