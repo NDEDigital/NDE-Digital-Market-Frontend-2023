@@ -297,7 +297,13 @@ export class OrderFlowComponent {
     this.currentOrderDetailId = row.orderDetailId;
     // console.log(row, 'row value');
   }
-
+  navigateToData(detail: any) {
+    // sessionStorage.setItem('productData', JSON.stringify(detail));
+  // console.log(detail);
+  // alert('hh');
+  
+    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+  }
   onSubmit(): void {
     Object.values(this.reviewForm.controls).forEach((control) => {
       control.markAsTouched();

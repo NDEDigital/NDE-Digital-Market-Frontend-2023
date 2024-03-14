@@ -187,6 +187,7 @@ export class OrderApiService {
   //   });
   // }
   getOrdersForBuyer(userid: any, status: any) {
+    console.log("userId is",userid)
     //console.log(buyerCode, PageNumber, rowCount, status);
     if (status === '') {
       return this.http.get(this.getOrdersForBuyerURL, {

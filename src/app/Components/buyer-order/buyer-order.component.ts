@@ -137,33 +137,25 @@ export class BuyerOrderComponent {
   }
   goToDetail(detail: any) {
     this.item = detail;
-    //console.log(detail, 'detail prod');
+    console.log('detail prod',detail );
 
     let obj = {
-      approveSalesQty: this.item.quantity,
+      companyCode: this.item.companyCode,
       companyName: this.item.companyName,
-      dimensionUnit: this.item.dimensionUnit,
-      finish: this.item.finish,
-      productId: this.item.productId,
-      goodsName: this.item.goodsName,
-      grade: this.item.grade,
-      groupCode: this.item.groupCode,
-      groupName: this.item.groupName,
-      imagePath: this.item.imagePath,
-      length: this.item.length,
+      orderDetailId: this.item.orderDetailId,
       price: this.item.price,
-      quantityUnit: this.item.quantityUnit,
-      salesQty: this.item.quantity,
-      sellerCode: this.item.supplierCode,
-      specification: this.item.ProductDescription,
-      stockQty: this.item.quantity,
-      weight: this.item.width,
+      goodsId: this.item.productId,
+      goodsName: this.item.productName,
+      quantityUnit: this.item.qty,
+      status: this.item.status,
+     
     };
-
+    console.log(detail)
     //console.log('product data ', obj);
     sessionStorage.setItem('productData', JSON.stringify(obj));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails', '_blank');
+    console.log(detail)
+    window.open('/productDetails?productId='+btoa(detail.productId)+'&companyCode='+btoa(detail.companyCode), '_blank');
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -309,6 +301,7 @@ export class BuyerOrderComponent {
       next: (response: any) => {
         // console.log(response, 'newbuyerorder');
         this.buyerOrder = response;
+        console.log("buyers details are ",response)
 
         setTimeout(() => {
           // console.log(
@@ -481,5 +474,12 @@ export class BuyerOrderComponent {
     }
 
     return totalPrice + (count*100);
+  }
+  navigateToData(detail: any) {
+    // sessionStorage.setItem('productData', JSON.stringify(detail));
+   console.log(detail);
+  // alert('hh');
+  
+    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
   }
 }
