@@ -471,10 +471,10 @@ export class ProductSliderComponent {
   }
 
   navigateToData(detail: any) {
-    sessionStorage.setItem('productData', JSON.stringify(detail));
-  console.log(detail);
+    // sessionStorage.setItem('productData', JSON.stringify(detail));
+  // console.log(detail);
   // alert('hh');
   
-    window.open('/productDetails?productId='+detail.goodsId+'&companyCode='+detail.companyCode, '_blank');
+    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
   }
 }

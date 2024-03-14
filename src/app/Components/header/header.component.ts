@@ -123,20 +123,33 @@ export class HeaderComponent {
 
     if (this.searchQuery) {
       // You can call a function to process the search query or update the data accordingly.
-      this.goodsData.searchKey = this.searchQuery;
+   
       this.processSearchQuery();
     }
   }
 
   processSearchQuery() {
     const currentRoute = this.router.url;
-    this.goodsData.searchKey = this.searchQuery;
+ this.goodsData.searchKey = this.searchQuery;
 
     if (currentRoute !== '/searchResult') {
       this.router.navigate(['/searchResult']);
-    } else {
-      this.someEvent.emit();
-    }
+    console.log(currentRoute);  
+this.someEvent.emit()
+    } 
+    // else {
+      
+    //   //  this.router.navigate(['/searchResult'], { queryParams: { searchkey: this.searchQuery } });
+      
+      
+    //   // this.someEvent.emit();
+    //   // console.log(currentRoute);
+      
+    //   // this.router.navigate(['/searchResult']);
+
+    //   console.log(currentRoute);
+
+    // }
   }
 
   ngOnInit() {
@@ -166,7 +179,9 @@ export class HeaderComponent {
   setSelectData(groupName: string, groupCode: string) {
     this.sharedService.setNavSelectData(groupCode, groupName);
     // this.router.navigate(['/productsPageComponent']);
-    window.location.href = '/productsPageComponent';
+    window.location.href = '/productsPageComponent?groupCode=' + btoa(groupCode);
+
+
     this.dataUpdated.emit();
     // Update active entry
     this.activeEntry = groupName;
@@ -175,6 +190,8 @@ export class HeaderComponent {
   }
   loadCategories() {
     this.goodsData.getNavData().subscribe((data: any[]) => {
+      console.log("log in ",data);
+      
       this.goods = data;
       for (let i = 0; i < this.goods.length; i++) {
         this.products.set(

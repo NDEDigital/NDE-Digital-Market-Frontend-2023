@@ -32,6 +32,7 @@ export class ProductSidebarComponent implements OnInit {
 loadCategory():void{
   this.goodsDataService.getNavData().subscribe((data: any[]) => {
   
+   
     
    this.goods = data;
    for (let i = 0; i < this.goods.length; i++) {
@@ -42,8 +43,9 @@ loadCategory():void{
 loadBrand():void{
   this.companyService.GetCompaniesBasedOnStatus(this.companyStatus).subscribe({
     next: (response: any) => {
+
       this.companyList = response;
-      console.log(this.companyList," li li");
+      console.log(this.companyList," li lisaa");
       
     },
     error: (error: any) => {

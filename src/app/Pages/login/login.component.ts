@@ -10,7 +10,7 @@ import { PROJECT_TITLE } from 'src/app/config';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  companyCode:any;
+  companyCode: any;
   loginForm: FormGroup;
   errorMessage: any;
   refreshToken: string = 'fhwe';
@@ -50,13 +50,13 @@ export class LoginComponent {
         //console.log('newRefreshToken ', response.newRefreshToken);
         // Set the token in local storage
 
-        this.userData.SetAccessToken(response.token);
-        this.userData.SetRefreshToken(response.newRefreshToken);
-        this.refreshToken = response.newRefreshToken;
+        // this.userData.SetAccessToken(response.token);
+        // this.userData.SetRefreshToken(response.newRefreshToken);
+        // this.refreshToken = response.newRefreshToken;
         this.isCompanyAdmin = response.isSellerAdmin;
-// console.log(response);
-this.companyCode=response.companyCode;
-localStorage.setItem('CompanyCode',this.companyCode);
+        // console.log(response);
+        this.companyCode = response.companyCode;
+        localStorage.setItem('CompanyCode', this.companyCode);
 
         if (this.isCompanyAdmin) {
           localStorage.setItem('isDigitalCompanyAd', 'true');

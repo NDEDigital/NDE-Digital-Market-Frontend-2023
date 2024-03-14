@@ -26,8 +26,10 @@ export class ProductSearchComponent {
     this.router.navigate(['/contactSupplierComponent']);
   }
   viewDetail() {
-    sessionStorage.setItem('productData', JSON.stringify(this.productData));
+    
+    // sessionStorage.setItem('productData', JSON.stringify(this.productData));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails', '_blank');
+    window.open('/productDetails?productId='+btoa(this.productData.goodsId)+'&companyCode='+btoa(this.productData.companyCode), '_blank');
+
   }
 }
