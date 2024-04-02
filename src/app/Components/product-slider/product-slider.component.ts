@@ -474,7 +474,7 @@ export class ProductSliderComponent {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
   // console.log(detail);
   // alert('hh');
-  
+  console.log("dashboard",detail)
     window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
   }
 }

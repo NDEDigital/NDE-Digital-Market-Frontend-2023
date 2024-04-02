@@ -203,8 +203,11 @@ export class DashboardComponent {
         this.userPermission = response;
 
         this.SidebarIndex = this.userPermission[0].menuId;
+        
+
       },
       error: (error: any) => {
+        // console.log("error it+",      error);
         console.log(error);
       },
     });

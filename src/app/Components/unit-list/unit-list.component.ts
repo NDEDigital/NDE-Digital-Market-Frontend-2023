@@ -7,13 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddProductService } from 'src/app/services/add-product.service';
-
+import { UnitService } from 'src/app/services/unit.service';
 @Component({
-  selector: 'app-add-groups',
-  templateUrl: './add-groups.component.html',
-  styleUrls: ['./add-groups.component.css'],
+  selector: 'app-unit-list',
+  templateUrl: './unit-list.component.html',
+  styleUrls: ['./unit-list.component.css'],
 })
-export class AddGroupsComponent {
+export class UnitListComponent {
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
@@ -37,12 +37,15 @@ export class AddGroupsComponent {
   imagePathPreview: string = '';
   alertTitle: any;
 
-  constructor(private addProductService: AddProductService) {}
+  constructor(
+    private addProductService: AddProductService,
+    private unitServices: UnitService
+  ) {}
 
   toggleAddProductGroupDiv(): void {
     this.showProductDiv = !this.showProductDiv;
     this.btnIndex = -1;
-    this.getProductGroup(-1);
+    this.getProductGroup(true);
     this.ngOnInit();
   }
 
@@ -53,10 +56,8 @@ export class AddGroupsComponent {
 
   ngOnInit() {
     this.addGroupForm = new FormGroup({
-      productGroupName: new FormControl('', Validators.required),
-      productGroupImage: new FormControl('', Validators.required),
-      productGroupPrefix: new FormControl('', Validators.required),
-      productGroupDetails: new FormControl(''),
+      description: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
     });
     this.getProductGroup(-1);
   }
@@ -88,7 +89,7 @@ export class AddGroupsComponent {
     });
 
     if (this.addGroupForm.valid) {
-      // //console.log('Form Data:', this.addGroupForm.value);
+      console.log('Form Data:', this.addGroupForm.value);
       const formData = new FormData();
 
       Object.keys(this.addGroupForm.value).forEach((key) => {
@@ -100,26 +101,22 @@ export class AddGroupsComponent {
         formData.append(key, value);
       });
 
-      if (this.ProductImageInput.nativeElement.files[0]) {
-        // If a new file is selected, append it
-        formData.append(
-          'imageFile',
-          this.ProductImageInput.nativeElement.files[0]
-        );
-      } else if (this.isEditMode && this.existingImagePath) {
-        // If in edit mode and no new file is selected, append the existing image path
-        formData.append('existingImagePath', this.existingImagePath);
-      }
-
       // Append additional fields
+      // let addedByUser = localStorage.getItem('code') || 'user';
       formData.append('addedBy', 'user');
       formData.append('addedPC', '0.0.0.0');
+      // formData.append('isActive', true ? '1' : '0');
+      // formData.append('isConversion', true ? '1' : '0');
 
-      for (let pair of (formData as any).entries()) {
-        console.log(`${pair[0]}: `, pair[1]);
-      }
+      // for (let pair of (formData as any).entries()) {
+      //   console.log(`${pair[0]}: `, pair[1]);
+      // }
       if (!this.isEditMode) {
-        this.addProductService.createProductGroup(formData).subscribe({
+        console.log(formData);
+        for (let [key, value] of (formData as any).entries()) {
+          console.log(key, value);
+        }
+        this.unitServices.createUnit(formData).subscribe({
           next: (response: any) => {
             //console.log(response, 'successfull');
             this.alertMsg = response.message;
@@ -147,19 +144,22 @@ export class AddGroupsComponent {
         console.log(updateByUser, 'code...');
 
         // console.log("edit mode");
-        formData.append('ProductGroupID', this.currentGroup.productGroupID);
+        formData.append('unitId', this.currentGroup.unitId);
         if (updateByUser !== null) {
-          formData.append('UpdatedBy', updateByUser);
+          formData.append('updatedBy', updateByUser);
         } else {
           console.error('Update by code not found in localStorage');
         }
-        formData.append('UpdatedPC', '0.0.0.0');
-
-        this.addProductService.updateProductGroup(formData).subscribe({
+        formData.append('updatedPC', '0.0.0.0');
+        console.log('form value', formData);
+        for (let [key, value] of (formData as any).entries()) {
+          console.log(key, value);
+        }
+        this.unitServices.updateUnitName(formData).subscribe({
           next: (response: any) => {
             // Handle successful response here
             console.log('Update successful:', response);
-            this.alertMsg = 'Product group updated successfully';
+            this.alertMsg = 'Unit updated successfully';
             this.isEditMode = false;
             // Optionally, reset the form and refresh the group list
             this.addGroupForm.reset();
@@ -170,9 +170,8 @@ export class AddGroupsComponent {
           },
           error: (error: any) => {
             // Handle error response here
-            console.error('Error updating product group:', error);
-            this.alertMsg =
-              error.error.message || 'Error updating product group';
+            console.error('Error updating  unit:', error);
+            this.alertMsg = error.error.message || 'Error updating  unit';
             this.isError = true;
             this.isEditMode = false;
 
@@ -191,17 +190,31 @@ export class AddGroupsComponent {
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;
-    this.addProductService.GetProductGroupsListByStatus(status).subscribe({
-      next: (response: any) => {
-        // console.log(response);
-        this.groupList = response;
-      },
-      error: (error: any) => {
-        //console.log(error);
-        this.alertMsg = error.error.message;
-        this.UserExistModalBTN.nativeElement.click();
-      },
-    });
+    if (status != -1) {
+      this.unitServices.getUnitGroups(status).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.groupList = response;
+        },
+        error: (error: any) => {
+          //console.log(error);
+          this.alertMsg = error.error.message;
+          this.UserExistModalBTN.nativeElement.click();
+        },
+      });
+    } else {
+      this.unitServices.getUnitGroup().subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.groupList = response;
+        },
+        error: (error: any) => {
+          //console.log(error);
+          this.alertMsg = error.error.message;
+          this.UserExistModalBTN.nativeElement.click();
+        },
+      });
+    }
   }
 
   updateFormValidators(): void {
@@ -222,24 +235,23 @@ export class AddGroupsComponent {
     this.updateFormValidators();
     console.log('group', group);
     this.populateForm(group);
+    console.log(group);
+    console.log('group ashce');
     this.currentGroup = group;
 
     // Ensure the modal is opened before calling displayImage
-
     this.displayImage(group.imagepath);
-    this.activeGroupId = group.productGroupID;
+    this.activeGroupId = group.unitId;
   }
   populateForm(group: any): void {
     this.addGroupForm.patchValue({
-      productGroupName: group.productGroupName,
-      productGroupPrefix: group.productGroupPrefix,
+      description: group.description,
+      name: group.name,
       productGroupDetails: group.productGroupDetails,
     });
 
-    this.displayImage(group.imagepath);
     this.existingImagePath = group.imagepath;
   }
-
   displayImage(imagePath: string): void {
     console.log('Received imagePath:', imagePath);
 
@@ -255,21 +267,26 @@ export class AddGroupsComponent {
   }
 
   updateIsActive(isActive: any, groupIds: any) {
-    // console.log(isActive, 'isActive', groupIds, 'groupId');
-    this.addProductService
-      .updateProductGroupStatus(groupIds.toString(), isActive)
+    console.log(isActive, 'isActive', groupIds, 'groupId');
+    this.unitServices
+      .updateUnitActiveStatus(groupIds.toString(), isActive)
       .subscribe({
         next: (response: any) => {
           // console.log(response);
-          isActive = isActive === true ? 0 : 1;
+          const active = isActive == true ? 0 : 1;
 
           this.getProductGroup(isActive);
-          this.btnIndex = isActive;
+          if (isActive) {
+            this.btnIndex = 1;
+          } else {
+            this.btnIndex = 0;
+          }
+
           this.UserExistModalBTN.nativeElement.click();
-          this.alertMsg = isActive
+          this.alertMsg = active
             ? 'Product is  Activated!'
             : 'Product is Deactivated!';
-          this.alertTitle = isActive ? 'Activated!' : 'Deactivated!';
+          this.alertTitle = active ? 'Activated!' : 'Deactivated!';
         },
         error: (error: any) => {
           //console.log(error);
@@ -289,28 +306,23 @@ export class AddGroupsComponent {
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     console.log('group list are', this.groupList);
-    this.groupList.forEach(
-      (product: { isSelected: boolean; productGroupID: any }) => {
-        product.isSelected = this.selectAll;
+    this.groupList.forEach((product: { isSelected: boolean; unitId: any }) => {
+      product.isSelected = this.selectAll;
 
-        // Update the selectedProducts array based on the state of each checkbox
-        if (
-          this.selectAll &&
-          !this.selectedProducts1.includes(product.productGroupID)
-        ) {
-          this.selectedProducts1.push(product.productGroupID);
-        } else if (
-          !this.selectAll &&
-          this.selectedProducts1.includes(product.productGroupID)
-        ) {
-          // Remove the deselected product from the list
-          this.selectedProducts1 = this.selectedProducts1.filter(
-            (id) => id !== product.productGroupID
-          );
-          this.selectAll = false;
-        }
+      // Update the selectedProducts array based on the state of each checkbox
+      if (this.selectAll && !this.selectedProducts1.includes(product.unitId)) {
+        this.selectedProducts1.push(product.unitId);
+      } else if (
+        !this.selectAll &&
+        this.selectedProducts1.includes(product.unitId)
+      ) {
+        // Remove the deselected product from the list
+        this.selectedProducts1 = this.selectedProducts1.filter(
+          (id) => id !== product.unitId
+        );
+        this.selectAll = false;
       }
-    );
+    });
 
     // console.log('Selected Product IDs:', this.selectedProducts1);
     // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
@@ -324,18 +336,20 @@ export class AddGroupsComponent {
     // console.log("is active are",isActive);
 
     if (this.selectedProducts1.length > 0) {
-      // console.log("selectedProducts1",this.selectedProducts1.toString());
+      console.log('selectedProducts1', this.selectedProducts1.toString());
       // console.log("selectedProducts1",isActive);
 
-      this.addProductService
-        .updateProductGroupStatus(this.selectedProducts1.toString(), isActive)
+      this.unitServices
+        .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
         .subscribe({
           next: (response: any) => {
             console.log(response);
-            isActive = isActive === true ? 0 : 1;
             this.getProductGroup(isActive);
-
-            this.btnIndex = isActive;
+            if (isActive) {
+              this.btnIndex = 1;
+            } else {
+              this.btnIndex = 0;
+            }
             this.UserExistModalBTN.nativeElement.click();
             this.alertMsg = isActive
               ? 'Group is  Deactivated!'
