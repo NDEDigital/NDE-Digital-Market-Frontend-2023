@@ -11,8 +11,15 @@ export class UnitService {
   updateUnitNameURL = `${this.URL}/api/Unit/UpdateUnit`;
   getUnitURL = `${this.URL}/api/Unit/GetUnitList`;
   insertUnitURL = `${this.URL}/api/Unit/AddUnit`;
-  getUnitGroups() {
-    return this.http.get(this.getUnitURL);
+  updateActiveStatusByUnitIdURL = `${this.URL}/api/Unit/UpdateUnitByID`;
+  updateActiveStatusByUnitsIdURL = `${this.URL}/api/Unit/UpdateUnitsByID?unitIDs=`;
+  getUnitGroups(status: any) {
+    console.log(this.getUnitURL, status);
+    return this.http.get(`${this.getUnitURL}?isActive=${status}`);
+  }
+  getUnitGroup() {
+    console.log(this.getUnitURL);
+    return this.http.get(`${this.getUnitURL}`);
   }
   updateUnitName(UnitName: any) {
     console.log('Update', UnitName);
@@ -21,5 +28,20 @@ export class UnitService {
   createUnit(addUnit: any): Observable<any> {
     console.log('insert', addUnit);
     return this.http.post<any>(`${this.insertUnitURL}`, addUnit);
+  }
+
+  updateUnitActiveStatus(UnitID: any, isActive: any) {
+    console.log('Update', UnitID);
+    return this.http.put(
+      `${this.updateActiveStatusByUnitIdURL}?unitID=${UnitID}&isActive=${isActive}`,
+      {}
+    );
+  }
+  updateUnitsActiveStatus(UnitID: any, isActive: any) {
+    console.log('Update', UnitID);
+    return this.http.put(
+      `${this.updateActiveStatusByUnitsIdURL}${UnitID}&isActive=${isActive}`,
+      {}
+    );
   }
 }

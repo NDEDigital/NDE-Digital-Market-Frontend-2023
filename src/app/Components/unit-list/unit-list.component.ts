@@ -45,7 +45,7 @@ export class UnitListComponent {
   toggleAddProductGroupDiv(): void {
     this.showProductDiv = !this.showProductDiv;
     this.btnIndex = -1;
-    this.getProductGroup(-1);
+    this.getProductGroup(true);
     this.ngOnInit();
   }
 
@@ -190,17 +190,31 @@ export class UnitListComponent {
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;
-    this.unitServices.getUnitGroups().subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.groupList = response;
-      },
-      error: (error: any) => {
-        //console.log(error);
-        this.alertMsg = error.error.message;
-        this.UserExistModalBTN.nativeElement.click();
-      },
-    });
+    if (status != -1) {
+      this.unitServices.getUnitGroups(status).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.groupList = response;
+        },
+        error: (error: any) => {
+          //console.log(error);
+          this.alertMsg = error.error.message;
+          this.UserExistModalBTN.nativeElement.click();
+        },
+      });
+    } else {
+      this.unitServices.getUnitGroup().subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.groupList = response;
+        },
+        error: (error: any) => {
+          //console.log(error);
+          this.alertMsg = error.error.message;
+          this.UserExistModalBTN.nativeElement.click();
+        },
+      });
+    }
   }
 
   updateFormValidators(): void {
@@ -226,7 +240,6 @@ export class UnitListComponent {
     this.currentGroup = group;
 
     // Ensure the modal is opened before calling displayImage
-
     this.displayImage(group.imagepath);
     this.activeGroupId = group.unitId;
   }
@@ -237,10 +250,8 @@ export class UnitListComponent {
       productGroupDetails: group.productGroupDetails,
     });
 
-    this.displayImage(group.imagepath);
     this.existingImagePath = group.imagepath;
   }
-
   displayImage(imagePath: string): void {
     console.log('Received imagePath:', imagePath);
 
@@ -256,21 +267,26 @@ export class UnitListComponent {
   }
 
   updateIsActive(isActive: any, groupIds: any) {
-    // console.log(isActive, 'isActive', groupIds, 'groupId');
-    this.addProductService
-      .updateProductGroupStatus(groupIds.toString(), isActive)
+    console.log(isActive, 'isActive', groupIds, 'groupId');
+    this.unitServices
+      .updateUnitActiveStatus(groupIds.toString(), isActive)
       .subscribe({
         next: (response: any) => {
           // console.log(response);
-          isActive = isActive === true ? 0 : 1;
+          const active = isActive == true ? 0 : 1;
 
           this.getProductGroup(isActive);
-          this.btnIndex = isActive;
+          if (isActive) {
+            this.btnIndex = 1;
+          } else {
+            this.btnIndex = 0;
+          }
+
           this.UserExistModalBTN.nativeElement.click();
-          this.alertMsg = isActive
+          this.alertMsg = active
             ? 'Product is  Activated!'
             : 'Product is Deactivated!';
-          this.alertTitle = isActive ? 'Activated!' : 'Deactivated!';
+          this.alertTitle = active ? 'Activated!' : 'Deactivated!';
         },
         error: (error: any) => {
           //console.log(error);
@@ -320,18 +336,20 @@ export class UnitListComponent {
     // console.log("is active are",isActive);
 
     if (this.selectedProducts1.length > 0) {
-      // console.log("selectedProducts1",this.selectedProducts1.toString());
+      console.log('selectedProducts1', this.selectedProducts1.toString());
       // console.log("selectedProducts1",isActive);
 
-      this.addProductService
-        .updateProductGroupStatus(this.selectedProducts1.toString(), isActive)
+      this.unitServices
+        .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
         .subscribe({
           next: (response: any) => {
             console.log(response);
-            isActive = isActive === true ? 0 : 1;
             this.getProductGroup(isActive);
-
-            this.btnIndex = isActive;
+            if (isActive) {
+              this.btnIndex = 1;
+            } else {
+              this.btnIndex = 0;
+            }
             this.UserExistModalBTN.nativeElement.click();
             this.alertMsg = isActive
               ? 'Group is  Deactivated!'

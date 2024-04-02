@@ -18,7 +18,7 @@
       </button>
       <button
         class="custom-btn btn-active"
-        (click)="getProductGroup(1)"
+        (click)="getProductGroup(true)"
         [ngClass]="{ active: btnIndex === 1 }"
         (click)="btnIndex = 1"
       >
@@ -26,7 +26,7 @@
       </button>
       <button
         class="custom-btn btn-inactive"
-        (click)="getProductGroup(0)"
+        (click)="getProductGroup(false)"
         [ngClass]="{ active: btnIndex === 0 }"
         (click)="btnIndex = 0"
       >
@@ -90,14 +90,13 @@
         <input
           type="checkbox"
           [(ngModel)]="group.isSelected"
-          (change)="checkboxSelected(group.productGroupID, $event)"
+          (change)="checkboxSelected(group.unitId, $event)"
         />
       </div>
       <div
         class="col tableBody"
         [ngClass]="{
-          'active-row':
-            group.productGroupID === activeGroupId || isHovered === i
+          'active-row': group.unitId === activeGroupId || isHovered === i
         }"
       >
         #{{ i + 1 }}
@@ -136,7 +135,7 @@
             <button
               class="actionBtn"
               *ngIf="btnIndex === 0"
-              (click)="updateIsActive(true, group.productGroupID)"
+              (click)="updateIsActive(true, group.unitId)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +155,7 @@
             <button
               class="actionBtn"
               *ngIf="btnIndex === 1"
-              (click)="updateIsActive(false, group.productGroupID)"
+              (click)="updateIsActive(false, group.unitId)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
