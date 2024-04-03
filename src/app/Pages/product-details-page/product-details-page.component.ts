@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { ReviewRatingsService } from 'src/app/services/review-ratings.service';
+import {WishlistService} from 'src/app/services/wishlist.service';
 import { CartItem } from '../cart-added-product/cart-item.interface';
+
 import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
 @Component({
@@ -65,7 +67,8 @@ isRed: boolean = false;
     private elementRef: ElementRef,
     private reviewService: ReviewRatingsService,
     private cartDataService: CartDataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private WishlistService:WishlistService
   ) {
     this.reviewForm = new FormGroup({
       rating: new FormControl(Validators.required),
@@ -80,6 +83,8 @@ isRed: boolean = false;
       // Extracting productId and companyCode
       this.productIdPa = atob(params['productId']);
       this.companyCodePa = atob(params['companyCode']);
+      
+
       // alert(this.productIdPa);
       // alert(this.companyCodePa)
       // Now you can use this.productId and this.companyCode in your component
@@ -164,11 +169,35 @@ if (this.detailsData.approveSalesQty == 0) {
 
       this.wishlistIcon.nativeElement.width = "20";
       this.wishlistIcon.nativeElement.height = "20";
+      
+      this.WishlistService.DeleteWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
+        next: (response: any) => {
+            console.log(response);
+        },
+        error: (error: any) => {
+            console.log(error);
+        },
+      });
+
+
+
+
+
+
     } else {
       this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg";
 
       this.wishlistIcon.nativeElement.width = "20";
       this.wishlistIcon.nativeElement.height = "20";
+      this.WishlistService.InsertWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
+        next: (response: any) => {
+            console.log(response);
+            
+        },
+        error: (error: any) => {
+            console.log(error);
+        },
+      });
     }
   }
 
