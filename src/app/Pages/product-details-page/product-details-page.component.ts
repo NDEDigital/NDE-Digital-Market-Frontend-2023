@@ -52,6 +52,9 @@ export class ProductDetailsPageComponent {
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
 allrole:any;
+@ViewChild('wishlistIcon') wishlistIcon!: ElementRef;
+
+isRed: boolean = false;
   // this.totalPages = Array.from(
   //   { length: Math.ceil(this.TotalRow / this.selectedValue) },
   //   (_, index) => index + 1
@@ -84,7 +87,7 @@ allrole:any;
   }
 
   ngOnInit() {
-
+   
     const role = localStorage.getItem('role');
     this.allrole=role;
     // alert(this.allrole)
@@ -135,7 +138,7 @@ if (this.detailsData.approveSalesQty == 0) {
      this.CartButtonText = 'Out of stock';
     }
     this.RatingsAndReview(this.detailsData.goodsId);
-
+    this.addToWishlist();
     });
   
   
@@ -147,6 +150,26 @@ if (this.detailsData.approveSalesQty == 0) {
       this.rating = rating;
       // You can do something with the rating value here
     });
+   
+  
+  }
+
+
+  addToWishlist(): void {
+    console.log('Adding to wishlist...');
+    this.isRed = !this.isRed; // Toggle the boolean value on each call
+    if (this.isRed) {
+     
+      this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg";
+
+      this.wishlistIcon.nativeElement.width = "20";
+      this.wishlistIcon.nativeElement.height = "20";
+    } else {
+      this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg";
+
+      this.wishlistIcon.nativeElement.width = "20";
+      this.wishlistIcon.nativeElement.height = "20";
+    }
   }
 
 RatingsAndReview(ProductID:any){
