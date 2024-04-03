@@ -1,18 +1,34 @@
 <section class="clientList_container mx-auto px-3 py-2 rounded border border-1">
+  <!-- Heading for the top sellers section -->
   <div
-    class="product_slider rounded d-flex align-items-center bg-white rounded border border-1"
+    class="product_slider rounded align-items-center bg-white rounded border border-1"
   >
     <h2 class="m-0 text-start px-3 py-4 text-nowrap">Our Top Seller</h2>
-    <div class="container-fluid" style="--bs-gutter-x: 0">
-      <div class="slider_wrap d-flex align-items-center rounded bg-white">
-        <div
-          class="slider_main"
-          #Items
-          (mouseenter)="onMouseEnter()"
-          (mouseleave)="onMouseLeave()"
-        >
-          <div class="item border border-1" *ngFor="let client of clients">
-            <p>{{ client }}</p>
+  </div>
+
+  <!-- Slider for the sellers -->
+  <div class="container-fluid" style="--bs-gutter-x: 0">
+    <div class="slider_wrap d-flex align-items-center rounded bg-white">
+      <div
+        class="slider_main border-1"
+        #Items
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()"
+      >
+        <div class="item h-100" *ngFor="let client of getTopSellerData">
+          <div class="image-container h-50">
+            <img
+              class=""
+              [src]="
+                client.companyImage.substring(
+                  client.companyImage.indexOf('assets')
+                )
+              "
+              alt="{{ client.companyName }}"
+            />
+          </div>
+          <div class="name-container h-25">
+            <p>{{ client.companyName }}</p>
           </div>
         </div>
       </div>

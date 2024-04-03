@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-
+import { CompanyService } from 'src/app/services/company.service';
 @Component({
   selector: 'app-clients-list-slider',
   templateUrl: './clients-list-slider.component.html',
@@ -10,6 +10,8 @@ export class ClientsListSliderComponent {
   @Input() clients: any;
   private intervalId: any;
   isMouseOverSlider = false;
+  getTopSellerData: any;
+  constructor(private companyService: CompanyService) {}
   onMouseEnter() {
     this.isMouseOverSlider = true;
     // console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
@@ -25,6 +27,7 @@ export class ClientsListSliderComponent {
   }
   ngOnInit() {
     this.startAutoSlide();
+    this.getTopSeller();
   }
 
   ngOnDestroy() {
@@ -55,5 +58,17 @@ export class ClientsListSliderComponent {
   }
   stopAutoSlide(): void {
     clearInterval(this.intervalId);
+  }
+  getTopSeller() {
+    this.companyService.getTopSeller().subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getTopSellerData = response;
+        console.log(this.getTopSellerData);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
   }
 }

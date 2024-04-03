@@ -12,6 +12,7 @@ export class CompanyService {
   preferredBankNamesURL = `${this.URL}/api/HK_Gets/PreferredBankNames`;
   GetCompaniesBasedOnStatusURL = `${this.URL}/api/CompanyRegistration/GetCompaniesBasedOnStatus`;
   UpdateCompanyURL = `${this.URL}/api/CompanyRegistration/UpdateCompany`;
+  getTopSellerByUrl = `${this.URL}/api/TopSeller/GetTopSeller`;
   constructor(private http: HttpClient) {}
   createCompany(companyData: any) {
     return this.http.post(this.createCompanyURL, companyData);
@@ -35,75 +36,66 @@ export class CompanyService {
     return this.http.put(this.UpdateCompanyURL, companyDto);
   }
 
-  
   GetSellerList(status: any) {
     // console.log("GetSellerList",status);
-    if(status==1){
-      status=true
-    }
-    else{
-      status=false;
+    if (status == 1) {
+      status = true;
+    } else {
+      status = false;
       // alert(status);
     }
     // console.log("the status",status);
-    return this.http.get(`${this.URL}/CompanySellerDetails/${localStorage.getItem('code')}/${status}`);
-    
+    return this.http.get(
+      `${this.URL}/CompanySellerDetails/${localStorage.getItem(
+        'code'
+      )}/${status}`
+    );
   }
 
-
-
-
-
-
-  
-
-  GetSellerInAdmin(status:any,selectedValue:any){
-    if(status==1){
-      status=true
-    }
-    else{
-      status=false;
+  GetSellerInAdmin(status: any, selectedValue: any) {
+    if (status == 1) {
+      status = true;
+    } else {
+      status = false;
     }
     // console.log(selectedValue);
-    
-    return this.http.get(`${this.URL}/getSellerActive&Inactive/${true}?CompanyCode=${selectedValue}&IsActive=${status}`);
+
+    return this.http.get(
+      `${
+        this.URL
+      }/getSellerActive&Inactive/${true}?CompanyCode=${selectedValue}&IsActive=${status}`
+    );
     // getSellerActive&Inactive/false?CompanyCode=dfasd&IsActive=true
   }
 
-
-  GetBuyerInAdmin(status:any){
-    if(status==1){
-      status=true
+  GetBuyerInAdmin(status: any) {
+    if (status == 1) {
+      status = true;
+    } else {
+      status = false;
     }
-    else{
-      status=false;
-    }
-    
-    return this.http.get(`${this.URL}/getBuyerInAdmin/${true}?IsActive=${status}`);
 
-
+    return this.http.get(
+      `${this.URL}/getBuyerInAdmin/${true}?IsActive=${status}`
+    );
   }
 
-  GetDropdownValues(){
- 
-    return this.http.get(`${this.URL}/api/CompanyRegistration/GetCompaniesBasedOnStatus?status=${1}`);
-
-
-
+  GetDropdownValues() {
+    return this.http.get(
+      `${
+        this.URL
+      }/api/CompanyRegistration/GetCompaniesBasedOnStatus?status=${1}`
+    );
   }
-
-
-
-
-
 
   UpdateSellerActiveInActive(userIds: string, isActive: boolean) {
-    return this.http.put(`${this.URL}/updateSellerActive&Inactive?userIds=${userIds}&isActive=${isActive}`, {});
+    return this.http.put(
+      `${this.URL}/updateSellerActive&Inactive?userIds=${userIds}&isActive=${isActive}`,
+      {}
+    );
   }
-  
 
-
-
-
-
+  getTopSeller() {
+    return this.http.get(this.getTopSellerByUrl);
+  }
 }
