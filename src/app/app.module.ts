@@ -76,6 +76,7 @@ import { LoginPopupComponent } from './Components/login-popup/login-popup.compon
 import { SellerListComponent } from './Components/seller-list/seller-list.component';
 import { SellerPermissionComponent } from './Components/seller-permission/seller-permission.component';
 import { UnitListComponent } from './Components/unit-list/unit-list.component';
+import { RecommendedProductComponent } from './Components/recommended-product/recommended-product.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +145,7 @@ import { UnitListComponent } from './Components/unit-list/unit-list.component';
     SellerListComponent,
     SellerPermissionComponent,
     UnitListComponent,
+    RecommendedProductComponent,
   ],
   imports: [
     BrowserModule,

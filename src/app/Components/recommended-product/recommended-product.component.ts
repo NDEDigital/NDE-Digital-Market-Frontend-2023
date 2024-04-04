@@ -1,13 +1,15 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
 import { SharedService } from 'src/app/services/shared.service';
+import { RecommendedProductService } from 'src/app/services/recommended-product.service';
 import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
-  selector: 'app-clients-list-slider',
-  templateUrl: './clients-list-slider.component.html',
-  styleUrls: ['./clients-list-slider.component.css'],
+  selector: 'app-recommended-product',
+  templateUrl: './recommended-product.component.html',
+  styleUrls: ['./recommended-product.component.css'],
 })
-export class ClientsListSliderComponent {
+export class RecommendedProductComponent {
   @ViewChild('Items', { static: true }) Items!: ElementRef;
   @Input() clients: any;
   private intervalId: any;
@@ -17,12 +19,35 @@ export class ClientsListSliderComponent {
   companyList: any;
   groupCode: string = '';
   groupCodePa: string = '';
+  productId: string = '';
+  companyCode: string = '';
+
+  // ... constructor remains the same ...
   constructor(
     private companyService: CompanyService,
     private sharedService: SharedService,
+    private recommendedServices: RecommendedProductService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
+  ngOnInit() {
+    // Subscribe to queryParams to get productId and companyCode
+    this.route.queryParams.subscribe((params) => {
+      if (params['productId']) {
+        // Assuming productId is encoded and needs to be decoded
+        this.productId = atob(params['productId']);
+      }
+      if (params['companyCode']) {
+        // Assuming companyCode is encoded and needs to be decoded
+        this.companyCode = atob(params['companyCode']);
+      }
+      this.startAutoSlide();
+      this.getRecommendedProduct(this.companyCode, this.productId);
+      console.log('Product ID:', this.productId);
+      console.log('Company Code:', this.companyCode);
+    });
+  }
+
   onMouseEnter() {
     this.isMouseOverSlider = true;
     // console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
@@ -35,10 +60,6 @@ export class ClientsListSliderComponent {
     if (!this.isMouseOverSlider) {
       this.startAutoSlide();
     }
-  }
-  ngOnInit() {
-    this.startAutoSlide();
-    this.getTopSeller();
   }
 
   ngOnDestroy() {
@@ -70,29 +91,32 @@ export class ClientsListSliderComponent {
   stopAutoSlide(): void {
     clearInterval(this.intervalId);
   }
-  getTopSeller() {
-    this.companyService.getTopSeller().subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.getTopSellerData = response;
-        console.log(this.getTopSellerData);
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
+  getRecommendedProduct(companyCode: any, productId: any) {
+    this.recommendedServices
+      .GetRecommendedProductDetailsData(companyCode, productId)
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.getTopSellerData = response;
+          console.log(this.getTopSellerData);
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
   }
-  productCardClick(company: any) {
+  productCardClick(product: any) {
     // alert('he')
-    this.sharedService.setCompanyCode(company.companyCode);
-    console.log(company, 'companyCode');
+    this.sharedService.setCompanyCode(product.companyCode);
+    console.log(product, 'companyCode');
 
-    this.router.navigate(['/product'], {
-      queryParams: {
-        companyCode: btoa(company.companyCode),
-        groupCode: btoa(company.productGroupCode),
-      },
-    });
+    window.open(
+      '/productDetails?productId=' +
+        btoa(product.productId) +
+        '&companyCode=' +
+        btoa(product.companyCode),
+      '_blank'
+    );
 
     // window.location.href = '/product';
   }
