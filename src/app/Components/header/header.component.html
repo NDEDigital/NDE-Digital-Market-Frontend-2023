@@ -254,9 +254,9 @@
                 <p>Order</p></a
               >
             </div>
-            <div class="delimiter-horizontal"></div>
-            <div class="popup-item mt-1">
-              <a href="#" class="d-flex">
+            <div *ngIf="isBuyer" class="delimiter-horizontal"></div>
+            <div *ngIf="isBuyer" class="popup-item mt-1">
+              <a href="/buyerWishList" class="d-flex">
                 <i class="fa-solid fa-heart menu_nav_icon fs-6 me-2 mt-1"></i>
                 <p>WishList</p></a
               >
@@ -308,9 +308,9 @@
                   <p>Order</p></a
                 >
               </div>
-              <div class="delimiter-horizontal"></div>
-              <div class="popup-item mt-1">
-                <a href="#" class="d-flex">
+              <div *ngIf="isBuyer" class="delimiter-horizontal"></div>
+              <div *ngIf="isBuyer" class="popup-item mt-1">
+                <a href="/buyerWishList" class="d-flex">
                   <i class="fa-solid fa-heart menu_nav_icon fs-6 me-2 mt-1"></i>
                   <p>WishList</p></a
                 >

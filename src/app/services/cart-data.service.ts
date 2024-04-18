@@ -16,6 +16,7 @@ export class CartDataService {
   // private saveLaterDataQt = new Map<string, number>();
 
   initializeAndLoadData() {
+    
     let localData = localStorage.getItem('cartDataDetail');
     let localDataQt = localStorage.getItem('cartDataQt');
     let localTotalPrice = localStorage.getItem('totalPrice');
@@ -110,14 +111,21 @@ export class CartDataService {
   }
 
   getCartData() {
+   console.log("cardData is a",this.cartDataDetail);
+   
     return {
       cartDataDetail: this.cartDataDetail,
       cartDataQt: this.cartDataQt,
     };
+    
   }
 
   getCartCount() {
+
+
     return this.cartCount;
+
+
   }
   getTotalPrice() {
     return this.totalPrice;

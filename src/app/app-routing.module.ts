@@ -33,6 +33,7 @@ import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { from } from 'rxjs';
+import { WishListComponent } from './Components/wish-list/wish-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 const routes: Routes = [
   {
@@ -123,6 +124,11 @@ const routes: Routes = [
   {
     path: 'buyerOrders',
     component: BuyerOrderComponent,
+    canActivate: [BuyerOnlyGuard],
+  },
+  {
+    path: 'buyerWishList',
+    component: WishListComponent,
     canActivate: [BuyerOnlyGuard],
   },
   {

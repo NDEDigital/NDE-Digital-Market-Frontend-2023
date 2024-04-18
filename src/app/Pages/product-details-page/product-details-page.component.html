@@ -315,6 +315,26 @@
           <div class="py-2">
             <span> Quantity : </span>{{ detailsData.approveSalesQty }}
           </div>
+          <div class="pdp-mod-wishlist" *ngIf="isBuyer">
+            <img (click)="changeRed()" class="wishlist-icon" #wishlistIcon
+                 [src]="isRed ?
+                     '//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg'
+                     : '//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg'"
+                 alt="" 
+                 width="20" 
+                 height="20"
+                 data-spm-anchor-id="a2a0e.pdp.0.i0.327830443sYY6N">
+          </div>
+          
+          
+          
+          
+          
+         
+          
+          
+          
+
           <!-- price -->
           <div class="price d-flex align-items-center py-2" *ngIf="!isSeller">
             <div>

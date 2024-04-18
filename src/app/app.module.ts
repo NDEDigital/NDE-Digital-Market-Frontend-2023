@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/header/header.component';
 import { NavBeltComponent } from './Components/nav-belt/nav-belt.component';
 // http client module
-import { HttpClientModule ,HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BannerComponent } from './Components/banner/banner.component';
 import { ContactSupplierComponent } from './Components/contact-supplier/contact-supplier.component';
 import { HomeComponent } from './Pages/home/home.component';
@@ -76,6 +76,7 @@ import { LoginPopupComponent } from './Components/login-popup/login-popup.compon
 import { SellerListComponent } from './Components/seller-list/seller-list.component';
 import { SellerPermissionComponent } from './Components/seller-permission/seller-permission.component';
 import { UnitListComponent } from './Components/unit-list/unit-list.component';
+import { WishListComponent } from './Components/wish-list/wish-list.component';
 import { RecommendedProductComponent } from './Components/recommended-product/recommended-product.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
@@ -148,6 +149,7 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
     SellerPermissionComponent,
     UnitListComponent,
     RecommendedProductComponent,
+    WishListComponent,
     RecommendedProductListComponent,
     OurTopSellerComponent,
   ],
@@ -159,11 +161,10 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
     ReactiveFormsModule,
   ],
 
-
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: UserTokenInterceptor ,
+      useClass: UserTokenInterceptor,
       multi: true,
     },
   ],
