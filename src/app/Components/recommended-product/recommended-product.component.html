@@ -5,7 +5,12 @@
   <!-- Heading for the top sellers section -->
   <div class="product_slider rounded bg-white rounded border border-1">
     <h2 class="m-0 text-start px-3 py-4 text-nowrap">Recommended Product</h2>
-    <h2 class="text m-0 text-start px-3 py-4 text-nowrap">View All</h2>
+    <h2
+      class="text m-0 text-start px-3 py-4 text-nowrap"
+      (click)="setSelectData()"
+    >
+      View All
+    </h2>
   </div>
 
   <!-- Slider for the sellers -->
@@ -18,24 +23,26 @@
         (mouseleave)="onMouseLeave()"
       >
         <div class="item" *ngFor="let client of getTopSellerData">
-          <div class="image-container" (click)="productCardClick(client)">
-            <img
-              class=""
-              [src]="
-                client.imagePath.substring(client.imagePath.indexOf('assets'))
-              "
-              alt="{{ client.productName }}"
-            />
-          </div>
-          <div class="details-cintainer">
-            <div class="name-container">
-              <p><strong>Brand: </strong>{{ client.companyName }}</p>
+          <div (click)="productCardClick(client)">
+            <div class="image-container">
+              <img
+                class=""
+                [src]="
+                  client.imagePath.substring(client.imagePath.indexOf('assets'))
+                "
+                alt="{{ client.productName }}"
+              />
             </div>
-            <div class="name-container">
-              <p><strong>Product: </strong>{{ client.productName }}</p>
-            </div>
-            <div class="name-container">
-              <p><strong>Price: </strong>৳{{ client.totalPrice }}</p>
+            <div class="details-cintainer">
+              <div class="name-container">
+                <p><strong>Brand: </strong>{{ client.companyName }}</p>
+              </div>
+              <div class="name-container">
+                <p><strong>Product: </strong>{{ client.productName }}</p>
+              </div>
+              <div class="name-container">
+                <p><strong>Price: </strong>৳{{ client.totalPrice }}</p>
+              </div>
             </div>
           </div>
         </div>

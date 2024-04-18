@@ -59,14 +59,16 @@ export class ClientsListSliderComponent {
     });
   }
   startAutoSlide(): void {
-    this.intervalId = setInterval(() => {
-      if (!this.isMouseOverSlider) {
-        // console.log(this.isMouseOverSlider, 'this.isMouseOverSlider');
-
-        this.slide();
-      }
-    }, 3000);
+    // Only start the auto slide if there are more than 5 items
+    if (this.getTopSellerData && this.getTopSellerData.length > 5) {
+      this.intervalId = setInterval(() => {
+        if (!this.isMouseOverSlider) {
+          this.slide();
+        }
+      }, 3000);
+    }
   }
+
   stopAutoSlide(): void {
     clearInterval(this.intervalId);
   }
@@ -95,5 +97,8 @@ export class ClientsListSliderComponent {
     });
 
     // window.location.href = '/product';
+  }
+  setSelectData() {
+    this.router.navigate(['/ourTopSeller'], {});
   }
 }

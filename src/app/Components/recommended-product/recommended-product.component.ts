@@ -41,7 +41,7 @@ export class RecommendedProductComponent {
         // Assuming companyCode is encoded and needs to be decoded
         this.companyCode = atob(params['companyCode']);
       }
-      this.startAutoSlide();
+      // this.startAutoSlide();
       this.getRecommendedProduct(this.companyCode, this.productId);
       console.log('Product ID:', this.productId);
       console.log('Company Code:', this.companyCode);
@@ -119,5 +119,23 @@ export class RecommendedProductComponent {
     );
 
     // window.location.href = '/product';
+  }
+  setSelectData() {
+    // this.sharedService.setNavSelectData(groupCode, groupName);
+
+    // this.dataUpdated.emit();
+    // // Update active entry
+    // this.activeEntry = groupName;
+
+    // localStorage.setItem('activeEntry', this.activeEntry);
+    console.log(this.companyCode);
+    this.router.navigate(['/recommendedProductList'], {
+      queryParams: {
+        productId: btoa(this.productId),
+        companyCode: btoa(this.companyCode),
+      },
+    });
+
+    // //console.log(this.activeEntry, 'activeEntry');
   }
 }

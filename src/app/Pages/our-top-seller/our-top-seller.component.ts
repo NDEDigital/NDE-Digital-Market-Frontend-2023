@@ -3,47 +3,81 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { switchMap } from 'rxjs/operators';
+import { CompanyService } from 'src/app/services/company.service';
+
 @Component({
-  selector: 'app-products-page',
-  templateUrl: './products-page.component.html',
-  styleUrls: ['./products-page.component.css'],
+  selector: 'app-our-top-seller',
+  templateUrl: './our-top-seller.component.html',
+  styleUrls: ['./our-top-seller.component.css'],
 })
-export class ProductsPageComponent {
+export class OurTopSellerComponent {
   products: string[] = [];
   selectedProductCode: string = '';
   companyList: any;
+
+  getTopSellerData: any;
   groupCode: string = '';
   groupCodePa: string = '';
 
   groupName: string = '';
+
+  productId: string = '';
+  companyCode: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   constructor(
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private companyService: CompanyService
   ) {
     var groupCode;
     this.route.queryParams.subscribe((params) => {
       groupCode = atob(params['groupCode']);
       this.groupCodePa = groupCode;
-      if (groupCode) {
-        sessionStorage.setItem('groupCode', groupCode);
+      console.log('GroupCode : ', groupCode);
+      // if (groupCode) {
+      //   sessionStorage.setItem('groupCode', groupCode);
 
-        // console.log("got the data");
-        this.goodsData
-          .getProductCompanyList(groupCode)
-          .subscribe((data: any) => {
-            this.companyList = data;
-          });
-      }
+      //   // console.log("got the data");
+      //   this.goodsData
+      //     .getProductCompanyList(groupCode)
+      //     .subscribe((data: any) => {
+      //       this.companyList = data;
+      //     });
+      // }
     });
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      if (params['productId']) {
+        // Assuming productId is encoded and needs to be decoded
+        this.productId = atob(params['productId']);
+      }
+      if (params['companyCode']) {
+        // Assuming companyCode is encoded and needs to be decoded
+        this.companyCode = atob(params['companyCode']);
+      }
+      this.getRecommendedProduct();
+      console.log('Product ID:', this.productId);
+      console.log('Company Code:', this.companyCode);
+    });
+
     this.callApi();
   }
-
+  getRecommendedProduct() {
+    this.companyService.getTopSeller().subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getTopSellerData = response;
+        console.log('data:', this.getTopSellerData);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
   handleDataUpdated() {
     this.callApi();
   }
@@ -83,7 +117,7 @@ export class ProductsPageComponent {
     //   });
   }
 
-  productCardClick(companyCode: string) {
+  productCardClick(companyCode: string, productGroupCode: string) {
     // alert('he')
     this.sharedService.setCompanyCode(companyCode);
     // //console.log(companyCode, 'companyCode');
@@ -91,7 +125,7 @@ export class ProductsPageComponent {
     this.router.navigate(['/product'], {
       queryParams: {
         companyCode: btoa(companyCode),
-        groupCode: btoa(this.groupCodePa),
+        groupCode: btoa(productGroupCode),
       },
     });
 

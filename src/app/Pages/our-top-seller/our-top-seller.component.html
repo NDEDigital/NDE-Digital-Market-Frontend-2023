@@ -1,0 +1,46 @@
+<section id="page-container">
+  <div id="content-wrap">
+    <app-header (dataUpdated)="handleDataUpdated()"></app-header>
+    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
+    <div class="d-flex mx-5 px-5">
+      <div class="product_sidebar_container">
+        <app-product-sidebar></app-product-sidebar>
+      </div>
+
+      <div class="products ms-5 ps-5">
+        <h2 class="top-seller-heading">Our Top Seller</h2>
+        <div class="line"></div>
+        <div class="row flex-nowrap overflow-auto">
+          <div class="col" *ngFor="let topSeller of getTopSellerData">
+            <div
+              class="card"
+              style="width: 14rem"
+              (click)="
+                productCardClick(
+                  topSeller.companyCode,
+                  topSeller.productGroupCode
+                )
+              "
+            >
+              <img
+                [src]="
+                  topSeller.companyImage.substring(
+                    topSeller.companyImage.indexOf('assets')
+                  )
+                "
+                class="card-img-top"
+                alt="{{ topSeller.companyName }}"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{ topSeller.companyName }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <app-footer></app-footer>
+  </div>
+</section>

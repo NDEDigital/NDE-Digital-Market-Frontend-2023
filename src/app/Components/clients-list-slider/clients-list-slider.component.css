@@ -67,3 +67,16 @@
   align-items: center;
   padding-top: 7px;
 }
+.product_slider {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 1.5vw;
+}
+.text {
+  color: rgb(0, 119, 255);
+  text-decoration: underline;
+  font-size: 1.5rem;
+  cursor: pointer;
+  /* padding-right: 100vw; */
+}

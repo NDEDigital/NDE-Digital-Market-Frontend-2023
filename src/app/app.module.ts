@@ -77,6 +77,8 @@ import { SellerListComponent } from './Components/seller-list/seller-list.compon
 import { SellerPermissionComponent } from './Components/seller-permission/seller-permission.component';
 import { UnitListComponent } from './Components/unit-list/unit-list.component';
 import { RecommendedProductComponent } from './Components/recommended-product/recommended-product.component';
+import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
+import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +148,8 @@ import { RecommendedProductComponent } from './Components/recommended-product/re
     SellerPermissionComponent,
     UnitListComponent,
     RecommendedProductComponent,
+    RecommendedProductListComponent,
+    OurTopSellerComponent,
   ],
   imports: [
     BrowserModule,
