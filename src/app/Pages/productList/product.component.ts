@@ -334,6 +334,7 @@ allRole:any;
   }
 
   setCart(entry: any, inputQt: string) {
+
     if (entry.price === '' || entry.price === undefined) {
       entry.price = 0;
     }

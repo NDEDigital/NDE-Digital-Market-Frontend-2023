@@ -92,6 +92,10 @@ isRed: boolean = false;
   }
 
   ngOnInit() {
+
+
+
+
    
     const role = localStorage.getItem('role');
     this.allrole=role;
@@ -116,6 +120,13 @@ isRed: boolean = false;
     // }
     this.buyerCode = localStorage.getItem('code');
     console.log("company code is",this.companyCodePa);
+    
+  
+    this.checkWishlistStatus();
+
+
+    
+
    
     // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
     this.service.UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
@@ -138,12 +149,13 @@ isRed: boolean = false;
           discountPct: goods.discountPct,
           netPrice:goods.totalPrice,
         }
+        console.log("details data",this.detailsData);
       
 if (this.detailsData.approveSalesQty == 0) {
      this.CartButtonText = 'Out of stock';
     }
     this.RatingsAndReview(this.detailsData.goodsId);
-    this.addToWishlist();
+ 
     });
   
   
@@ -159,47 +171,89 @@ if (this.detailsData.approveSalesQty == 0) {
   
   }
 
-
-  addToWishlist(): void {
-    console.log('Adding to wishlist...');
-    this.isRed = !this.isRed; // Toggle the boolean value on each call
-    if (this.isRed) {
-     
-      this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg";
-
-      this.wishlistIcon.nativeElement.width = "20";
-      this.wishlistIcon.nativeElement.height = "20";
-      
-      this.WishlistService.DeleteWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
-        next: (response: any) => {
-            console.log(response);
-        },
-        error: (error: any) => {
-            console.log(error);
-        },
-      });
-
-
-
-
-
-
-    } else {
-      this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg";
-
-      this.wishlistIcon.nativeElement.width = "20";
-      this.wishlistIcon.nativeElement.height = "20";
-      this.WishlistService.InsertWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
-        next: (response: any) => {
-            console.log(response);
-            
-        },
-        error: (error: any) => {
-            console.log(error);
-        },
-      });
-    }
+  checkWishlistStatus() {
+    this.WishlistService.getWishList(this.buyerCode).subscribe({
+      next: (wishlist: any) => {
+        console.log("wish are", wishlist);
+        wishlist.forEach((wish: any) => {
+          if (wish.productId == this.productIdPa && wish.companyCode == this.companyCodePa) {
+            this.isRed = true; // Set isRed to true if item is in the wishlist
+          }
+        });
+      }
+    });
   }
+  
+changeRed() {
+  // Toggle the value of isRed
+  this.isRed = !this.isRed;
+
+  // Check the new value of isRed and call the appropriate service method
+  if (this.isRed) {
+     
+      this.WishlistService.InsertWishList(this.buyerCode, this.productIdPa, this.companyCodePa).subscribe({
+        next: (response: any) => {
+            console.log(response);
+        },
+        error: (error: any) => {
+            console.log(error);
+        },
+    });
+
+
+
+  } else {
+    this.WishlistService.DeleteWishList(this.buyerCode, this.productIdPa, this.companyCodePa).subscribe({
+      next: (response: any) => {
+          console.log(response);
+      },
+      error: (error: any) => {
+          console.log(error);
+      },
+  });
+
+  }
+}
+
+  // addToWishlist() {
+
+   
+
+
+  //   console.log('Adding to wishlist...');
+  //   this.isRed = !this.isRed; // Toggle the boolean value on each call
+  //   if (this.isRed) {
+     
+  //     this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg";
+
+  //     this.wishlistIcon.nativeElement.width = "20";
+  //     this.wishlistIcon.nativeElement.height = "20";
+      
+  //     this.WishlistService.DeleteWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
+  //       next: (response: any) => {
+  //           console.log(response);
+  //       },
+  //       error: (error: any) => {
+  //           console.log(error);
+  //       },
+  //     });
+
+  //   } else {
+  //     this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg";
+
+  //     this.wishlistIcon.nativeElement.width = "20";
+  //     this.wishlistIcon.nativeElement.height = "20";
+  //     this.WishlistService.InsertWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
+  //       next: (response: any) => {
+  //           console.log(response);
+            
+  //       },
+  //       error: (error: any) => {
+  //           console.log(error);
+  //       },
+  //     });
+  //   }
+  // }
 
 RatingsAndReview(ProductID:any){
   this.service
@@ -387,7 +441,7 @@ RatingsAndReview(ProductID:any){
     this.totalPrice = this.cartDataService.getTotalPrice();
   }
   setCart(entry: any, inputQt: string) {
-alert('h')
+
     //console.log(entry.approveSalesQty, 'approveSalesQty');
 
     if (entry.price === '' || entry.price === undefined) {

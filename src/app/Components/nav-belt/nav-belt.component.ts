@@ -59,7 +59,7 @@ export class NavBeltComponent implements OnInit {
       .getNavData()
       .subscribe((data: any[]) => {
         this.goods = data;
-        // Check if goods array is not empty
+   
         if (this.goods && this.goods.length > 0) {
           for (let i = 0; i < this.goods.length; i++) {
             this.products.set(
@@ -78,11 +78,12 @@ export class NavBeltComponent implements OnInit {
 
   getDynamicWidthClass(): string {
     let productCount = 0;
+
     if (this.goods && this.goods.length > 0) {
       productCount = this.goods.length;
     }
     // console.log(productCount, "sjdfhjdf");
-
+  
     if (productCount <= 3) {
       return 'w-25';
     } else if (productCount <= 7) {

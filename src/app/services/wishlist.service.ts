@@ -26,6 +26,13 @@ export class WishlistService {
          
             
           }
+          getWishList(UserId:any) {
+            // console.log(UserId,MenuId);
+                return this.http.get(`${this.URL}/api/WishList/GetWishList/${UserId}`,{});
+             
+                
+              }
+        
 
 
 }

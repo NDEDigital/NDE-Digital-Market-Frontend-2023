@@ -32,6 +32,7 @@ import { UserRegistrationComponent } from './Pages/user-registration/user-regist
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { from } from 'rxjs';
+import { WishListComponent } from './Components/wish-list/wish-list.component';
 const routes: Routes = [
   {
     path: '',
@@ -115,6 +116,11 @@ const routes: Routes = [
     path: 'buyerOrders',
     component: BuyerOrderComponent,
     canActivate: [BuyerOnlyGuard],
+  },{
+    path: 'buyerWishList',
+    component: WishListComponent,
+    canActivate: [BuyerOnlyGuard],
+
   },
   {
     path: 'buyerOrderDetails',
