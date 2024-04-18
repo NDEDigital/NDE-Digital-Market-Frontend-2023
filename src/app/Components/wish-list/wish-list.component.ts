@@ -189,26 +189,9 @@ export class WishListComponent {
     //console.log(' details data888888888888888888888888888888 ', this.detailData);
   }
   goToDetail(detail: any) {
-    this.item = detail;
-    console.log('detail prod',detail );
-
-    let obj = {
-      companyCode: this.item.companyCode,
-      companyName: this.item.companyName,
-      orderDetailId: this.item.orderDetailId,
-      price: this.item.price,
-      goodsId: this.item.productId,
-      goodsName: this.item.productName,
-      quantityUnit: this.item.qty,
-      status: this.item.status,
-     
-    };
-    console.log(detail)
-    //console.log('product data ', obj);
-    sessionStorage.setItem('productData', JSON.stringify(obj));
-    // this.route.navigate(['/productDetails']);
-    console.log(detail)
-    window.open('/productDetails?productId='+btoa(detail.productId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+   console.log("details is",detail);
+   
+    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
   }
 
   isFieldInvalid(fieldName: string): boolean {

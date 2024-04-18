@@ -170,7 +170,7 @@
           class="row mt-4 " id="wishDiv" >
           <div
             class="col-2 d-flex justify-content-center  " 
-            (click)="goToDetail(wishList)"
+            (click)="goToDetail(wish)"
           >
             <img
               [src]="
@@ -182,7 +182,7 @@
               alt=""
             />
           </div>
-          <div class="col-1" (click)="goToDetail(wishList)">
+          <div class="col-1" (click)="goToDetail(wish)">
             {{ wish.goodsName }}
           </div>
           <div class="col-1 col-sm-2">
