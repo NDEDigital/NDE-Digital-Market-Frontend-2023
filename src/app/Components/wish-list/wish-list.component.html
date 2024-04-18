@@ -193,8 +193,9 @@
           
           </div> 
           <div *ngIf="wish.approveSalesQty>0" class="col-1 col-sm-2 ml-2">
-            <button  class="btn btn-success" 
-            (click)="
+            <button    class="btn btn-success" 
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal" (click)="
                     setCart(wish,'1')
                 "
             >
