@@ -4,7 +4,7 @@
   /* box-shadow: 0 0 0.35rem var(--color-gray); */
   box-shadow: 0 0 0.35rem #ffffff;
   border: 1px solid #d9d9d9;
-  width: 90%;
+  width: 100%;
 }
 .slider_wrap {
   position: relative;
@@ -12,8 +12,8 @@
   height: 250px;
 }
 /* .container-fluid {
-  padding: 10px;
-} */
+    padding: 10px;
+  } */
 .slider_main {
   padding-top: 10px;
   padding-left: 10px;
@@ -65,5 +65,6 @@
   background-color: white;
   border-radius: 5px;
   align-items: center;
-  padding-top: 7px;
+  padding-top: 2px;
+  height: 15px;
 }

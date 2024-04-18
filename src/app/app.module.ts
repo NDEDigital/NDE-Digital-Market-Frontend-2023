@@ -77,6 +77,7 @@ import { SellerListComponent } from './Components/seller-list/seller-list.compon
 import { SellerPermissionComponent } from './Components/seller-permission/seller-permission.component';
 import { UnitListComponent } from './Components/unit-list/unit-list.component';
 import { WishListComponent } from './Components/wish-list/wish-list.component';
+import { RecommendedProductComponent } from './Components/recommended-product/recommended-product.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +146,7 @@ import { WishListComponent } from './Components/wish-list/wish-list.component';
     SellerListComponent,
     SellerPermissionComponent,
     UnitListComponent,
+    RecommendedProductComponent,
     WishListComponent,
   ],
   imports: [

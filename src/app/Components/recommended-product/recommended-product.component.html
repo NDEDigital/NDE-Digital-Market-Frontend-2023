@@ -1,9 +1,12 @@
-<section class="clientList_container mx-auto px-3 py-2 rounded border border-1">
+<section
+  class="clientList_container mx-auto px-3 py-2 rounded border border-1"
+  *ngIf="getTopSellerData?.length"
+>
   <!-- Heading for the top sellers section -->
   <div
     class="product_slider rounded align-items-center bg-white rounded border border-1"
   >
-    <h2 class="m-0 text-start px-3 py-4 text-nowrap">Our Top Seller</h2>
+    <h2 class="m-0 text-start px-3 py-4 text-nowrap">Recommended Product</h2>
   </div>
 
   <!-- Slider for the sellers -->
@@ -20,15 +23,19 @@
             <img
               class=""
               [src]="
-                client.companyImage.substring(
-                  client.companyImage.indexOf('assets')
-                )
+                client.imagePath.substring(client.imagePath.indexOf('assets'))
               "
-              alt="{{ client.companyName }}"
+              alt="{{ client.productName }}"
             />
           </div>
-          <div class="name-container h-25">
-            <p>{{ client.companyName }}</p>
+          <div class="name-container">
+            <p><strong>Brand:</strong>{{ client.companyName }}</p>
+          </div>
+          <div class="name-container">
+            <p>{{ client.productName }}</p>
+          </div>
+          <div class="name-container">
+            <p>৳{{ client.totalPrice }}</p>
           </div>
         </div>
       </div>
