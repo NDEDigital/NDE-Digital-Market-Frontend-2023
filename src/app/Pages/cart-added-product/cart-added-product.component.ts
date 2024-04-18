@@ -49,12 +49,13 @@ showUpBtn: any ;
   // delete data
   sentCardDetails(entry:any,changeValue:any,key:any){
  
-  
+  console.log("the entry you want",entry);
   if(changeValue===''){
   
   changeValue=1;
   }
     this.cartDataService.setPrice(entry.netPrice,Number(changeValue),key);
+
     this.cartDataService.setCartData(entry,parseFloat(changeValue));
      this.fetchCartData();
      this.showUpBtn='';

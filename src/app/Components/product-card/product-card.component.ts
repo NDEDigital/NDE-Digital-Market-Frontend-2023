@@ -30,6 +30,7 @@ export class ProductCardComponent {
   ) {}
 
   ngOnInit() {
+  
     //console.log(' data ', this.item);
     //console.log();
   }
