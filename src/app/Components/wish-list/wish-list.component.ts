@@ -194,141 +194,11 @@ export class WishListComponent {
     window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.reviewForm.get(fieldName);
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
 
-  updateRating(hoveredStar: number): void {
-    this.stars.forEach((star, index) => {
-      const starElement = star.nativeElement;
-      if (index < hoveredStar) {
-        starElement.classList.add('hovered');
-      } else {
-        starElement.classList.remove('hovered');
-      }
-    });
-  }
 
-  setRating(star: number): void {
-    this.ratingValue = star;
-    // this.reviewForm.get('ratingValue')?.setValue(this.ratingValue);
-    this.reviewForm.get('ratingValue')?.setValue(star);
-    this.stars.forEach((starElement, index) => {
-      const element = starElement.nativeElement;
-      if (index < this.ratingValue) {
-        element.classList.add('selected');
-        element.classList.remove('hovered');
-      } else {
-        element.classList.remove('selected');
-      }
-    });
-  }
 
-  resetStars(): void {
-    this.stars.forEach((starElement) => {
-      const element = starElement.nativeElement;
-      element.classList.remove('selected', 'hovered');
-    });
-  }
-  resetRating(event: MouseEvent): void {
-    const container = this.starContainer.nativeElement;
 
-    // Check if the clicked element is a star
-    if (
-      event.target instanceof HTMLElement &&
-      event.target.classList.contains('bi-star-fill')
-    ) {
-      // Clicked on a star, no need to reset rating
-      return;
-    }
-
-    // Click was outside the stars, reset the rating
-    this.ratingValue = 0;
-    this.reviewForm.get('ratingValue')?.setValue(this.ratingValue);
-    this.resetStars(); // Call this method to reset star visual state
-  }
-
-  ratingValidator(control: AbstractControl): ValidationErrors | null {
-    const rating = control.value;
-    // Assuming 0 is the default value and means no rating is selected
-    if (rating === 0) {
-      return { noRating: true };
-    }
-    return null;
-  }
-
-  // resting form
-
-  resetFormAndStars(): void {
-    this.reviewForm.reset();
-    this.resetStars();
-
-    if (this.ProductImageInput) {
-      this.ProductImageInput.nativeElement.value = '';
-    }
-  }
-
-  // adding review
-  openReviewModal(detail: any): void {
-    this.currentOrderDetailId = detail.orderDetailId;
-    // console.log(detail, 'row value');
-  }
-
-  onSubmit(): void {
-    Object.values(this.reviewForm.controls).forEach((control) => {
-      control.markAsTouched();
-      control.markAsDirty();
-    });
-    if (this.reviewForm.valid) {
-      const formData = new FormData();
-      const formValue = this.reviewForm.value;
-
-      let buyerId = localStorage.getItem('code');
-      // console.log(buyerId, 'buyerId..');
-
-      const file = this.ProductImageInput.nativeElement.files[0];
-      if (file) {
-        formData.append('imageFile', file);
-      }
-
-      Object.keys(formValue).forEach((key) => {
-        if (key !== 'imageFile') {
-          formData.append(key, formValue[key]);
-        }
-      });
-
-      formData.append('addedBy', 'user');
-      formData.append('addedPC', '0.0.0.0');
-      if (buyerId) {
-        formData.append('buyerId', buyerId);
-      } else {
-        // console.log('Buyer ID is not available');
-      }
-
-      formData.append('orderDetailId', this.currentOrderDetailId.toString());
-
-      formData.forEach((value, key) => {
-        // console.log(`${key}:`, value);
-      });
-
-      this.reviewService.addReview(formData).subscribe({
-        next: (response) => {
-          // console.log(response, 'response');
-          this.resetFormAndStars();
-          this.CloseReviewFormModalBTN.nativeElement.click();
-          alert('Review added successfully');
-          this.getData('Reviewed');
-          this.btnIndex = 7;
-        },
-        error: (error) => {
-          console.error('Error during submission:', error);
-        },
-      });
-    } else {
-      // console.log('form is invalid');
-    }
-  }
+ 
 
   loadData() {
     console.log("hello");
@@ -385,20 +255,7 @@ export class WishListComponent {
       },
     });
   }
-  handlePaginationData(data: {
-    selectedPageIndex: number;
-    selectedValue: number;
-  }) {
-    //console.log(data.selectedPageIndex, data.selectedValue, 'data.....');
-    this.pageNum = data.selectedPageIndex;
-    this.rowCount = data.selectedValue;
-    this.loadData();
-  }
-  orderDetails(orderNo: any) {
-    //console.log(order, 'order');
-    sessionStorage.setItem('orderNo', JSON.stringify(orderNo));
-    window.open('/buyerOrderDetails', '_blank');
-  }
+
   // btnClick(str: string) {
   //   if (str === '') {
   //     this.activeNav = str;
@@ -422,118 +279,13 @@ export class WishListComponent {
   //   this.loadData();
   // }
 
-  getStatusDescription(status: string): string {
-    const description = this.orderDetailDescription[status];
-    return description || '';
-  }
+
   deleteFromSideCart(entry: any) {
     this.cartDataService.deleteCartData(entry.key);
     this.setServiceData();
   }
   // added by marufa
 
-  toReturn(returnData: any, orderId: any) {
-    this.returnForm.reset();
-    this.returnType = false;
-    this.returnService.getReturnType().subscribe((data: any) => {
-      //console.log(' typeId', data[0].typeId); // Use a type if possible for better type checking
-      // console.log('get returnType data', data); 
-      this.returnTypeData = data;
-    });
 
-    this.returnData = returnData;
-    //console.log(' return Data', this.returnData);
-    //console.log(' group Data', this.returnData.groupName);
 
-    this.returnForm.patchValue({
-      orderNo: orderId ? orderId : '',
-      groupName: this.returnData ? this.returnData.groupName : '',
-      goodsName: this.returnData ? this.returnData.goodsName : '',
-      groupCode: this.returnData ? this.returnData.groupCode : '',
-      productId: this.returnData ? this.returnData.productId : '',
-      price: this.returnData ? this.returnData.price : '',
-      detailsId: this.returnData ? this.returnData.orderDetailId : '',
-      sellerCode: this.returnData ? this.returnData.sellerCode : '',
-      deliveryDate: this.returnData ? this.returnData.deliveryDate : '',
-    });
-    this.productImageSrc = returnData.imagePath
-      ? returnData.imagePath.substring(returnData.imagePath.indexOf('assets'))
-      : '../../../assets/images/medical/' +
-        returnData.groupName.trim() +
-        '.jpg';
-  }
-
-  SaveReturnData() {
-    this.formData = new FormData();
-
-    //console.log(' type', this.returnForm.value.typeId);
-    if (this.returnForm.value.typeId != null) {
-      //console.log(' RETURN fORM ', this.returnForm.value);
-      this.formData.append('OrderNo', this.returnForm.value.orderNo);
-      //this.formData.append('ProductGroupId', this.returnForm.value.groupName);
-      //this.formData.append('ProductId', this.returnForm.value.productId);
-      this.formData.append('Remarks', this.returnForm.value.remarks);
-      this.formData.append('ReturnTypeId', this.returnForm.value.typeId);
-      this.formData.append('Price', this.returnForm.value.price);
-      this.formData.append('OrderDetailsId', this.returnForm.value.detailsId);
-      //this.formData.append('SellerId', this.returnForm.value.SellerOrderId);
-      this.formData.append('AddedBy', 'Test User');
-      this.formData.append('AddedPc', '0.0.0.0');
-
-      // Assuming you have already populated the `this.formData` object
-      const formDataObject = this.formDataToObject(this.formData);
-
-      // Log the FormData as an object
-      // console.log(' form data ', formDataObject);
-
-      this.returnService
-        .ReturnProductAndChangeOrderDetailsStatus(this.formData)
-        .subscribe({
-          next: (Response: any) => {
-            // console.log('return post and status change response', Response);
-            setTimeout(() => {
-              this.getData('Delivered');
-              this.closeModalButton.nativeElement.click();
-              alert(Response.message);
-              this.returnForm.reset();
-            }, 100);
-          },
-          error: (error: any) => {
-            // console.log(error);
-            alert(error);
-          },
-        });
-    } else {
-      // this.returnType = true;
-      alert('Please Select a return type.');
-    }
-  }
-  // Create a helper function to convert FormData to a plain object
-  formDataToObject(formData: FormData): { [key: string]: any } {
-    const object: { [key: string]: any } = {};
-    formData.forEach((value, key) => {
-      object[key] = value;
-    });
-    return object;
-  }
-
-  calculateTotalPrice(orderDetails: any) {
-    let totalPrice = 0;
-    let count = 0;
-
-    for (let i = 0; i < orderDetails.length; i++) {
-      let detail = orderDetails[i];
-      totalPrice += detail.price;
-      count++;
-    }
-
-    return totalPrice + (count*100);
-  }
-  navigateToData(detail: any) {
-    // sessionStorage.setItem('productData', JSON.stringify(detail));
-   console.log(detail);
-  // alert('hh');
-  
-    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
-  }
 }
