@@ -111,61 +111,88 @@
         </div> -->
 
           <div
-            class="item mx-2 rounded-3"
-            #Item
+            class="item col-md-4 col-sm-6 col-xs-12 mb-3"
             *ngFor="let value of product.value"
             (click)="navigateToData(value)"
           >
-            <div class="card">
-              <!-- <p class="product-title">Product Name: {{ value[0] }}</p>
-            <p class="quantity">
-              Available Qty: <span class="fw-bold"> {{ value[1] }}</span>
-            </p> -->
-              <img
-                class="mt-1 h-70"
-                [src]="
-                  value.imagePath
-                    ? '/asset' + value.imagePath.split('asset')[1]
-                    : ''
+            <div class="card" style="width: 14rem">
+              <!-- Ensures the card takes full height -->
+              <!-- Card Image -->
+              <div
+                style="
+                  height: 9rem;
+                  background-color: white;
+                  position: relative;
                 "
-                alt=""
-              />
+              >
+                <img
+                  [src]="
+                    value.imagePath
+                      ? '/assets' + value.imagePath.split('assets')[1]
+                      : '/assets/default-image.jpg'
+                  "
+                  class="card-image"
+                  style="height: 9rem; width: 100%; object-fit: cover"
+                  (error)="onImageError($event)"
+                  alt="{{ value.goodsName }}"
+                />
+              </div>
 
-              <p class="product-title text-wrap">
-                Product Name:
-                <span class="fs-6 text-secondary"
-                  >{{
-                    value.goodsName.length > 15
-                      ? (value.goodsName | slice : 0 : 15) + "..."
+              <!-- Card Body -->
+              <div class="card-body">
+                <h6 class="card-title text-wrap h-50">
+                  <!-- Shortened product and company names with ellipsis -->
+                  <!-- Product Name: -->
+                  {{
+                    value.goodsName.length > 12
+                      ? (value.goodsName | slice : 0 : 12) + "..."
                       : value.goodsName
                   }}
-                </span>
-                <span class="company_name color-primary">
-                  ({{
-                    value.companyName.length > 20
-                      ? (value.companyName | slice : 0 : 20) + "..."
+                  <span class="company-name"
+                    >(
+                    {{
+                      value.companyName.length > 20
+                        ? (value.companyName | slice : 0 : 20) + "..."
+                        : value.companyName
+                    }}
+                    )</span
+                  >
+                </h6>
+
+                <!-- <p class="text-secondary">
+                  Company:
+                  {{
+                    value.companyName.length > 12
+                      ? (value.companyName | slice : 0 : 12) + "..."
                       : value.companyName
-                  }})</span
-                >
-              </p>
-             
-              <p class="quantity">
-                <span class="fw-bold"> Quantity:</span>
-                <span
-                  class="fs-6"
-                  [class.text-muted]="value.approveSalesQty >= 1"
-                  [class.text-danger]="value.approveSalesQty < 1"
-                >
-                  {{ value.approveSalesQty }}</span
-                >
-              </p>
-          
+                  }}
+                </p> -->
+
+                <p class="quantity">
+                  <span class="fw-bold">Quantity:</span>
+                  <span
+                    class="fs-6"
+                    [class.text-muted]="value.approveSalesQty >= 1"
+                    [class.text-danger]="value.approveSalesQty < 1"
+                  >
+                    {{ value.approveSalesQty }}
+                  </span>
+                </p>
+              </div>
+
+              <!-- Optional Card Footer for additional info -->
+              <!-- <div class="card-footer text-center">
+                This can contain extra info, like a call to action or additional text
+                <button class="btn btn-primary">View Details</button>
+              </div> -->
             </div>
           </div>
         </div>
         <div
           class="mx-3"
-          [ngClass]="{ 'remove-btn': !shouldRemoveButton(product.value.length) }"
+          [ngClass]="{
+            'remove-btn': !shouldRemoveButton(product.value.length)
+          }"
         >
           <button
             class="carousel-control-prev carousel-button"

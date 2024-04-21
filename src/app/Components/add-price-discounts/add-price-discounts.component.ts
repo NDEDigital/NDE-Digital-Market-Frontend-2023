@@ -132,8 +132,6 @@ export class AddPriceDiscountsComponent {
       .get('discountAmount')
       ?.valueChanges.subscribe(() => {});
 
-
-
     this.getProducts(-1);
     this.setupFormValueChanges();
     //this.getProductList();
@@ -250,7 +248,6 @@ export class AddPriceDiscountsComponent {
     });
   }
 
-  
   resetForm(): void {
     this.addPriceDiscountForm.reset();
     this.selectedUnitName = '';
@@ -527,7 +524,7 @@ export class AddPriceDiscountsComponent {
       formData.append('companyCode', 'companyCode');
 
       for (let pair of (formData as any).entries()) {
-        //console.log(`${pair[0]}: `, pair[1]);
+        console.log(`${pair[0]}: `, pair[1]);
       }
       // console.log(this.isEditMode, 'edit modal...');
 
@@ -536,7 +533,8 @@ export class AddPriceDiscountsComponent {
 
         this.productService.createSellerProductPrice(formData).subscribe({
           next: (response: any) => {
-            //console.log(response);
+            console.log(response);
+
             this.alertMsg = response.message;
             this.isError = false; // Set isError to false for a success message
             this.PrdouctExistModalBTN.nativeElement.click();
@@ -546,7 +544,7 @@ export class AddPriceDiscountsComponent {
             this.btnIndex = -1;
           },
           error: (error: any) => {
-            //console.log(error);
+            console.log(error);
             this.alertMsg = error.error.message;
             this.isError = true; // Set isError to true for an error message
             this.PrdouctExistModalBTN.nativeElement.click();
@@ -623,9 +621,7 @@ export class AddPriceDiscountsComponent {
     this.updateFormValidators();
     // console.log('product', product);
 
-
     this.getProductData(product.productGroupID);
-
 
     this.populateForm(product);
     this.currentProductPrice = product;
@@ -664,7 +660,7 @@ export class AddPriceDiscountsComponent {
     this.existingImagePath = product.imagepath;
     this.selectedUnitName = product.unitName;
     this.groupSelect.nativeElement.value = product.productGroupID;
-    this.productSelect.nativeElement.value = product.productId
+    this.productSelect.nativeElement.value = product.productId;
 
     // console.log(product.unitName, this.selectedUnitName, 'unit name::');
   }
@@ -683,4 +679,3 @@ export class AddPriceDiscountsComponent {
     this.AddGroupModalCenterG.nativeElement.click();
   }
 }
-

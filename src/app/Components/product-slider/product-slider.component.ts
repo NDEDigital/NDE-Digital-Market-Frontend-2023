@@ -205,6 +205,10 @@ export class ProductSliderComponent {
       }
     );
   }
+  onImageError(event: any): void {
+    // If the image is broken or doesn't load, set a fallback source
+    event.target.src = '/assets/default-image.jpg';
+  }
 
   // updateQuantity() {
   //   this.intervalId = setInterval(() => {
@@ -252,9 +256,12 @@ export class ProductSliderComponent {
   //   }, 5000);
   // }
   shouldRemoveButton(product: any): boolean {
-    if (this.windowWidth <= 1400 && product >= 5) {
+    console.log(this.windowWidth, product);
+    if (this.windowWidth > 1440 && product > 7) {
       return true;
-    } else if (this.windowWidth <= 1200 && product >= 4) {
+    } else if (this.windowWidth <= 1440 && product >= 7) {
+      return true;
+    } else if (this.windowWidth <= 1200 && product >= 5) {
       return true;
     } else if (this.windowWidth <= 1000 && product >= 4) {
       return true;
@@ -472,9 +479,15 @@ export class ProductSliderComponent {
 
   navigateToData(detail: any) {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
-  // console.log(detail);
-  // alert('hh');
-  console.log("dashboard",detail)
-    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+    // console.log(detail);
+    // alert('hh');
+    console.log('dashboard', detail);
+    window.open(
+      '/productDetails?productId=' +
+        btoa(detail.goodsId) +
+        '&companyCode=' +
+        btoa(detail.companyCode),
+      '_blank'
+    );
   }
 }
