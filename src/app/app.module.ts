@@ -28,7 +28,6 @@ import { ProductComponent } from './Pages/productList/product.component';
 // import { SingleProductComponent } from './Components/single-product/single-product.component';
 import { ChunkPipe } from './services/chunk.pipe';
 import { CarouselComponent } from './Components/carousel/carousel.component';
-import { AddProductComponent } from './Pages/add-product/add-product.component';
 import { DashboardComponent } from './Pages/dashboard/dashboard.component';
 import { ProductCardComponent } from './Components/product-card/product-card.component';
 
@@ -38,7 +37,6 @@ import { ProductSearchComponent } from './buyer/product-search/product-search.co
 import { ErrorComponent } from './Components/error/error.component';
 import { CompareProductComponent } from './Pages/compare-product/compare-product.component';
 import { CartAddedProductComponent } from './Pages/cart-added-product/cart-added-product.component';
-import { AdminOrderComponent } from './admin/admin-order/admin-order.component';
 import { PaymentHeaderComponent } from './Components/payment-header/payment-header.component';
 import { PaymentComponent } from './Pages/payment/payment.component';
 // import { DashBoardNavbarComponent } from './Components/dash-board-navbar/dash-board-navbar.component';
@@ -61,12 +59,9 @@ import { UserTokenInterceptor } from './Interceptor/user-token.interceptor';
 import { SellerInventoryComponent } from './seller/seller-inventory/seller-inventory.component';
 import { AddProductQuantityComponent } from './seller/add-product-quantity/add-product-quantity.component';
 import { AddProductsComponent } from './admin/components/add-products/add-products.component';
-import { AddGroupsComponent } from './admin/components/add-groups/add-groups.component';
 import { UserRegFormComponent } from './Components/user-reg-form/user-reg-form.component';
 import { UserRegistrationComponent } from './Pages/user-registration/user-registration.component';
-import { CompanyApprovalComponent } from './admin/components/company-approval/company-approval.component';
 import { AddPriceDiscountsComponent } from './seller/add-price-discounts/add-price-discounts.component';
-import { ProductApprovalComponent } from './admin/components/product-approval/product-approval.component';
 import { OrderFlowComponent } from './buyer/order-flow/order-flow.component';
 import { SellerOrderComponent } from './seller/seller-order/seller-order.component';
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
@@ -101,7 +96,6 @@ import { AdminModule } from './admin/admin.module';
     ProductComponent,
     ChunkPipe,
     CarouselComponent,
-    AddProductComponent,
     DashboardComponent,
     ProductCardComponent,
     FooterComponent,
@@ -110,7 +104,6 @@ import { AdminModule } from './admin/admin.module';
     ErrorComponent,
     CompareProductComponent,
     CartAddedProductComponent,
-    AdminOrderComponent,
     PaymentHeaderComponent,
     PaymentComponent,
     OrdersOverviewComponent,
@@ -130,12 +123,9 @@ import { AdminModule } from './admin/admin.module';
     SellerInventoryComponent,
     AddProductQuantityComponent,
     AddProductsComponent,
-    AddGroupsComponent,
     UserRegFormComponent,
     UserRegistrationComponent,
-    CompanyApprovalComponent,
     AddPriceDiscountsComponent,
-    ProductApprovalComponent,
     OrderFlowComponent,
     SellerOrderComponent,
     UserOrdersComponent,
