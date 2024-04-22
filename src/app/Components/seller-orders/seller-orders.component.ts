@@ -178,9 +178,9 @@ export class SellerOrdersComponent {
 
   getData(status: string) {
     // console.log("status",status);
-    
+
     const companyCode = localStorage.getItem('CompanyCode');
-// console.log("user code",companyCode);
+    // console.log("user code",companyCode);
 
     this.orderService.getOrdersForSeller(companyCode, status).subscribe({
       next: (response: any) => {
@@ -238,16 +238,16 @@ export class SellerOrdersComponent {
     if (uidS) uid = parseInt(uidS, 10);
     let status = 'status';
     let detailIDs = '';
-    if (this.btnIndex === -1) {
-      if (stat === 'Rejected') {
-        status = 'Rejected';
-        this.alertMsg = `Order status is ${status}!`;
-      } else {
-        status = 'Processing';
-        this.alertMsg = `Order status is ${status}!`;
-        this.productStatusModalBTN.nativeElement.click();
-      }
-    }
+    // if (this.btnIndex === -1) {
+    //   if (stat === 'Rejected') {
+    //     status = 'Rejected';
+    //     this.alertMsg = `Order status is ${status}!`;
+    //   } else {
+    //     status = 'Processing';
+    //     this.alertMsg = `Order status is ${status}!`;
+    //     this.productStatusModalBTN.nativeElement.click();
+    //   }
+    // }
     if (this.btnIndex === 3) {
       this.productStatusModalBTN.nativeElement.click();
       status = 'ReadyToShip';
@@ -346,7 +346,7 @@ export class SellerOrdersComponent {
       .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
-          // console.log(response);
+          // console.log(response.message);
           // this.productsData = response;
           // //console.log(this.productsData);
           // if ((this.btnIndex = -1)) {
@@ -356,6 +356,16 @@ export class SellerOrdersComponent {
           // } else {
           //   this.getData('Rejected');
           // }
+          if (this.btnIndex === -1) {
+            if (stat === 'Rejected') {
+              status = 'Rejected';
+              this.alertMsg = `Order status is ${status}!`;
+            } else {
+              status = 'Processing';
+              this.alertMsg = `Order status is ${status}!`;
+              this.productStatusModalBTN.nativeElement.click();
+            }
+          }
           if (status === 'Rejected') {
             //this.btnIndex = -1;
             this.getData('Approved');
@@ -389,7 +399,11 @@ export class SellerOrdersComponent {
           // this.getData(status);
         },
         error: (error: any) => {
-          //console.log(error);
+          // console.log(error.message);
+
+          status = 'Quantity';
+          this.alertMsg = `You don't have enough ${status}!`;
+          this.productStatusModalBTN.nativeElement.click();
         },
       });
   }

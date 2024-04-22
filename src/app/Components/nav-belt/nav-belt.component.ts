@@ -59,7 +59,7 @@ export class NavBeltComponent implements OnInit {
       .getNavData()
       .subscribe((data: any[]) => {
         this.goods = data;
-   
+        console.log(this.goods);
         if (this.goods && this.goods.length > 0) {
           for (let i = 0; i < this.goods.length; i++) {
             this.products.set(
@@ -83,7 +83,7 @@ export class NavBeltComponent implements OnInit {
       productCount = this.goods.length;
     }
     // console.log(productCount, "sjdfhjdf");
-  
+
     if (productCount <= 3) {
       return 'w-25';
     } else if (productCount <= 7) {
@@ -105,7 +105,9 @@ export class NavBeltComponent implements OnInit {
     this.activeEntry = groupName;
 
     localStorage.setItem('activeEntry', this.activeEntry);
-    this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: btoa(groupCode) } });
+    this.router.navigate(['/productsPageComponent'], {
+      queryParams: { groupCode: btoa(groupCode) },
+    });
 
     // //console.log(this.activeEntry, 'activeEntry');
   }

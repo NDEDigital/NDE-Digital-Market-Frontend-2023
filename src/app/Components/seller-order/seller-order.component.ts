@@ -67,7 +67,7 @@ export class SellerOrderComponent {
     let uidS = localStorage.getItem('code');
     let uid;
     if (uidS) uid = parseInt(uidS, 10);
-
+    console.log('ashce');
     const sellerSalesMasterDto = {
       userId: uid,
       totalPrice: product.netPrice,
@@ -109,7 +109,8 @@ export class SellerOrderComponent {
       .UpdateSellerOrderDetailsStatus(detailID, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
-          //console.log(response);
+          console.log('ashce');
+          console.log(response.message);
           // this.productsData = response;
           // //console.log(this.productsData);
           // if ((this.btnIndex = -1)) {
@@ -123,7 +124,8 @@ export class SellerOrderComponent {
           this.getData('');
         },
         error: (error: any) => {
-          //console.log(error);
+          console.log('ashce');
+          console.log(error.message);
         },
       });
   }

@@ -368,7 +368,12 @@
         <!-- <p>{{ alertMsg }}</p> -->
         <p
           class="fs-5 fw-bolder"
-          [ngStyle]="{ color: alertMsg.includes('Rejected') ? 'red' : 'green' }"
+          [ngStyle]="{
+            color:
+              alertMsg.includes('Rejected') || alertMsg.includes('Quantity')
+                ? 'red'
+                : 'green'
+          }"
         >
           {{ alertMsg }}
         </p>
