@@ -11,7 +11,7 @@ import { BannerComponent } from './buyer/banner/banner.component';
 import { ContactSupplierComponent } from './Components/contact-supplier/contact-supplier.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { BecomeASellerComponent } from './Pages/become-a-seller/become-a-seller.component';
-import { ProductSidebarComponent } from './Components/product-sidebar/product-sidebar.component';
+import { ProductSidebarComponent } from './buyer/product-sidebar/product-sidebar.component';
 import { CardComponent } from './Components/card/card.component';
 import { ContactSupplierPageComponent } from './Pages/contact-supplier-page/contact-supplier-page.component';
 import { ProductsPageComponent } from './Pages/CompanyList/products-page.component';
@@ -59,7 +59,7 @@ import { OtpModalComponent } from './Components/otp-modal/otp-modal.component';
 // token
 import { UserTokenInterceptor } from './Interceptor/user-token.interceptor';
 import { SellerInventoryComponent } from './seller/seller-inventory/seller-inventory.component';
-import { AddProductQuantityComponent } from './Components/add-product-quantity/add-product-quantity.component';
+import { AddProductQuantityComponent } from './seller/add-product-quantity/add-product-quantity.component';
 import { AddProductsComponent } from './admin/add-products/add-products.component';
 import { AddGroupsComponent } from './admin/add-groups/add-groups.component';
 import { UserRegFormComponent } from './Components/user-reg-form/user-reg-form.component';
