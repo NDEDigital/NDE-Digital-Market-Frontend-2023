@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { SellerOrderOverviewService } from '../../../app/services/SellerOrderOverviewService';
+import { SellerOrderOverviewService } from '../../services/SellerOrderOverviewService';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -78,7 +78,7 @@ export class SellerInventoryComponent {
 
     this.SellerService.getSellerInventory(this.sellerId).subscribe(
       (data: any) => {
-        // console.log(' load dataaaaaa', data); 
+        // console.log(' load dataaaaaa', data);
         this.inventoryData = data;
         this.filteredData = this.inventoryData;
       }

@@ -21,20 +21,30 @@
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
       >
-        <div class="item h-100" *ngFor="let client of getTopSellerData">
-          <div class="image-container h-50" (click)="productCardClick(client)">
-            <img
-              class=""
-              [src]="
-                client.companyImage.substring(
-                  client.companyImage.indexOf('assets')
-                )
-              "
-              alt="{{ client.companyName }}"
-            />
-          </div>
-          <div class="name-container h-25">
-            <p>{{ client.companyName }}</p>
+        <!-- Adjust width with rem units for a consistent layout -->
+        <div
+          class="item"
+          style="width: 12rem"
+          *ngFor="let client of getTopSellerData"
+        >
+          <div class="card h-100" (click)="productCardClick(client)">
+            <div class="image-container">
+              <!-- Consistent height -->
+              <img
+                class="img-fluid"
+                [src]="
+                  client.companyImage.substring(
+                    client.companyImage.indexOf('assets')
+                  )
+                "
+                alt="{{ client.companyName }}"
+                style="height: 100%; width: 100%; object-fit: cover"
+              />
+            </div>
+            <div class="card-body">
+              <p class="card-title">{{ client.companyName }}</p>
+              <!-- Consistent title styling -->
+            </div>
           </div>
         </div>
       </div>

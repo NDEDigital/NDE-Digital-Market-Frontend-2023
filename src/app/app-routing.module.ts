@@ -21,7 +21,7 @@ import { CheckoutPageComponent } from './Pages/checkout-page/checkout-page.compo
 import { ProductDetailsPageComponent } from './Pages/product-details-page/product-details-page.component';
 import { SellerInvoiceComponent } from './ReportDesign/seller-invoice/seller-invoice.component';
 import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoice.component';
-import { BuyerOrderComponent } from './Components/buyer-order/buyer-order.component';
+import { BuyerOrderComponent } from './buyer/buyer-order/buyer-order.component';
 import { BuyerOrderDetailsComponent } from './Components/buyer-order-details/buyer-order-details.component';
 
 import { BuyerOnlyGuard } from './services/buyer-only.guard';
@@ -33,7 +33,7 @@ import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { from } from 'rxjs';
-import { WishListComponent } from './Components/wish-list/wish-list.component';
+import { WishListComponent } from './buyer/wish-list/wish-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 const routes: Routes = [
   {

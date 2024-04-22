@@ -17,6 +17,9 @@ p {
   overflow: hidden;
   height: 18rem;
 }
+.quantity-out {
+  color: red;
+}
 .card {
   background-color: #fefefe;
 }
@@ -116,6 +119,23 @@ p {
   object-fit: cover;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+}
+/* .card-out-of-stock {
+  background-color: #f0f0f0;
+  opacity: 0.7;
+  z-index: 1;
+} */
+
+.quantity-out {
+  color: red;
+}
+
+.card {
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 /* .detail-img {
