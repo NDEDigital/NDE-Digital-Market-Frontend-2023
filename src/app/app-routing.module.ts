@@ -22,7 +22,7 @@ import { ProductDetailsPageComponent } from './Pages/product-details-page/produc
 import { SellerInvoiceComponent } from './ReportDesign/seller-invoice/seller-invoice.component';
 import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoice.component';
 import { BuyerOrderComponent } from './buyer/buyer-order/buyer-order.component';
-import { BuyerOrderDetailsComponent } from './Components/buyer-order-details/buyer-order-details.component';
+import { BuyerOrderDetailsComponent } from './buyer/buyer-order-details/buyer-order-details.component';
 
 import { BuyerOnlyGuard } from './services/buyer-only.guard';
 import { SellerOnlyGuard } from './services/seller-only.guard';
@@ -141,6 +141,7 @@ const routes: Routes = [
     path: 'productsPageComponent/:groupCode',
     component: ProductsPageComponent,
   },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 ];
 
 @NgModule({

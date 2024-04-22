@@ -25,7 +25,7 @@ import { MaxQuantityProductsSliderComponent } from './Components/max-quantity-pr
 import { ProductSliderComponent } from './buyer/product-slider/product-slider.component';
 
 import { ProductComponent } from './Pages/productList/product.component';
-import { SingleProductComponent } from './Components/single-product/single-product.component';
+// import { SingleProductComponent } from './Components/single-product/single-product.component';
 import { ChunkPipe } from './services/chunk.pipe';
 import { CarouselComponent } from './Components/carousel/carousel.component';
 import { AddProductComponent } from './Pages/add-product/add-product.component';
@@ -53,34 +53,33 @@ import { SellerInvoiceComponent } from './ReportDesign/seller-invoice/seller-inv
 import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoice.component';
 import { ProductDetailsPageComponent } from './Pages/product-details-page/product-details-page.component';
 import { BuyerOrderComponent } from './buyer/buyer-order/buyer-order.component';
-import { BuyerOrderDetailsComponent } from './Components/buyer-order-details/buyer-order-details.component';
+import { BuyerOrderDetailsComponent } from './buyer/buyer-order-details/buyer-order-details.component';
 import { AutoFocusOtpFieldComponent } from './Components/auto-focus-otp-field/auto-focus-otp-field.component';
-import { OtpModalComponent } from './Components/otp-modal/otp-modal.component';
+import { OtpModalComponent } from './shared/otp-modal/otp-modal.component';
 // token
 import { UserTokenInterceptor } from './Interceptor/user-token.interceptor';
 import { SellerInventoryComponent } from './seller/seller-inventory/seller-inventory.component';
 import { AddProductQuantityComponent } from './seller/add-product-quantity/add-product-quantity.component';
-import { AddProductsComponent } from './admin/add-products/add-products.component';
-import { AddGroupsComponent } from './admin/add-groups/add-groups.component';
+import { AddProductsComponent } from './admin/components/add-products/add-products.component';
+import { AddGroupsComponent } from './admin/components/add-groups/add-groups.component';
 import { UserRegFormComponent } from './Components/user-reg-form/user-reg-form.component';
 import { UserRegistrationComponent } from './Pages/user-registration/user-registration.component';
-import { CompanyApprovalComponent } from './admin/company-approval/company-approval.component';
+import { CompanyApprovalComponent } from './admin/components/company-approval/company-approval.component';
 import { AddPriceDiscountsComponent } from './seller/add-price-discounts/add-price-discounts.component';
-import { ProductApprovalComponent } from './admin/product-approval/product-approval.component';
-import { OrderFlowComponent } from './Components/order-flow/order-flow.component';
+import { ProductApprovalComponent } from './admin/components/product-approval/product-approval.component';
+import { OrderFlowComponent } from './buyer/order-flow/order-flow.component';
 import { SellerOrderComponent } from './seller/seller-order/seller-order.component';
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
-import { SellerOrdersComponent } from './Components/seller-orders/seller-orders.component';
-import { LoginPopupComponent } from './Components/login-popup/login-popup.component';
-import { SellerListComponent } from './admin/seller-list/seller-list.component';
+import { SellerOrdersComponent } from './seller/seller-orders/seller-orders.component';
+import { LoginPopupComponent } from './shared/login-popup/login-popup.component';
+import { SellerListComponent } from './shared/seller-list/seller-list.component';
 import { SellerPermissionComponent } from './seller/seller-permission/seller-permission.component';
-import { UnitListComponent } from './admin/unit-list/unit-list.component';
 import { WishListComponent } from './buyer/wish-list/wish-list.component';
 import { RecommendedProductComponent } from './buyer/recommended-product/recommended-product.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
-
+import { AdminModule } from './admin/admin.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,7 +99,6 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
     MaxQuantityProductsSliderComponent,
     ProductSliderComponent,
     ProductComponent,
-    SingleProductComponent,
     ChunkPipe,
     CarouselComponent,
     AddProductComponent,
@@ -115,7 +113,6 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
     AdminOrderComponent,
     PaymentHeaderComponent,
     PaymentComponent,
-    // DashBoardNavbarComponent,
     OrdersOverviewComponent,
     HomeCoreContentComponent,
     HomeProductCardComponent,
@@ -147,7 +144,6 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
     LoginPopupComponent,
     SellerListComponent,
     SellerPermissionComponent,
-    UnitListComponent,
     RecommendedProductComponent,
     WishListComponent,
     RecommendedProductListComponent,
@@ -159,6 +155,7 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AdminModule,
   ],
 
   providers: [
