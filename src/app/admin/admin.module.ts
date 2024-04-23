@@ -9,15 +9,10 @@ import { AddGroupsComponent } from './components/add-groups/add-groups.component
 import { AddProductComponent } from '../Pages/add-product/add-product.component';
 import { CompanyApprovalComponent } from './components/company-approval/company-approval.component';
 import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
-import { AdminOrderComponent } from './admin-order/admin-order.component';
+import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AdminRoutingModule, // Admin routing
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, AdminRoutingModule],
   declarations: [
     UnitListComponent,
     AddGroupsComponent,

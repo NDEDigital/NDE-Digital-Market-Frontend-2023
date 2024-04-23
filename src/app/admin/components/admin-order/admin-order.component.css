@@ -77,8 +77,8 @@
 
 /* Add a custom icon using a background image */
 .search_by_date input[type="date"] {
-  background: #fff url("../../../assets/images/calendar.png") no-repeat center
-    right 0.5rem;
+  background: #fff url("../../../../assets/images/calendar.png") no-repeat
+    center right 0.5rem;
   background-size: 1rem 1rem; /* Set the size of the custom icon */
 }
 
@@ -276,7 +276,7 @@
   background-color: #97c3d1;
 }
 .modal-header {
-  background-color:  #4592a0;
+  background-color: #4592a0;
   color: white;
 }
 
@@ -284,10 +284,10 @@
   background-color: snow;
 }
 .btn-Approved {
-  background-color:  #4592a0;
+  background-color: #4592a0;
   color: white;
 }
-.btn-cancel{
+.btn-cancel {
   background-color: #302f2f;
   color: #fff;
 }

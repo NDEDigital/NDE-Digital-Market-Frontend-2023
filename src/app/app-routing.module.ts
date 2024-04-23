@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './Pages/home/home.component';
 import { BecomeASellerComponent } from './Pages/become-a-seller/become-a-seller.component';
 import { ProductsPageComponent } from './Pages/CompanyList/products-page.component';
-import { ContactSupplierComponent } from './Components/contact-supplier/contact-supplier.component';
+import { ContactSupplierComponent } from './buyer/components/contact-supplier/contact-supplier.component';
 import { LoginComponent } from './Pages/login/login.component';
 import { RegisterComponent } from './Pages/register/register.component';
 import { AuthGuardGuard } from './services/auth-guard.guard';
@@ -21,8 +21,8 @@ import { CheckoutPageComponent } from './Pages/checkout-page/checkout-page.compo
 import { ProductDetailsPageComponent } from './Pages/product-details-page/product-details-page.component';
 import { SellerInvoiceComponent } from './ReportDesign/seller-invoice/seller-invoice.component';
 import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoice.component';
-import { BuyerOrderComponent } from './buyer/buyer-order/buyer-order.component';
-import { BuyerOrderDetailsComponent } from './buyer/buyer-order-details/buyer-order-details.component';
+import { BuyerOrderComponent } from './buyer/components/buyer-order/buyer-order.component';
+import { BuyerOrderDetailsComponent } from './buyer/components/buyer-order-details/buyer-order-details.component';
 
 import { BuyerOnlyGuard } from './services/buyer-only.guard';
 import { SellerOnlyGuard } from './services/seller-only.guard';
@@ -33,7 +33,7 @@ import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { from } from 'rxjs';
-import { WishListComponent } from './buyer/wish-list/wish-list.component';
+import { WishListComponent } from './buyer/components/wish-list/wish-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 const routes: Routes = [
   {
@@ -141,7 +141,22 @@ const routes: Routes = [
     path: 'productsPageComponent/:groupCode',
     component: ProductsPageComponent,
   },
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'seller',
+    loadChildren: () =>
+      import('./seller/seller.module').then((m) => m.SellerModule),
+  },
+  {
+    path: 'buyer',
+    loadChildren: () =>
+      import('./buyer/buyer.module').then((m) => m.BuyerModule),
+  },
+  { path: 'shared', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule) },
 ];
 
 @NgModule({

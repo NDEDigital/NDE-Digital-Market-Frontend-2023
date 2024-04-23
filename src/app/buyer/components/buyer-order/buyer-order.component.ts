@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { OrderApiService } from 'src/app/services/order-api.service';
 import { ProductReturnServiceService } from 'src/app/services/product-return-service.service';
 import { ReviewRatingsService } from 'src/app/services/review-ratings.service';
-
 @Component({
   selector: 'app-buyer-order',
   templateUrl: './buyer-order.component.html',
@@ -137,7 +136,7 @@ export class BuyerOrderComponent {
   }
   goToDetail(detail: any) {
     this.item = detail;
-    console.log('detail prod',detail );
+    console.log('detail prod', detail);
 
     let obj = {
       companyCode: this.item.companyCode,
@@ -148,14 +147,19 @@ export class BuyerOrderComponent {
       goodsName: this.item.productName,
       quantityUnit: this.item.qty,
       status: this.item.status,
-     
     };
-    console.log(detail)
+    console.log(detail);
     //console.log('product data ', obj);
     sessionStorage.setItem('productData', JSON.stringify(obj));
     // this.route.navigate(['/productDetails']);
-    console.log(detail)
-    window.open('/productDetails?productId='+btoa(detail.productId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+    console.log(detail);
+    window.open(
+      '/productDetails?productId=' +
+        btoa(detail.productId) +
+        '&companyCode=' +
+        btoa(detail.companyCode),
+      '_blank'
+    );
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -301,7 +305,7 @@ export class BuyerOrderComponent {
       next: (response: any) => {
         // console.log(response, 'newbuyerorder');
         this.buyerOrder = response;
-        console.log("buyers details are ",response)
+        console.log('buyers details are ', response);
 
         setTimeout(() => {
           // console.log(
@@ -383,7 +387,7 @@ export class BuyerOrderComponent {
     this.returnType = false;
     this.returnService.getReturnType().subscribe((data: any) => {
       //console.log(' typeId', data[0].typeId); // Use a type if possible for better type checking
-      // console.log('get returnType data', data); 
+      // console.log('get returnType data', data);
       this.returnTypeData = data;
     });
 
@@ -473,13 +477,19 @@ export class BuyerOrderComponent {
       count++;
     }
 
-    return totalPrice + (count*100);
+    return totalPrice + count * 100;
   }
   navigateToData(detail: any) {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
-   console.log(detail);
-  // alert('hh');
-  
-    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+    console.log(detail);
+    // alert('hh');
+
+    window.open(
+      '/productDetails?productId=' +
+        btoa(detail.goodsId) +
+        '&companyCode=' +
+        btoa(detail.companyCode),
+      '_blank'
+    );
   }
 }

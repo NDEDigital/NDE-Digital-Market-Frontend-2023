@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { GoodsDataService } from '../../services/goods-data.service';
+import { GoodsDataService } from '../../../services/goods-data.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { SharedService } from 'src/app/services/shared.service';
 import { Subscription } from 'rxjs';

@@ -3,15 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './Components/header/header.component';
-import { NavBeltComponent } from './buyer/nav-belt/nav-belt.component';
 // http client module
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BannerComponent } from './buyer/banner/banner.component';
-import { ContactSupplierComponent } from './Components/contact-supplier/contact-supplier.component';
 import { HomeComponent } from './Pages/home/home.component';
 import { BecomeASellerComponent } from './Pages/become-a-seller/become-a-seller.component';
-import { ProductSidebarComponent } from './buyer/product-sidebar/product-sidebar.component';
 import { CardComponent } from './Components/card/card.component';
 import { ContactSupplierPageComponent } from './Pages/contact-supplier-page/contact-supplier-page.component';
 import { ProductsPageComponent } from './Pages/CompanyList/products-page.component';
@@ -22,69 +17,47 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserProfileComponent } from './Pages/user-profile/user-profile.component';
 import { MaxQuantityProductsSliderComponent } from './Components/max-quantity-products-slider/max-quantity-products-slider.component';
 
-import { ProductSliderComponent } from './buyer/product-slider/product-slider.component';
-
 import { ProductComponent } from './Pages/productList/product.component';
-// import { SingleProductComponent } from './Components/single-product/single-product.component';
 import { ChunkPipe } from './services/chunk.pipe';
 import { CarouselComponent } from './Components/carousel/carousel.component';
 import { DashboardComponent } from './Pages/dashboard/dashboard.component';
 import { ProductCardComponent } from './Components/product-card/product-card.component';
-
-import { FooterComponent } from './buyer/footer/footer.component';
 import { SearchResultComponent } from './Pages/search-result/search-result.component';
-import { ProductSearchComponent } from './buyer/product-search/product-search.component';
 import { ErrorComponent } from './Components/error/error.component';
 import { CompareProductComponent } from './Pages/compare-product/compare-product.component';
 import { CartAddedProductComponent } from './Pages/cart-added-product/cart-added-product.component';
 import { PaymentHeaderComponent } from './Components/payment-header/payment-header.component';
 import { PaymentComponent } from './Pages/payment/payment.component';
-// import { DashBoardNavbarComponent } from './Components/dash-board-navbar/dash-board-navbar.component';
 import { OrdersOverviewComponent } from './Pages/dashboard/orders-overview/orders-overview.component';
 import { HomeCoreContentComponent } from './Components/home-core-content/home-core-content.component';
 import { HomeProductCardComponent } from './Components/home-product-card/home-product-card.component';
 import { CheckoutPageComponent } from './Pages/checkout-page/checkout-page.component';
-import { SubHeaderComponent } from './Components/sub-header/sub-header.component';
-import { ClientsListSliderComponent } from './Components/clients-list-slider/clients-list-slider.component';
-import { PaginationComponent } from './Components/pagination/pagination.component';
 import { SellerInvoiceComponent } from './ReportDesign/seller-invoice/seller-invoice.component';
 import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoice.component';
 import { ProductDetailsPageComponent } from './Pages/product-details-page/product-details-page.component';
-import { BuyerOrderComponent } from './buyer/buyer-order/buyer-order.component';
-import { BuyerOrderDetailsComponent } from './buyer/buyer-order-details/buyer-order-details.component';
 import { AutoFocusOtpFieldComponent } from './Components/auto-focus-otp-field/auto-focus-otp-field.component';
 import { OtpModalComponent } from './shared/otp-modal/otp-modal.component';
 // token
 import { UserTokenInterceptor } from './Interceptor/user-token.interceptor';
-import { SellerInventoryComponent } from './seller/seller-inventory/seller-inventory.component';
-import { AddProductQuantityComponent } from './seller/add-product-quantity/add-product-quantity.component';
 import { AddProductsComponent } from './admin/components/add-products/add-products.component';
 import { UserRegFormComponent } from './Components/user-reg-form/user-reg-form.component';
 import { UserRegistrationComponent } from './Pages/user-registration/user-registration.component';
-import { AddPriceDiscountsComponent } from './seller/add-price-discounts/add-price-discounts.component';
-import { OrderFlowComponent } from './buyer/order-flow/order-flow.component';
-import { SellerOrderComponent } from './seller/seller-order/seller-order.component';
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
-import { SellerOrdersComponent } from './seller/seller-orders/seller-orders.component';
 import { LoginPopupComponent } from './shared/login-popup/login-popup.component';
 import { SellerListComponent } from './shared/seller-list/seller-list.component';
-import { SellerPermissionComponent } from './seller/seller-permission/seller-permission.component';
-import { WishListComponent } from './buyer/wish-list/wish-list.component';
-import { RecommendedProductComponent } from './buyer/recommended-product/recommended-product.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
+//module
 import { AdminModule } from './admin/admin.module';
+import { BuyerModule } from './buyer/buyer.module';
+import { SellerModule } from './seller/seller.module';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    NavBeltComponent,
-    BannerComponent,
-    ContactSupplierComponent,
     HomeComponent,
     BecomeASellerComponent,
-    ProductSidebarComponent,
     CardComponent,
     ContactSupplierPageComponent,
     ProductsPageComponent,
@@ -92,15 +65,12 @@ import { AdminModule } from './admin/admin.module';
     RegisterComponent,
     UserProfileComponent,
     MaxQuantityProductsSliderComponent,
-    ProductSliderComponent,
     ProductComponent,
     ChunkPipe,
     CarouselComponent,
     DashboardComponent,
     ProductCardComponent,
-    FooterComponent,
     SearchResultComponent,
-    ProductSearchComponent,
     ErrorComponent,
     CompareProductComponent,
     CartAddedProductComponent,
@@ -110,32 +80,18 @@ import { AdminModule } from './admin/admin.module';
     HomeCoreContentComponent,
     HomeProductCardComponent,
     CheckoutPageComponent,
-    SubHeaderComponent,
-    ClientsListSliderComponent,
-    PaginationComponent,
     SellerInvoiceComponent,
     AdminInvoiceComponent,
     ProductDetailsPageComponent,
-    BuyerOrderComponent,
-    BuyerOrderDetailsComponent,
     AutoFocusOtpFieldComponent,
     OtpModalComponent,
-    SellerInventoryComponent,
-    AddProductQuantityComponent,
     AddProductsComponent,
     UserRegFormComponent,
     UserRegistrationComponent,
-    AddPriceDiscountsComponent,
-    OrderFlowComponent,
-    SellerOrderComponent,
     UserOrdersComponent,
     InvoiceComponent,
-    SellerOrdersComponent,
     LoginPopupComponent,
     SellerListComponent,
-    SellerPermissionComponent,
-    RecommendedProductComponent,
-    WishListComponent,
     RecommendedProductListComponent,
     OurTopSellerComponent,
   ],
@@ -146,8 +102,11 @@ import { AdminModule } from './admin/admin.module';
     FormsModule,
     ReactiveFormsModule,
     AdminModule,
+    BuyerModule,
+    SellerModule,
+    SharedModule,
   ],
-
+  exports: [],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
