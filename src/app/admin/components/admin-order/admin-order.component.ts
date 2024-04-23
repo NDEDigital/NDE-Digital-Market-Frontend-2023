@@ -3,7 +3,7 @@ import { AdminOrderDataGetService } from 'src/app/services/admin-order-data-get.
 import { FormsModule } from '@angular/forms';
 import { AdminOrderModel } from '../../../Model/AdminOrderModel';
 import { DetailsModel } from '../../../Model/DetailsModel';
-import { PaginationComponent } from '../../../shared/pagination/pagination.component';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';

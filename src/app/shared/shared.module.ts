@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HeaderComponent } from './header/header.component';
-import { PaginationComponent } from './pagination/pagination.component';
+import { ErrorComponent } from './components/error/error.component';
+import { HeaderComponent } from './components/header/header.component';
+import { LoginPopupComponent } from './components/login-popup/login-popup.component';
+import { OtpModalComponent } from './components/otp-modal/otp-modal.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { SellerListComponent } from './components/seller-list/seller-list.component';
+import { UserRegFormComponent } from './components/user-reg-form/user-reg-form.component';
 import { SharedRoutingModule } from './shared-routing.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -12,7 +18,23 @@ import { SharedRoutingModule } from './shared-routing.module';
     SharedRoutingModule,
   ],
 
-  declarations: [HeaderComponent, PaginationComponent],
-  exports: [HeaderComponent, PaginationComponent],
+  declarations: [
+    ErrorComponent,
+    HeaderComponent,
+    LoginPopupComponent,
+    OtpModalComponent,
+    PaginationComponent,
+    SellerListComponent,
+    UserRegFormComponent,
+  ],
+  exports: [
+    ErrorComponent,
+    HeaderComponent,
+    LoginPopupComponent,
+    OtpModalComponent,
+    PaginationComponent,
+    SellerListComponent,
+    UserRegFormComponent,
+  ],
 })
 export class SharedModule {}
