@@ -1,10 +1,8 @@
 <!-- approval grid  -->
 <div class="container approval-grid">
-  <div class="bg-white p-2 border border-1 rounded">
-    <div class="d-flex justify-content-center">
-      <h1 class="companyApproval_header_text">Price and Discounts</h1>
-    </div>
-  </div>
+  <app-dashboard-menu-header
+    title="Price and Discounts"
+  ></app-dashboard-menu-header>
   <div
     class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
   >
@@ -50,7 +48,7 @@
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
       <div class="col tableHeader">Index</div>
-   
+
       <div class="col tableHeader">Product Name</div>
       <div class="col tableHeader">Product Image</div>
       <div class="col tableHeader">Product price</div>
@@ -78,7 +76,7 @@
       >
         #{{ i + 1 }}
       </div>
-     
+
       <div
         class="col tableBody"
         [ngClass]="{
@@ -124,8 +122,6 @@
         {{ product.discountAmount }}
       </div>
 
-
-      
       <div
         class="col tableBody"
         [ngClass]="{

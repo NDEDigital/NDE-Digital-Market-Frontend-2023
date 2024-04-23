@@ -10,9 +10,15 @@ import { AddProductComponent } from '../Pages/add-product/add-product.component'
 import { CompanyApprovalComponent } from './components/company-approval/company-approval.component';
 import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
-
+import { SharedModule } from '../shared/shared.module';
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, AdminRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AdminRoutingModule,
+    SharedModule,
+  ],
   declarations: [
     UnitListComponent,
     AddGroupsComponent,

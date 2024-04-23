@@ -1,8 +1,3 @@
-/* header text design*/
-.companyApproval_header_text {
-  color: var(--color-primary);
-}
-
 /* table design */
 
 .headerRow,
@@ -91,5 +86,5 @@
   width: 6rem;
 }
 .active-row {
-  background-color:rgb(233, 238, 243);
+  background-color: rgb(233, 238, 243);
 }

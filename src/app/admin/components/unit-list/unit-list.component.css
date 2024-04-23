@@ -141,11 +141,6 @@ select {
 
 /* grid design */
 
-/* header text design*/
-.companyApproval_header_text {
-  color: var(--color-primary);
-}
-
 /* table design */
 
 .headerRow,

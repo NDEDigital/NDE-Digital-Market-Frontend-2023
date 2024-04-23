@@ -145,11 +145,6 @@ select {
 
 /* grid design */
 
-/* header text design*/
-.companyApproval_header_text {
-  color: var(--color-primary);
-}
-
 /* table design */
 
 .headerRow,
@@ -166,8 +161,6 @@ select {
 }
 .tablebodyRow {
   text-align: center;
-
-
 }
 /* .tablebodyRow:hover{
   background-color: #78ac8b;
@@ -252,10 +245,5 @@ select {
 }
 
 .active-row {
-  background-color:rgb(233, 238, 243);
+  background-color: rgb(233, 238, 243);
 }
-
-
-
-
-

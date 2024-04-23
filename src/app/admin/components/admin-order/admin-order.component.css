@@ -101,6 +101,7 @@
 /* product status div */
 
 .order_status {
+  margin-top: 1%;
   background-color: #fff;
   padding: 0.8rem;
   /* margin-top: 2rem; */

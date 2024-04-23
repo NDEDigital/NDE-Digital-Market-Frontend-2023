@@ -1,7 +1,3 @@
-/* header text design*/
-.companyApproval_header_text {
-  color: var(--color-primary);
-}
 #showImgModal .modal-content {
   width: 95vw;
   height: 75vh;
@@ -95,5 +91,5 @@
   border: none;
 }
 .active-row {
-  background-color:rgb(233, 238, 243);
+  background-color: rgb(233, 238, 243);
 }

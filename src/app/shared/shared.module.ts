@@ -9,6 +9,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { SellerListComponent } from './components/seller-list/seller-list.component';
 import { UserRegFormComponent } from './components/user-reg-form/user-reg-form.component';
 import { SharedRoutingModule } from './shared-routing.module';
+import { DashboardMenuHeaderComponent } from './components/dashboard-menu-header/dashboard-menu-header.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SharedRoutingModule } from './shared-routing.module';
     PaginationComponent,
     SellerListComponent,
     UserRegFormComponent,
+    DashboardMenuHeaderComponent,
   ],
   exports: [
     ErrorComponent,
@@ -35,6 +37,7 @@ import { SharedRoutingModule } from './shared-routing.module';
     PaginationComponent,
     SellerListComponent,
     UserRegFormComponent,
+    DashboardMenuHeaderComponent,
   ],
 })
 export class SharedModule {}

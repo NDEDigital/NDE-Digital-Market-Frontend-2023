@@ -1,11 +1,8 @@
 <!-- approval grid  -->
-
 <div class="container approval-grid">
-  <div class="bg-white p-2 border border-1 rounded">
-    <div class="d-flex justify-content-center">
-      <h1 class="companyApproval_header_text">Add Product Table</h1>
-    </div>
-  </div>
+  <app-dashboard-menu-header
+    title="Add Product Table"
+  ></app-dashboard-menu-header>
   <div
     class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
   >
@@ -23,7 +20,6 @@
         (click)="getProducts(1)"
         [ngClass]="{ active: btnIndex === 1 }"
         (click)="btnIndex = 1"
-        
       >
         Active
       </button>
@@ -74,9 +70,13 @@
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
     <div>
-
-      <h1 *ngIf="productList?.length == 0" class="text-center " style="color: red;margin-top: 15%"> Product Not Found</h1>
-
+      <h1
+        *ngIf="productList?.length == 0"
+        class="text-center"
+        style="color: red; margin-top: 15%"
+      >
+        Product Not Found
+      </h1>
     </div>
     <!-- table body -->
 
@@ -98,7 +98,6 @@
           [(ngModel)]="product.isSelected"
           (change)="checkboxSelected(product.productId, $event)"
         />
-    
       </div>
       <div
         class="col tableBody"
@@ -185,7 +184,9 @@
       <div
         class="col tableBody"
         *ngIf="btnIndex != -1"
-        [ngClass]="{ 'active-row': product.productId === activeProductId || isHovered === i }"
+        [ngClass]="{
+          'active-row': product.productId === activeProductId || isHovered === i
+        }"
       >
         <div class="d-flex justify-content-center align-items-center">
           <div>
@@ -274,10 +275,18 @@
     </section>
   </div>
   <div class="d-flex justify-content-end">
-    <button *ngIf="btnIndex === 0 || btnIndex === -1" class="custom-btn " (click)="chageActiveInactive(1)">
+    <button
+      *ngIf="btnIndex === 0 || btnIndex === -1"
+      class="custom-btn"
+      (click)="chageActiveInactive(1)"
+    >
       Active
     </button>
-    <button *ngIf="btnIndex === 1 || btnIndex === -1" class="custom-btn" (click)="chageActiveInactive(0)">
+    <button
+      *ngIf="btnIndex === 1 || btnIndex === -1"
+      class="custom-btn"
+      (click)="chageActiveInactive(0)"
+    >
       Inactive
     </button>
   </div>
@@ -469,10 +478,16 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="userExistModalLabel" 
-        [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
-
-        [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }">{{alertTitle}}</h1>
+        <h1
+          class="modal-title fs-5"
+          id="userExistModalLabel"
+          [ngStyle]="{
+            color: alertMsg.includes('Deactiveted') ? 'red' : 'green'
+          }"
+          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
+        >
+          {{ alertTitle }}
+        </h1>
         <button
           type="button"
           class="btn-close"
@@ -483,8 +498,9 @@
       <div class="modal-body">
         <p
           class="fs-5 fw-bolder"
-          [ngStyle]="{ color: alertMsg.includes('Deactiveted') ? 'red' : 'green' }"
-        
+          [ngStyle]="{
+            color: alertMsg.includes('Deactiveted') ? 'red' : 'green'
+          }"
           [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
         >
           {{ alertMsg }}

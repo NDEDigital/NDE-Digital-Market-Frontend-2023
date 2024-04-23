@@ -1,9 +1,7 @@
 .addQuantityBody {
   width: 100%;
 }
-.addQuantity_header_text {
-  color: var(--color-primary);
-}
+
 .details-header {
   z-index: 100;
 }
