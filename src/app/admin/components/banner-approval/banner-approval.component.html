@@ -12,7 +12,7 @@
         (click)="btnIndex = -1"
         (click)="getData()"
       >
-        New
+        New Request
       </button>
       <button
         class="custom-btn btn-active"
@@ -35,9 +35,7 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
-      
       <div class="col tableHeader">Index</div>
-      <div class="col tableHeader">Company Code</div>
       <div class="col tableHeader">Company Name</div>
 
       <div class="col tableHeader">Banner Image</div>
@@ -46,29 +44,31 @@
       <div class="col tableHeader">Action</div>
     </div>
     <div>
-
-      <h1 *ngIf="banners.length==0" class="text-center " style="color: red;margin-top: 15%"> Banner Not Found</h1>
+      <h1
+        *ngIf="banners.length == 0"
+        class="text-center"
+        style="color: red; margin-top: 15%"
+      >
+        Banner Not Found
+      </h1>
     </div>
     <!-- table body -->
 
     <section
       class="row tablebodyRow fw-semibold"
       *ngFor="let cmp of banners; let i = index"
-      (mouseover)="isHovered = i;"
+      (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
     >
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">#{{ i + 1 }}</div>
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">{{ cmp.companyCode }}
-
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+        #{{ i + 1 }}
       </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
+
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ cmp.companyName }}
       </div>
-    
-   
 
-
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <button
           class="custom-btn btn-trade-company"
           data-bs-toggle="modal"
@@ -78,30 +78,29 @@
           view
         </button>
       </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
-         <input
-          [(ngModel)]="selectedCompanyCodeValues[cmp.companyCode]"
-          type="date"
+      <!-- Date Picker 1 -->
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+        <input
+          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date1']"
+          type="datetime-local"
           class="border border-1 p-2 w-75"
-          min="0"
+          min="2024-01-01T00:00"
         />
       </div>
 
-      
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
+      <!-- Date Picker 2 -->
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <input
-          [(ngModel)]="selectedCompanyCodeValues[cmp.companyCode]"
-          type="date"
+          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
+          type="datetime-local"
           class="border border-1 p-2 w-75"
-          min="0"
+          min="2024-01-01T00:00"
         />
       </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <div class="d-flex justify-content-center align-items-center">
           <div>
-            <button class="actionBtn"
-            *ngIf="btnIndex != 1"
-            >
+            <button class="actionBtn" *ngIf="btnIndex != 1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -110,7 +109,13 @@
                 class="bi bi-check2 me-3"
                 viewBox="0 0 16 16"
                 (click)="
-                  updateCompany(cmp.email, cmp.companyCode, 1, cmp.maxUser)
+                  updateCompany(
+                    cmp.bannerID,
+                    selectedCompanyCodeValues[i + 1 + '_date1'],
+                    selectedCompanyCodeValues[i + 1 + '_date2'],
+                    true,
+                    true
+                  )
                 "
               >
                 <path
@@ -124,7 +129,13 @@
               class="actionBtn"
               *ngIf="btnIndex != 0"
               (click)="
-                updateCompany(cmp.email, cmp.companyCode, 0, cmp.maxUser)
+                updateCompany(
+                  cmp.bannerID,
+                  selectedCompanyCodeValues[i + 1 + '_date1'],
+                  selectedCompanyCodeValues[i + 1 + '_date2'],
+                  false,
+                  false
+                )
               "
             >
               <svg
@@ -146,44 +157,42 @@
 
       <!-- Modal for tadeLicence -->
       <div
-      class="modal fade"
-      id="showImgModal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="showImgModalLabel"
-      aria-hidden="true"
-    >
-      <div
-        class="modal-dialog modal-xl d-flex align-items-center justify-content-center"
+        class="modal fade"
+        id="showImgModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="showImgModalLabel"
+        aria-hidden="true"
       >
-        <div class="modal-content">
-          <div class="modal-header modal-heading">
-            <h1 class="modal-title text-light fs-5" id="showImgModalLabel">
-              {{ imageTitle }}
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body text-center"  >
-            <img
-              class="company_images"
-             [src]= "imagePath" 
-      
-              alt="no image was uploaded!"
-            />
+        <div
+          class="modal-dialog modal-xl d-flex align-items-center justify-content-center"
+        >
+          <div class="modal-content">
+            <div class="modal-header modal-heading">
+              <h1 class="modal-title text-light fs-5" id="showImgModalLabel">
+                {{ imageTitle }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body text-center">
+              <img
+                class="company_images"
+                [src]="imagePath"
+                alt="no image was uploaded!"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </section>
   </div>
 </div>
-
 
 <button
   type="button"
@@ -194,7 +203,6 @@
 >
   Launch demo modal
 </button>
-
 
 <!-- Modal -->
 <div
@@ -209,13 +217,13 @@
       <div class="modal-header fs-5 fw-bold">
         <h1 class="modal-title fs-5" id="msgModalLabel">
           <span
-          [ngClass]="{
-            'text-success': isApproved,
-            'text-danger': isRejected
-          }"
-        >
-          {{ alertTitle }}</span
-        >
+            [ngClass]="{
+              'text-success': isApproved,
+              'text-danger': isRejected
+            }"
+          >
+            {{ alertTitle }}</span
+          >
         </h1>
         <button
           type="button"
@@ -226,9 +234,9 @@
       </div>
       <div class="modal-body">
         <span
-        [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
-        >{{ alertMsg }}</span
-      >
+          [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
+          >{{ alertMsg }}</span
+        >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
