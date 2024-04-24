@@ -73,6 +73,10 @@
   background-color: var(--color-primary-dark) !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   color: #ebf8ff !important;
+  width: 6.5vw;
+}
+.headerbtns .new-btn {
+  width: 6.5vw;
 }
 .btn-active.active {
   background-color: #78ac8b !important ;
@@ -95,5 +99,5 @@
   border: none;
 }
 .active-row {
-  background-color:rgb(233, 238, 243);
+  background-color: rgb(233, 238, 243);
 }
