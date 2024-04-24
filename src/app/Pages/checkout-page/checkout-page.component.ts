@@ -22,10 +22,10 @@ export class CheckoutPageComponent {
   productList: any = [1, 2, 3];
   cartDataDetail = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
-  totalPrice:number = 0;
+  totalPrice: number = 0;
   deliveryFee = 100;
   userData: any;
-  totalPriceWithDiscount:number = 0;
+  totalPriceWithDiscount: number = 0;
   // tushar code
   urlParams = new URLSearchParams(window.location.search);
   message = this.urlParams.get('message');
@@ -57,22 +57,21 @@ export class CheckoutPageComponent {
     this.totalPriceWithDiscount = this.cartDataService.getTotalPrice();
     // console.log(this.cartDataDetail," cartDataDetal");
     // console.log(this.cartDataQt," cartDataDetal");
-    
+
     this.getUserInfo();
     // setTimeout(() => {
     //   //console.log(" usaer dataaaaaaaaaa",this.userData )
     //    this.setUserInfo();
 
     // }, 90);
-    for(let entry of this.cartDataDetail){
+    for (let entry of this.cartDataDetail) {
       let Qty = Number(this.cartDataQt.get(entry[0]));
-      let price =  parseFloat(entry[1].price);
-     
+      let price = parseFloat(entry[1].price);
+
       if (typeof Qty === 'number') {
-          this.totalPrice += (Qty * price);
+        this.totalPrice += Qty * price;
       }
-        //  console.log(typeof Qty, Qty ,price);
-         
+      //  console.log(typeof Qty, Qty ,price);
     }
 
     // by tushar
@@ -163,7 +162,10 @@ export class CheckoutPageComponent {
     this.randomComponent = Math.random().toString(36).substr(2, 5);
     this.uniqueString = this.timestamp + this.randomComponent;
     this.confirmOrder();
-    this.SSLPayment.postPaymentAPI(this.totalPriceWithDiscount, this.uniqueString);
+    this.SSLPayment.postPaymentAPI(
+      this.totalPriceWithDiscount,
+      this.uniqueString
+    );
     this.SSLPayment.callApi(
       this.cartDataDetail.size,
       this.totalPriceWithDiscount,

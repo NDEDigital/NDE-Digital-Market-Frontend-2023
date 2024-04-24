@@ -6,7 +6,6 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 
-
 declare var bootstrap: any;
 @Component({
   selector: 'app-product',
@@ -24,7 +23,7 @@ export class ProductComponent {
   loading: boolean = true;
   role: any;
   isBuyer = true;
-allRole:any;
+  allRole: any;
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
 
@@ -33,14 +32,12 @@ allRole:any;
     private goodsData: GoodsDataService,
     private cartDataService: CartDataService,
     private route: Router,
- private router: ActivatedRoute
-
+    private router: ActivatedRoute
   ) {
     this.role = localStorage.getItem('role');
     if (this.role === 'seller' || this.role === 'admin') {
       this.isBuyer = false;
     }
-  
 
     // this.interval = setInterval(() => {
     //   this.goodsData
@@ -91,57 +88,52 @@ allRole:any;
 
   activeGroupName = localStorage.getItem('activeEntry');
   filteredProducts: any[] = [];
-  companyCode:any;
+  companyCode: any;
   ngOnInit() {
-    
-    this.router.queryParams.subscribe(params => {
-
-      this.companyCode =atob( params['companyCode']);
-      this.GroupdCode=atob(params['groupCode']);
-   
-    
+    this.router.queryParams.subscribe((params) => {
+      this.companyCode = atob(params['companyCode']);
+      this.GroupdCode = atob(params['groupCode']);
     });
     // console.log(this.companyCode);
     // console.log(this.GroupdCode);
-    
-    
-    this.goodsData
-    .getProductList(this.companyCode,this.GroupdCode)
-    .subscribe((data: any[]) => {
-      this.goods = data;
-      
 
-      for (let i = 0; i < this.goods.length; i++) {
-        let obj = {
-          companyCode: this.goods[i].companyCode,
-          companyName: this.goods[i].companyName,
-          groupCode: this.goods[i].productGroupID,
-          goodsId: this.goods[i].productId,
-          groupName: this.goods[i].productGroupName,
-          goodsName: this.goods[i].productName,
-          specification: this.goods[i].specification,
-          approveSalesQty: this.goods[i].availableQty,
-          sellerCode: this.goods[i].sellerId,
-          unitId: this.goods[i].unitId,
-          quantityUnit: this.goods[i].unit,
-          imagePath: this.goods[i].imagePath,
-          price: this.goods[i].price,
-          discountAmount: this.goods[i].discountAmount,
-          discountPct: this.goods[i].discountPct,
-          netPrice: this.goods[i].totalPrice,
-        };
-        this.products.push(obj);
-      }
-    
-      // this.products = goods;
-      this.filteredProducts = [...this.products];
-      this.loading = false;
-      // console.log('hello');
-      
-      ////console.log(this.filteredProducts, 'u');
-    });
-//     alert(this.companyCode)
-// alert(this.GroupdCode);
+    this.goodsData
+      .getProductList(this.companyCode, this.GroupdCode)
+      .subscribe((data: any[]) => {
+        this.goods = data;
+        console.log('Goods details: ', this.goods);
+
+        for (let i = 0; i < this.goods.length; i++) {
+          let obj = {
+            companyCode: this.goods[i].companyCode,
+            companyName: this.goods[i].companyName,
+            groupCode: this.goods[i].productGroupID,
+            goodsId: this.goods[i].productId,
+            groupName: this.goods[i].productGroupName,
+            goodsName: this.goods[i].productName,
+            specification: this.goods[i].specification,
+            approveSalesQty: this.goods[i].availableQty,
+            sellerCode: this.goods[i].sellerId,
+            unitId: this.goods[i].unitId,
+            quantityUnit: this.goods[i].unit,
+            imagePath: this.goods[i].imagePath,
+            price: this.goods[i].price,
+            discountAmount: this.goods[i].discountAmount,
+            discountPct: this.goods[i].discountPct,
+            netPrice: this.goods[i].totalPrice,
+          };
+          this.products.push(obj);
+        }
+
+        // this.products = goods;
+        this.filteredProducts = [...this.products];
+        this.loading = false;
+        // console.log('hello');
+
+        ////console.log(this.filteredProducts, 'u');
+      });
+    //     alert(this.companyCode)
+    // alert(this.GroupdCode);
     // this.companyCode=sessionStorage.getItem('companyCode');
     // alert(this.companyCode);
 
@@ -298,16 +290,19 @@ allRole:any;
   }
 
   dataClick(entry: any) {
-  
     // this.goodsData.setDetailData(entry);
     // sessionStorage.setItem('productData', JSON.stringify(entry));
     // this.route.navigate(['/productDetails']);
     // console.log(entry.goodsId,"type o bo",typeof entry);
 
+    window.open(
+      '/productDetails?productId=' +
+        btoa(entry.goodsId) +
+        '&companyCode=' +
+        btoa(this.companyCode),
+      '_blank'
+    );
 
-  
-    window.open('/productDetails?productId='+btoa(entry.goodsId) +'&companyCode='+btoa(this.companyCode), '_blank');
-    
     // window.open('/productDetails', '_blank');
   }
 

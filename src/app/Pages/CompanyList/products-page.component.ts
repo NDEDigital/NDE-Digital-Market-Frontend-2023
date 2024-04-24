@@ -21,41 +21,31 @@ export class ProductsPageComponent {
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
     private router: Router,
- private route: ActivatedRoute
+    private route: ActivatedRoute
   ) {
     var groupCode;
-    this.route.queryParams.subscribe(params => {
-
-      groupCode =atob( params['groupCode']);
-      this.groupCodePa=groupCode;
+    this.route.queryParams.subscribe((params) => {
+      groupCode = atob(params['groupCode']);
+      this.groupCodePa = groupCode;
       if (groupCode) {
-     sessionStorage.setItem('groupCode', groupCode);
+        sessionStorage.setItem('groupCode', groupCode);
 
         // console.log("got the data");
-        this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
-          this.companyList = data;
-      
-         
-
-
-        });
+        this.goodsData
+          .getProductCompanyList(groupCode)
+          .subscribe((data: any) => {
+            this.companyList = data;
+          });
       }
     });
-
-    
   }
 
   ngOnInit() {
-
-this.callApi();
+    this.callApi();
   }
 
   handleDataUpdated() {
- 
-
-      this.callApi();
- 
-    
+    this.callApi();
   }
 
   callApi() {
@@ -63,14 +53,13 @@ this.callApi();
     // this.groupName = sessionStorage.getItem('groupName') || '';
     // console.log("group code is",this.groupCode);
 
-   
     setTimeout(() => {
-      if (this.groupCode !='') {
+      if (this.groupCode != '') {
         this.goodsData
           .getProductCompanyList(this.groupCode)
           .subscribe((data: any) => {
-  
             this.companyList = data;
+            console.log('company: ', this.companyList);
           });
       }
     }, 10);
@@ -102,11 +91,11 @@ this.callApi();
 
     this.router.navigate(['/product'], {
       queryParams: {
-        companyCode:btoa( companyCode),
-        groupCode:btoa(this.groupCodePa)
-      }
+        companyCode: btoa(companyCode),
+        groupCode: btoa(this.groupCodePa),
+      },
     });
-    
+
     // window.location.href = '/product';
   }
 }

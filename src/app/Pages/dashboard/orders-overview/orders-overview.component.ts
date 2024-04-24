@@ -3,7 +3,7 @@ import { SellerOrderOverviewService } from 'src/app/services/SellerOrderOverview
 import { orderInfo } from 'src/app/orderInfo';
 import { CartDataService } from 'src/app/services/cart-data.service';
 import { CartItem } from '../../cart-added-product/cart-item.interface';
-import { PaginationComponent } from 'src/app/Components/pagination/pagination.component';
+import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { EmailService } from 'src/app/services/email.service';
 //import { OrdersInfos } from 'src/app/seller-data';
 

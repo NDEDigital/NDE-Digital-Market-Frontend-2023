@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { ReviewRatingsService } from 'src/app/services/review-ratings.service';
+import { WishlistService } from 'src/app/services/wishlist.service';
 import { CartItem } from '../cart-added-product/cart-item.interface';
+
 import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
 @Component({
@@ -32,8 +34,8 @@ export class ProductDetailsPageComponent {
   popUpCount: number = 0;
   totalPrice = 0;
   cartCount: number = 0;
-  productIdPa: any =0;
-  companyCodePa: string ='';
+  productIdPa: any = 0;
+  companyCodePa: string = '';
   reviewData: any = [];
   CartButtonText = 'Add to Cart';
   enableTextarea = false; // Initial state is read-only
@@ -45,13 +47,16 @@ export class ProductDetailsPageComponent {
   formData = new FormData();
   errorMsg = false;
   reviewUpdateData: any;
-  goods:any;
+  goods: any;
   // Convert the object into an array of objects
   imageArray = Array.from({ length: Math.ceil(4) }, (_, index) => index + 1);
 
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
-allrole:any;
+  allrole: any;
+  @ViewChild('wishlistIcon') wishlistIcon!: ElementRef;
+
+  isRed: boolean = false;
   // this.totalPages = Array.from(
   //   { length: Math.ceil(this.TotalRow / this.selectedValue) },
   //   (_, index) => index + 1
@@ -62,7 +67,8 @@ allrole:any;
     private elementRef: ElementRef,
     private reviewService: ReviewRatingsService,
     private cartDataService: CartDataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private WishlistService: WishlistService
   ) {
     this.reviewForm = new FormGroup({
       rating: new FormControl(Validators.required),
@@ -73,10 +79,11 @@ allrole:any;
       this.isFormValid = this.reviewForm.valid;
       // //console.log(this.isFormValid);
     });
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       // Extracting productId and companyCode
       this.productIdPa = atob(params['productId']);
       this.companyCodePa = atob(params['companyCode']);
+
       // alert(this.productIdPa);
       // alert(this.companyCodePa)
       // Now you can use this.productId and this.companyCode in your component
@@ -84,9 +91,8 @@ allrole:any;
   }
 
   ngOnInit() {
-
     const role = localStorage.getItem('role');
-    this.allrole=role;
+    this.allrole = role;
     // alert(this.allrole)
     if (role === 'seller') {
       this.isSeller = true;
@@ -107,19 +113,22 @@ allrole:any;
     //   this.CartButtonText = 'Out of stock';
     // }
     this.buyerCode = localStorage.getItem('code');
-    console.log("company code is",this.companyCodePa);
-   
+    console.log('company code is', this.companyCodePa);
+
+    this.checkWishlistStatus();
+
     // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
-    this.service.UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
-    .subscribe((goods: any) => {
-       this.detailsData = {
+    this.service
+      .UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
+      .subscribe((goods: any) => {
+        this.detailsData = {
           companyCode: goods.companyCode,
           companyName: goods.companyName,
           groupCode: goods.productGroupID,
           goodsId: goods.productId,
           groupName: goods.productGroupName,
           goodsName: goods.productName,
-          specification:goods.specification,
+          specification: goods.specification,
           approveSalesQty: goods.availableQty,
           sellerCode: goods.sellerId,
           unitId: goods.unitId,
@@ -128,18 +137,15 @@ allrole:any;
           price: goods.price,
           discountAmount: goods.discountAmount,
           discountPct: goods.discountPct,
-          netPrice:goods.totalPrice,
-        }
-      
-if (this.detailsData.approveSalesQty == 0) {
-     this.CartButtonText = 'Out of stock';
-    }
-    this.RatingsAndReview(this.detailsData.goodsId);
+          netPrice: goods.totalPrice,
+        };
+        console.log('details data', this.detailsData);
 
-    });
-  
-  
-   
+        if (this.detailsData.approveSalesQty == 0) {
+          this.CartButtonText = 'Out of stock';
+        }
+        this.RatingsAndReview(this.detailsData.goodsId);
+      });
 
     this.reviewForm.get('rating')?.valueChanges.subscribe((rating) => {
       //console.log('Rating selected:', rating);
@@ -149,26 +155,109 @@ if (this.detailsData.approveSalesQty == 0) {
     });
   }
 
-RatingsAndReview(ProductID:any){
-  this.service
-  .getReviewRatingsData(ProductID)
-  .subscribe((data: any) => {
-    console.log('review', data);
-    this.reviewData = data.reviewsAndRatings;
-    this.perRatingCount = data.ratingsArray;
-    this.totalRatings = data.totalCount;
-    //console.log(this.perRatingCount, this.totalRatings, 'count');
-    const reviewsAndRatingsArray = JSON.parse(
-      data.reviewsAndRatings[0].ratingArray
-    );
-    //console.log(' json convert', reviewsAndRatingsArray);
-    //console.log(' review data dataaaaaa', this.reviewData); // Use a type if possible for better type checking
+  checkWishlistStatus() {
+    this.WishlistService.getWishList(this.buyerCode).subscribe({
+      next: (wishlist: any) => {
+        console.log('wish are', wishlist);
+        wishlist.forEach((wish: any) => {
+          if (
+            wish.productId == this.productIdPa &&
+            wish.companyCode == this.companyCodePa
+          ) {
+            this.isRed = true; // Set isRed to true if item is in the wishlist
+          }
+        });
+      },
+    });
+  }
 
-    this.ratingsColor();
-  });
-}
+  changeRed() {
+    // Toggle the value of isRed
+    this.isRed = !this.isRed;
 
+    // Check the new value of isRed and call the appropriate service method
+    if (this.isRed) {
+      this.WishlistService.InsertWishList(
+        this.buyerCode,
+        this.productIdPa,
+        this.companyCodePa
+      ).subscribe({
+        next: (response: any) => {
+          console.log(response);
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
+    } else {
+      this.WishlistService.DeleteWishList(
+        this.buyerCode,
+        this.productIdPa,
+        this.companyCodePa
+      ).subscribe({
+        next: (response: any) => {
+          console.log(response);
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
+    }
+  }
 
+  // addToWishlist() {
+
+  //   console.log('Adding to wishlist...');
+  //   this.isRed = !this.isRed; // Toggle the boolean value on each call
+  //   if (this.isRed) {
+
+  //     this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg";
+
+  //     this.wishlistIcon.nativeElement.width = "20";
+  //     this.wishlistIcon.nativeElement.height = "20";
+
+  //     this.WishlistService.DeleteWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
+  //       next: (response: any) => {
+  //           console.log(response);
+  //       },
+  //       error: (error: any) => {
+  //           console.log(error);
+  //       },
+  //     });
+
+  //   } else {
+  //     this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg";
+
+  //     this.wishlistIcon.nativeElement.width = "20";
+  //     this.wishlistIcon.nativeElement.height = "20";
+  //     this.WishlistService.InsertWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
+  //       next: (response: any) => {
+  //           console.log(response);
+
+  //       },
+  //       error: (error: any) => {
+  //           console.log(error);
+  //       },
+  //     });
+  //   }
+  // }
+
+  RatingsAndReview(ProductID: any) {
+    this.service.getReviewRatingsData(ProductID).subscribe((data: any) => {
+      console.log('review', data);
+      this.reviewData = data.reviewsAndRatings;
+      this.perRatingCount = data.ratingsArray;
+      this.totalRatings = data.totalCount;
+      //console.log(this.perRatingCount, this.totalRatings, 'count');
+      const reviewsAndRatingsArray = JSON.parse(
+        data.reviewsAndRatings[0].ratingArray
+      );
+      //console.log(' json convert', reviewsAndRatingsArray);
+      //console.log(' review data dataaaaaa', this.reviewData); // Use a type if possible for better type checking
+
+      this.ratingsColor();
+    });
+  }
 
   setDetail(detail: any) {
     this.reviewUpdateData = detail;
@@ -335,7 +424,6 @@ RatingsAndReview(ProductID:any){
     this.totalPrice = this.cartDataService.getTotalPrice();
   }
   setCart(entry: any, inputQt: string) {
-alert('h')
     //console.log(entry.approveSalesQty, 'approveSalesQty');
 
     if (entry.price === '' || entry.price === undefined) {

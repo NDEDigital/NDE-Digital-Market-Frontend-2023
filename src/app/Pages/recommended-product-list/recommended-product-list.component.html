@@ -1,0 +1,49 @@
+<section id="page-container">
+  <div id="content-wrap">
+    <app-header (dataUpdated)="handleDataUpdated()"></app-header>
+    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
+    <div class="d-flex mx-5 px-5">
+      <div class="product_sidebar_container">
+        <app-product-sidebar></app-product-sidebar>
+      </div>
+
+      <div class="products ms-5 ps-5">
+        <h2 class="top-seller-heading">Recommended Product</h2>
+        <div class="line"></div>
+        <div class="row flex-nowrap overflow-auto">
+          <div class="item" *ngFor="let client of getTopSellerData">
+            <div class="card" (click)="productCardClick(client)">
+              <div class="image-container">
+                <img
+                  class="card-img-top"
+                  [src]="
+                    client.imagePath.substring(
+                      client.imagePath.indexOf('assets')
+                    )
+                  "
+                  alt="{{ client.productName }}"
+                />
+              </div>
+              <div class="card-body">
+                <span class="card-title">
+                  <strong>Brand: </strong>{{ client.companyName }}
+                </span>
+                <br />
+                <span class="card-text">
+                  <strong>Product: </strong>{{ client.productName }}
+                </span>
+                <br />
+                <span class="card-text">
+                  <strong>Price: </strong>৳{{ client.totalPrice }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <app-footer></app-footer>
+  </div>
+</section>
