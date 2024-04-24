@@ -41,6 +41,11 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [NegativeSellerAdminGuardGuard],
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule), // Lazy load the AdminModule
+  },
   { path: 'product', component: ProductComponent },
   { path: 'becomeASeller', component: BecomeASellerComponent },
   { path: 'homeComponent', component: HomeComponent },
@@ -156,7 +161,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./buyer/buyer.module').then((m) => m.BuyerModule),
   },
-  { path: 'shared', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule) },
+  {
+    path: 'shared',
+    loadChildren: () =>
+      import('./shared/shared.module').then((m) => m.SharedModule),
+  },
 ];
 
 @NgModule({

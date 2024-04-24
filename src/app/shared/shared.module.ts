@@ -10,7 +10,6 @@ import { SellerListComponent } from './components/seller-list/seller-list.compon
 import { UserRegFormComponent } from './components/user-reg-form/user-reg-form.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { DashboardMenuHeaderComponent } from './components/dashboard-menu-header/dashboard-menu-header.component';
-import { DashboardHeaderButtonsComponent } from './components/dashboard-header-buttons/dashboard-header-buttons.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +27,6 @@ import { DashboardHeaderButtonsComponent } from './components/dashboard-header-b
     SellerListComponent,
     UserRegFormComponent,
     DashboardMenuHeaderComponent,
-    DashboardHeaderButtonsComponent,
   ],
   exports: [
     ErrorComponent,
