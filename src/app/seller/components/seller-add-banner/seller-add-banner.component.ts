@@ -25,6 +25,11 @@ export class SellerAddBannerComponent {
   banners: any[] = [];
   bannerImage: string = '';
 
+  btnIndex = -1;
+
+  isHovered: any | null = null;
+  alertTitle: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
@@ -175,7 +180,8 @@ export class SellerAddBannerComponent {
     this.bannerService.deleteBanner(bannerId).subscribe({
       next: (response: any) => {
         console.log('Banner deleted:', response);
-        // Optionally, refresh the banner list or perform any other action
+        // Remove the deleted banner from the banners array
+        this.banners = this.banners.filter((b) => b.bannerID !== bannerId);
       },
       error: (error: any) => {
         console.error('Error deleting banner:', error);

@@ -1,6 +1,6 @@
 <!-- approval grid  -->
-<div class="container approval-grid">
-  <div class="bg-white p-2 border border-1 rounded">
+<div class="container">
+  <div class="bg-white d-flex justify-content-center p-2 border border-1 rounded">
     <div class="d-flex justify-content-center">
       <h1 class="companyApproval_header_text">Add Banner</h1>
     </div>
@@ -108,11 +108,122 @@
   </div>
 </div>
 
-<!-- <div class="text-head fw-bold fs-3">
-      {{ splitProductKey(product.key) }}
-    </div> -->
 
-<div class="card-container">
+
+
+
+ <div class="scrollable-table border border-1 bg-light">
+    <!-- TABLE header -->
+    <div class="row headerRow sticky-top fw-bolder">
+  
+      <div class="col tableHeader">Index</div>
+      <!-- <div class="col tableHeader">Product Group ID</div> -->
+      <div class="col tableHeader">Banenr Image</div>
+ 
+      <div class="col tableHeader">Banner Description</div>
+      
+      <div class="col tableHeader">Date Added</div>
+      <div class="col tableHeader" >Actions</div>
+    </div>
+
+    <!-- table body -->
+
+
+      <section
+      class="row tablebodyRow fw-semibold"
+      *ngFor="let banner of banners; let i = index"
+      (mouseover)="isHovered = i"
+      (mouseout)="isHovered = null"
+ 
+
+    >
+      <div
+        class="col tableBody" 
+         [ngClass]="{
+          'active-row':
+           isHovered === i
+        }"
+      >
+        #{{ i + 1 }}
+      </div>
+     
+      <div
+        class="col tableBody" 
+         [ngClass]="{
+          'active-row':
+           isHovered === i
+        }"
+      >
+            <img
+      [src]="
+        banner.bannerImage
+          ? '/asset' + banner.bannerImage?.split('asset')[1]
+          : ''
+      "
+      class="product_image"
+      alt="Banner Image"
+    />
+      </div>
+      
+      <div
+        class="col tableBody"
+         [ngClass]="{
+          'active-row':
+           isHovered === i
+        }"
+      >
+        {{ banner.bannerDescription  }}
+      </div>
+      <div
+        class="col tableBody"
+          [ngClass]="{
+          'active-row':
+           isHovered === i
+        }"
+       
+      >
+       {{ banner.addedDate | date : "dd MMM yyyy" }}
+      </div>
+
+           <div class="col tableBody" [ngClass]="{ 'active-row':isHovered===i}">
+        <div class="d-flex justify-content-center align-items-center">
+         
+           <div class="btn-group" role="group" aria-label="Banner Actions">
+         
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              (click)="deleteBanner(banner)"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+</section>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="card-container">
   <div class="card" *ngFor="let banner of banners" style="margin-bottom: 1rem">
     <img
       [src]="
@@ -128,13 +239,13 @@
         <div class="col-md-8" style="margin-bottom: 0.5rem">
           <p class="card-text" style="margin-bottom: 0">
             <strong>Description:</strong> {{ banner.bannerDescription }}
-          </p>
+          </p> -->
           <!-- <p class="card-text">
             <strong>Company Code:</strong> {{ banner.companycode }}
           </p> -->
-        </div>
+        <!-- </div>
         <div class="col-md-4 text-right">
-          <div class="btn-group" role="group" aria-label="Banner Actions">
+          <div class="btn-group" role="group" aria-label="Banner Actions"> -->
             <!-- <button
               type="button"
               class="btn btn-sm btn-primary"
@@ -143,7 +254,7 @@
             >
               <i class="fas fa-edit"></i>
             </button> -->
-            <button
+            <!-- <button
               type="button"
               class="btn btn-sm btn-danger"
               style="margin-left: 3.5rem"
@@ -156,7 +267,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Button trigger modal -->
 <button
