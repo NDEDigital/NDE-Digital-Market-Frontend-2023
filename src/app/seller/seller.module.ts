@@ -10,6 +10,7 @@ import { SellerInventoryComponent } from './components/seller-inventory/seller-i
 import { SellerOrderComponent } from './components/seller-order/seller-order.component';
 import { SellerOrdersComponent } from './components/seller-orders/seller-orders.component';
 import { SellerPermissionComponent } from './components/seller-permission/seller-permission.component';
+import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
 import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { SharedModule } from '../shared/shared.module';
     SellerOrderComponent,
     SellerOrdersComponent,
     SellerPermissionComponent,
+    SellerAddBannerComponent,
   ],
   exports: [
     AddPriceDiscountsComponent,
@@ -35,6 +37,7 @@ import { SharedModule } from '../shared/shared.module';
     SellerOrderComponent,
     SellerOrdersComponent,
     SellerPermissionComponent,
+    SellerAddBannerComponent,
   ],
 })
 export class SellerModule {}
