@@ -43,9 +43,19 @@ export class SellerAddBannerComponent {
     });
 
     let companyCode = localStorage.getItem('CompanyCode');
-    if (companyCode) {
-      this.fetchBanners(companyCode); // Fetch existing banners on component initialization
-    }
+   if (companyCode) {
+     this.bannerService.getaAllBanner(companyCode).subscribe(
+       (data) => {
+         // Handle successful response here
+          this.banners = data;
+         console.log(data);
+       },
+       (error) => {
+         // Handle error here
+         console.error('Error fetching banners:', error);
+       }
+     );
+   }
   }
 
   // fetchBanners(CompanyCode: any) {
@@ -64,15 +74,15 @@ export class SellerAddBannerComponent {
   //     );
   // }
 
-  fetchBanners(CompanyCode:any) {
-    this.http
-      .get<any[]>(
-        `https://localhost:7006/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`
-      )
-      .subscribe((result) => {
-        this.banners = result;
-      });
-    }
+  // fetchBanners(CompanyCode:any) {
+  //   this.http
+  //     .get<any[]>(
+  //       `https://localhost:7006/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`
+  //     )
+  //     .subscribe((result) => {
+  //       this.banners = result;
+  //     });
+  //   }
   openAddGroupModal(): void {
     this.resetForm();
     this.isEditMode = false;

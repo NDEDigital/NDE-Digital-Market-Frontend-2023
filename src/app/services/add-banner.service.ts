@@ -20,11 +20,12 @@ export class AddBannerService {
     return this.http.post<any>(this.createBannerURL, formData);
   }
 
-  // getaAllBanner(CompanyCode: any) {
-  //   console.log(CompanyCode);
-  //   const getaAllURL = `${this.URL}/api/AddBanner/GetAddBannerForSeller/${CompanyCode}`;
-  //   return this.http.get<any>(getaAllURL);
-  // }
+  getaAllBanner(CompanyCode: any) {
+    console.log(CompanyCode);
+    const getaAllURL = `${this.URL}/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`;
+    
+    return this.http.get<any>(getaAllURL);
+  }
 
   createBanner(productListInsertData: any) {
     console.log(productListInsertData);
