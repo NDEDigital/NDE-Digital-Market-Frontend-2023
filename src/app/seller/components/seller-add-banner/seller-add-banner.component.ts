@@ -149,16 +149,29 @@ export class SellerAddBannerComponent {
             this.isError = false;
             this.PrdouctExistModalBTN.nativeElement.click();
             this.resetForm();
-          },
-          error: (error: any) => {
-            this.alertMsg = error.error.message;
-            this.isError = true;
-            this.PrdouctExistModalBTN.nativeElement.click();
-            this.addBannerForm.reset();
-            this.resetForm();
-          },
-        });
-      }
+
+ let companyCode = localStorage.getItem('CompanyCode');
+        if (companyCode) {
+          this.bannerService.getaAllBanner(companyCode).subscribe(
+            (data) => {
+              this.banners = data;
+              console.log('Banners updated after creating a new one:', this.banners);
+            },
+            (error) => {
+              console.error('Error fetching banners:', error);
+            }
+          );
+        }
+      },
+      error: (error: any) => {
+        this.alertMsg = error.error.message;
+        this.isError = true;
+        this.PrdouctExistModalBTN.nativeElement.click();
+        this.addBannerForm.reset();
+        this.resetForm();
+      },
+    });
+  }
 
       if (this.isEditMode) {
         let updateByUser = localStorage.getItem('code');
