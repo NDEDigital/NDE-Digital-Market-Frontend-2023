@@ -25,6 +25,7 @@ export class SellerAddBannerComponent {
   banners: any[] = [];
   bannerImage: string = '';
 
+
   btnIndex = -1;
 
   isHovered: any | null = null;
@@ -43,50 +44,41 @@ export class SellerAddBannerComponent {
     });
 
     let companyCode = localStorage.getItem('CompanyCode');
-   if (companyCode) {
-     this.bannerService.getaAllBanner(companyCode).subscribe(
-       (data) => {
-         // Handle successful response here
+    if (companyCode) {
+      this.bannerService.getaAllBanner(companyCode).subscribe(
+        (data) => {
+          // Handle successful response here
           this.banners = data;
-         console.log(data);
-       },
-       (error) => {
-         // Handle error here
-         console.error('Error fetching banners:', error);
-       }
-     );
-   }
+          console.log(data);
+        },
+        (error) => {
+          // Handle error here
+          console.error('Error fetching banners:', error);
+        }
+      );
+    }
   }
 
-  // fetchBanners(CompanyCode: any) {
-  //   this.http
-  //     .get<any[]>(
-  //       `https://localhost:7006/api/AddBanner/GetAddBannerForSeller/${CompanyCode}`
-  //     )
-  //     .subscribe(
-  //       (result) => {
-  //         this.banners = result;
-  //       },
-  //       (error) => {
-  //         console.error('Error fetching banners:', error);
-  //         // Handle the error appropriately, e.g., show an error message to the user
-  //       }
-  //     );
-  // }
-
-  // fetchBanners(CompanyCode:any) {
-  //   this.http
-  //     .get<any[]>(
-  //       `https://localhost:7006/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`
-  //     )
-  //     .subscribe((result) => {
-  //       this.banners = result;
-  //     });
-  //   }
   openAddGroupModal(): void {
     this.resetForm();
     this.isEditMode = false;
     this.AddGroupModalCenterG.nativeElement.click();
+    this.fetchBanners();
+  }
+
+  fetchBanners(): void {
+    let companyCode = localStorage.getItem('CompanyCode');
+    if (companyCode) {
+      this.bannerService.getaAllBanner(companyCode).subscribe(
+        (data) => {
+          this.banners = data;
+          console.log('Banners updated:', this.banners);
+        },
+        (error) => {
+          console.error('Error fetching banners:', error);
+        }
+      );
+    }
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -97,7 +89,6 @@ export class SellerAddBannerComponent {
   resetForm() {
     this.addBannerForm.reset(); // Reset the form
     this.isEditMode = false;
-    this.banners = [];
   }
 
   onSubmit(): void {
@@ -150,28 +141,31 @@ export class SellerAddBannerComponent {
             this.PrdouctExistModalBTN.nativeElement.click();
             this.resetForm();
 
- let companyCode = localStorage.getItem('CompanyCode');
-        if (companyCode) {
-          this.bannerService.getaAllBanner(companyCode).subscribe(
-            (data) => {
-              this.banners = data;
-              console.log('Banners updated after creating a new one:', this.banners);
-            },
-            (error) => {
-              console.error('Error fetching banners:', error);
+            let companyCode = localStorage.getItem('CompanyCode');
+            if (companyCode) {
+              this.bannerService.getaAllBanner(companyCode).subscribe(
+                (data) => {
+                  this.banners = data;
+                  console.log(
+                    'Banners updated after creating a new one:',
+                    this.banners
+                  );
+                },
+                (error) => {
+                  console.error('Error fetching banners:', error);
+                }
+              );
             }
-          );
-        }
-      },
-      error: (error: any) => {
-        this.alertMsg = error.error.message;
-        this.isError = true;
-        this.PrdouctExistModalBTN.nativeElement.click();
-        this.addBannerForm.reset();
-        this.resetForm();
-      },
-    });
-  }
+          },
+          error: (error: any) => {
+            this.alertMsg = error.error.message;
+            this.isError = true;
+            this.PrdouctExistModalBTN.nativeElement.click();
+            this.addBannerForm.reset();
+            this.resetForm();
+          },
+        });
+      }
 
       if (this.isEditMode) {
         let updateByUser = localStorage.getItem('code');
