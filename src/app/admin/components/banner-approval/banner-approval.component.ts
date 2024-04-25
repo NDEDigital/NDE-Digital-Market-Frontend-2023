@@ -38,9 +38,32 @@ export class BannerApprovalComponent {
   //     this.msgModalBTN.nativeElement.click();
   //   }
   // }
+  formatDateTime(date: any) {
+    if (!date) {
+      return null;
+    }
+
+    // Convert to a valid date object if not already one
+    let validDate = new Date(date);
+
+    // Ensure the date is valid
+    if (isNaN(validDate.getTime())) {
+      return null; // Return null if invalid
+    }
+
+    // Format to 'YYYY-MM-DDTHH:MM'
+    let year = validDate.getFullYear();
+    let month = ('0' + (validDate.getMonth() + 1)).slice(-2); // Ensures 2 digits
+    let day = ('0' + validDate.getDate()).slice(-2); // Ensures 2 digits
+    let hours = ('0' + validDate.getHours()).slice(-2);
+    let minutes = ('0' + validDate.getMinutes()).slice(-2);
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   getData() {
     console.log(this.btnIndex);
-    this.bannerService.getBanner(this.btnIndex).subscribe({
+    this.bannerService.getBannerDataByAdmin(this.btnIndex).subscribe({
       next: (response: any) => {
         this.banners = response;
         console.log(this.banners, 'banners....');
@@ -57,7 +80,50 @@ export class BannerApprovalComponent {
     this.imagePath = '/asset' + path.split('asset')[1];
     this.imageTitle = title;
   }
+  updateBannerStatus(cmp: any, alert: any) {
+    this.bannerService.UpdateBannerStatus(cmp).subscribe({
+      next: () => {
+        this.alertTitle = alert.alertTitle;
+        this.alertMsg = alert.alertMsg;
+        this.isApproved = alert.isApproved;
+        this.isRejected = alert.isRejected;
+        this.btnIndex = alert.btnIndex;
 
+        if (this.msgModalBTN) {
+          this.msgModalBTN.nativeElement.click();
+        }
+        this.getData();
+      },
+      error: (error) => {
+        console.log(error);
+        this.alertTitle = 'Error';
+        this.alertMsg = 'Something went wrong.';
+        this.isApproved = false;
+        this.isRejected = true;
+        if (this.msgModalBTN) {
+          this.msgModalBTN.nativeElement.click();
+        }
+      },
+    });
+  }
+  // updateBannerStatus(cmp: any, alert: any) {
+  //   this.bannerService.UpdateBannerStatus(cmp).subscribe({
+  //     next: () => {
+  //       this.alertTitle = alert.alertTitle;
+  //       this.alertMsg = alert.alertMsg;
+  //       if (this.msgModalBTN) {
+  //         this.msgModalBTN.nativeElement.click(); // Trigger the modal
+  //       }
+  //     },
+  //     error: () => {
+  //       this.alertTitle = 'Error';
+  //       this.alertMsg = 'Something went wrong.';
+  //       if (this.msgModalBTN) {
+  //         this.msgModalBTN.nativeElement.click(); // Trigger the modal
+  //       }
+  //     },
+  //   });
+  // }
   updateCompany(
     BannerID: any,
     StartDate: any,
@@ -75,32 +141,36 @@ export class BannerApprovalComponent {
       endDate: EndDate,
       isBannerStatus: IsBannerStatus,
     };
-    if (StartDate && EndDate) {
-      this.bannerService.UpdateBannerStatus(cmp).subscribe({
-        next: () => {
-          this.alertTitle = 'Success!';
-          this.alertMsg = 'Banner updated successfully.';
-          this.isApproved = true;
-          this.isRejected = false;
-          this.btnIndex = 1;
-          if (this.msgModalBTN) {
-            this.msgModalBTN.nativeElement.click(); // Open modal
-          }
-        },
-        error: () => {
-          this.alertTitle = 'Error';
-          this.alertMsg = 'Something went wrong.';
-          this.isApproved = false;
-          this.isRejected = true;
-        },
-      });
+    const alert = {
+      alertTitle: 'Success!',
+      alertMsg: 'Banner updated successfully.',
+      isApproved: true,
+      isRejected: false,
+      btnIndex: 1,
+    };
+    if (StartDate && EndDate && IsActive) {
+      this.updateBannerStatus(cmp, alert);
+    } else if (!IsActive && this.btnIndex == -1) {
+      alert.btnIndex = 0;
+      alert.isRejected = true;
+      alert.isApproved = false;
+      this.alertMsg = 'Banner Rejected Successfully';
+      this.updateBannerStatus(cmp, alert);
+    } else if (this.btnIndex == 1 && !IsActive) {
+      alert.btnIndex = 0;
+      alert.isRejected = true;
+      alert.isApproved = false;
+      this.alertMsg = 'Banner Rejected Successfully';
+      this.updateBannerStatus(cmp, alert);
+    } else if (this.btnIndex == 0 && StartDate && EndDate) {
+      this.updateBannerStatus(cmp, alert);
     } else {
       this.isApproved = false;
       this.isRejected = true;
       this.alertTitle = 'Reminder';
       this.alertMsg = 'Please provide StartDate and EndDate.';
       if (this.msgModalBTN) {
-        this.msgModalBTN.nativeElement.click(); // Open modal
+        this.msgModalBTN.nativeElement.click();
       }
     }
   }

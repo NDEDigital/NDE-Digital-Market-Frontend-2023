@@ -11,7 +11,7 @@ export class AddBannerService {
   // deleteURL = 'https://localhost:7006/api/AddBanner/DeleteBanner/${bannerId}';
 
   editURL = 'https://localhost:7006/api/AddBanner/UpdateBanner';
-
+  getBannerDataByAdminURL = `${this.URL}/api/AddBanner/GetAddBannerForAdmin`;
   getURL = 'https://localhost:7006/api/AddBanner/GetAddBanner';
   UpdateBannerStatusURL = `${this.URL}/api/AddBanner/UpdateBannerStatus`;
   constructor(private http: HttpClient) {}
@@ -40,19 +40,15 @@ export class AddBannerService {
     return this.http.put<any>(`editURL/${bannerId}`, formData);
   }
 
-  getBanner(status: any) {
+  getBannerDataByAdmin(status: any) {
     if (status == -1) {
-      return this.http.get(this.getURL);
+      return this.http.get(this.getBannerDataByAdminURL);
     } else if (status == 1) {
       status = true;
-      return this.http.get(this.getURL, {
-        params: { status },
-      });
+      return this.http.get(`${this.getBannerDataByAdminURL}?status=${status}`);
     } else {
       status = false;
-      return this.http.get(this.getURL, {
-        params: { status },
-      });
+      return this.http.get(`${this.getBannerDataByAdminURL}?status=${status}`);
     }
   }
   UpdateBannerStatus(formdata: any) {

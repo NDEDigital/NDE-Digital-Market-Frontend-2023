@@ -41,11 +41,7 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [NegativeSellerAdminGuardGuard],
   },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule), // Lazy load the AdminModule
-  },
+
   { path: 'product', component: ProductComponent },
   { path: 'becomeASeller', component: BecomeASellerComponent },
   { path: 'homeComponent', component: HomeComponent },
