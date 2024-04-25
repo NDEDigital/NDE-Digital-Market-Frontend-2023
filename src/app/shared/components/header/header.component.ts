@@ -134,7 +134,7 @@ export class HeaderComponent {
 
     if (currentRoute !== '/searchResult') {
       this.router.navigate(['/searchResult']);
-      console.log(currentRoute);
+      //console.log(currentRoute);
       this.someEvent.emit();
     }
     // else {
@@ -189,7 +189,7 @@ export class HeaderComponent {
   }
   loadCategories() {
     this.goodsData.getNavData().subscribe((data: any[]) => {
-      console.log('log in ', data);
+      //console.log('log in ', data);
 
       this.goods = data;
       for (let i = 0; i < this.goods.length; i++) {

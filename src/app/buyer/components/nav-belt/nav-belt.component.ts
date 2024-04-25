@@ -59,7 +59,7 @@ export class NavBeltComponent implements OnInit {
       .getNavData()
       .subscribe((data: any[]) => {
         this.goods = data;
-        console.log(this.goods);
+        // console.log(this.goods);
         if (this.goods && this.goods.length > 0) {
           for (let i = 0; i < this.goods.length; i++) {
             this.products.set(
