@@ -42,17 +42,37 @@ export class SellerAddBannerComponent {
       bannerImage: ['', Validators.required],
     });
 
-    this.fetchBanners(); // Fetch existing banners on component initialization
+    let companyCode = localStorage.getItem('CompanyCode');
+    if (companyCode) {
+      this.fetchBanners(companyCode); // Fetch existing banners on component initialization
+    }
   }
 
-  fetchBanners() {
+  // fetchBanners(CompanyCode: any) {
+  //   this.http
+  //     .get<any[]>(
+  //       `https://localhost:7006/api/AddBanner/GetAddBannerForSeller/${CompanyCode}`
+  //     )
+  //     .subscribe(
+  //       (result) => {
+  //         this.banners = result;
+  //       },
+  //       (error) => {
+  //         console.error('Error fetching banners:', error);
+  //         // Handle the error appropriately, e.g., show an error message to the user
+  //       }
+  //     );
+  // }
+
+  fetchBanners(CompanyCode:any) {
     this.http
-      .get<any[]>('https://localhost:7006/api/AddBanner/GetAddBanner')
+      .get<any[]>(
+        `https://localhost:7006/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`
+      )
       .subscribe((result) => {
         this.banners = result;
       });
-  }
-
+    }
   openAddGroupModal(): void {
     this.resetForm();
     this.isEditMode = false;
@@ -103,10 +123,10 @@ export class SellerAddBannerComponent {
       if (companyCode) {
         formData.append('CompanyCode', companyCode);
       }
-      formData.append('IsActive', 'false');
+      formData.append('IsActive', 'true');
       formData.append('AddedBy', 'user');
       formData.append('AddedPC', '0.0.0.0');
-      formData.append('IsActive', 'true');
+
       formData.append('UpdatedBy', 'user');
       formData.append('UpdatedPC', '0.0.0.0');
       formData.append('IsPayment', 'false');
@@ -159,7 +179,7 @@ export class SellerAddBannerComponent {
       next: (response: any) => {
         this.alertMsg = response.message;
         this.isEditMode = false;
-        this.fetchBanners(); // Fetch updated banners after editing
+        // this.fetchBanners();
         // Optionally, close any modal or show a success message
       },
       error: (error: any) => {
