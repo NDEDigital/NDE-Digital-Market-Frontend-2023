@@ -234,6 +234,9 @@
             type="button"
             class="btn btn-sm btn-danger"
             (click)="deleteBanner(banner)"
+            [disabled]="
+              banner.isBannerStatus === true && banner.isActive == true
+            "
           >
             <i class="fas fa-trash-alt"></i>
           </button>
