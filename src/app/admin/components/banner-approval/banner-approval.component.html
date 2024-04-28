@@ -68,8 +68,9 @@
         {{ cmp.companyName }}
       </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.bannerDescription }}
+        {{ truncateDescription(cmp.bannerDescription) }}
       </div>
+
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <button
           class="custom-btn btn-trade-company"
@@ -106,7 +107,7 @@
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <input
           [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
-          *ngIf="btnIndex !== 1"
+          *ngIf="btnIndex === -1"
           [value]="
             getFormattedDate(
               selectedCompanyCodeValues[i + 1 + '_date2']
@@ -135,6 +136,25 @@
           class="border border-1 p-2 w-75"
           [min]="cmp.startDate"
           [disabled]="isEndDateEnabled[i]"
+        />
+        <input
+          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
+          *ngIf="btnIndex === 0"
+          [value]="
+            getFormattedDate(
+              selectedCompanyCodeValues[i + 1 + '_date2']
+                ? selectedCompanyCodeValues[i + 1 + '_date2']
+                : cmp.endDate,
+              i
+            )
+          "
+          type="datetime-local"
+          class="border border-1 p-2 w-75"
+          [min]="
+            selectedCompanyCodeValues[i + 1 + '_date1']
+              ? selectedCompanyCodeValues[i + 1 + '_date1']
+              : cmp.startDate
+          "
         />
       </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
@@ -173,7 +193,9 @@
               (click)="
                 updateCompany(
                   cmp.bannerID,
-                  selectedCompanyCodeValues[i + 1 + '_date1'],
+                  selectedCompanyCodeValues[i + 1 + '_date1']
+                    ? selectedCompanyCodeValues[i + 1 + '_date1']
+                    : cmp.startDate,
                   selectedCompanyCodeValues[i + 1 + '_date2'],
                   false,
                   false
