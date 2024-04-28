@@ -117,7 +117,6 @@ export class BannerApprovalComponent implements OnInit {
 
     setTimeout(() => {
       this.minEndDateTimes[index] = formattedDate;
-      this.isEndDateEnabled[index] = true;
     }, 10);
   }
 
