@@ -166,16 +166,6 @@ export class BannerApprovalComponent implements OnInit {
     IsActive: any,
     IsBannerStatus: any
   ) {
-    if (StartDate >= EndDate) {
-      this.isApproved = false;
-      this.isRejected = true;
-      this.alertTitle = 'Error';
-      this.alertMsg = 'StartDate Cant be greater than EndDate';
-      if (this.msgModalBTN) {
-        this.msgModalBTN.nativeElement.click();
-      }
-      return;
-    }
     const cmp = {
       bannerID: BannerID,
       isActive: IsActive,
@@ -193,6 +183,25 @@ export class BannerApprovalComponent implements OnInit {
       isRejected: false,
       btnIndex: 1,
     };
+    if (!IsActive && this.btnIndex == -1 && (!StartDate || !EndDate)) {
+      alert.btnIndex = 0;
+      alert.isRejected = true;
+      alert.isApproved = false;
+      this.alertMsg = 'Banner Rejected Successfully';
+      console.log(cmp);
+      this.updateBannerStatus(cmp, alert);
+    }
+    if (StartDate >= EndDate) {
+      this.isApproved = false;
+      this.isRejected = true;
+      this.alertTitle = 'Error';
+      this.alertMsg = 'StartDate Cant be greater than EndDate';
+      if (this.msgModalBTN) {
+        this.msgModalBTN.nativeElement.click();
+      }
+      return;
+    }
+
     if (StartDate && EndDate && IsActive) {
       this.updateBannerStatus(cmp, alert);
     } else if (!IsActive && this.btnIndex == -1) {
