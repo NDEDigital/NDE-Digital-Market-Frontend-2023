@@ -14,6 +14,7 @@ export class AddBannerService {
   getBannerDataByAdminURL = `${this.URL}/api/AddBanner/GetAddBannerForAdmin`;
   getURL = 'https://localhost:7006/api/AddBanner/GetAddBanner';
   UpdateBannerStatusURL = `${this.URL}/api/AddBanner/UpdateBannerStatus`;
+  getBannerForShowingInHomePageURL = `${this.URL}/api/AddBanner/GetBannerForShowingInHomePage`;
   constructor(private http: HttpClient) {}
 
   addBanner(formData: FormData): Observable<any> {
@@ -53,5 +54,8 @@ export class AddBannerService {
   }
   UpdateBannerStatus(formdata: any) {
     return this.http.put(this.UpdateBannerStatusURL, formdata);
+  }
+  getBannerForShowingInHomePage() {
+    return this.http.get(this.getBannerForShowingInHomePageURL);
   }
 }
