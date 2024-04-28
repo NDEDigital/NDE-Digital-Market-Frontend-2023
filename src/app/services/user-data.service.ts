@@ -46,7 +46,7 @@ export class UserDataService {
     // //console.log('updatepassService aise');
   }
   updateUser(updatedUserData: any) {
-    console.log(updatedUserData, 'updatepassService aise');
+    //console.log(updatedUserData, 'updatepassService aise');
     return this.http.put(this.updateUserURL, updatedUserData);
   }
   GetAccessToken() {

@@ -25,6 +25,7 @@ export class SellerAddBannerComponent {
   banners: any[] = [];
   bannerImage: string = '';
 
+
   btnIndex = -1;
 
   isHovered: any | null = null;
@@ -42,21 +43,42 @@ export class SellerAddBannerComponent {
       bannerImage: ['', Validators.required],
     });
 
-    this.fetchBanners(); // Fetch existing banners on component initialization
-  }
-
-  fetchBanners() {
-    this.http
-      .get<any[]>('https://localhost:7006/api/AddBanner/GetAddBanner')
-      .subscribe((result) => {
-        this.banners = result;
-      });
+    let companyCode = localStorage.getItem('CompanyCode');
+    if (companyCode) {
+      this.bannerService.getaAllBanner(companyCode).subscribe(
+        (data) => {
+          // Handle successful response here
+          this.banners = data;
+          console.log(data);
+        },
+        (error) => {
+          // Handle error here
+          console.error('Error fetching banners:', error);
+        }
+      );
+    }
   }
 
   openAddGroupModal(): void {
     this.resetForm();
     this.isEditMode = false;
     this.AddGroupModalCenterG.nativeElement.click();
+    this.fetchBanners();
+  }
+
+  fetchBanners(): void {
+    let companyCode = localStorage.getItem('CompanyCode');
+    if (companyCode) {
+      this.bannerService.getaAllBanner(companyCode).subscribe(
+        (data) => {
+          this.banners = data;
+          console.log('Banners updated:', this.banners);
+        },
+        (error) => {
+          console.error('Error fetching banners:', error);
+        }
+      );
+    }
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -67,7 +89,6 @@ export class SellerAddBannerComponent {
   resetForm() {
     this.addBannerForm.reset(); // Reset the form
     this.isEditMode = false;
-    this.banners = [];
   }
 
   onSubmit(): void {
@@ -103,10 +124,10 @@ export class SellerAddBannerComponent {
       if (companyCode) {
         formData.append('CompanyCode', companyCode);
       }
-      formData.append('IsActive', 'false');
+      formData.append('IsActive', 'true');
       formData.append('AddedBy', 'user');
       formData.append('AddedPC', '0.0.0.0');
-      formData.append('IsActive', 'true');
+
       formData.append('UpdatedBy', 'user');
       formData.append('UpdatedPC', '0.0.0.0');
       formData.append('IsPayment', 'false');
@@ -119,6 +140,22 @@ export class SellerAddBannerComponent {
             this.isError = false;
             this.PrdouctExistModalBTN.nativeElement.click();
             this.resetForm();
+
+            let companyCode = localStorage.getItem('CompanyCode');
+            if (companyCode) {
+              this.bannerService.getaAllBanner(companyCode).subscribe(
+                (data) => {
+                  this.banners = data;
+                  console.log(
+                    'Banners updated after creating a new one:',
+                    this.banners
+                  );
+                },
+                (error) => {
+                  console.error('Error fetching banners:', error);
+                }
+              );
+            }
           },
           error: (error: any) => {
             this.alertMsg = error.error.message;
@@ -159,7 +196,7 @@ export class SellerAddBannerComponent {
       next: (response: any) => {
         this.alertMsg = response.message;
         this.isEditMode = false;
-        this.fetchBanners(); // Fetch updated banners after editing
+        // this.fetchBanners();
         // Optionally, close any modal or show a success message
       },
       error: (error: any) => {

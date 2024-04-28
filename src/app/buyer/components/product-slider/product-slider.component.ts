@@ -257,6 +257,7 @@ export class ProductSliderComponent {
   // }
   shouldRemoveButton(product: any): boolean {
     // console.log(this.windowWidth, product);
+    //console.log(this.windowWidth, product);
     if (this.windowWidth > 1440 && product > 7) {
       return true;
     } else if (this.windowWidth <= 1440 && product >= 7) {
@@ -481,7 +482,7 @@ export class ProductSliderComponent {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
     // console.log(detail);
     // alert('hh');
-    console.log('dashboard', detail);
+    //console.log('dashboard', detail);
     window.open(
       '/productDetails?productId=' +
         btoa(detail.goodsId) +

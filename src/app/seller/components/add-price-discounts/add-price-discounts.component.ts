@@ -84,7 +84,7 @@ export class AddPriceDiscountsComponent {
     let userID = localStorage.getItem('code');
     this.productService.GetProductsByStatus(userID, status).subscribe({
       next: (response: any) => {
-        console.log(response, 'get products');
+        // console.log(response, 'get products');
         this.productList = response;
       },
       error: (error: any) => {
@@ -182,14 +182,14 @@ export class AddPriceDiscountsComponent {
         this.allProductAndGroup = response;
         // console.log(this.allProductAndGroup, 'get products');
         this.products = [...this.allProductAndGroup];
-        console.log(this.products, 'products...');
+        // console.log(this.products, 'products...');
       },
       error: (error: any) => {
         //console.log(error);
         this.alertMsg = error.error.message;
       },
     });
-    console.log(this.products, 'products after subscribe call');
+    // console.log(this.products, 'products after subscribe call');
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -244,7 +244,7 @@ export class AddPriceDiscountsComponent {
   getGroupList() {
     this.goodsService.getGroupData().subscribe((data: any[]) => {
       this.allGroupData = data;
-      console.log(data, 'data:: ');
+      // console.log(data, 'data:: ');
     });
   }
 
@@ -524,16 +524,16 @@ export class AddPriceDiscountsComponent {
       formData.append('companyCode', 'companyCode');
 
       for (let pair of (formData as any).entries()) {
-        console.log(`${pair[0]}: `, pair[1]);
+        // console.log(`${pair[0]}: `, pair[1]);
       }
       // console.log(this.isEditMode, 'edit modal...');
 
       if (!this.isEditMode) {
-        console.log('submit mode!');
+        // console.log('submit mode!');
 
         this.productService.createSellerProductPrice(formData).subscribe({
           next: (response: any) => {
-            console.log(response);
+            // console.log(response);
 
             this.alertMsg = response.message;
             this.isError = false; // Set isError to false for a success message
@@ -544,7 +544,7 @@ export class AddPriceDiscountsComponent {
             this.btnIndex = -1;
           },
           error: (error: any) => {
-            console.log(error);
+            // console.log(error);
             this.alertMsg = error.error.message;
             this.isError = true; // Set isError to true for an error message
             this.PrdouctExistModalBTN.nativeElement.click();
@@ -564,14 +564,14 @@ export class AddPriceDiscountsComponent {
         if (updateByUser !== null) {
           formData.append('UpdatedBy', updateByUser);
         } else {
-          console.error('Update by code not found in localStorage');
+          // console.error('Update by code not found in localStorage');
         }
         formData.append('UpdatedPC', '0.0.0.0');
 
         this.productService.updateSellerProductPrice(formData).subscribe({
           next: (response: any) => {
             // Handle successful response here
-            console.log('Update successful:', response);
+            // console.log('Update successful:', response);
             this.alertMsg = response.message;
             this.isEditMode = false;
             this.isError = false;

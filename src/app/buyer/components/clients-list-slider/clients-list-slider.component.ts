@@ -75,19 +75,19 @@ export class ClientsListSliderComponent {
   getTopSeller() {
     this.companyService.getTopSeller().subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.getTopSellerData = response;
-        console.log(this.getTopSellerData);
+        //console.log(this.getTopSellerData);
       },
       error: (error: any) => {
-        console.log(error);
+        //console.log(error);
       },
     });
   }
   productCardClick(company: any) {
     // alert('he')
     this.sharedService.setCompanyCode(company.companyCode);
-    console.log(company, 'companyCode');
+    //console.log(company, 'companyCode');
 
     this.router.navigate(['/product'], {
       queryParams: {

@@ -7,12 +7,12 @@ import { API_URL } from '../config';
 })
 export class AddBannerService {
   URL = API_URL;
-  createBannerURL = 'https://localhost:7006/api/AddBanner/AddBanner';
+  createBannerURL = `${this.URL}/api/AddBanner/AddBanner`;
   // deleteURL = 'https://localhost:7006/api/AddBanner/DeleteBanner/${bannerId}';
 
-  editURL = 'https://localhost:7006/api/AddBanner/UpdateBanner';
+  editURL = `${this.URL}/api/AddBanner/UpdateBanner`;
   getBannerDataByAdminURL = `${this.URL}/api/AddBanner/GetAddBannerForAdmin`;
-  getURL = 'https://localhost:7006/api/AddBanner/GetAddBanner';
+  getURL = `${this.URL}/AddBanner/GetAddBanner`;
   UpdateBannerStatusURL = `${this.URL}/api/AddBanner/UpdateBannerStatus`;
   getBannerForShowingInHomePageURL = `${this.URL}/api/AddBanner/GetBannerForShowingInHomePage`;
   constructor(private http: HttpClient) {}
@@ -21,13 +21,20 @@ export class AddBannerService {
     return this.http.post<any>(this.createBannerURL, formData);
   }
 
+  getaAllBanner(CompanyCode: any) {
+    console.log(CompanyCode);
+    const getaAllURL = `${this.URL}/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`;
+
+    return this.http.get<any>(getaAllURL);
+  }
+
   createBanner(productListInsertData: any) {
     console.log(productListInsertData);
     return this.http.post(this.createBannerURL, productListInsertData);
   }
 
   deleteBanner(bannerId: any): Observable<any> {
-    const deleteURL = `https://localhost:7006/api/AddBanner/DeleteBanner/${bannerId}`;
+    const deleteURL = `${this.URL}/api/AddBanner/DeleteBanner/${bannerId}`;
     return this.http.delete<any>(deleteURL);
   }
   // editBanner(bannerId: any, formData: FormData) {
