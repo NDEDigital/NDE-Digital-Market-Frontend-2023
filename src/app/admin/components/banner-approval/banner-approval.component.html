@@ -107,39 +107,6 @@
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <input
           [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
-          *ngIf="btnIndex === -1"
-          [value]="
-            getFormattedDate(
-              selectedCompanyCodeValues[i + 1 + '_date2']
-                ? selectedCompanyCodeValues[i + 1 + '_date2']
-                : cmp.endDate,
-              i
-            )
-          "
-          type="datetime-local"
-          class="border border-1 p-2 w-75"
-          [min]="minEndDateTimes[i]"
-          [disabled]="!isEndDateEnabled[i]"
-        />
-        <input
-          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
-          *ngIf="btnIndex === 1"
-          [value]="
-            getFormattedDate(
-              selectedCompanyCodeValues[i + 1 + '_date2']
-                ? selectedCompanyCodeValues[i + 1 + '_date2']
-                : cmp.endDate,
-              i
-            )
-          "
-          type="datetime-local"
-          class="border border-1 p-2 w-75"
-          [min]="cmp.startDate"
-          [disabled]="isEndDateEnabled[i]"
-        />
-        <input
-          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
-          *ngIf="btnIndex === 0"
           [value]="
             getFormattedDate(
               selectedCompanyCodeValues[i + 1 + '_date2']
