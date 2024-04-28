@@ -74,7 +74,7 @@ export class SellerInventoryComponent {
 
   GetData() {
     this.sellerId = localStorage.getItem('code') || '';
-    console.log(' sellerId', this.sellerId);
+    //console.log(' sellerId', this.sellerId);
 
     this.SellerService.getSellerInventory(this.sellerId).subscribe(
       (data: any) => {
