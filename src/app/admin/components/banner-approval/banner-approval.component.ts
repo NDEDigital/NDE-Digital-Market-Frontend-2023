@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+} from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { AddBannerService } from 'src/app/services/add-banner.service';
@@ -8,13 +14,13 @@ import { AddBannerService } from 'src/app/services/add-banner.service';
   templateUrl: './banner-approval.component.html',
   styleUrls: ['./banner-approval.component.css'],
 })
-export class BannerApprovalComponent {
+export class BannerApprovalComponent implements OnInit {
   btnIndex = -1;
   // companies: any;
   imagePath = '';
   isHovered: any | null = null;
   banners: any[] = [];
-
+  // isEndDateEnabled: boolean = false;
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: any } = {};
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
@@ -23,49 +29,74 @@ export class BannerApprovalComponent {
   alertMsg: string = '';
   isApproved: boolean = false;
   isRejected: boolean = false;
+  minDateTime: string = '';
+  minEndDateTime: string = '';
+  // minDateTime: string = '';
+  minEndDateTimes: string[] = [];
+  activeEndDate: boolean[] = [];
+  isEndDateEnabled: boolean[] = [];
 
   constructor(
     private http: HttpClient,
     private bannerService: AddBannerService
-  ) {}
+  ) {
+    this.getCurrentDateTime();
+
+    console.log(this.minDateTime);
+  }
 
   ngOnInit() {
     this.getData();
+    this.minDateTime = this.getCurrentDateTime(); // Initialize before change detection
+    this.minEndDateTime = this.getCurrentDateTime();
+    this.minEndDateTimes = [this.minEndDateTime];
+    this.isEndDateEnabled = [false]; // Default to false
   }
+
   // ngAfterViewInit() {
   //   // Ensure msgModalBTN is defined before using it
   //   if (this.msgModalBTN) {
   //     this.msgModalBTN.nativeElement.click();
   //   }
   // }
-  formatDateTime(date: any) {
-    if (!date) {
-      return null;
-    }
 
-    // Convert to a valid date object if not already one
-    let validDate = new Date(date);
-
-    // Ensure the date is valid
-    if (isNaN(validDate.getTime())) {
-      return null; // Return null if invalid
-    }
-
-    // Format to 'YYYY-MM-DDTHH:MM'
-    let year = validDate.getFullYear();
-    let month = ('0' + (validDate.getMonth() + 1)).slice(-2); // Ensures 2 digits
-    let day = ('0' + validDate.getDate()).slice(-2); // Ensures 2 digits
-    let hours = ('0' + validDate.getHours()).slice(-2);
-    let minutes = ('0' + validDate.getMinutes()).slice(-2);
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  getCurrentDateTime(): string {
+    const now = new Date();
+    return now.toISOString().substring(0, 16);
   }
 
+  getFormattedDate(date: string, index: number): string {
+    console.log(date);
+    if (this.selectedCompanyCodeValues[index + 1 + '_date1'] != date) {
+      console.log(
+        'dhukse',
+        this.selectedCompanyCodeValues[index + 1 + '_date1'],
+        date
+      );
+    }
+    this.selectedCompanyCodeValues[index + 1 + '_date2'] = date;
+
+    return this.selectedCompanyCodeValues[index + 1 + '_date2'] || null;
+  }
+  getFormattedDate2(date: string, index: number): string {
+    console.log(date);
+    this.selectedCompanyCodeValues[index + 1 + '_date1'] = date;
+    return this.selectedCompanyCodeValues[index + 1 + '_date1'] || null;
+  }
   getData() {
     console.log(this.btnIndex);
+    this.minDateTime = '';
+    this.minEndDateTime = '';
+    this.minEndDateTimes = [];
+    this.activeEndDate = [];
+    this.isEndDateEnabled = [];
+    this.minDateTime = this.getCurrentDateTime();
+    this.minEndDateTime = this.getCurrentDateTime();
     this.bannerService.getBannerDataByAdmin(this.btnIndex).subscribe({
       next: (response: any) => {
         this.banners = response;
+
+        this.selectedCompanyCodeValues = [];
         console.log(this.banners, 'banners....');
       },
       error: (error: any) => {
@@ -74,12 +105,25 @@ export class BannerApprovalComponent {
     });
   }
 
+  onStartDateChange(index: number, event: any): void {
+    const selectedDate = new Date(event.target.value);
+    const nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000);
+
+    const formattedDate = nextDay.toISOString().substring(0, 16);
+
+    setTimeout(() => {
+      this.minEndDateTimes[index] = formattedDate; // Update after Angular's cycle
+      this.isEndDateEnabled[index] = true; // Enable end date for this row
+    }, 0);
+  }
+
   showImage(path: any, title: any) {
     console.log(path);
 
     this.imagePath = '/asset' + path.split('asset')[1];
     this.imageTitle = title;
   }
+
   updateBannerStatus(cmp: any, alert: any) {
     this.bannerService.UpdateBannerStatus(cmp).subscribe({
       next: () => {
@@ -89,6 +133,11 @@ export class BannerApprovalComponent {
         this.isRejected = alert.isRejected;
         this.btnIndex = alert.btnIndex;
 
+        this.minDateTime = '';
+        this.minEndDateTime = '';
+        this.minEndDateTimes = [];
+        this.activeEndDate = [];
+        this.isEndDateEnabled = [];
         if (this.msgModalBTN) {
           this.msgModalBTN.nativeElement.click();
         }
@@ -106,24 +155,7 @@ export class BannerApprovalComponent {
       },
     });
   }
-  // updateBannerStatus(cmp: any, alert: any) {
-  //   this.bannerService.UpdateBannerStatus(cmp).subscribe({
-  //     next: () => {
-  //       this.alertTitle = alert.alertTitle;
-  //       this.alertMsg = alert.alertMsg;
-  //       if (this.msgModalBTN) {
-  //         this.msgModalBTN.nativeElement.click(); // Trigger the modal
-  //       }
-  //     },
-  //     error: () => {
-  //       this.alertTitle = 'Error';
-  //       this.alertMsg = 'Something went wrong.';
-  //       if (this.msgModalBTN) {
-  //         this.msgModalBTN.nativeElement.click(); // Trigger the modal
-  //       }
-  //     },
-  //   });
-  // }
+
   updateCompany(
     BannerID: any,
     StartDate: any,
