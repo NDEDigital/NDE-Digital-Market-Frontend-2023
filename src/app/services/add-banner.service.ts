@@ -23,7 +23,7 @@ export class AddBannerService {
   getaAllBanner(CompanyCode: any) {
     console.log(CompanyCode);
     const getaAllURL = `${this.URL}/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`;
-    
+
     return this.http.get<any>(getaAllURL);
   }
 
@@ -43,8 +43,8 @@ export class AddBannerService {
   //   );
   // }
 
-  editBanner(bannerId: any, formData: FormData) {
-    return this.http.put<any>(`editURL/${bannerId}`, formData);
+  updateBanner(formData: any): Observable<any> {
+    return this.http.put(this.editURL, formData);
   }
 
   getBanner(status: any) {

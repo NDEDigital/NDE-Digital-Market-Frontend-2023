@@ -18,6 +18,7 @@ export class AddGroupsComponent {
   @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
   //@ViewChild('modalGroupImage') ModalGroupImage!: ElementRef;
+
   @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;

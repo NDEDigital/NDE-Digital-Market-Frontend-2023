@@ -39,68 +39,60 @@
             class="btn-close border border-1"
             data-bs-dismiss="modal"
             aria-label="Close"
-            (click)="resetForm()"
           ></button>
         </div>
-        <!-- price and discount form  -->
-
-        <div class="">
-          <!-- <h2 class="register_title">Add Price & Discounts</h2> -->
-          <div class="d-flex justify-content-center align-items-center">
-            <!-- Back Button on the left -->
-
-            <!-- Title in the middle -->
-            <h2 class="register_title">Add Banner Info</h2>
-          </div>
-          <hr />
-          <form [formGroup]="addBannerForm">
-            <div class="form-group">
-              <label
-                ><span class="text-danger" *ngIf="!isEditMode">*</span>Upload
-                Banner Image
-              </label>
-
-              <input
-                type="file"
-                class="form-control"
-                id="bannerImage"
-                formControlName="bannerImage"
-                #ProductImageInput
-              />
-              <span class="text-danger" *ngIf="isFieldInvalid('bannerImage')"
-                >Product Image is required.</span
-              >
-            </div>
-
-            <div class="form-group">
-              <label
-                ><span class="text-danger" *ngIf="!isEditMode">*</span
-                >Description</label
-              >
-              <input
-                type="text"
-                id="bannerDescription"
-                formControlName="bannerDescription"
-                class="w-100 p-1 rounded-1 border border-1"
-                [class.error]="isFieldInvalid('bannerDescription')"
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('bannerDescription')"
-                >Description is not valid.</span
-              >
-            </div>
-
-            <button
-              type="submit"
-              class="button mt-3"
-              id="sign-in-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </form>
+        <!-- Title -->
+        <div class="d-flex justify-content-center align-items-center">
+          <h2 class="register_title">
+            {{ isEditMode ? "Edit Banner" : "Add Banner" }}
+          </h2>
         </div>
+        <hr />
+        <!-- Banner Form -->
+        <form [formGroup]="addBannerForm">
+          <div class="form-group">
+            <label
+              ><span class="text-danger" *ngIf="!isEditMode">*</span>Upload
+              Banner Image</label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="bannerImage"
+              formControlName="bannerImage"
+              #ProductImageInput
+            />
+            <span class="text-danger" *ngIf="isFieldInvalid('bannerImage')"
+              >Banner Image is required.</span
+            >
+          </div>
+          <div class="form-group">
+            <label
+              ><span class="text-danger" *ngIf="!isEditMode">*</span
+              >Description</label
+            >
+            <input
+              type="text"
+              id="bannerDescription"
+              formControlName="bannerDescription"
+              class="w-100 p-1 rounded-1 border border-1"
+              [class.error]="isFieldInvalid('bannerDescription')"
+            />
+            <span
+              class="text-danger"
+              *ngIf="isFieldInvalid('bannerDescription')"
+              >Description is not valid.</span
+            >
+          </div>
+          <button
+            type="submit"
+            class="button mt-3"
+            id="sign-in-button"
+            (click)="onSubmit()"
+          >
+            {{ isEditMode ? "Update" : "Submit" }}
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -129,6 +121,8 @@
   <section
     class="row tablebodyRow fw-semibold"
     *ngFor="let banner of banners; let i = index"
+    (dblclick)="openEditForm(banner)"
+    
     (mouseover)="isHovered = i"
     (mouseout)="isHovered = null"
   >
@@ -202,37 +196,23 @@
       </ng-container>
     </div>
 
-    <!-- <div
-        class="col tableBody"
-         [ngClass]="{
-          'active-row':
-           isHovered === i
-        }"
-      >
-      
-     <ng-container *ngIf="banner.isActive === null">
-      Pending
-    </ng-container>
-    
-    <ng-container *ngIf="banner.isActive === false">
-      Expired
-    </ng-container>
-
-  <ng-container *ngIf="banner.isActive === true">
-      Approved
-    </ng-container>
-
-
-
-      
-      </div> -->
-
     <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
       <div class="d-flex justify-content-center align-items-center">
         <div class="btn-group" role="group" aria-label="Banner Actions">
+          <!-- <button
+            type="button"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addGroupModalCenter"
+            (click)="openEditForm(banner)"
+          >
+            <i class="fas fa-edit"></i>
+          </button> -->
+
           <button
             type="button"
             class="btn btn-sm btn-danger"
+            style="margin-left: 1rem"
             (click)="deleteBanner(banner)"
           >
             <i class="fas fa-trash-alt"></i>
@@ -242,52 +222,6 @@
     </div>
   </section>
 </div>
-
-<!-- <div class="card-container">
-  <div class="card" *ngFor="let banner of banners" style="margin-bottom: 1rem">
-    <img
-      [src]="
-        banner.bannerImage
-          ? '/asset' + banner.bannerImage?.split('asset')[1]
-          : ''
-      "
-      class="w-100"
-      alt="Banner Image"
-    />
-    <div class="card-body" style="padding: 1rem">
-      <div class="row">
-        <div class="col-md-8" style="margin-bottom: 0.5rem">
-          <p class="card-text" style="margin-bottom: 0">
-            <strong>Description:</strong> {{ banner.bannerDescription }}
-          </p> -->
-<!-- <p class="card-text">
-            <strong>Company Code:</strong> {{ banner.companycode }}
-          </p> -->
-<!-- </div>
-        <div class="col-md-4 text-right">
-          <div class="btn-group" role="group" aria-label="Banner Actions"> -->
-<!-- <button
-              type="button"
-              class="btn btn-sm btn-primary"
-              style="margin-left: 1.5rem"
-              (click)="editBanner(banner)"
-            >
-              <i class="fas fa-edit"></i>
-            </button> -->
-<!-- <button
-              type="button"
-              class="btn btn-sm btn-danger"
-              style="margin-left: 3.5rem"
-              (click)="deleteBanner(banner)"
-            >
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <!-- Button trigger modal -->
 <button
@@ -304,13 +238,13 @@
   class="modal fade"
   id="prodExistModal"
   tabindex="-1"
-  aria-labelledby="userExistModalLabel"
+  aria-labelledby="prodExistModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="userExistModalLabel">product Modal</h1>
+        <h1 class="modal-title fs-5" id="prodExistModalLabel">product Modal</h1>
         <button
           type="button"
           class="btn-close"
