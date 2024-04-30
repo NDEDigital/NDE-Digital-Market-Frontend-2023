@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+} from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { AddBannerService } from 'src/app/services/add-banner.service';
@@ -8,13 +14,13 @@ import { AddBannerService } from 'src/app/services/add-banner.service';
   templateUrl: './banner-approval.component.html',
   styleUrls: ['./banner-approval.component.css'],
 })
-export class BannerApprovalComponent {
+export class BannerApprovalComponent implements OnInit {
   btnIndex = -1;
   // companies: any;
   imagePath = '';
   isHovered: any | null = null;
   banners: any[] = [];
-
+  // isEndDateEnabled: boolean = false;
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: any } = {};
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
@@ -23,26 +29,74 @@ export class BannerApprovalComponent {
   alertMsg: string = '';
   isApproved: boolean = false;
   isRejected: boolean = false;
+  minDateTime: string = '';
+  minEndDateTime: string = '';
+  // minDateTime: string = '';
+  minEndDateTimes: string[] = [];
+  activeEndDate: boolean[] = [];
+  isEndDateEnabled: boolean[] = [];
 
   constructor(
     private http: HttpClient,
     private bannerService: AddBannerService
-  ) {}
+  ) {
+    this.getCurrentDateTime();
+
+    console.log(this.minDateTime);
+  }
 
   ngOnInit() {
     this.getData();
+    this.minDateTime = this.getCurrentDateTime(); // Initialize before change detection
+    this.minEndDateTime = this.getCurrentDateTime();
+    this.minEndDateTimes = [this.minEndDateTime];
+    this.isEndDateEnabled = [false]; // Default to false
   }
+
   // ngAfterViewInit() {
   //   // Ensure msgModalBTN is defined before using it
   //   if (this.msgModalBTN) {
   //     this.msgModalBTN.nativeElement.click();
   //   }
   // }
+
+  getCurrentDateTime(): string {
+    const now = new Date();
+    return now.toISOString().substring(0, 16);
+  }
+
+  getFormattedDate(date: string, index: number): string {
+    console.log(date);
+    if (this.selectedCompanyCodeValues[index + 1 + '_date1'] != date) {
+      console.log(
+        'dhukse',
+        this.selectedCompanyCodeValues[index + 1 + '_date1'],
+        date
+      );
+    }
+    this.selectedCompanyCodeValues[index + 1 + '_date2'] = date;
+
+    return this.selectedCompanyCodeValues[index + 1 + '_date2'] || null;
+  }
+  getFormattedDate2(date: string, index: number): string {
+    console.log(date);
+    this.selectedCompanyCodeValues[index + 1 + '_date1'] = date;
+    return this.selectedCompanyCodeValues[index + 1 + '_date1'] || null;
+  }
   getData() {
     console.log(this.btnIndex);
-    this.bannerService.getBanner(this.btnIndex).subscribe({
+    this.minDateTime = '';
+    this.minEndDateTime = '';
+    this.minEndDateTimes = [];
+    this.activeEndDate = [];
+    this.isEndDateEnabled = [];
+    this.minDateTime = this.getCurrentDateTime();
+    this.minEndDateTime = this.getCurrentDateTime();
+    this.bannerService.getBannerDataByAdmin(this.btnIndex).subscribe({
       next: (response: any) => {
         this.banners = response;
+
+        this.selectedCompanyCodeValues = [];
         console.log(this.banners, 'banners....');
       },
       error: (error: any) => {
@@ -51,11 +105,55 @@ export class BannerApprovalComponent {
     });
   }
 
+  onStartDateChange(index: number, event: any): void {
+    const selectedDate = new Date(event.target.value);
+    const nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000);
+
+    const formattedDate = nextDay.toISOString().substring(0, 16);
+
+    setTimeout(() => {
+      this.minEndDateTimes[index] = formattedDate; // Update after Angular's cycle
+      this.isEndDateEnabled[index] = true; // Enable end date for this row
+    }, 0);
+  }
+
   showImage(path: any, title: any) {
     console.log(path);
 
     this.imagePath = '/asset' + path.split('asset')[1];
     this.imageTitle = title;
+  }
+
+  updateBannerStatus(cmp: any, alert: any) {
+    this.bannerService.UpdateBannerStatus(cmp).subscribe({
+      next: () => {
+        this.alertTitle = alert.alertTitle;
+        this.alertMsg = alert.alertMsg;
+        this.isApproved = alert.isApproved;
+        this.isRejected = alert.isRejected;
+        this.btnIndex = alert.btnIndex;
+
+        this.minDateTime = '';
+        this.minEndDateTime = '';
+        this.minEndDateTimes = [];
+        this.activeEndDate = [];
+        this.isEndDateEnabled = [];
+        if (this.msgModalBTN) {
+          this.msgModalBTN.nativeElement.click();
+        }
+        this.getData();
+      },
+      error: (error) => {
+        console.log(error);
+        this.alertTitle = 'Error';
+        this.alertMsg = 'Something went wrong.';
+        this.isApproved = false;
+        this.isRejected = true;
+        if (this.msgModalBTN) {
+          this.msgModalBTN.nativeElement.click();
+        }
+      },
+    });
   }
 
   updateCompany(
@@ -75,32 +173,36 @@ export class BannerApprovalComponent {
       endDate: EndDate,
       isBannerStatus: IsBannerStatus,
     };
-    if (StartDate && EndDate) {
-      this.bannerService.UpdateBannerStatus(cmp).subscribe({
-        next: () => {
-          this.alertTitle = 'Success!';
-          this.alertMsg = 'Banner updated successfully.';
-          this.isApproved = true;
-          this.isRejected = false;
-          this.btnIndex = 1;
-          if (this.msgModalBTN) {
-            this.msgModalBTN.nativeElement.click(); // Open modal
-          }
-        },
-        error: () => {
-          this.alertTitle = 'Error';
-          this.alertMsg = 'Something went wrong.';
-          this.isApproved = false;
-          this.isRejected = true;
-        },
-      });
+    const alert = {
+      alertTitle: 'Success!',
+      alertMsg: 'Banner updated successfully.',
+      isApproved: true,
+      isRejected: false,
+      btnIndex: 1,
+    };
+    if (StartDate && EndDate && IsActive) {
+      this.updateBannerStatus(cmp, alert);
+    } else if (!IsActive && this.btnIndex == -1) {
+      alert.btnIndex = 0;
+      alert.isRejected = true;
+      alert.isApproved = false;
+      this.alertMsg = 'Banner Rejected Successfully';
+      this.updateBannerStatus(cmp, alert);
+    } else if (this.btnIndex == 1 && !IsActive) {
+      alert.btnIndex = 0;
+      alert.isRejected = true;
+      alert.isApproved = false;
+      this.alertMsg = 'Banner Rejected Successfully';
+      this.updateBannerStatus(cmp, alert);
+    } else if (this.btnIndex == 0 && StartDate && EndDate) {
+      this.updateBannerStatus(cmp, alert);
     } else {
       this.isApproved = false;
       this.isRejected = true;
       this.alertTitle = 'Reminder';
       this.alertMsg = 'Please provide StartDate and EndDate.';
       if (this.msgModalBTN) {
-        this.msgModalBTN.nativeElement.click(); // Open modal
+        this.msgModalBTN.nativeElement.click();
       }
     }
   }

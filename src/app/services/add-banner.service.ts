@@ -11,9 +11,10 @@ export class AddBannerService {
   // deleteURL = 'https://localhost:7006/api/AddBanner/DeleteBanner/${bannerId}';
 
   editURL = `${this.URL}/api/AddBanner/UpdateBanner`;
-
+  getBannerDataByAdminURL = `${this.URL}/api/AddBanner/GetAddBannerForAdmin`;
   getURL = `${this.URL}/AddBanner/GetAddBanner`;
   UpdateBannerStatusURL = `${this.URL}/api/AddBanner/UpdateBannerStatus`;
+  getBannerForShowingInHomePageURL = `${this.URL}/api/AddBanner/GetBannerForShowingInHomePage`;
   constructor(private http: HttpClient) {}
 
   addBanner(formData: FormData): Observable<any> {
@@ -47,22 +48,21 @@ https: return this.http.get<any>(getaAllURL);
     return this.http.put(this.editURL, formData);
   }
 
-  getBanner(status: any) {
+  getBannerDataByAdmin(status: any) {
     if (status == -1) {
-      return this.http.get(this.getURL);
+      return this.http.get(this.getBannerDataByAdminURL);
     } else if (status == 1) {
       status = true;
-      return this.http.get(this.getURL, {
-        params: { status },
-      });
+      return this.http.get(`${this.getBannerDataByAdminURL}?status=${status}`);
     } else {
       status = false;
-      return this.http.get(this.getURL, {
-        params: { status },
-      });
+      return this.http.get(`${this.getBannerDataByAdminURL}?status=${status}`);
     }
   }
   UpdateBannerStatus(formdata: any) {
     return this.http.put(this.UpdateBannerStatusURL, formdata);
+  }
+  getBannerForShowingInHomePage() {
+    return this.http.get(this.getBannerForShowingInHomePageURL);
   }
 }

@@ -54,84 +54,46 @@
     class="carousel carousel-dark slide"
     data-bs-ride="carousel"
   >
-    <!-- ------------ carousel indicators ------------ -->
+    <!-- Carousel Indicators -->
     <div class="carousel-indicators">
-      <button
+      <!-- <button
         type="button"
         data-bs-target="#carouselExampleDark"
         data-bs-slide-to="0"
         class="active"
         aria-current="true"
         aria-label="Slide 1"
-      ></button>
+      ></button> -->
       <button
+        *ngFor="let detail of bannerDetails; let i = index"
         type="button"
+        [ngClass]="{ active: i === 0 }"
         data-bs-target="#carouselExampleDark"
-        data-bs-slide-to="1"
-        aria-label="Slide 2"
-      ></button>
-      <button
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide-to="2"
-        aria-label="Slide 3"
-      ></button>
-      <button
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide-to="3"
-        aria-label="Slide 4"
-      ></button>
-      <button
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide-to="4"
-        aria-label="Slide 5"
+        [attr.data-bs-slide-to]="i"
+        [attr.aria-label]="'Slide ' + (i + 1)"
       ></button>
     </div>
-    <!-- ----------------inner carousel -------------- -->
+
+    <!-- Carousel Content -->
     <div class="carousel-inner for_img">
-      <!-- ---- carousel item 1 ----------- -->
-      <div class="carousel-item active" data-bs-interval="5000">
+      <div
+        *ngFor="let banner of bannerDetails; let i = index"
+        class="carousel-item"
+        [ngClass]="{ active: i === 0 }"
+      >
         <img
-          src="assets/images/banner/steel_city_ai.png"
+          [src]="
+            banner.bannerImage.substring(
+              banner.bannerImage.indexOf('assets')
+            ) || 'assets/images/banner/default.jpg'
+          "
           class="d-block img-fluid"
-          alt="..."
-        />
-      </div>
-      <!-- ---- carousel item 2 ------------- -->
-      <div class="carousel-item" data-bs-interval="3000">
-        <img
-            src="assets/images/banner/coil_ai.png"
-          class="d-block img-fluid"
-          alt="..."
-        />
-      </div>
-      <!-- ---- carousel item 3 -------------- -->
-      <div class="carousel-item" data-bs-interval="3000">
-        <img
-        src="assets/images/banner/steel_Leade_ai.png"
-          class="d-block img-fluid"
-          alt="..."
-        />
-      </div>
-      <!-- ---- carousel item 4 ---------------- -->
-      <div class="carousel-item" data-bs-interval="3000">
-        <img
-          src="assets/images/banner/purlin_ai.png"
-          class="d-block img-fluid"
-          alt="..."
-        />
-      </div>
-      <!-- ---- carousel item 5 ---------------- -->
-      <div class="carousel-item" data-bs-interval="3000">
-        <img
-          src="assets/images/banner/roofing_ai.png"
-          class="d-block img-fluid"
-          alt="..."
+          alt="Banner Image"
         />
       </div>
     </div>
+
+    <!-- Carousel Controls -->
     <button
       class="carousel-control-prev carousel-button"
       type="button"

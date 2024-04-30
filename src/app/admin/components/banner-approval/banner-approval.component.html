@@ -37,7 +37,7 @@
     <div class="row headerRow sticky-top fw-bolder">
       <div class="col tableHeader">Index</div>
       <div class="col tableHeader">Company Name</div>
-
+      <div class="col tableHeader">Banner Description</div>
       <div class="col tableHeader">Banner Image</div>
       <div class="col tableHeader">Start Date</div>
       <div class="col tableHeader">End Date</div>
@@ -67,7 +67,9 @@
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ cmp.companyName }}
       </div>
-
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+        {{ cmp.bannerDescription }}
+      </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <button
           class="custom-btn btn-trade-company"
@@ -82,25 +84,63 @@
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <input
           [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date1']"
+          *ngIf="btnIndex !== 1"
+          [value]="
+            getFormattedDate2(
+              selectedCompanyCodeValues[i + 1 + '_date1']
+                ? selectedCompanyCodeValues[i + 1 + '_date1']
+                : cmp.startDate,
+              i
+            )
+          "
           type="datetime-local"
           class="border border-1 p-2 w-75"
-          min="2024-01-01T00:00"
+          [min]="minDateTime"
+          (change)="onStartDateChange(i, $event)"
         />
+        <span *ngIf="btnIndex === 1">
+          {{ cmp.startDate }}
+        </span>
       </div>
 
-      <!-- Date Picker 2 -->
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <input
           [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
+          *ngIf="btnIndex !== 1"
+          [value]="
+            getFormattedDate(
+              selectedCompanyCodeValues[i + 1 + '_date2']
+                ? selectedCompanyCodeValues[i + 1 + '_date2']
+                : cmp.endDate,
+              i
+            )
+          "
           type="datetime-local"
           class="border border-1 p-2 w-75"
-          min="2024-01-01T00:00"
+          [min]="minEndDateTimes[i]"
+          [disabled]="!isEndDateEnabled[i]"
+        />
+        <input
+          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
+          *ngIf="btnIndex === 1"
+          [value]="
+            getFormattedDate(
+              selectedCompanyCodeValues[i + 1 + '_date2']
+                ? selectedCompanyCodeValues[i + 1 + '_date2']
+                : cmp.endDate,
+              i
+            )
+          "
+          type="datetime-local"
+          class="border border-1 p-2 w-75"
+          [min]="cmp.startDate"
+          [disabled]="isEndDateEnabled[i]"
         />
       </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <div class="d-flex justify-content-center align-items-center">
           <div>
-            <button class="actionBtn" *ngIf="btnIndex != 1">
+            <button class="actionBtn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -111,7 +151,9 @@
                 (click)="
                   updateCompany(
                     cmp.bannerID,
-                    selectedCompanyCodeValues[i + 1 + '_date1'],
+                    cmp.startDate
+                      ? cmp.startDate
+                      : selectedCompanyCodeValues[i + 1 + '_date1'],
                     selectedCompanyCodeValues[i + 1 + '_date2'],
                     true,
                     true

@@ -256,6 +256,7 @@ export class ProductSliderComponent {
   //   }, 5000);
   // }
   shouldRemoveButton(product: any): boolean {
+    // console.log(this.windowWidth, product);
     //console.log(this.windowWidth, product);
     if (this.windowWidth > 1440 && product > 7) {
       return true;
