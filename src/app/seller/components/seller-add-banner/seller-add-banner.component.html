@@ -10,9 +10,9 @@
   <div
     class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
   >
-    <div>
+    <div class=" custom-btn addproduct-btn">
       <button
-        class="custom-btn addproduct-btn"
+  class="bn"
         data-bs-toggle="modal"
         data-bs-target="#addGroupModalCenter"
         #addGroupModalCenterG
@@ -25,77 +25,86 @@
 
 <div
   class="modal fade"
+ *ngFor="let banner of banners; let i = index"
   id="addGroupModalCenter"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
+  
 >
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="d-flex justify-content-end align-items-center">
-          <button
-            type="button"
-            class="btn-close border border-1"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <!-- Title -->
-        <div class="d-flex justify-content-center align-items-center">
-          <h2 class="register_title">
-            {{ isEditMode ? "Edit Banner" : "Add Banner" }}
-          </h2>
-        </div>
-        <hr />
-        <!-- Banner Form -->
-        <form [formGroup]="addBannerForm">
-          <div class="form-group">
-            <label
-              ><span class="text-danger" *ngIf="!isEditMode">*</span>Upload
-              Banner Image</label
-            >
-            <input
-              type="file"
-              class="form-control"
-              id="bannerImage"
-              formControlName="bannerImage"
-              #ProductImageInput
-            />
-            <span class="text-danger" *ngIf="isFieldInvalid('bannerImage')"
-              >Banner Image is required.</span
-            >
-          </div>
-          <div class="form-group">
-            <label
-              ><span class="text-danger" *ngIf="!isEditMode">*</span
-              >Description</label
-            >
-            <input
-              type="text"
-              id="bannerDescription"
-              formControlName="bannerDescription"
-              class="w-100 p-1 rounded-1 border border-1"
-              [class.error]="isFieldInvalid('bannerDescription')"
-            />
-            <span
-              class="text-danger"
-              *ngIf="isFieldInvalid('bannerDescription')"
-              >Description is not valid.</span
-            >
-          </div>
-          <button
-            type="submit"
-            class="button mt-3"
-            id="sign-in-button"
-            (click)="onSubmit()"
-          >
-            {{ isEditMode ? "Update" : "Submit" }}
-          </button>
-        </form>
+ <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="d-flex justify-content-end align-items-center">
+        <button
+          type="button"
+          class="btn-close border border-1"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeEditFormWithoutUpdate()"
+        ></button>
       </div>
+      <!-- Title -->
+      <div class="d-flex justify-content-center align-items-center">
+        <h2 class="register_title">
+          {{ isEditMode ? "Edit Banner" : "Add Banner" }}
+        </h2>
+      </div>
+      <hr />
+      <!-- Banner Form -->
+      <form [formGroup]="addBannerForm">
+        <div class="form-group">
+          <label><span class="text-danger">*</span>Upload Banner Image</label>
+          <input
+            type="file"
+            class="form-control"
+            id="bannerImage"
+            formControlName="bannerImage"
+            #ProductImageInput
+            [attr.required]="!isEditMode ? true : null"
+          />
+          <span class="text-danger" *ngIf="isFieldInvalid('bannerImage')">Banner Image is required.</span>
+        </div>
+        <!-- Image preview -->
+        <div class="form-group" *ngIf="isEditMode && imagePathPreview">
+          <img
+            [src]="imagePathPreview.substring(imagePathPreview.indexOf('assets'))"
+            alt="Current Image"
+            class="img-preview"
+          />
+        </div>
+        <!-- Description field -->
+        <div class="form-group">
+          <label><span class="text-danger">*</span>Description</label>
+          <input
+            type="text"
+            formControlName="bannerDescription"
+            class="w-100 p-1 rounded-1 border border-1"
+            [attr.required]="!isEditMode ? true : null"
+          />
+          <span class="text-danger" *ngIf="isFieldInvalid('bannerDescription')">Description is required.</span>
+        </div>
+        <button
+          type="submit"
+          class="button mt-3"
+          id="sign-in-button"
+          (click)="onSubmit()"
+        >
+          {{ isEditMode ? "Update" : "Submit" }}
+        </button>
+
+        <button
+          *ngIf="isEditMode"
+          type="button"
+          class="btn btn-danger mt-3"
+          (click)="deleteBanner(banner)"
+        >
+          Delete
+        </button>
+      </form>
     </div>
   </div>
+</div>
 </div>
 
 <div class="scrollable-table border border-1 bg-light">
@@ -110,7 +119,7 @@
     <div class="col tableHeader">Date Added</div>
     <div class="col tableHeader">Banner Status</div>
 
-    <div class="col tableHeader">Banner active</div>
+    <!-- <div class="col tableHeader">Banner active</div>  -->
 
     <!-- 
       <div class="col tableHeader" >Actions</div> -->
@@ -121,8 +130,7 @@
   <section
     class="row tablebodyRow fw-semibold"
     *ngFor="let banner of banners; let i = index"
-    (dblclick)="openEditForm(banner)"
-    
+    (dblclick)="!isApproved(banner) && openEditForm(banner)  "
     (mouseover)="isHovered = i"
     (mouseout)="isHovered = null"
   >
@@ -196,30 +204,7 @@
       </ng-container>
     </div>
 
-    <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-      <div class="d-flex justify-content-center align-items-center">
-        <div class="btn-group" role="group" aria-label="Banner Actions">
-          <!-- <button
-            type="button"
-            class="btn btn-sm btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#addGroupModalCenter"
-            (click)="openEditForm(banner)"
-          >
-            <i class="fas fa-edit"></i>
-          </button> -->
-
-          <button
-            type="button"
-            class="btn btn-sm btn-danger"
-            style="margin-left: 1rem"
-            (click)="deleteBanner(banner)"
-          >
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+ 
   </section>
 </div>
 

@@ -27,9 +27,9 @@ export class SellerAddBannerComponent {
   isEditMode: boolean = false;
   banners: any[] = [];
   bannerImage: string = '';
-  currentBanner: any = null;
-  addingBanner: boolean = false;
-
+  currentBanner: any;
+  // addingBanner: boolean = false;
+  existingImagePath: string = '';
   btnIndex = -1;
 
   isHovered: any | null = null;
@@ -42,25 +42,28 @@ export class SellerAddBannerComponent {
   ) {}
 
   ngOnInit() {
-    this.addBannerForm = this.formBuilder.group({
-      bannerDescription: ['', Validators.required],
-      bannerImage: ['', Validators.required],
+  //   if(!this.isEditMode){
+  //      this.addBannerForm = new FormGroup({
+  //        bannerDescription: new FormControl('', Validators.required),
+  //        bannerImage: new FormControl('', Validators.required),
+  //      });
+  //   }
+  //  if(this.isEditMode){
+  //   this.addBannerForm = new FormGroup({
+  //     bannerDescription: new FormControl('', ),
+  //     bannerImage: new FormControl('', ),
+  //   });
+
+   //}
+    this.addBannerForm = new FormGroup({
+      bannerDescription: new FormControl('', Validators.required),
+      bannerImage: new FormControl('', Validators.required),
     });
 
-    let companyCode = localStorage.getItem('CompanyCode');
-    if (companyCode) {
-      this.bannerService.getaAllBanner(companyCode).subscribe(
-        (data) => {
-          // Handle successful response here
-          this.banners = data;
-          console.log(data);
-        },
-        (error) => {
-          // Handle error here
-          console.error('Error fetching banners:', error);
-        }
-      );
-    }
+    this.fetchBanners();
+  }
+  isApproved(banner: any): boolean {
+    return banner.isBannerStatus === true && banner.isActive === true;
   }
 
   openAddGroupModal(): void {
@@ -69,7 +72,7 @@ export class SellerAddBannerComponent {
     this.currentBanner = null;
 
     this.AddGroupModalCenterG.nativeElement.click();
-    this.EditBannerModalCenterG.nativeElement.click();
+    // this.EditBannerModalCenterG.nativeElement.click();
     this.fetchBanners();
   }
 
@@ -79,10 +82,10 @@ export class SellerAddBannerComponent {
       this.bannerService.getaAllBanner(companyCode).subscribe(
         (data) => {
           this.banners = data;
-          console.log('Banners updated:', this.banners);
+          // console.log('Banners updated:', this.banners);
         },
         (error) => {
-          console.error('Error fetching banners:', error);
+          // console.error('Error fetching banners:', error);
         }
       );
     }
@@ -110,12 +113,16 @@ export class SellerAddBannerComponent {
 
       Object.keys(this.addBannerForm.value).forEach((key) => {
         let value = this.addBannerForm.value[key];
-        if (value === null && (key === 'startDate' || key === 'endDate')) {
+        if (value === null) {
           value = '';
         }
+        //  This part of the code ensures that if the start date or end date
+        //   form inputs are not filled (i.e., they are null),
+        //    they are converted to empty strings ('') before being appended to the FormData object.
+        //    This is likely done to ensure consistency in the data being sent to the server.
 
         formData.append(key, value);
-        console.log(key, value);
+        // console.log(key, value);
       });
 
       formData.append(
@@ -148,19 +155,20 @@ export class SellerAddBannerComponent {
             this.isError = false;
             this.PrdouctExistModalBTN.nativeElement.click();
             this.resetForm();
+            this.btnIndex = -1;
 
             let companyCode = localStorage.getItem('CompanyCode');
             if (companyCode) {
               this.bannerService.getaAllBanner(companyCode).subscribe(
                 (data) => {
                   this.banners = data;
-                  console.log(
-                    'Banners updated after creating a new one:',
-                    this.banners
-                  );
+                  // console.log(
+                  //   'Banners updated after creating a new one:',
+                  //   this.banners
+                  // );
                 },
                 (error) => {
-                  console.error('Error fetching banners:', error);
+                  // console.error('Error fetching banners:', error);
                 }
               );
             }
@@ -170,6 +178,7 @@ export class SellerAddBannerComponent {
             this.isError = true;
             this.PrdouctExistModalBTN.nativeElement.click();
             this.addBannerForm.reset();
+            this.btnIndex = -1;
             // this.resetForm(); // No need to reset the form again here
           },
         });
@@ -177,143 +186,147 @@ export class SellerAddBannerComponent {
 
       if (this.isEditMode) {
         let updateByUser = localStorage.getItem('CompanyCode');
-        console.log(updateByUser, 'CompanyCode...');
+        // console.log(updateByUser, 'CompanyCode...');
 
         formData.append('BannerID', this.currentBanner);
         if (updateByUser !== null) {
           formData.append('UpdatedBy', updateByUser);
         } else {
-          console.error('Update by code not found in localStorage');
+          // console.error('Update by code not found in localStorage');
         }
         formData.append('UpdatedPC', '0.0.0.0');
 
         this.bannerService.updateBanner(formData).subscribe({
           next: (response: any) => {
             // Handle successful response here
-            console.log('Update successful:', response);
+            // console.log('Update successful:', response);
             this.alertMsg = 'Banner updated successfully';
             this.isEditMode = false;
             // Reset the form only for editing mode
             this.addBannerForm.reset();
-              this.PrdouctExistModalBTN.nativeElement.click();
-              this.fetchBanners(); 
+            this.PrdouctExistModalBTN.nativeElement.click();
+            this.btnIndex = -1;
+            this.fetchBanners();
+            
           },
           error: (error: any) => {
             // Handle error response here
-            console.error('Error updating Banner:', error);
+            // console.error('Error updating Banner:', error);
             this.alertMsg = error.error.message || 'Error updating Banner';
             this.isError = true;
             this.isEditMode = false;
-              this.PrdouctExistModalBTN.nativeElement.click();
+            this.PrdouctExistModalBTN.nativeElement.click();
           },
         });
-        console.log(this.isEditMode, 'updating on submit');
+        // console.log(this.isEditMode, 'updating on submit');
+            this.isEditMode = false;
+            this.updateFormValidators();
       }
     }
   }
 
   deleteBanner(banner: any): void {
+    const bannerId = this.currentBanner;
     if (!confirm('Are you sure you want to delete this banner?')) {
       return; // If the user cancels deletion, do nothing
     }
 
-    const bannerId = banner.bannerID;
-    console.log(bannerId);
+    // alert(bannerId);
 
     this.bannerService.deleteBanner(bannerId).subscribe({
       next: (response: any) => {
-        console.log('Banner deleted:', response);
+        // console.log('Banner deleted:', response);
         // Remove the deleted banner from the banners array
         this.banners = this.banners.filter((b) => b.bannerID !== bannerId);
+        // console.log('delete successfully:', response);
+        this.alertMsg = 'Banner deleted successfully';
+        this.isEditMode = false;
+        // Reset the form only for editing mode
+        this.addBannerForm.reset();
+        this.PrdouctExistModalBTN.nativeElement.click();
+        this.fetchBanners();
+            this.isEditMode = false;
+            this.updateFormValidators();
       },
+
       error: (error: any) => {
-        console.error('Error deleting banner:', error);
+        // console.error('Error deleting banner:', error);
         // Optionally, show an error message or perform any other action
       },
     });
-  }
 
-  openEditForm(banner: any): void {
-    // Reset any add banner form related states
-    this.resetForm();
-
-    // Set isEditMode to true to indicate that we are in edit mode
-    this.isEditMode = true;
-
-    // Set the currentBanner to the selected banner's ID
-    this.currentBanner = banner.bannerID;
- this.displayImage(banner.imagepath);
-    // Set the form values based on the selected banner
-    this.addBannerForm.patchValue({
-      bannerDescription: banner.bannerDescription,
-      bannerImage: banner.bannerImage, // Assuming this is the image URL
-    });
-
-    // Open the edit banner modal without jQuery
     const modalElement = document.getElementById('editBannerModalCenter');
-    if (modalElement) {
+    if (modalElement && this.isEditMode) {
       modalElement.classList.add('show');
       modalElement.style.display = 'block';
     }
   }
 
+  openEditForm(banner: any): void {
+    // Reset any add banner form related states
+
+    // Set isEditMode to true to indicate that we are in edit mode
+    this.isEditMode = true;
+    this.updateFormValidators();
+    // Set the currentBanner to the selected banner's ID
+    this.currentBanner = banner.bannerID;
+
+    this.displayImage(banner.bannerImage);
+
+    // console.log(this.imagePathPreview, 'imagepath');
+    // console.log(banner.bannerImage, 'bannerImage');
+      // this.existingImagePath = banner.bannerImage;
+    // Set the form values based on the selected banner
+    this.addBannerForm.patchValue({
+      bannerDescription: banner.bannerDescription,
+      bannerImage: banner.imagePathPreview,
+    });
+    // console.log(this.addBannerForm);
+
+    // Open the edit banner modal without jQuery
+    const modalElement = document.getElementById('editBannerModalCenter');
+    if (modalElement && this.isEditMode) {
+      modalElement.classList.add('show');
+      modalElement.style.display = 'block';
+    }
+  }
+
+  updateFormValidators(): void {
+    // Check if the control exists
+    const productGroupImageControl = this.addBannerForm.get('bannerImage');
+    if (productGroupImageControl) {
+      if (this.isEditMode) {
+        productGroupImageControl.clearValidators();
+      } else {
+        productGroupImageControl.setValidators(Validators.required);
+      }
+      productGroupImageControl.updateValueAndValidity();
+    }
+  }
+
+  closeEditFormWithoutUpdate(): void {
+    // Reset any form-related states
+    this.resetForm();
+
+    // Set isEditMode to false to indicate that we are not in edit mode anymore
+    this.isEditMode = false;
+    this.updateFormValidators();
+  }
+
   displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
+    // console.log('Received imagePath:', imagePath);
 
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
 
-      console.log('Constructed imageUrl:', imageUrl);
+      // console.log('Constructed imageUrl:', imageUrl);
       this.imagePathPreview = imageUrl;
     } else {
       this.imagePathPreview = 'not upload yet';
     }
     this.AddGroupModalCenterG.nativeElement.click();
   }
-
-  editBanner(): void {
-    if (this.isEditMode) {
-      let updateByUser = localStorage.getItem('CompanyCode');
-      console.log(updateByUser, 'CompanyCode...');
-      if (!this.isEditMode || !this.currentBanner) {
-        return; // If not in edit mode or no current banner selected, do nothing
-      }
-
-      if (this.addBannerForm.valid) {
-        const formData = new FormData();
-
-        // Append form data, similar to onSubmit method
-
-        formData.append('BannerID', this.currentBanner);
-        // Other formData appends...
-
-        if (updateByUser !== null) {
-          formData.append('UpdatedBy', updateByUser);
-        } else {
-          console.error('Update by code not found in localStorage');
-        }
-        formData.append('UpdatedPC', '0.0.0.0');
-
-        this.bannerService.updateBanner(formData).subscribe({
-          next: (response: any) => {
-            console.log('Update successful:', response);
-            this.alertMsg = 'Banner updated successfully';
-            this.isEditMode = false;
-            this.addBannerForm.reset();
-            this.fetchBanners(); // Refresh banner list
-          },
-          error: (error: any) => {
-            console.error('Error updating Banner:', error);
-            this.alertMsg = error.error.message || 'Error updating Banner';
-            this.isError = true;
-            this.isEditMode = false;
-          },
-        });
-      } else {
-        console.log('Form is not valid');
-      }
-    }
-  }
 }
+
 
 
