@@ -13,6 +13,7 @@ export class UnitService {
   insertUnitURL = `${this.URL}/api/Unit/AddUnit`;
   updateActiveStatusByUnitIdURL = `${this.URL}/api/Unit/UpdateUnitByID`;
   updateActiveStatusByUnitsIdURL = `${this.URL}/api/Unit/UpdateUnitsByID?unitIDs=`;
+
   getUnitGroups(status: any) {
     //console.log(this.getUnitURL, status);
     return this.http.get(`${this.getUnitURL}?isActive=${status}`);

@@ -306,6 +306,7 @@ export class UnitListComponent {
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     console.log('group list are', this.groupList);
+
     this.groupList.forEach((product: { isSelected: boolean; unitId: any }) => {
       product.isSelected = this.selectAll;
 
