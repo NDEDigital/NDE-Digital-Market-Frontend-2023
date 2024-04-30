@@ -1,12 +1,17 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CartItem } from '../Pages/cart-added-product/cart-item.interface';
-
+import { API_URL } from '../config';
 @Injectable({
   providedIn: 'root',
 })
 export class CartDataService {
-  constructor() {}
-
+  URL = API_URL;
+  createAddCardDataByBuyerURL = `${this.URL}/api/AddToCard/AddToCardData`;
+  getAddToCardDataByBuyerURL = `${this.URL}/api/AddToCard/GetAddToCardData`;
+  deleteCartDataByBuyerURL = `${this.URL}/api/AddToCard/DeleteAddToCard`;
+  constructor(private http: HttpClient) {}
   private cartCount: number = 0;
   private cartDataDetail = new Map<string, CartItem>();
   private cartDataQt = new Map<string, number>();
@@ -14,7 +19,15 @@ export class CartDataService {
   private totalPriceWithDelivery = 0;
   // private saveLaterDataDetail = new Map<string, CartItem>();
   // private saveLaterDataQt = new Map<string, number>();
-
+  createAddCardDataByByer(addToCart: any) {
+    return this.http.post(this.createAddCardDataByBuyerURL, addToCart);
+  }
+  getAddToCardDataByBuyer(userID: string) {
+    return this.http.get(`${this.getAddToCardDataByBuyerURL}/${userID}`);
+  }
+  deleteCartDataByBuyer(productID: any) {
+    return this.http.delete(`${this.deleteCartDataByBuyerURL}/${productID}`);
+  }
   initializeAndLoadData() {
     let localData = localStorage.getItem('cartDataDetail');
     let localDataQt = localStorage.getItem('cartDataQt');

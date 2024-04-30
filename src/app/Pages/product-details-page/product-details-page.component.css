@@ -35,7 +35,7 @@ ul.special-list {
 .container ul {
   list-style-type: circle;
 }
- .productDetailsData .list-group-item {
+.productDetailsData .list-group-item {
   list-style-type: circle;
 }
 /* product details */
@@ -47,11 +47,10 @@ ul.special-list {
 }
 
 .totalPrice img {
-
   width: 1.3rem;
-  margin-bottom: .2rem;
+  margin-bottom: 0.2rem;
 }
-.discount-percent{
+.discount-percent {
   font-size: 1.5rem;
   font-weight: 300;
 }
@@ -194,10 +193,9 @@ ul.special-list {
   background-color: #efefe9;
   margin-right: 0.7rem;
 }
-.qtyInput{
+.qtyInput {
   width: 5.5rem;
-  padding-left: .2rem;
-
+  padding-left: 0.2rem;
 }
 .reviewImage img {
   width: 7rem;
@@ -285,15 +283,54 @@ ul.special-list {
 .review-bg {
   background-color: var(--color-primary);
 }
-.quantity-txt{
-   width: 40px;
-   height: 30px;
-   font-size: 15px;
+.quantity-txt {
+  width: 40px;
+  height: 30px;
+  font-size: 15px;
 }
 /* sidebar  */
 .right-sidebar {
-  width: 120px;
+  width: 11rem;
+  margin-top: 4.25rem;
+  /* background-color: #e7e7e7; */
 }
 .go-truck {
-  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  font-size: 12px;
+  background-color: #ffd700;
+}
+.cart-img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 15px;
+}
+.product-name {
+  font-size: 0.8rem;
+  padding-left: 1rem;
+  color: #009ed8;
+}
+.product-quantitiy {
+  /* width: 5rem; */
+  font-size: 0.8rem;
+  margin-top: -1rem;
+  margin-left: auto;
+  /* margin-bottom: 100px; */
+}
+.product-Total {
+  margin-left: auto;
+}
+.delete-icon {
+  padding-left: 0.7rem;
+  margin-top: 0.25rem;
+}
+.product-price {
+  font-size: 0.8rem;
+  padding-left: 1rem;
+}
+.product-name-container {
+  padding-top: 1rem;
+}
+.product-row {
+  background-color: #e7e7e7 !important;
 }

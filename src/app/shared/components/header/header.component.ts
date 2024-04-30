@@ -8,6 +8,8 @@ import {
   ViewChild,
   SimpleChanges,
 } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
 import {
   AbstractControl,
   FormControl,
@@ -31,6 +33,7 @@ import { PROJECT_TITLE } from 'src/app/config';
 export class HeaderComponent {
   imgSrc: string = '';
   pForm: FormGroup;
+  cartLength: number = 0;
   isLoggedIn = false;
   user$ = this.sharedService.user$;
   errorMessage: any;
@@ -43,6 +46,8 @@ export class HeaderComponent {
   isCategoriesVisible = false;
   goods: any;
   products = new Map();
+  buyerValue: any;
+  cardData: any;
   @ViewChild('closeButton')
   closeButton!: ElementRef;
   // @ViewChild(SearchResultComponent, { static: true })
@@ -60,7 +65,8 @@ export class HeaderComponent {
     private userDataService: UserDataService,
     private router: Router,
     private goodsData: GoodsDataService,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private http: HttpClient
   ) {
     //this.isBuyer = JSON.parse(localStorage.getItem('isB') || 'false');
     const role = localStorage.getItem('role');
@@ -167,6 +173,7 @@ export class HeaderComponent {
         }
       }
     });
+    this.cartLength = this.cardData.length;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -209,6 +216,22 @@ export class HeaderComponent {
       // Check if the user has scrolled past the nav-belt position
       this.isCategoriesVisible = window.scrollY > navBeltPosition;
     }
+  }
+  getAddToCardData() {
+    this.buyerValue = localStorage.getItem('code');
+    this.cartDataService.getAddToCardDataByBuyer(this.buyerValue).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cardData = response.result;
+        this.cartLength = this.cardData.length;
+        console.log('new card Data', response.result);
+
+        console.log('new card Data', this.cardData.size);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
   }
   // Close modal bootstrap
   closeModal() {

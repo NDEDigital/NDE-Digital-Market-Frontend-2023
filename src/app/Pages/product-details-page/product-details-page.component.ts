@@ -6,6 +6,7 @@ import { ReviewRatingsService } from 'src/app/services/review-ratings.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { CartItem } from '../cart-added-product/cart-item.interface';
 
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 declare var bootstrap: any;
 @Component({
@@ -28,12 +29,17 @@ export class ProductDetailsPageComponent {
   emptyStarArray: any = [];
   isSeller = false;
   isBuyer = false;
+  buyerValue: any;
+  cardTotalAmount = 0;
+  cardData: any;
   // Add cart related data
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
   popUpCount: number = 0;
   totalPrice = 0;
   cartCount: number = 0;
+
+  cartLength: number = 0;
   productIdPa: any = 0;
   companyCodePa: string = '';
   reviewData: any = [];
@@ -48,7 +54,6 @@ export class ProductDetailsPageComponent {
   errorMsg = false;
   reviewUpdateData: any;
   goods: any;
-  // Convert the object into an array of objects
   imageArray = Array.from({ length: Math.ceil(4) }, (_, index) => index + 1);
 
   @ViewChild('exampleModal') modalElement!: ElementRef;
@@ -68,6 +73,8 @@ export class ProductDetailsPageComponent {
     private reviewService: ReviewRatingsService,
     private cartDataService: CartDataService,
     private route: ActivatedRoute,
+
+    private http: HttpClient,
     private WishlistService: WishlistService
   ) {
     this.reviewForm = new FormGroup({
@@ -103,6 +110,9 @@ export class ProductDetailsPageComponent {
     // this.detailsData = this.goodsData.getDetaileData();
     // this.cartDataService.clearCartData();
     this.cartDataService.initializeAndLoadData();
+
+    this.getAddToCardData();
+
     this.setServiceData();
     const productData = sessionStorage.getItem('productData');
     // if (productData) {
@@ -116,7 +126,6 @@ export class ProductDetailsPageComponent {
     console.log('company code is', this.companyCodePa);
 
     this.checkWishlistStatus();
-
     // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
     this.service
       .UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
@@ -419,16 +428,77 @@ export class ProductDetailsPageComponent {
 
   setServiceData() {
     this.cartCount = this.cartDataService.getCartCount();
+    // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
+    this.getAddToCardData();
+    console.log(this.cartDataDetail, 'card data');
     this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
+
+    console.log(this.cartDataDetail, 'card data');
     this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
     this.totalPrice = this.cartDataService.getTotalPrice();
   }
-  setCart(entry: any, inputQt: string) {
-    //console.log(entry.approveSalesQty, 'approveSalesQty');
+  getAddToCardData() {
+    this.buyerValue = localStorage.getItem('code');
+    this.cartDataService.getAddToCardDataByBuyer(this.buyerValue).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cardData = response.result;
+        this.cartLength = this.cardData.length;
+        this.cardTotalAmount = 0;
+        this.cardData.forEach((element: any) => {
+          this.cardTotalAmount += parseFloat(element.totalPrice);
+        });
+        console.log('new card Data', response.result);
 
+        console.log('new card Data', this.cardData.size);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
+  setCart(entry: any, inputQt: string) {
+    console.log(entry, 'approveSalesQty');
+    this.buyerValue = localStorage.getItem('code');
     if (entry.price === '' || entry.price === undefined) {
       entry.price = '0';
     }
+    const formData = new FormData();
+    const addToCart = {
+      companyCode: entry.companyCode,
+      productID: entry.goodsId,
+      productGroupID: entry.groupCode,
+      unitID: entry.unitId,
+      productCardQuantity: inputQt,
+      addedDate: '',
+      addedBy: 'user',
+      addedPC: '0.0.0.0',
+    };
+
+    formData.append('buyerUserID', this.buyerValue);
+    formData.append('companyCode', entry.companyCode);
+    formData.append('productID', entry.goodsId);
+    formData.append('productGroupID', entry.groupCode);
+    formData.append('unitID', entry.unitId);
+    formData.append('productCardQuantity', inputQt);
+    formData.append('addedDate', '');
+    formData.append('addedBy', 'user');
+    formData.append('addedPC', '0.0.0.0');
+    formData.append('updatedDate', '');
+    formData.append('updatedBy', 'user');
+    formData.append('updatedPC', '0.0.0.0');
+
+    this.cartDataService.createAddCardDataByByer(formData).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddToCardData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    console.log('updated card value : ', addToCart);
+
     let groupCodeIdSellerId =
       entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
@@ -474,7 +544,17 @@ export class ProductDetailsPageComponent {
     }
   }
   deleteFromSideCart(entry: any) {
-    this.cartDataService.deleteCartData(entry.key);
+    console.log(entry, 'ashce');
+    this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddToCardData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    this.cartDataService.deleteCartData(entry.id);
     this.setServiceData();
   }
 }
