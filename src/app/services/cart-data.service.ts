@@ -16,7 +16,6 @@ export class CartDataService {
   // private saveLaterDataQt = new Map<string, number>();
 
   initializeAndLoadData() {
-    
     let localData = localStorage.getItem('cartDataDetail');
     let localDataQt = localStorage.getItem('cartDataQt');
     let localTotalPrice = localStorage.getItem('totalPrice');
@@ -94,11 +93,10 @@ export class CartDataService {
   }
 
   setPrice(price: number, qt: number, key: string) {
-    
     // console.log(price ,"keyy",  qt)
     const count = this.cartDataQt.get(key);
     // console.log("counter",count," --",this.totalPrice);
-    
+
     if (this.cartDataQt.has(key) && count !== undefined) {
       this.totalPrice -= count * price;
     }
@@ -106,37 +104,33 @@ export class CartDataService {
     if (this.totalPrice < 0) {
       this.totalPrice = 0;
     }
-// console.log("totoal price",this.totalPrice);
+    // console.log("totoal price",this.totalPrice);
     localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
   }
 
   getCartData() {
-   console.log("cardData is a",this.cartDataDetail);
-   
+    //console.log("cardData is a",this.cartDataDetail);
+
     return {
       cartDataDetail: this.cartDataDetail,
       cartDataQt: this.cartDataQt,
     };
-    
   }
 
   getCartCount() {
-
-
     return this.cartCount;
-
-
   }
   getTotalPrice() {
     return this.totalPrice;
   }
 
   setCartData(obj: any, qt: any) {
-    let groupCodeIdSellerId = obj.groupCode + '&' + obj.goodsId + '&' + obj.sellerCode;
+    let groupCodeIdSellerId =
+      obj.groupCode + '&' + obj.goodsId + '&' + obj.sellerCode;
     this.cartDataDetail.set(groupCodeIdSellerId, obj);
 
     this.cartDataQt.set(groupCodeIdSellerId, qt);
-// console.log("entry ta holoddd",obj);
+    // console.log("entry ta holoddd",obj);
     // Convert Map to an array of its entries and then stringify
     localStorage.setItem(
       'cartDataDetail',
@@ -153,11 +147,10 @@ export class CartDataService {
       this.initializeAndLoadData();
       const objData = this.cartDataDetail.get(key);
       const objQt = this.cartDataQt.get(key);
-    
+
       if (objData !== undefined && objQt !== undefined) {
         this.totalPrice -= objQt * objData.netPrice;
       }
-     
 
       this.cartCount--;
       this.cartDataDetail.delete(key);

@@ -106,14 +106,14 @@ export class UserTokenInterceptor implements HttpInterceptor {
     return next.handle(modifiedRequest).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
-          console.log('Came for renew token');
+          //console.log('Came for renew token');
           // Renew the token or perform other actions as needed
           return this.user.RenewToken().pipe(
             switchMap((response: any) => {
               if (response.tokenRefreshed) {
-                console.log(
-                  'Token refreshed successfully. Retrying the original request.'
-                );
+                // console.log(
+                //   'Token refreshed successfully. Retrying the original request.'
+                // );
                 // If the token renewal is successful, retry the original request
                 const updatedRequest = request.clone({
                   withCredentials: true,
@@ -121,7 +121,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
                 // Retry the updated request
                 return next.handle(updatedRequest);
               } else {
-                console.log('Token refresh failed.');
+                // console.log('Token refresh failed.');
                 // If token refresh fails, log out the user
                 this.logout();
                 return throwError('Token refresh failed');
@@ -129,7 +129,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
             })
           );
         } else if (err instanceof HttpErrorResponse && err.status === 403) {
-          console.log('Forbidden access detected.');
+          // console.log('Forbidden access detected.');
           this.logout();
           // Handle forbidden access, e.g., redirect to a forbidden page or show an access denied message
           // You might want to perform additional actions based on your requirements
@@ -141,7 +141,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
   }
 
   logout() {
-    console.log('Logging out...');
+    // console.log('Logging out...');
     this.sharedService.updateLoginStatus(false, null, null);
     localStorage.clear();
     sessionStorage.clear();

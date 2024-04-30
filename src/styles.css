@@ -120,7 +120,7 @@ img {
   border-radius: 0.2rem;
   transition: background-color 0.3s, box-shadow 0.3s;
 
-  width: 5rem; /* Initial fixed width */
+  width: 6rem; /* Initial fixed width */
   height: 2.5rem; /* Initial fixed height */
 }
 

@@ -10,32 +10,28 @@
       <div class="products ms-5 ps-5">
         <h2 class="top-seller-heading">Recommended Product</h2>
         <div class="line"></div>
-        <div class="row flex-nowrap overflow-auto">
+        <div class="d-flex col flex-nowrap overflow-auto">
           <div class="item" *ngFor="let client of getTopSellerData">
             <div class="card" (click)="productCardClick(client)">
-              <div class="image-container">
+              <div class="card-image">
                 <img
-                  class="card-img-top"
                   [src]="
                     client.imagePath.substring(
                       client.imagePath.indexOf('assets')
                     )
                   "
+                  class="card-img-top"
                   alt="{{ client.productName }}"
                 />
               </div>
               <div class="card-body">
-                <span class="card-title">
-                  <strong>Brand: </strong>{{ client.companyName }}
-                </span>
+                <span> <strong>Brand: </strong>{{ client.companyName }} </span>
                 <br />
-                <span class="card-text">
+                <span>
                   <strong>Product: </strong>{{ client.productName }}
                 </span>
                 <br />
-                <span class="card-text">
-                  <strong>Price: </strong>৳{{ client.totalPrice }}
-                </span>
+                <span> <strong>Price: </strong>৳{{ client.totalPrice }} </span>
               </div>
             </div>
           </div>

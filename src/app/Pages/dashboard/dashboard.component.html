@@ -279,6 +279,16 @@
     <section class="sellerPermission" *ngIf="SidebarIndex === 6">
       <app-seller-permission *ngIf="userId"></app-seller-permission>
     </section>
+    <section class="addBanner" *ngIf="SidebarIndex === 14">
+      <app-seller-add-banner *ngIf="userId"></app-seller-add-banner>
+    </section>
+
+    <section class="bannerApproval" *ngIf="SidebarIndex === 15">
+      <app-banner-approval *ngIf="userId"></app-banner-approval>
+    </section>
+    <section class="brands" *ngIf="SidebarIndex === 16">
+      <app-brands *ngIf="userId"></app-brands>
+    </section>
   </div>
 
   <div *ngIf="userPermission.length === 0" class="bg-white pt-5">

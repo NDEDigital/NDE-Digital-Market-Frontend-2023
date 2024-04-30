@@ -187,7 +187,7 @@ export class OrderApiService {
   //   });
   // }
   getOrdersForBuyer(userid: any, status: any) {
-    console.log("userId is",userid)
+    //console.log("userId is",userid)
     //console.log(buyerCode, PageNumber, rowCount, status);
     if (status === '') {
       return this.http.get(this.getOrdersForBuyerURL, {
@@ -205,7 +205,7 @@ export class OrderApiService {
     }
   }
   getOrdersForSeller(CompanyCode: any, status: any) {
-    console.log(status, CompanyCode);
+    //console.log(status, CompanyCode);
 
     //console.log(buyerCode, PageNumber, rowCount, status);
     if (status === '') {
