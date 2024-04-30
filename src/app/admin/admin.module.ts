@@ -12,6 +12,7 @@ import { CompanyApprovalComponent } from './components/company-approval/company-
 import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 import { SharedModule } from '../shared/shared.module';
+import { BrandsComponent } from './components/brands/brands.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +29,7 @@ import { SharedModule } from '../shared/shared.module';
     CompanyApprovalComponent,
     ProductApprovalComponent,
     AdminOrderComponent,
+    BrandsComponent,
   ],
   exports: [
     UnitListComponent,
@@ -37,6 +39,7 @@ import { SharedModule } from '../shared/shared.module';
     CompanyApprovalComponent,
     ProductApprovalComponent,
     AdminOrderComponent,
+    BrandsComponent,
   ],
 })
 export class AdminModule {}
