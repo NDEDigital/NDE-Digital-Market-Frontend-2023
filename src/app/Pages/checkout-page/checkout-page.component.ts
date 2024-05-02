@@ -152,7 +152,7 @@ export class CheckoutPageComponent {
       const detailData: OrderDetail = {
         companyCode: entry.companyCode,
         productId: parseInt(entry.productID),
-        qty: this.cartData.length,
+        qty: entry.productCartQuantity,
         price: entry.price,
         deliveryCharge: 100,
         deliveryDate: this.getDeliveryDateAndTime(),
