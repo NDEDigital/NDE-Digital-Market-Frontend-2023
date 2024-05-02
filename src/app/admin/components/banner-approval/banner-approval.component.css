@@ -60,11 +60,17 @@
 .modal-heading {
   background-color: var(--color-primary);
 }
-.headerbtns .custom-btn {
+
+
+
+.headerbtns .custom-btns {
   background: #f0faff;
   color: rgb(3, 20, 43);
   font-weight: 500;
   border: 1px solid var(--color-primary-dark);
+
+
+  
 }
 
 .headerbtns .btn-active {
@@ -78,10 +84,10 @@
   background-color: var(--color-primary-dark) !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   color: #ebf8ff !important;
-  width: 6.5vw;
+  width: 8.5vw;
 }
 .headerbtns .new-btn {
-  width: 6.5vw;
+  width: 8.5vw;
 }
 .btn-active.active {
   background-color: #78ac8b !important ;
