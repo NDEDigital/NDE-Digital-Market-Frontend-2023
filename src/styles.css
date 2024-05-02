@@ -143,20 +143,35 @@ img {
 @media (max-width: 1700px) {
   html {
     font-size: 85%;
+    width: 100%;
   }
+}
+@media (min-width: 1400px) {
+html{
+  width: 100%;
+}
 }
 @media (max-width: 998px) {
   html {
     font-size: 65%;
+   
   }
 }
 @media (max-width: 768px) {
   html {
     font-size: 55%;
+ 
   }
 }
 @media (max-width: 576px) {
   html {
     font-size: 45%;
+
   }
+}
+@media (min-width: 1400px){
+  
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1477px;
+}
 }

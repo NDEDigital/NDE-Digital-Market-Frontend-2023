@@ -1,3 +1,7 @@
+.container {
+  max-width: 300rem;
+}
+
 .head {
   background-color: var(--color-primary);
   height: 100px;
@@ -33,7 +37,6 @@ h2 {
   color: var(--color-primary);
   text-shadow: 2px 2px 2px rgb(34, 77, 85);
 }
-
 
 label {
   display: block;

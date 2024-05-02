@@ -1,3 +1,7 @@
+.container{
+  max-width: 300rem;
+  overflow-x: auto;
+}
 
 .head {
   background-color: var(--color-primary);
@@ -270,10 +274,6 @@ select {
 .img-preview {
   width: 8rem;
   height: 5rem;
-}
-.red-button {
-  background-color: red;
-  color: white;
 }
 
 
