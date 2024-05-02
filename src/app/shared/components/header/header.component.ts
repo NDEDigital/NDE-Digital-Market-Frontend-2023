@@ -47,7 +47,7 @@ export class HeaderComponent {
   goods: any;
   products = new Map();
   buyerValue: any;
-  cardData: any;
+  cartData: any;
   @ViewChild('closeButton')
   closeButton!: ElementRef;
   // @ViewChild(SearchResultComponent, { static: true })
@@ -164,7 +164,7 @@ export class HeaderComponent {
       this.cartCountLocal = JSON.parse(count);
     }
     this.loadCategories();
-    this.cartCount = this.cartDataService.getCartCount();
+    // this.cartCount = this.cartDataService.getCartCount();
     this.activeEntry = localStorage.getItem('activeEntry') || '';
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -173,13 +173,16 @@ export class HeaderComponent {
         }
       }
     });
-    this.cartLength = this.cardData.length;
+    this.getAddTocartData();
+    this.cartLength = this.cartData.length;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['cartCount'] && !changes['cartCount'].firstChange) {
-      this.cartCountLocal = changes['cartCount'].currentValue;
-    }
+    // if (changes['cartCount'] && !changes['cartCount'].firstChange) {
+    //   this.cartCountLocal = changes['cartCount'].currentValue;
+    // }
+    this.cartLength = this.cartData.length;
+    console.log('cart length', this.cartLength);
   }
 
   setSelectData(groupName: string, groupCode: string) {
@@ -217,22 +220,23 @@ export class HeaderComponent {
       this.isCategoriesVisible = window.scrollY > navBeltPosition;
     }
   }
-  getAddToCardData() {
+  getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
-    this.cartDataService.getAddToCardDataByBuyer(this.buyerValue).subscribe({
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
         console.log(response.result);
-        this.cardData = response.result;
-        this.cartLength = this.cardData.length;
-        console.log('new card Data', response.result);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        console.log('new cart Data', response.result);
 
-        console.log('new card Data', this.cardData.size);
+        console.log('new cart Data', this.cartLength);
       },
       error: (error: any) => {
         console.log(error);
       },
     });
   }
+
   // Close modal bootstrap
   closeModal() {
     this.closeButton.nativeElement.click();

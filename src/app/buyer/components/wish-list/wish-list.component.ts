@@ -22,7 +22,7 @@ import { GoodsDataService } from 'src/app/services/goods-data.service';
 @Component({
   selector: 'app-wish-list',
   templateUrl: './wish-list.component.html',
-  styleUrls: ['./wish-list.component.css']
+  styleUrls: ['./wish-list.component.css'],
 })
 export class WishListComponent {
   @ViewChild('closeModalButton') closeModalButton!: ElementRef;
@@ -44,7 +44,7 @@ export class WishListComponent {
   ReturnedCount = 0;
   allCount = 0;
   buyerOrder: any = [];
-  wishList:any=[];
+  wishList: any = [];
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
   popUpCount: number = 0;
@@ -73,6 +73,11 @@ export class WishListComponent {
   // stars: HTMLElement[] = [];
   currentOrderDetailId: number = 0;
   buyerId: number = 0;
+  buyerValue: any;
+  cartTotalAmount = 0;
+  cartData: any;
+
+  cartLength: number = 0;
   orderDetailDescription: any = {
     Approved: 'Order is waiting for Seller Approval',
     Processing: 'Processing product',
@@ -89,7 +94,7 @@ export class WishListComponent {
     private reviewService: ReviewRatingsService,
     private returnService: ProductReturnServiceService,
     private WishlistService: WishlistService,
-    private cartDataService: CartDataService,
+    private cartDataService: CartDataService
   ) {
     this.reviewForm = new FormGroup({
       rating: new FormControl(Validators.required),
@@ -125,62 +130,102 @@ export class WishListComponent {
 
   ngOnInit() {
     this.loadData();
-    this.cartDataService.initializeAndLoadData();
+    // this.cartDataService.initializeAndLoadData();
     this.setServiceData();
-
-
+    this.getAddTocartData();
   }
+  getAddTocartData() {
+    this.buyerValue = localStorage.getItem('code');
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        this.cartTotalAmount = 0;
+        this.cartData.forEach((element: any) => {
+          this.cartTotalAmount += parseFloat(element.totalPrice);
+        });
+        console.log('new cart Data', response.result);
 
+        console.log('new cart Data', this.cartData.length);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
   setServiceData() {
-    this.cartCount = this.cartDataService.getCartCount();
-    this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
-    this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
-    this.totalPrice = this.cartDataService.getTotalPrice();
-    console.log("cartCount is:",this.cartCount,"cardataDetails:",this.cartDataDetail,"cartDataQt",this.cartDataQt,"totalPrice",this.totalPrice);
-    
-
+    // this.cartCount = this.cartDataService.getCartCount();
+    // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
+    // this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
+    // this.totalPrice = this.cartDataService.getTotalPrice();
+    console.log(
+      'cartCount is:',
+      this.cartCount,
+      'cartataDetails:',
+      this.cartDataDetail,
+      'cartDataQt',
+      this.cartDataQt,
+      'totalPrice',
+      this.totalPrice
+    );
   }
 
   setCart(entry: any, inputQt: string) {
-
     //console.log(entry.approveSalesQty, 'approveSalesQty');
 
     if (entry.price === '' || entry.price === undefined) {
       entry.price = '0';
     }
+    const formData = new FormData();
+    const addToCart = {
+      companyCode: entry.companyCode,
+      productID: entry.goodsId,
+      productGroupID: entry.groupCode,
+      unitID: entry.unitId,
+      productCartQuantity: inputQt,
+      addedDate: '',
+      addedBy: 'user',
+      addedPC: '0.0.0.0',
+    };
+
+    formData.append('buyerUserID', this.buyerValue);
+    formData.append('companyCode', entry.companyCode);
+    formData.append('productID', entry.goodsId);
+    formData.append('productGroupID', entry.groupCode);
+    formData.append('unitID', entry.unitId);
+    formData.append('productCartQuantity', inputQt);
+    formData.append('addedDate', '');
+    formData.append('addedBy', 'user');
+    formData.append('addedPC', '0.0.0.0');
+    formData.append('updatedDate', '');
+    formData.append('updatedBy', 'user');
+    formData.append('updatedPC', '0.0.0.0');
+
+    this.cartDataService.createAddCartDataByByer(formData).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    console.log('updated cart value : ', addToCart);
+
     let groupCodeIdSellerId =
       entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
-    this.cartDataService.setCartCount(groupCodeIdSellerId);
-    this.cartDataService.setPrice(
-      entry.netPrice,
-      parseInt(inputQt),
-      groupCodeIdSellerId
-    );
-    this.cartDataService.setCartData(entry, inputQt);
+    // this.cartDataService.setCartCount(groupCodeIdSellerId);
+    // this.cartDataService.setPrice(
+    //   entry.netPrice,
+    //   parseInt(inputQt),
+    //   groupCodeIdSellerId
+    // );
+    // this.cartDataService.setCartData(entry, inputQt);
     this.setServiceData();
     this.popUpCount = parseInt(inputQt);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   setDetail(detail: any) {
     this.detailData = detail;
@@ -189,28 +234,28 @@ export class WishListComponent {
     //console.log(' details data888888888888888888888888888888 ', this.detailData);
   }
   goToDetail(detail: any) {
-   console.log("details is",detail);
-   
-    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+    console.log('details is', detail);
+
+    window.open(
+      '/productDetails?productId=' +
+        btoa(detail.goodsId) +
+        '&companyCode=' +
+        btoa(detail.companyCode),
+      '_blank'
+    );
   }
 
-
-
-
-
- 
-
   loadData() {
-    console.log("hello");
-    
-    
+    console.log('hello');
+
     const userCode = localStorage.getItem('code');
 
     this.WishlistService.getWishList(userCode).subscribe({
       next: (goods: any) => {
-        console.log("wishlist", goods);
-    
-        this.wishList = goods.map((good: any) => { // Use map instead of forEach
+        console.log('wishlist', goods);
+
+        this.wishList = goods.map((good: any) => {
+          // Use map instead of forEach
           return {
             companyCode: good.companyCode,
             companyName: good.companyName,
@@ -230,14 +275,13 @@ export class WishListComponent {
             netPrice: good.totalPrice,
           };
         });
-    this.loading=false;
-        console.log("the data is", this.wishList);
+        this.loading = false;
+        console.log('the data is', this.wishList);
       },
       error: (error: any) => {
-        console.error("Error fetching wishlist:", error);
-      }
+        console.error('Error fetching wishlist:', error);
+      },
     });
-    
   }
 
   getData(status: string) {
@@ -279,13 +323,18 @@ export class WishListComponent {
   //   this.loadData();
   // }
 
-
   deleteFromSideCart(entry: any) {
-    this.cartDataService.deleteCartData(entry.key);
+    this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    // this.cartDataService.deleteCartData(entry.id);
     this.setServiceData();
   }
   // added by marufa
-
-
-
 }

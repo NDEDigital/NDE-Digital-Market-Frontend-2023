@@ -238,16 +238,16 @@ export class SellerOrdersComponent {
     if (uidS) uid = parseInt(uidS, 10);
     let status = 'status';
     let detailIDs = '';
-    // if (this.btnIndex === -1) {
-    //   if (stat === 'Rejected') {
-    //     status = 'Rejected';
-    //     this.alertMsg = `Order status is ${status}!`;
-    //   } else {
-    //     status = 'Processing';
-    //     this.alertMsg = `Order status is ${status}!`;
-    //     this.productStatusModalBTN.nativeElement.click();
-    //   }
-    // }
+    if (this.btnIndex === -1) {
+      if (stat === 'Rejected') {
+        status = 'Rejected';
+        this.alertMsg = `Order status is ${status}!`;
+      } else {
+        status = 'Processing';
+        this.alertMsg = `Order status is ${status}!`;
+        this.productStatusModalBTN.nativeElement.click();
+      }
+    }
     if (this.btnIndex === 3) {
       this.productStatusModalBTN.nativeElement.click();
       status = 'ReadyToShip';

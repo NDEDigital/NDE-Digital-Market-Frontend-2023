@@ -1,7 +1,7 @@
-<app-header [cartCount]="cardData.length"></app-header>
+<app-header [cartCount]="cartData.length"></app-header>
 
 <div
-  [ngClass]="{ show: cardData.length > 0 }"
+  [ngClass]="{ show: cartData.length > 0 }"
   class="offcanvas right-sidebar offcanvas-end"
   data-bs-scroll="true"
   data-bs-backdrop="false"
@@ -14,12 +14,12 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div> -->
 
-  <div class="offcanvas-body border" *ngIf="cardData && cardData.length > 0">
+  <div class="offcanvas-body border" *ngIf="cartData && cartData.length > 0">
     <div class="d-flex flex-column align-items-center pb-2">
       <h6 class="offcanvas-title text-center" id="offcanvasScrollingLabel">
         Subtotal
       </h6>
-      <h5 class="text-center">৳{{ cardTotalAmount }}</h5>
+      <h5 class="text-center">৳{{ cartTotalAmount }}</h5>
       <button
         class="btn border border-1 rounded-4 w-100 go-truck"
         routerLink="/cartView"
@@ -30,7 +30,7 @@
 
     <div
       class="border-1 border-secondary border-bottom pb-2"
-      *ngFor="let entry of cardData"
+      *ngFor="let entry of cartData"
     >
       <div class="d-flex flex-row align-items-center">
         <div>
@@ -60,7 +60,7 @@
             <span class="money-icon">৳</span>{{ entry.price }}
           </p>
           <div class="product-quantitiy d-flex flex-row">
-            <p class="fw-bold">X {{ entry.productCardQuantity }}</p>
+            <p class="fw-bold">X {{ entry.productCartQuantity }}</p>
             <svg
               (click)="deleteFromSideCart(entry)"
               class="delete-icon"
@@ -78,7 +78,7 @@
       </div>
 
       <!-- <div class="d-flex justify-content-between align-items-center px-1">
-        <span class="fw-bold">Qty: {{ entry.productCardQuantity }}</span>
+        <span class="fw-bold">Qty: {{ entry.productCartQuantity }}</span>
         <svg
           (click)="deleteFromSideCart(entry)"
           class="delete-icon"
@@ -664,10 +664,10 @@
     </div>
 
     <div class="d-flex justify-content-center">
-      <div class="card m-3" style="width: 18rem">
+      <div class="cart m-3" style="width: 18rem">
         <div class="d-flex justify-content-center p-2">
           <img
-            class="cardImage"
+            class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -679,8 +679,8 @@
           />
         </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{{ detailsData.goodsName }}</h5>
+        <div class="cart-body">
+          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
           <div class="star">
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
@@ -695,10 +695,10 @@
         </div>
       </div>
 
-      <div class="card m-3" style="width: 18rem">
+      <div class="cart m-3" style="width: 18rem">
         <div class="d-flex justify-content-center p-2">
           <img
-            class="cardImage"
+            class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -710,8 +710,8 @@
           />
         </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{{ detailsData.goodsName }}</h5>
+        <div class="cart-body">
+          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
           <div class="star">
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
@@ -726,10 +726,10 @@
         </div>
       </div>
 
-      <div class="card m-3" style="width: 18rem">
+      <div class="cart m-3" style="width: 18rem">
         <div class="d-flex justify-content-center p-2">
           <img
-            class="cardImage"
+            class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -741,8 +741,8 @@
           />
         </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{{ detailsData.goodsName }}</h5>
+        <div class="cart-body">
+          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
           <div class="star">
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
@@ -756,11 +756,11 @@
           </div>
         </div>
       </div>
-      <div class="card m-3" style="width: 18rem">
+      <div class="cart m-3" style="width: 18rem">
         <div class="d-flex justify-content-center p-2">
 
           <img
-            class="cardImage"
+            class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -772,8 +772,8 @@
           />
         </div>
 
-        <div class="card-body">
-          <h5 class="card-title">{{ detailsData.goodsName }}</h5>
+        <div class="cart-body">
+          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
           <div class="star">
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>

@@ -22,8 +22,8 @@ export class CartAddedProductComponent {
   totalPrice: number = 0;
   showUpBtn: any;
   buyerValue: any;
-  cardTotalAmount = 0;
-  cardData: any;
+  cartTotalAmount = 0;
+  cartData: any;
 
   cartLength: number = 0;
   constructor(
@@ -39,34 +39,34 @@ export class CartAddedProductComponent {
   }
 
   fetchCartData(): void {
-    this.getAddToCardData();
+    this.getAddTocartData();
     // this.cartDataService.clearCartData();
-    this.cartDataService.initializeAndLoadData();
-    const cartData = this.cartDataService.getCartData();
-    this.cartDataDetail = cartData.cartDataDetail;
-    console.log;
-    this.cartDataQt = cartData.cartDataQt;
-    // console.log("cartDataQt",this.cartDataQt);
-    this.cartCount = this.cartDataService.getCartCount();
+    // this.cartDataService.initializeAndLoadData();
+    // const cartData = this.cartDataService.getCartData();
+    // this.cartDataDetail = cartData.cartDataDetail;
+    // console.log;
+    // this.cartDataQt = cartData.cartDataQt;
+    // // console.log("cartDataQt",this.cartDataQt);
+    // this.cartCount = this.cartDataService.getCartCount();
 
-    this.totalPrice = this.cartDataService.getTotalPrice();
+    // this.totalPrice = this.cartDataService.getTotalPrice();
     //console.log(this.cartCount);
   }
 
-  getAddToCardData() {
+  getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
-    this.cartDataService.getAddToCardDataByBuyer(this.buyerValue).subscribe({
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
         console.log(response.result);
-        this.cardData = response.result;
-        this.cartLength = this.cardData.length;
-        this.cardTotalAmount = 0;
-        this.cardData.forEach((element: any) => {
-          this.cardTotalAmount += parseFloat(element.totalPrice);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        this.cartTotalAmount = 0;
+        this.cartData.forEach((element: any) => {
+          this.cartTotalAmount += parseFloat(element.totalPrice);
         });
-        console.log('new card Data', response.result);
+        console.log('new cart Data', response.result);
 
-        console.log('new card Data', this.cardData.size);
+        console.log('new cart Data', this.cartData.size);
       },
       error: (error: any) => {
         console.log(error);
@@ -74,14 +74,14 @@ export class CartAddedProductComponent {
     });
   }
   // delete data
-  sentCardDetails(changeValue: any, entry: any) {
+  sentcartDetails(changeValue: any, entry: any) {
     const formData = new FormData();
     const addToCart = {
       companyCode: entry.companyCode,
       productID: entry.goodsId,
       productGroupID: entry.groupCode,
       unitID: entry.unitId,
-      productCardQuantity: changeValue,
+      productCartQuantity: changeValue,
       addedDate: '',
       addedBy: 'user',
       addedPC: '0.0.0.0',
@@ -89,10 +89,10 @@ export class CartAddedProductComponent {
     console.log(addToCart, 'ashce');
     formData.append('buyerUserID', this.buyerValue);
     formData.append('companyCode', entry.companyCode);
-    formData.append('productID', entry.goodsId);
-    formData.append('productGroupID', entry.groupCode);
-    formData.append('unitID', entry.unitId);
-    formData.append('productCardQuantity', changeValue);
+    formData.append('productID', entry.productID);
+    formData.append('productGroupID', entry.productGroupID);
+    formData.append('unitID', entry.unitID);
+    formData.append('productCartQuantity', changeValue);
     formData.append('addedDate', '');
     formData.append('addedBy', 'user');
     formData.append('addedPC', '0.0.0.0');
@@ -100,10 +100,10 @@ export class CartAddedProductComponent {
     formData.append('updatedBy', 'user');
     formData.append('updatedPC', '0.0.0.0');
 
-    this.cartDataService.createAddCardDataByByer(formData).subscribe({
+    this.cartDataService.createAddCartDataByByer(formData).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.getAddToCardData();
+        this.getAddTocartData();
       },
       error: (error: any) => {
         console.log(error);
@@ -120,8 +120,18 @@ export class CartAddedProductComponent {
   }
 
   deleteCartProduct(entry: any) {
-    this.cartDataService.deleteCartData(entry);
-    this.cartCount--;
+    console.log(entry, 'ashce');
+    this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    // this.cartDataService.deleteCartData(entry);
+    // this.cartCount--;
     this.fetchCartData();
   }
 
@@ -154,7 +164,7 @@ export class CartAddedProductComponent {
         // this.route.navigate(['/login']);
         this.LoginModalBTN.nativeElement.click();
       } else {
-        if (this.cartDataDetail.size > 0) {
+        if (this.cartData.length > 0) {
           this.route.navigate(['/checkout']);
         } else {
           //console.log('select product');

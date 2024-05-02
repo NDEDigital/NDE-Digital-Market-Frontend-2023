@@ -57,6 +57,11 @@ export class OrderApiService {
   buyerCode: any;
   phone: any;
   address: any;
+
+  cartTotalAmount = 0;
+  cartData: any;
+  cartLength: number = 0;
+  userData: any;
   URL = API_URL;
   // URL = 'http://172.16.5.18:8081'; // liveURL
   //URL = 'https://localhost:7006';
@@ -103,72 +108,85 @@ export class OrderApiService {
     ); // Adding 7 days in milliseconds
     return futureDate.toISOString(); // Converting to ISO 8601 string format
   }
+  getAddTocartData() {
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerCode).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        this.cartTotalAmount = 0;
+        this.cartData.forEach((element: any) => {
+          this.cartTotalAmount += parseFloat(element.totalPrice);
+        });
+        console.log('new cart Data', response.result);
 
-  setData() {
-    const cart = this.cartDataService.getCartData();
-    this.cartDataDetail = cart.cartDataDetail;
-    this.cartDataQt = cart.cartDataQt;
-    this.totalPriceWithDeliveryCharge = this.cartDataService.getTotalPrice(); //+ 100;
-
-    this.buyerCode = localStorage.getItem('code');
-
-    this.orderdata = {
-      userId: parseInt(this.buyerCode),
-      address: this.address,
-      paymentMethod: 'CashOnDelivery',
-      numberOfItem: this.cartDataDetail.size,
-      totalPrice:
-        this.totalPriceWithDeliveryCharge + this.cartDataDetail.size * 100,
-      phoneNumber: this.phone,
-      deliveryCharge: 100,
-      addedBy: 'me',
-      addedPC: 'me',
-      orderDetailsList: [],
-    };
-
-    for (const [key, entry] of this.cartDataDetail.entries()) {
-      // console.log(entry, ' ----- u');
-
-      let qt: number | undefined = this.cartDataQt.get(key);
-      if (qt === undefined) {
-        qt = 0;
-      }
-      qt =
-        qt === undefined ? 0 : typeof qt === 'string' ? parseInt(qt, 10) : qt;
-
-      const detailData: OrderDetail = {
-        companyCode: entry.companyCode,
-        productId: parseInt(entry.goodsId),
-        qty: qt,
-        price: entry.netPrice,
-        deliveryCharge: 100,
-        deliveryDate: this.getDeliveryDateAndTime(),
-        specification: entry.specification,
-        productGroupId: entry.groupCode.toString(),
-        userId: parseInt(entry.sellerCode),
-        unitId: entry.unitId,
-        discountAmount: entry.discountAmount,
-        discountPct: entry.discountPct,
-        netPrice: entry.netPrice * qt + 100,
-        addedBy: this.buyerCode,
-        addedPC: '0.0.0.0',
-      };
-      this.orderdata.orderDetailsList.push(detailData);
-    }
+        console.log('new cart Data', this.cartData.size);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
   }
-  insertOrderData() {
-    this.setData();
-    //console.log(' orderdata', this.orderdata);
-    return this.http.post<any>(
-      this.orderPostUrl,
-      this.orderdata,
-      this.httpOptions
-    );
+  setData() {
+    console.log(this.userData);
+    this.getAddTocartData();
+    // // let buyerCode = localStorage.getItem('code');
+    // // this.cartDataDetail = cart.cartDataDetail;
+    // // this.cartDataQt = cart.cartDataQt;
+    // // this.totalPriceWithDeliveryCharge = this.cartDataService.getTotalPrice(); //+ 100;
+    // this.buyerCode = localStorage.getItem('code');
+    // // const cart = this.cartDataService.getAddToCartDataByBuyer(this.buyerCode);
+    // this.orderdata = {
+    //   userId: parseInt(this.buyerCode),
+    //   address: this.address,
+    //   paymentMethod: 'CashOnDelivery',
+    //   numberOfItem: this.cartDataDetail.size,
+    //   totalPrice:
+    //     this.totalPriceWithDeliveryCharge + this.cartDataDetail.size * 100,
+    //   phoneNumber: this.phone,
+    //   deliveryCharge: 100,
+    //   addedBy: 'me',
+    //   addedPC: 'me',
+    //   orderDetailsList: [],
+    // };
+    // for (const [key, entry] of this.cartDataDetail.entries()) {
+    //   // console.log(entry, ' ----- u');
+    //   let qt: number | undefined = this.cartDataQt.get(key);
+    //   if (qt === undefined) {
+    //     qt = 0;
+    //   }
+    //   qt =
+    //     qt === undefined ? 0 : typeof qt === 'string' ? parseInt(qt, 10) : qt;
+    //   const detailData: OrderDetail = {
+    //     companyCode: entry.companyCode,
+    //     productId: parseInt(entry.goodsId),
+    //     qty: qt,
+    //     price: entry.netPrice,
+    //     deliveryCharge: 100,
+    //     deliveryDate: this.getDeliveryDateAndTime(),
+    //     specification: entry.specification,
+    //     productGroupId: entry.groupCode.toString(),
+    //     userId: parseInt(entry.sellerCode),
+    //     unitId: entry.unitId,
+    //     discountAmount: entry.discountAmount,
+    //     discountPct: entry.discountPct,
+    //     netPrice: entry.netPrice * qt + 100,
+    //     addedBy: this.buyerCode,
+    //     addedPC: '0.0.0.0',
+    //   };
+    //   this.orderdata.orderDetailsList.push(detailData);
+    // }
+  }
+  insertOrderData(data: any) {
+    // this.setData();
+    console.log(' orderdata', data);
+    return this.http.post<any>(this.orderPostUrl, data, this.httpOptions);
   }
   // get user info for order
   getUserInfo(UserId: any) {
     return this.http.get(this.getUserInfoURL, { params: { UserId } });
   }
+
   // getAllOrderForBuyer(
   //   buyerCode: any,
   //   PageNumber: number,

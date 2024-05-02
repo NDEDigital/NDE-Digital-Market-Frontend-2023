@@ -11,9 +11,7 @@
 #footer {
   width: 100%;
 }
-.right-sidebar {
-  width: 120px;
-}
+
 .quantity-txt {
   width: 60%;
 }
@@ -24,9 +22,7 @@
 .update {
   font-size: 10px;
 }
-.go-truck {
-  font-size: 10px;
-}
+
 .search_bar {
   z-index: 0;
   margin: 0 0.75rem;
@@ -82,9 +78,7 @@
   background-color: #eff0f5;
   color: #9e9e9e;
 }
-.delete-icon {
-  cursor: pointer;
-}
+
 .money-icon {
   font-size: 1.5rem;
 }
@@ -130,6 +124,54 @@
   height: 7vh;
   margin-right: 0.5em;
   /* border: 1px solid black; */
+}
+
+.right-sidebar {
+  width: 11rem;
+  margin-top: 4.25rem;
+  /* background-color: #e7e7e7; */
+}
+.go-truck {
+  font-weight: bold;
+  color: white;
+  font-size: 12px;
+  background-color: #ffd700;
+}
+.cart-img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 15px;
+}
+.product-name {
+  font-size: 0.8rem;
+  padding-left: 1rem;
+  color: #009ed8;
+}
+.product-quantitiy {
+  /* width: 5rem; */
+  font-size: 0.8rem;
+  margin-top: -1rem;
+  margin-left: auto;
+  /* margin-bottom: 100px; */
+}
+.product-Total {
+  margin-left: auto;
+}
+.delete-icon {
+  padding-left: 0.7rem;
+  margin-top: 0.25rem;
+
+  cursor: pointer;
+}
+.product-price {
+  font-size: 0.8rem;
+  padding-left: 1rem;
+}
+.product-name-container {
+  padding-top: 1rem;
+}
+.product-row {
+  background-color: #e7e7e7 !important;
 }
 @media (max-width: 1500px) {
   .product {

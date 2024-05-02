@@ -6,6 +6,7 @@ import { CartDataService } from 'src/app/services/cart-data.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 
+import { HttpClient } from '@angular/common/http';
 declare var bootstrap: any;
 @Component({
   selector: 'app-product',
@@ -24,6 +25,11 @@ export class ProductComponent {
   role: any;
   isBuyer = true;
   allRole: any;
+  buyerValue: any;
+  cartTotalAmount = 0;
+  cartData: any;
+
+  cartLength: number = 0;
   @ViewChild('exampleModal') modalElement!: ElementRef;
   bsModal: any;
 
@@ -32,6 +38,7 @@ export class ProductComponent {
     private goodsData: GoodsDataService,
     private cartDataService: CartDataService,
     private route: Router,
+    private http: HttpClient,
     private router: ActivatedRoute
   ) {
     this.role = localStorage.getItem('role');
@@ -90,6 +97,7 @@ export class ProductComponent {
   filteredProducts: any[] = [];
   companyCode: any;
   ngOnInit() {
+    this.getAddTocartData();
     this.router.queryParams.subscribe((params) => {
       this.companyCode = atob(params['companyCode']);
       this.GroupdCode = atob(params['groupCode']);
@@ -152,7 +160,7 @@ export class ProductComponent {
     // }, 1000);
     // this.cartDataService.clearCartData();
 
-    this.cartDataService.initializeAndLoadData();
+    // this.cartDataService.initializeAndLoadData();
     this.setServiceData();
 
     // this.goodsData
@@ -209,6 +217,26 @@ export class ProductComponent {
     //       });
     //     });
     // }, 5000);
+  }
+  getAddTocartData() {
+    this.buyerValue = localStorage.getItem('code');
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        this.cartTotalAmount = 0;
+        this.cartData.forEach((element: any) => {
+          this.cartTotalAmount += parseFloat(element.totalPrice);
+        });
+        console.log('new cart Data', response.result);
+
+        console.log('new cart Data', this.cartData.size);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
   }
   ngAfterViewInit() {
     this.bsModal = new bootstrap.Modal(this.modalElement.nativeElement);
@@ -322,13 +350,53 @@ export class ProductComponent {
   cartCount: number = 0;
 
   setServiceData() {
-    this.cartCount = this.cartDataService.getCartCount();
-    this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
-    this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
-    this.totalPrice = this.cartDataService.getTotalPrice();
+    this.getAddTocartData();
+    // this.cartCount = this.cartDataService.getCartCount();
+    // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
+    // this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
+    // this.totalPrice = this.cartDataService.getTotalPrice();
   }
 
   setCart(entry: any, inputQt: string) {
+    this.buyerValue = localStorage.getItem('code');
+    if (entry.price === '' || entry.price === undefined) {
+      entry.price = '0';
+    }
+    const formData = new FormData();
+    const addToCart = {
+      companyCode: entry.companyCode,
+      productID: entry.goodsId,
+      productGroupID: entry.groupCode,
+      unitID: entry.unitId,
+      productCartQuantity: inputQt,
+      addedDate: '',
+      addedBy: 'user',
+      addedPC: '0.0.0.0',
+    };
+
+    formData.append('buyerUserID', this.buyerValue);
+    formData.append('companyCode', entry.companyCode);
+    formData.append('productID', entry.goodsId);
+    formData.append('productGroupID', entry.groupCode);
+    formData.append('unitID', entry.unitId);
+    formData.append('productCartQuantity', inputQt);
+    formData.append('addedDate', '');
+    formData.append('addedBy', 'user');
+    formData.append('addedPC', '0.0.0.0');
+    formData.append('updatedDate', '');
+    formData.append('updatedBy', 'user');
+    formData.append('updatedPC', '0.0.0.0');
+
+    this.cartDataService.createAddCartDataByByer(formData).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    console.log('updated cart value : ', addToCart);
     if (entry.price === '' || entry.price === undefined) {
       entry.price = 0;
     }
@@ -336,13 +404,13 @@ export class ProductComponent {
     let groupCodeIdSellerId =
       entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
-    this.cartDataService.setCartCount(groupCodeIdSellerId);
-    this.cartDataService.setPrice(
-      entry.netPrice,
-      parseInt(inputQt),
-      groupCodeIdSellerId
-    );
-    this.cartDataService.setCartData(entry, inputQt);
+    // this.cartDataService.setCartCount(groupCodeIdSellerId);
+    // this.cartDataService.setPrice(
+    //   entry.netPrice,
+    //   parseInt(inputQt),
+    //   groupCodeIdSellerId
+    // );
+    // this.cartDataService.setCartData(entry, inputQt);
     this.setServiceData();
     this.popUpCount = parseInt(inputQt);
   }
@@ -368,12 +436,22 @@ export class ProductComponent {
     }
   }
 
-  updateCount() {
-    this.cartCount = this.cartDataService.getCartCount();
-  }
+  // updateCount() {
+  //   this.cartCount = this.cartDataService.getCartCount();
+  // }
 
   deleteFromSideCart(entry: any) {
-    this.cartDataService.deleteCartData(entry.key);
+    console.log(entry, 'ashce');
+    this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    // this.cartDataService.deleteCartData(entry.key);
     this.setServiceData();
   }
 

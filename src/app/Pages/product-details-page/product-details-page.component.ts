@@ -30,8 +30,8 @@ export class ProductDetailsPageComponent {
   isSeller = false;
   isBuyer = false;
   buyerValue: any;
-  cardTotalAmount = 0;
-  cardData: any;
+  cartTotalAmount = 0;
+  cartData: any;
   // Add cart related data
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
@@ -109,9 +109,9 @@ export class ProductDetailsPageComponent {
     }
     // this.detailsData = this.goodsData.getDetaileData();
     // this.cartDataService.clearCartData();
-    this.cartDataService.initializeAndLoadData();
+    // this.cartDataService.initializeAndLoadData();
 
-    this.getAddToCardData();
+    this.getAddTocartData();
 
     this.setServiceData();
     const productData = sessionStorage.getItem('productData');
@@ -427,30 +427,30 @@ export class ProductDetailsPageComponent {
   }
 
   setServiceData() {
-    this.cartCount = this.cartDataService.getCartCount();
+    // this.cartCount = this.cartDataService.getCartCount();
     // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
-    this.getAddToCardData();
-    console.log(this.cartDataDetail, 'card data');
-    this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
+    this.getAddTocartData();
+    console.log(this.cartDataDetail, 'cart data');
+    // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
 
-    console.log(this.cartDataDetail, 'card data');
-    this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
-    this.totalPrice = this.cartDataService.getTotalPrice();
+    // console.log(this.cartDataDetail, 'cart data');
+    // this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
+    // this.totalPrice = this.cartDataService.getTotalPrice();
   }
-  getAddToCardData() {
+  getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
-    this.cartDataService.getAddToCardDataByBuyer(this.buyerValue).subscribe({
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
         console.log(response.result);
-        this.cardData = response.result;
-        this.cartLength = this.cardData.length;
-        this.cardTotalAmount = 0;
-        this.cardData.forEach((element: any) => {
-          this.cardTotalAmount += parseFloat(element.totalPrice);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        this.cartTotalAmount = 0;
+        this.cartData.forEach((element: any) => {
+          this.cartTotalAmount += parseFloat(element.totalPrice);
         });
-        console.log('new card Data', response.result);
+        console.log('new cart Data', response.result);
 
-        console.log('new card Data', this.cardData.size);
+        console.log('new cart Data', this.cartData.size);
       },
       error: (error: any) => {
         console.log(error);
@@ -469,7 +469,7 @@ export class ProductDetailsPageComponent {
       productID: entry.goodsId,
       productGroupID: entry.groupCode,
       unitID: entry.unitId,
-      productCardQuantity: inputQt,
+      productcartQuantity: inputQt,
       addedDate: '',
       addedBy: 'user',
       addedPC: '0.0.0.0',
@@ -480,7 +480,7 @@ export class ProductDetailsPageComponent {
     formData.append('productID', entry.goodsId);
     formData.append('productGroupID', entry.groupCode);
     formData.append('unitID', entry.unitId);
-    formData.append('productCardQuantity', inputQt);
+    formData.append('productcartQuantity', inputQt);
     formData.append('addedDate', '');
     formData.append('addedBy', 'user');
     formData.append('addedPC', '0.0.0.0');
@@ -488,27 +488,27 @@ export class ProductDetailsPageComponent {
     formData.append('updatedBy', 'user');
     formData.append('updatedPC', '0.0.0.0');
 
-    this.cartDataService.createAddCardDataByByer(formData).subscribe({
+    this.cartDataService.createAddCartDataByByer(formData).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.getAddToCardData();
+        this.getAddTocartData();
       },
       error: (error: any) => {
         console.log(error);
       },
     });
-    console.log('updated card value : ', addToCart);
+    console.log('updated cart value : ', addToCart);
 
     let groupCodeIdSellerId =
       entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
 
-    this.cartDataService.setCartCount(groupCodeIdSellerId);
-    this.cartDataService.setPrice(
-      entry.netPrice,
-      parseInt(inputQt),
-      groupCodeIdSellerId
-    );
-    this.cartDataService.setCartData(entry, inputQt);
+    // this.cartDataService.setCartCount(groupCodeIdSellerId);
+    // this.cartDataService.setPrice(
+    //   entry.netPrice,
+    //   parseInt(inputQt),
+    //   groupCodeIdSellerId
+    // );
+    // this.cartDataService.setCartData(entry, inputQt);
     this.setServiceData();
     this.popUpCount = parseInt(inputQt);
   }
@@ -548,13 +548,13 @@ export class ProductDetailsPageComponent {
     this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.getAddToCardData();
+        this.getAddTocartData();
       },
       error: (error: any) => {
         console.log(error);
       },
     });
-    this.cartDataService.deleteCartData(entry.id);
+    // this.cartDataService.deleteCartData(entry.id);
     this.setServiceData();
   }
 }

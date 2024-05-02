@@ -1,92 +1,101 @@
 <app-sub-header [headerTitle]="'My WishList'"></app-sub-header>
 <section class="container body-design">
   <div
-    [ngClass]="{ show: cartDataDetail.size > 0 }"
+    [ngClass]="{ show: cartData.length > 0 }"
     class="offcanvas right-sidebar offcanvas-end"
     data-bs-scroll="true"
     data-bs-backdrop="false"
     tabindex="-1"
     id="offcanvasScrolling"
     aria-labelledby="offcanvasScrollingLabel"
-    
   >
     <!-- <div class="offcanvas-header">
-      <div></div>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div> -->
-  
-    <div class="offcanvas-body border  " *ngIf="cartDataDetail.size > 0">
-      <div
-        class="border-1 border-secondary w-100 border-bottom d-flex flex-column align-items-center pb-2"
-      >
+    <div></div>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div> -->
+
+    <div class="offcanvas-body border" *ngIf="cartData && cartData.length > 0">
+      <div class="d-flex flex-column align-items-center pb-2">
         <h6 class="offcanvas-title text-center" id="offcanvasScrollingLabel">
           Subtotal
         </h6>
-        <h5 class="text-center">৳{{ totalPrice }}</h5>
+        <h5 class="text-center">৳{{ cartTotalAmount }}</h5>
         <button
-          class="btn btn-light border border-1 rounded-4 w-100 go-truck"
+          class="btn border border-1 rounded-4 w-100 go-truck"
           routerLink="/cartView"
         >
           Go to CartList
         </button>
       </div>
-  
+
       <div
         class="border-1 border-secondary border-bottom pb-2"
-        *ngFor="let entry of cartDataDetail | keyvalue"
+        *ngFor="let entry of cartData"
       >
-        <div class="d-flex flex-column align-items-center">
-          <img
-            class="w-100"
-            [src]="
-              entry.value.imagePath
-                ? entry.value.imagePath.substring(
-                    entry.value.imagePath.indexOf('assets')
-                  )
-                : '../../../assets/images/medical/' +
-                  wishList.groupName.trim() +
-                  '.jpg'
-            "
-            alt=""
-          />
-  
-          <p class="fw-bold text-center">
-            {{
-              entry.value.goodsName.length > 20
-                ? (entry.value.goodsName | slice : 0 : 20) + "..."
-                : entry.value.goodsName
-            }}
-          </p>
-          <p class="fw-bold">
-            <span class="money-icon">৳</span>{{ entry.value.netPrice }}
-          </p>
-        </div>
-        <div class="d-flex justify-content-between align-items-center px-1">
-          <span class="fw-bold"
-            >Qty:
-            {{
-              cartDataQt.get(
-                entry.value.groupCode +
-                  "&" +
-                  entry.value.goodsId +
-                  "&" +
-                  entry.value.sellerCode
-              )
-            }}</span
-          >
-          <svg
-            (click)="deleteFromSideCart(entry)"
-            class="delete-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="gray"
-            height="1em"
-            viewBox="0 0 448 512"
-          >
-            <path
-              d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+        <div class="d-flex flex-row align-items-center">
+          <div>
+            <img
+              class="cart-img"
+              [src]="
+                entry.imagePath
+                  ? entry.imagePath.substring(entry.imagePath.indexOf('assets'))
+                  : '../../../assets/images/medical/' +
+                    detailsData.groupName.trim() +
+                    '.jpg'
+              "
+              alt=""
             />
-          </svg>
+          </div>
+          <div class="d-flex flex-column my-1">
+            <div class="product-name-container">
+              <p class="product-name fw-bold my-1">
+                {{
+                  entry.productName.length > 20
+                    ? (entry.productName | slice : 0 : 20) + "..."
+                    : entry.productName
+                }}
+              </p>
+            </div>
+            <p class="product-price fw-bold">
+              <span class="money-icon">৳</span>{{ entry.price }}
+            </p>
+            <div class="product-quantitiy d-flex flex-row">
+              <p class="fw-bold">X {{ entry.productCartQuantity }}</p>
+              <svg
+                (click)="deleteFromSideCart(entry)"
+                class="delete-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="#d00404"
+                height="1em"
+                viewBox="0 0 448 512"
+              >
+                <path
+                  d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
+
+        <!-- <div class="d-flex justify-content-between align-items-center px-1">
+        <span class="fw-bold">Qty: {{ entry.productCartQuantity }}</span>
+        <svg
+          (click)="deleteFromSideCart(entry)"
+          class="delete-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="gray"
+          height="1em"
+          viewBox="0 0 448 512"
+        >
+          <path
+            d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+          />
+        </svg>
+      </div> -->
+        <!-- <p class="fw-bold product-Total">
+        <span>Total: </span>
+        <span class="money-icon">৳</span>{{ entry.totalPrice }}
+      </p> -->
       </div>
     </div>
   </div>
@@ -164,46 +173,41 @@
     <h3 class="text-danger text-center mt-5">No Product Found</h3>
   </div>
 
-    <div *ngFor="let wish of wishList" class="border mt-4 ">
-
-        <div
-          class="row mt-4 " id="wishDiv" >
-          <div
-            class="col-2 d-flex justify-content-center  " 
-            (click)="goToDetail(wish)"
-          >
-            <img
-              [src]="
-                wish.imagePath
-                  ? '/asset' + wish.imagePath?.split('asset')[1]
-                  : ''
-              "
-              class="w-50 h-75"
-              alt=""
-            />
-          </div>
-          <div class="col-1" (click)="goToDetail(wish)">
-            {{ wish.goodsName }}
-          </div>
-          <div class="col-1 col-sm-2">
-            <span class="qty-design">Qty: {{ wish.approveSalesQty }}</span>
-          </div>
-               <div class="col-1 col-sm-2 ml-2">
-            <span class="color-primary">Price: {{ wish.price }}</span>
-          
-          </div> 
-          <div *ngIf="wish.approveSalesQty>0" class="col-1 col-sm-2 ml-2">
-            <button    class="btn btn-success" 
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal" (click)="
-                    setCart(wish,'1')
-                "
-            >
-              {{ CartButtonText }}
-            </button>
-            </div>
-        </div>
+  <div *ngFor="let wish of wishList" class="border mt-4">
+    <div class="row mt-4" id="wishDiv">
+      <div
+        class="col-2 d-flex justify-content-center"
+        (click)="goToDetail(wish)"
+      >
+        <img
+          [src]="
+            wish.imagePath ? '/asset' + wish.imagePath?.split('asset')[1] : ''
+          "
+          class="w-50 h-75"
+          alt=""
+        />
       </div>
+      <div class="col-1" (click)="goToDetail(wish)">
+        {{ wish.goodsName }}
+      </div>
+      <div class="col-1 col-sm-2">
+        <span class="qty-design">Qty: {{ wish.approveSalesQty }}</span>
+      </div>
+      <div class="col-1 col-sm-2 ml-2">
+        <span class="color-primary">Price: {{ wish.price }}</span>
+      </div>
+      <div *ngIf="wish.approveSalesQty > 0" class="col-1 col-sm-2 ml-2">
+        <button
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          (click)="setCart(wish, '1')"
+        >
+          {{ CartButtonText }}
+        </button>
+      </div>
+    </div>
+  </div>
   <!-- Modal for cart-->
   <div
     #exampleModal
@@ -243,6 +247,4 @@
       </div>
     </div>
   </div>
-
 </section>
-

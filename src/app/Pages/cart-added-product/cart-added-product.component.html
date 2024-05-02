@@ -1,4 +1,4 @@
-<app-header [cartCount]="cartCount"></app-header>
+<app-header [cartCount]="cartData.length"></app-header>
 
 <section id="page-container" class="cart-detail">
   <div id="content-wrap" class="d-flex m-3">
@@ -8,7 +8,7 @@
           <h3 class="mb-0">Cart Detail</h3>
         </div>
         <hr />
-        <ng-container *ngFor="let entry of cardData; let i = index">
+        <ng-container *ngFor="let entry of cartData; let i = index">
           <div class="d-flex ps-5">
             <div>
               <!-- <img class="product-img" src="/assets/images/hc1.jpg" alt=""> -->
@@ -44,18 +44,18 @@
                     (input)="validateInput($event, entry.availableQty)"
                     class="bg-light"
                     #changeValue
-                    value="{{ entry.productCardQuantity }}"
+                    value="{{ entry.productCartQuantity }}"
                   />
                   |</span
                 >
                 <button
                   *ngIf="showUpBtn === entry.id"
                   class="btn btn-success ms-2"
-                  (click)="sentCardDetails(changeValue.value, entry)"
+                  (click)="sentcartDetails(changeValue.value, entry)"
                 >
                   Update
                 </button>
-                <span class="ms-3 cursor" (click)="deleteCartProduct(entry.id)"
+                <span class="ms-3 cursor" (click)="deleteCartProduct(entry)"
                   >Delete</span
                 >
                 <!-- <span class="ms-3 cursor"
@@ -72,11 +72,11 @@
             </div>
           </div>
 
-          <hr *ngIf="i !== cardData.length - 1" />
+          <hr *ngIf="i !== cartData.length - 1" />
         </ng-container>
 
         <div
-          *ngIf="cartDataDetail.size === 0"
+          *ngIf="cartData.length === 0"
           class="text-center py-5 d-flex justify-content-center align-items-center flex-column"
         >
           <div
@@ -95,11 +95,11 @@
     <div class="d-flex flex-column subtotal-parent">
       <div class="ms-4 subtotal p-4">
         <p class="subtotal-title">
-          Subtotal ({{ this.cartCount }}): <b>৳{{ this.totalPrice }}</b>
+          Subtotal ({{ cartData.length }}): <b>৳{{ this.cartTotalAmount }}</b>
         </p>
         <button
           class="btn btn-warning mt-2 w-100"
-          [disabled]="this.totalPrice === 0"
+          [disabled]="this.cartTotalAmount === 0"
           (click)="procced()"
         >
           Proceed to checkout
