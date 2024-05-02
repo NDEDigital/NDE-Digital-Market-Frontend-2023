@@ -271,7 +271,10 @@ select {
   width: 8rem;
   height: 5rem;
 }
-
+.red-button {
+  background-color: red;
+  color: white;
+}
 
 
 
