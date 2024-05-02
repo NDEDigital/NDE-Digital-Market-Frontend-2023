@@ -6,14 +6,14 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { AddProductService } from 'src/app/services/add-product.service';
-import { UnitService } from 'src/app/services/unit.service';
+
+import { BrandsService } from 'src/app/services/brands.service';
 @Component({
-  selector: 'app-unit-list',
-  templateUrl: './unit-list.component.html',
-  styleUrls: ['./unit-list.component.css'],
+  selector: 'app-brands',
+  templateUrl: './brands.component.html',
+  styleUrls: ['./brands.component.css'],
 })
-export class UnitListComponent {
+export class BrandsComponent {
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
@@ -37,15 +37,12 @@ export class UnitListComponent {
   imagePathPreview: string = '';
   alertTitle: any;
 
-  constructor(
-    private addProductService: AddProductService,
-    private unitServices: UnitService
-  ) {}
+  constructor(private brandsService: BrandsService) {}
 
   toggleAddProductGroupDiv(): void {
     this.showProductDiv = !this.showProductDiv;
     this.btnIndex = -1;
-    this.getProductGroup(true);
+    this.getNewBrands(true);
     this.ngOnInit();
   }
 
@@ -56,10 +53,12 @@ export class UnitListComponent {
 
   ngOnInit() {
     this.addGroupForm = new FormGroup({
-      description: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
+      brandName: new FormControl('', Validators.required),
+      description: new FormControl(),
+      shortName: new FormControl(),
+      //name: new FormControl('', Validators.required),
     });
-    this.getProductGroup(-1);
+    this.getNewBrands(-1);
   }
 
   openAddGroupModal(): void {
@@ -94,7 +93,7 @@ export class UnitListComponent {
 
       Object.keys(this.addGroupForm.value).forEach((key) => {
         let value = this.addGroupForm.value[key];
-        if (key === 'productId' || key === 'unitId') {
+        if (key === 'brandId') {
           value = String(Math.floor(Number(value)));
           //console.log(value);
         }
@@ -116,7 +115,7 @@ export class UnitListComponent {
         for (let [key, value] of (formData as any).entries()) {
           console.log(key, value);
         }
-        this.unitServices.createUnit(formData).subscribe({
+        this.brandsService.createBrand(formData).subscribe({
           next: (response: any) => {
             //console.log(response, 'successfull');
             this.alertMsg = response.message;
@@ -127,7 +126,7 @@ export class UnitListComponent {
               this.addGroupForm.reset();
               // this.toggleAddProductGroupDiv();
             }, 50);
-            this.getProductGroup(-1);
+            this.getNewBrands(-1);
           },
           error: (error: any) => {
             //console.log(error, 'error');
@@ -144,7 +143,7 @@ export class UnitListComponent {
         console.log(updateByUser, 'code...');
 
         // console.log("edit mode");
-        formData.append('unitId', this.currentGroup.unitId);
+        formData.append('brandId', this.currentGroup.brandId);
         if (updateByUser !== null) {
           formData.append('updatedBy', updateByUser);
         } else {
@@ -155,15 +154,15 @@ export class UnitListComponent {
         for (let [key, value] of (formData as any).entries()) {
           console.log(key, value);
         }
-        this.unitServices.updateUnitName(formData).subscribe({
+        this.brandsService.updateBrand(formData).subscribe({
           next: (response: any) => {
             // Handle successful response here
             console.log('Update successful:', response);
-            this.alertMsg = 'Unit updated successfully';
+            this.alertMsg = 'Brand updated successfully';
             this.isEditMode = false;
             // Optionally, reset the form and refresh the group list
             this.addGroupForm.reset();
-            this.getProductGroup(-1);
+            this.getNewBrands(-1);
 
             // Close the modal if you have one open
             this.UserExistModalBTN.nativeElement.click();
@@ -171,7 +170,7 @@ export class UnitListComponent {
           error: (error: any) => {
             // Handle error response here
             console.error('Error updating  unit:', error);
-            this.alertMsg = error.error.message || 'Error updating  unit';
+            this.alertMsg = error.error.message || 'Error updating  Brand';
             this.isError = true;
             this.isEditMode = false;
 
@@ -186,12 +185,12 @@ export class UnitListComponent {
     }
   }
 
-  getProductGroup(status: any) {
+  getNewBrands(status: any) {
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;
     if (status != -1) {
-      this.unitServices.getUnitGroups(status).subscribe({
+      this.brandsService.getBrands(status).subscribe({
         next: (response: any) => {
           console.log(response);
           this.groupList = response;
@@ -203,7 +202,7 @@ export class UnitListComponent {
         },
       });
     } else {
-      this.unitServices.getUnitGroup().subscribe({
+      this.brandsService.getNewBrands().subscribe({
         next: (response: any) => {
           console.log(response);
           this.groupList = response;
@@ -245,8 +244,9 @@ export class UnitListComponent {
   }
   populateForm(group: any): void {
     this.addGroupForm.patchValue({
+      brandName: group.brandName,
       description: group.description,
-      name: group.name,
+      shortName: group.shortName,
       productGroupDetails: group.productGroupDetails,
     });
 
@@ -268,14 +268,14 @@ export class UnitListComponent {
 
   updateIsActive(isActive: any, groupIds: any) {
     console.log(isActive, 'isActive', groupIds, 'groupId');
-    this.unitServices
-      .updateUnitActiveStatus(groupIds.toString(), isActive)
+    this.brandsService
+      .updateUnitsActiveStatus(groupIds.toString(), isActive)
       .subscribe({
         next: (response: any) => {
           // console.log(response);
           const active = isActive == true ? 0 : 1;
 
-          this.getProductGroup(isActive);
+          this.getNewBrands(isActive);
           if (isActive) {
             this.btnIndex = 1;
           } else {
@@ -284,8 +284,8 @@ export class UnitListComponent {
 
           this.UserExistModalBTN.nativeElement.click();
           this.alertMsg = active
-            ? 'Product is  Activated!'
-            : 'Product is Deactivated!';
+            ? 'Brand is  Activated!'
+            : 'Brand is Deactivated!';
           this.alertTitle = active ? 'Activated!' : 'Deactivated!';
         },
         error: (error: any) => {
@@ -299,27 +299,28 @@ export class UnitListComponent {
   selectedProducts1: any[] = [];
 
   selectAll = false;
+
   toggleAllCheckboxes() {
+    //this.selectAll = true;
     console.log('all seelcted');
     // console.log('Selected Product IDs:', this.selectedProducts1);
     // console.log("product id's areeeeee",this.selectedProducts1)
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     console.log('group list are', this.groupList);
-
-    this.groupList.forEach((product: { isSelected: boolean; unitId: any }) => {
+    this.groupList.forEach((product: { isSelected: boolean; brandId: any }) => {
       product.isSelected = this.selectAll;
 
       // Update the selectedProducts array based on the state of each checkbox
-      if (this.selectAll && !this.selectedProducts1.includes(product.unitId)) {
-        this.selectedProducts1.push(product.unitId);
+      if (this.selectAll && !this.selectedProducts1.includes(product.brandId)) {
+        this.selectedProducts1.push(product.brandId);
       } else if (
         !this.selectAll &&
-        this.selectedProducts1.includes(product.unitId)
+        this.selectedProducts1.includes(product.brandId)
       ) {
         // Remove the deselected product from the list
         this.selectedProducts1 = this.selectedProducts1.filter(
-          (id) => id !== product.unitId
+          (id) => id !== product.brandId
         );
         this.selectAll = false;
       }
@@ -328,6 +329,7 @@ export class UnitListComponent {
     // console.log('Selected Product IDs:', this.selectedProducts1);
     // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
     // console.log("this.selectedProducts1.length",this.productList.length);
+    console.log('checking making', this.selectedProducts1);
   }
 
   chageActiveInactive(isActive: any) {
@@ -337,15 +339,15 @@ export class UnitListComponent {
     // console.log("is active are",isActive);
 
     if (this.selectedProducts1.length > 0) {
-      console.log('selectedProducts1', this.selectedProducts1.toString());
-      // console.log("selectedProducts1",isActive);
+      console.log('selectedProducts1', this.selectedProducts1);
+      console.log('selectedProducts1', isActive);
 
-      this.unitServices
+      this.brandsService
         .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
         .subscribe({
           next: (response: any) => {
             console.log(response);
-            this.getProductGroup(isActive);
+            this.getNewBrands(isActive);
             if (isActive) {
               this.btnIndex = 1;
             } else {
@@ -353,8 +355,8 @@ export class UnitListComponent {
             }
             this.UserExistModalBTN.nativeElement.click();
             this.alertMsg = isActive
-              ? 'Group is  Deactivated!'
-              : 'Group is Activated!';
+              ? 'Brand is  Deactivated!'
+              : 'Brand is Activated!';
             this.alertTitle = isActive ? 'Deactiveted!' : 'Activeted!';
             this.selectAll = false;
             this.selectedProducts1.length = 0;
@@ -369,7 +371,7 @@ export class UnitListComponent {
       this.UserExistModalBTN.nativeElement.click();
       this.alertTitle = 'No Selection!';
 
-      this.alertMsg = 'No group is selected';
+      this.alertMsg = 'No Brand is selected';
     }
   }
 

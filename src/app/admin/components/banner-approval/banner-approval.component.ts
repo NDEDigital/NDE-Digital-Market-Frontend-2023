@@ -66,23 +66,26 @@ export class BannerApprovalComponent implements OnInit {
   }
 
   getFormattedDate(date: string, index: number): string {
-    console.log(date);
-    if (this.selectedCompanyCodeValues[index + 1 + '_date1'] != date) {
-      console.log(
-        'dhukse',
-        this.selectedCompanyCodeValues[index + 1 + '_date1'],
-        date
-      );
-    }
+    // console.log(date);
+
     this.selectedCompanyCodeValues[index + 1 + '_date2'] = date;
 
     return this.selectedCompanyCodeValues[index + 1 + '_date2'] || null;
   }
+
   getFormattedDate2(date: string, index: number): string {
-    console.log(date);
+    // console.log(date, 'value');
     this.selectedCompanyCodeValues[index + 1 + '_date1'] = date;
     return this.selectedCompanyCodeValues[index + 1 + '_date1'] || null;
   }
+
+  truncateDescription(description: string, maxLength: number = 16): string {
+    if (description.length > maxLength) {
+      return `${description.substring(0, maxLength)}...`;
+    }
+    return description;
+  }
+
   getData() {
     console.log(this.btnIndex);
     this.minDateTime = '';
@@ -106,15 +109,15 @@ export class BannerApprovalComponent implements OnInit {
   }
 
   onStartDateChange(index: number, event: any): void {
+    // this.isEndDateEnabled[index] = true;
     const selectedDate = new Date(event.target.value);
     const nextDay = new Date(selectedDate.getTime() + 24 * 60 * 60 * 1000);
 
     const formattedDate = nextDay.toISOString().substring(0, 16);
 
     setTimeout(() => {
-      this.minEndDateTimes[index] = formattedDate; // Update after Angular's cycle
-      this.isEndDateEnabled[index] = true; // Enable end date for this row
-    }, 0);
+      this.minEndDateTimes[index] = formattedDate;
+    }, 10);
   }
 
   showImage(path: any, title: any) {
@@ -163,6 +166,8 @@ export class BannerApprovalComponent implements OnInit {
     IsActive: any,
     IsBannerStatus: any
   ) {
+    console.log(StartDate, EndDate);
+
     const cmp = {
       bannerID: BannerID,
       isActive: IsActive,
@@ -180,6 +185,25 @@ export class BannerApprovalComponent implements OnInit {
       isRejected: false,
       btnIndex: 1,
     };
+    if (!IsActive && this.btnIndex == -1 && (!StartDate || !EndDate)) {
+      alert.btnIndex = 0;
+      alert.isRejected = true;
+      alert.isApproved = false;
+      this.alertMsg = 'Banner Rejected Successfully';
+      console.log(cmp);
+      this.updateBannerStatus(cmp, alert);
+    }
+    if (StartDate >= EndDate) {
+      this.isApproved = false;
+      this.isRejected = true;
+      this.alertTitle = 'Error';
+      this.alertMsg = 'StartDate Cant be greater than EndDate';
+      if (this.msgModalBTN) {
+        this.msgModalBTN.nativeElement.click();
+      }
+      return;
+    }
+
     if (StartDate && EndDate && IsActive) {
       this.updateBannerStatus(cmp, alert);
     } else if (!IsActive && this.btnIndex == -1) {
@@ -193,6 +217,7 @@ export class BannerApprovalComponent implements OnInit {
       alert.isRejected = true;
       alert.isApproved = false;
       this.alertMsg = 'Banner Rejected Successfully';
+      console.log(cmp);
       this.updateBannerStatus(cmp, alert);
     } else if (this.btnIndex == 0 && StartDate && EndDate) {
       this.updateBannerStatus(cmp, alert);

@@ -20,7 +20,7 @@
         (click)="btnIndex = 1"
         (click)="getData()"
       >
-        Active
+        Approved
       </button>
       <button
         class="custom-btn btn-inactive"
@@ -28,7 +28,7 @@
         (click)="btnIndex = 0"
         (click)="getData()"
       >
-        Inactive
+        Rejected
       </button>
     </div>
   </div>
@@ -68,8 +68,9 @@
         {{ cmp.companyName }}
       </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.bannerDescription }}
+        {{ truncateDescription(cmp.bannerDescription) }}
       </div>
+
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <button
           class="custom-btn btn-trade-company"
@@ -106,7 +107,6 @@
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <input
           [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
-          *ngIf="btnIndex !== 1"
           [value]="
             getFormattedDate(
               selectedCompanyCodeValues[i + 1 + '_date2']
@@ -117,24 +117,11 @@
           "
           type="datetime-local"
           class="border border-1 p-2 w-75"
-          [min]="minEndDateTimes[i]"
-          [disabled]="!isEndDateEnabled[i]"
-        />
-        <input
-          [(ngModel)]="selectedCompanyCodeValues[i + 1 + '_date2']"
-          *ngIf="btnIndex === 1"
-          [value]="
-            getFormattedDate(
-              selectedCompanyCodeValues[i + 1 + '_date2']
-                ? selectedCompanyCodeValues[i + 1 + '_date2']
-                : cmp.endDate,
-              i
-            )
+          [min]="
+            selectedCompanyCodeValues[i + 1 + '_date1']
+              ? selectedCompanyCodeValues[i + 1 + '_date1']
+              : cmp.startDate
           "
-          type="datetime-local"
-          class="border border-1 p-2 w-75"
-          [min]="cmp.startDate"
-          [disabled]="isEndDateEnabled[i]"
         />
       </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
@@ -173,7 +160,9 @@
               (click)="
                 updateCompany(
                   cmp.bannerID,
-                  selectedCompanyCodeValues[i + 1 + '_date1'],
+                  selectedCompanyCodeValues[i + 1 + '_date1']
+                    ? selectedCompanyCodeValues[i + 1 + '_date1']
+                    : cmp.startDate,
                   selectedCompanyCodeValues[i + 1 + '_date2'],
                   false,
                   false
