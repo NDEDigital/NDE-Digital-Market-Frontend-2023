@@ -166,6 +166,8 @@ export class BannerApprovalComponent implements OnInit {
     IsActive: any,
     IsBannerStatus: any
   ) {
+    console.log(StartDate, EndDate);
+
     const cmp = {
       bannerID: BannerID,
       isActive: IsActive,

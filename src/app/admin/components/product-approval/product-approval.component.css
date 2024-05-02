@@ -1,5 +1,10 @@
 /* table design */
 
+.container{
+  /* max-width: 300rem; */
+  overflow-x: auto;
+  max-width: 100%;
+}
 .headerRow,
 .tablebodyRow {
   flex-wrap: nowrap;

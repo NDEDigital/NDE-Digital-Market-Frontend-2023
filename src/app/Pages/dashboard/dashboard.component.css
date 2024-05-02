@@ -178,6 +178,14 @@ a {
 .date_icons i:hover {
   color: var(--color-primary);
 }
+
+
+/* .addBanner{
+  overflow-x: auto;
+  border: 2px solid red;
+  
+} */
+
 @media (max-width: 768px) {
   .sidebar {
     width: 20%;

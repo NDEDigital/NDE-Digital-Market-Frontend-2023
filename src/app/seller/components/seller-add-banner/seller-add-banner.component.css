@@ -1,3 +1,8 @@
+.container{
+  /* max-width: 300rem; */
+  overflow-x: auto;
+  max-width: 100%;
+}
 
 .head {
   background-color: var(--color-primary);
@@ -196,12 +201,24 @@ select {
 .modal-heading {
   background-color: var(--color-primary);
 }
-.headerbtns .custom-btn {
-  background: #f0faff;
+.custom-btn {
+  background: #608897;
   color: rgb(3, 20, 43);
   font-weight: 500;
+   transition: background-color 0.3s ease;
   border: 1px solid var(--color-primary-dark);
+  margin-left: auto; /* Align the button to the end of its container */
 }
+.bn{
+  color: white;
+  background-color: #608897 ;
+ transition: background-color 0.3s ease;
+}
+.custom-btn:hover button {
+  opacity: 0.75;
+
+}
+
 
 .headerbtns .btn-active {
   border: 1px solid #78ac8b;
@@ -253,6 +270,20 @@ select {
 .active-row {
   background-color:rgb(233, 238, 243);
 }
+
+
+.img-preview {
+  width: 8rem;
+  height: 5rem;
+}
+
+.red-button {
+  background-color: red;
+  color: white;
+}
+
+
+
 
 
 
