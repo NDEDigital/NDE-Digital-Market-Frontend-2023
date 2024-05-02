@@ -134,7 +134,7 @@
   <section
     class="row tablebodyRow fw-semibold"
     *ngFor="let banner of banners; let i = index"
-    (dblclick)="!isApproved(banner) && openEditForm(banner)"
+    (dblclick)="!(isApproved(banner) || isExpired(banner)) && openEditForm(banner)"
     (mouseover)="isHovered = i"
     (mouseout)="isHovered = null"
   >
