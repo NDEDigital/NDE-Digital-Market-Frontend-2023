@@ -197,7 +197,7 @@ export class AddProductsComponent implements OnInit {
             this.isEditMode = false;
             // Optionally, reset the form and refresh the group list
             this.addProductForm.reset();
-            this.getProducts(-1);
+            this.getProducts(1);
 
             // Close the modal if you have one open
             this.PrdouctExistModalBTN.nativeElement.click();
