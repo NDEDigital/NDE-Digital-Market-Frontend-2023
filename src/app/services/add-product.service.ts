@@ -24,6 +24,8 @@ export class AddProductService {
   GetProductGroupsListByStatusURL = `${this.URL}/api/ProductGroups/GetProductGroupsListByStatus`;
   GetProductListByStatusURL = `${this.URL}/api/ProductList/GetProductListByStatus`;
 
+  getBrandURL = `${this.URL}/api/Brands/GetBrandList`;
+
   getUnitURL = `${this.URL}/api/HK_Gets/GetUnitList`;
 
   GetProductDataURL = `${this.URL}/GetSellerProductForAdminApproval`;
@@ -109,13 +111,17 @@ export class AddProductService {
     return this.http.get(this.getProductGropURL);
   }
 
+  getActiveBrands() {
+    return this.http.get(`${this.getBrandURL}?isActive=true`);
+  }
+
   getUnitGroups() {
     return this.http.get(this.getUnitURL);
   }
 
-  GetProductByGroupName(ProductGroupId: number){
+  GetProductByGroupName(ProductGroupId: number) {
     return this.http.get(this.GetProductNameByProductGroupIdURL, {
-      params: {ProductGroupId},
+      params: { ProductGroupId },
     });
   }
 
@@ -143,12 +149,10 @@ export class AddProductService {
     const url = `${this.updateProductStatusURL}?IsActive=${convertedIsActive}`;
 
     return this.http.put(
-        url,
-        productIds // Pass productIds as the request body
+      url,
+      productIds // Pass productIds as the request body
     );
-}
-
-
+  }
 
   updateProductGroupStatus(groupIds: any, IsActive: any) {
     // Convert IsActive to boolean
