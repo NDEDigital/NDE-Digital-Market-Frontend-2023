@@ -12,10 +12,12 @@ export class AddProductsComponent implements OnInit {
   @ViewChild('ProductImageInput') ProductImageInput!: ElementRef;
   @ViewChild('prdouctExistModalBTN') PrdouctExistModalBTN!: ElementRef;
   @ViewChild('addProductModalCenterG') AddProductModalCenterG!: ElementRef;
-  @ViewChild('allselected', { static: false }) allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+  @ViewChild('allselected', { static: false })
+  allSelectedCheckbox!: ElementRef<HTMLInputElement>;
   addProductForm!: FormGroup;
   productGroups: any[] = [];
   units: any[] = [];
+  brands: any[] = [];
   alertMsg: string = '';
   alertTitle: string = '';
   isError: boolean = false;
@@ -50,12 +52,14 @@ export class AddProductsComponent implements OnInit {
       productName: new FormControl('', Validators.required),
       productSubName: new FormControl(''),
       specification: new FormControl('', Validators.required),
+      brandId: new FormControl('', Validators.required),
       unitId: new FormControl('', Validators.required),
       productImage: new FormControl('', Validators.required),
     });
 
     // Fetch product groups when the component is initialized
     this.getProductGroups();
+    this.getBrand();
     this.getUnit();
     this.getProducts(-1);
   }
@@ -84,6 +88,18 @@ export class AddProductsComponent implements OnInit {
       (data: any) => {
         this.productGroups = data;
         //console.log('Product Groups:', this.productGroups);
+      },
+      (error) => {
+        console.error('Error fetching product groups:', error);
+      }
+    );
+  }
+
+  getBrand() {
+    this.productService.getActiveBrands().subscribe(
+      (data: any) => {
+        this.brands = data;
+        console.log('Brands List:', this.brands);
       },
       (error) => {
         console.error('Error fetching product groups:', error);
@@ -131,9 +147,10 @@ export class AddProductsComponent implements OnInit {
       formData.append('addedBy', 'user');
       formData.append('addedPC', '0.0.0.0');
 
-      for (let pair of (formData as any).entries()) {
-        //console.log(`${pair[0]}: `, pair[1]);
-      }
+      // for (let pair of (formData as any).entries()) {
+      //   //console.log(`${pair[0]}: `, pair[1]);
+      // }
+
       if (!this.isEditMode) {
         this.productService.createProductList(formData).subscribe({
           next: (response: any) => {
@@ -203,14 +220,13 @@ export class AddProductsComponent implements OnInit {
   }
   selectedProducts1: any[] = [];
   getProducts(status: any) {
-    this.selectAll=false;
+    this.selectAll = false;
     // this.selectedProducts1.length=0;
     this.productService.GetProductListByStatus(status).subscribe({
       next: (response: any) => {
         // console.log(response);
         this.productList = response;
-    this.selectedProducts1.length=0;
-
+        this.selectedProducts1.length = 0;
       },
       error: (error: any) => {
         //console.log(error);
@@ -252,6 +268,7 @@ export class AddProductsComponent implements OnInit {
       productSubName: product.productSubName,
       specification: product.specification,
       unitId: product.unitId,
+      brandId: product.brandId,
     });
 
     this.displayImage(product.imagepath);
@@ -285,10 +302,7 @@ export class AddProductsComponent implements OnInit {
         this.alertMsg = isActive
           ? 'Product is  Activated!'
           : 'Product is Deactiveted!';
-        this.alertTitle = isActive
-          ? 'Activated!'
-          : 'Deactiveted!';
-
+        this.alertTitle = isActive ? 'Activated!' : 'Deactiveted!';
       },
       error: (error: any) => {
         //console.log(error);
@@ -297,105 +311,91 @@ export class AddProductsComponent implements OnInit {
     });
   }
   selectedProductIds: any[] = [];
-  
+
   selectAll = false;
   toggleAllCheckboxes() {
     // console.log("all seelcted",)
     // console.log('Selected Product IDs:', this.selectedProducts1);
-  
 
     // Toggle the state of all checkboxes based on the "Select All" checkbox
     this.productList.forEach(
-      (product: { isSelected: boolean, productId: any }) => {
+      (product: { isSelected: boolean; productId: any }) => {
         product.isSelected = this.selectAll;
-        
+
         // Update the selectedProducts array based on the state of each checkbox
-        if (this.selectAll && !this.selectedProducts1.includes(product.productId)) {
+        if (
+          this.selectAll &&
+          !this.selectedProducts1.includes(product.productId)
+        ) {
           this.selectedProducts1.push(product.productId);
-          
-        }
-        else if (!this.selectAll && this.selectedProducts1.includes(product.productId)) {
+        } else if (
+          !this.selectAll &&
+          this.selectedProducts1.includes(product.productId)
+        ) {
           // Remove the deselected product from the list
           this.selectedProducts1 = this.selectedProducts1.filter(
             (id) => id !== product.productId
           );
           // this.selectAll=false;
-        
         }
-        
       }
     );
-   
-    
+
     // console.log('Selected Product IDs:', this.selectedProducts1);
     // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
     // console.log("this.selectedProducts1.length",this.productList.length);
-  
   }
- 
-  chageActiveInactive(isActive:any){
 
+  chageActiveInactive(isActive: any) {
+    if (this.selectedProducts1.length > 0) {
+      this.productService
+        .updateProductStatus(this.selectedProducts1, isActive)
+        .subscribe({
+          next: (response: any) => {
+            // console.log(response);
+            this.getProducts(isActive);
+            this.btnIndex = isActive;
+            this.PrdouctExistModalBTN.nativeElement.click();
+            this.alertMsg = isActive
+              ? 'Product is  Activated!'
+              : 'Product is Deactivated!';
+            this.alertTitle = isActive ? 'Activatad!' : 'Deactivated!';
+            //         this.selectAll = false;
 
- 
-    if(this.selectedProducts1.length>0){
-      
-
-      this.productService.updateProductStatus(this.selectedProducts1,isActive).subscribe({
-        next: (response: any) => {
-          // console.log(response);
-          this.getProducts(isActive);
-          this.btnIndex = isActive;
-          this.PrdouctExistModalBTN.nativeElement.click();
-          this.alertMsg = isActive
-          ? 'Product is  Activated!'
-          : 'Product is Deactivated!';
-        this.alertTitle = isActive
-          ? 'Activatad!'
-          : 'Deactivated!';
-  //         this.selectAll = false;
-  
-           this.selectAll=false;
-           this.selectedProducts1.length=0;
-          // console.log("product id's are",this.selectedProductIds)
-        },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-        },
-      });
-    }
-    else{
+            this.selectAll = false;
+            this.selectedProducts1.length = 0;
+            // console.log("product id's are",this.selectedProductIds)
+          },
+          error: (error: any) => {
+            //console.log(error);
+            this.alertMsg = error.error.message;
+          },
+        });
+    } else {
       this.PrdouctExistModalBTN.nativeElement.click();
-      this.alertTitle='No Selection!'
+      this.alertTitle = 'No Selection!';
 
-      this.alertMsg='No Product is selected'
+      this.alertMsg = 'No Product is selected';
     }
-
   }
-  
-  
-
-
 
   checkboxSelected(productId: any, event: any) {
     const isSelected: boolean = event.target.checked;
-// console.log(isSelected);
-    if (isSelected ) {
+    // console.log(isSelected);
+    if (isSelected) {
       // Add the selected product to the list
       this.selectedProducts1.push(productId);
-    } else if (!isSelected ) {
+    } else if (!isSelected) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
         (id) => id !== productId
       );
     }
-    this.allSelectedCheckbox.nativeElement.checked=false;
+    this.allSelectedCheckbox.nativeElement.checked = false;
     // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
-  if(this.selectedProducts1.length===this.productList.length){
-  this.allSelectedCheckbox.nativeElement.checked=true;
-
-}
- 
+    if (this.selectedProducts1.length === this.productList.length) {
+      this.allSelectedCheckbox.nativeElement.checked = true;
+    }
   }
 }
