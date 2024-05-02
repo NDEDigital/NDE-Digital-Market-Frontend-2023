@@ -11,7 +11,7 @@
   overflow: scroll;
 }
 .container{
-  max-width: 300rem;
+max-width: 100%;
 }
 .company_images {
   max-width: 100%;

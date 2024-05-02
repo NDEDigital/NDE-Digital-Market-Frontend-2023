@@ -1,6 +1,7 @@
-
 .container{
-max-width: 300rem;
+  /* max-width: 300rem; */
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .head {
