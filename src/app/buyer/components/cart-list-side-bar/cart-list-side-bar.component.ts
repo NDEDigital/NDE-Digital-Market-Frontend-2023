@@ -14,7 +14,10 @@ export class CartListSideBarComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialization logic here
-    console.log('Component initialized with cart data:', this.cartData);
+    console.log(
+      'Component initialized with cart data:',
+      this.cartData ? this.cartData : 0
+    );
   }
   deleteFromSideCart(entry: any) {
     console.log(entry, 'ashce');
@@ -22,13 +25,10 @@ export class CartListSideBarComponent implements OnInit {
       next: (response: any) => {
         console.log(response);
         this.cartUpdated.emit();
-        // this.getAddTocartData();
       },
       error: (error: any) => {
         console.log(error);
       },
     });
-    // this.cartDataService.deleteCartData(entry.id);
-    // this.setServiceData();
   }
 }

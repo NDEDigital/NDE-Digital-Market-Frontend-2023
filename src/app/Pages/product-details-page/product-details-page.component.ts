@@ -443,14 +443,14 @@ export class ProductDetailsPageComponent {
       next: (response: any) => {
         console.log(response.result);
         this.cartData = response.result;
-        this.cartLength = this.cartData.length;
+        this.cartLength = this.cartData.length ? this.cartData.length : 0;
         this.cartTotalAmount = 0;
         this.cartData.forEach((element: any) => {
           this.cartTotalAmount += parseFloat(element.totalPrice);
         });
         console.log('new cart Data', response.result);
 
-        console.log('new cart Data', this.cartData.size);
+        console.log('new cart Data', this.cartData.length);
       },
       error: (error: any) => {
         console.log(error);
