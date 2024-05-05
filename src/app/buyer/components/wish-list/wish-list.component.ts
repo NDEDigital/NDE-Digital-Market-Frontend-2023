@@ -336,5 +336,9 @@ export class WishListComponent {
     // this.cartDataService.deleteCartData(entry.id);
     this.setServiceData();
   }
+  handleCartUpdate(): void {
+    console.log('Cart needs to be updated');
+    this.getAddTocartData();
+  }
   // added by marufa
 }

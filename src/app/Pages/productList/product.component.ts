@@ -238,6 +238,10 @@ export class ProductComponent {
       },
     });
   }
+  handleCartUpdate(): void {
+    console.log('Cart needs to be updated');
+    this.getAddTocartData();
+  }
   ngAfterViewInit() {
     this.bsModal = new bootstrap.Modal(this.modalElement.nativeElement);
     this.modalElement.nativeElement.addEventListener('shown.bs.modal', () => {

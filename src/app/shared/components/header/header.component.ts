@@ -33,7 +33,7 @@ import { PROJECT_TITLE } from 'src/app/config';
 export class HeaderComponent {
   imgSrc: string = '';
   pForm: FormGroup;
-  cartLength: number = 0;
+  @Input() cartLength: number = 0;
   isLoggedIn = false;
   user$ = this.sharedService.user$;
   errorMessage: any;
@@ -53,6 +53,7 @@ export class HeaderComponent {
   // @ViewChild(SearchResultComponent, { static: true })
   // searchResultComponent!: SearchResultComponent;
   @Output() someEvent = new EventEmitter<string>();
+  @Output() updateCartCount = new EventEmitter<number>();
 
   @Input() cartCount: number = 0;
   @Output() dataUpdated = new EventEmitter<void>();
@@ -174,7 +175,7 @@ export class HeaderComponent {
       }
     });
     this.getAddTocartData();
-    this.cartLength = this.cartData.length;
+    this.cartLength = this.cartData.length ? this.cartData.length : 0;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -227,9 +228,9 @@ export class HeaderComponent {
         console.log(response.result);
         this.cartData = response.result;
         this.cartLength = this.cartData.length;
-        console.log('new cart Data', response.result);
-
-        console.log('new cart Data', this.cartLength);
+        console.log('new cart Data header', response.result);
+        this.updateCartCount.emit(this.cartLength);
+        console.log('new cart Data header', this.cartLength);
       },
       error: (error: any) => {
         console.log(error);
