@@ -42,19 +42,19 @@ export class SellerAddBannerComponent {
   ) {}
 
   ngOnInit() {
-  //   if(!this.isEditMode){
-  //      this.addBannerForm = new FormGroup({
-  //        bannerDescription: new FormControl('', Validators.required),
-  //        bannerImage: new FormControl('', Validators.required),
-  //      });
-  //   }
-  //  if(this.isEditMode){
-  //   this.addBannerForm = new FormGroup({
-  //     bannerDescription: new FormControl('', ),
-  //     bannerImage: new FormControl('', ),
-  //   });
+    //   if(!this.isEditMode){
+    //      this.addBannerForm = new FormGroup({
+    //        bannerDescription: new FormControl('', Validators.required),
+    //        bannerImage: new FormControl('', Validators.required),
+    //      });
+    //   }
+    //  if(this.isEditMode){
+    //   this.addBannerForm = new FormGroup({
+    //     bannerDescription: new FormControl('', ),
+    //     bannerImage: new FormControl('', ),
+    //   });
 
-   //}
+    //}
     this.addBannerForm = new FormGroup({
       bannerDescription: new FormControl('', Validators.required),
       bannerImage: new FormControl('', Validators.required),
@@ -63,8 +63,13 @@ export class SellerAddBannerComponent {
     this.fetchBanners();
   }
   isApproved(banner: any): boolean {
-    return banner.isBannerStatus === true && banner.isActive === true;
+    return banner.isBannerStatus === true && banner.isActive === true ;
   }
+  isExpired(banner: any): boolean {
+    return banner.isBannerStatus === false && banner.isActive === false;
+  }
+
+
 
   openAddGroupModal(): void {
     this.resetForm();
@@ -207,7 +212,6 @@ export class SellerAddBannerComponent {
             this.PrdouctExistModalBTN.nativeElement.click();
             this.btnIndex = -1;
             this.fetchBanners();
-            
           },
           error: (error: any) => {
             // Handle error response here
@@ -219,8 +223,8 @@ export class SellerAddBannerComponent {
           },
         });
         // console.log(this.isEditMode, 'updating on submit');
-            this.isEditMode = false;
-            this.updateFormValidators();
+        this.isEditMode = false;
+        this.updateFormValidators();
       }
     }
   }
@@ -245,8 +249,8 @@ export class SellerAddBannerComponent {
         this.addBannerForm.reset();
         this.PrdouctExistModalBTN.nativeElement.click();
         this.fetchBanners();
-            this.isEditMode = false;
-            this.updateFormValidators();
+        this.isEditMode = false;
+        this.updateFormValidators();
       },
 
       error: (error: any) => {
@@ -275,7 +279,7 @@ export class SellerAddBannerComponent {
 
     // console.log(this.imagePathPreview, 'imagepath');
     // console.log(banner.bannerImage, 'bannerImage');
-      // this.existingImagePath = banner.bannerImage;
+    // this.existingImagePath = banner.bannerImage;
     // Set the form values based on the selected banner
     this.addBannerForm.patchValue({
       bannerDescription: banner.bannerDescription,

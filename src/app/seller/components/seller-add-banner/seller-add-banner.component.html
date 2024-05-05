@@ -73,20 +73,20 @@
             />
           </div>
           <!-- Description field -->
-          <div class="form-group">
-            <label><span class="text-danger">*</span>Description</label>
-            <input
-              type="text"
-              formControlName="bannerDescription"
-              class="w-100 p-1 rounded-1 border border-1"
-              [attr.required]="!isEditMode ? true : null"
-            />
-            <span
-              class="text-danger"
-              *ngIf="isFieldInvalid('bannerDescription')"
-              >Description is required.</span
-            >
-          </div>
+       <div class="form-group">
+  <label><span class="text-danger">*</span>Description</label>
+  <textarea
+    formControlName="bannerDescription"
+    class="w-100 p-1 rounded-1 border border-1 large-textarea"
+    [attr.required]="!isEditMode ? true : null"
+  ></textarea>
+  <span
+    class="text-danger"
+    *ngIf="isFieldInvalid('bannerDescription')"
+    >Description is required.</span
+  >
+</div>
+
           <button
             type="submit"
             class="button mt-3"
@@ -134,7 +134,7 @@
   <section
     class="row tablebodyRow fw-semibold"
     *ngFor="let banner of banners; let i = index"
-    (dblclick)="!isApproved(banner) && openEditForm(banner)"
+    (dblclick)="!(isApproved(banner) || isExpired(banner)) && openEditForm(banner)"
     (mouseover)="isHovered = i"
     (mouseout)="isHovered = null"
   >
@@ -170,7 +170,7 @@
         'active-row': isHovered === i
       }"
     >
-      {{ banner.bannerDescription }}
+     <p class="description">{{ banner.bannerDescription }}</p>
     </div>
     <div
       class="col tableBody"
