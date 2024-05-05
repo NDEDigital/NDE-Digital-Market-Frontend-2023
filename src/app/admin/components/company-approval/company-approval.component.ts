@@ -35,6 +35,7 @@ export class CompanyApprovalComponent {
       next: (response: any) => {
         this.companies = response;
         // console.log(this.companies, 'companies....');
+           maxUser: this.companies.maxUser; 
       },
       error: (error: any) => {
         //console.log(error);
