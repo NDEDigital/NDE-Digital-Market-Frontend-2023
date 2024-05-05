@@ -75,7 +75,8 @@ export class WishListComponent {
   buyerId: number = 0;
   buyerValue: any;
   cartTotalAmount = 0;
-  cartData: any;
+
+  cartData: any[] = [];
 
   cartLength: number = 0;
   orderDetailDescription: any = {

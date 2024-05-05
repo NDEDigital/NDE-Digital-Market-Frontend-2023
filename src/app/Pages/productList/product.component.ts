@@ -27,7 +27,8 @@ export class ProductComponent {
   allRole: any;
   buyerValue: any;
   cartTotalAmount = 0;
-  cartData: any;
+
+  cartData: any[] = [];
 
   cartLength: number = 0;
   @ViewChild('exampleModal') modalElement!: ElementRef;
@@ -231,7 +232,7 @@ export class ProductComponent {
         });
         console.log('new cart Data', response.result);
 
-        console.log('new cart Data', this.cartData.size);
+        console.log('new cart Data', this.cartData.length);
       },
       error: (error: any) => {
         console.log(error);

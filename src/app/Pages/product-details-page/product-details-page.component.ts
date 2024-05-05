@@ -31,6 +31,7 @@ export class ProductDetailsPageComponent {
   isBuyer = false;
   buyerValue: any;
   cartTotalAmount = 0;
+
   cartData: any[] = [];
   // Add cart related data
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
