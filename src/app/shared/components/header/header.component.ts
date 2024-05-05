@@ -7,6 +7,7 @@ import {
   Input,
   ViewChild,
   SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
@@ -67,7 +68,8 @@ export class HeaderComponent {
     private router: Router,
     private goodsData: GoodsDataService,
     private cartDataService: CartDataService,
-    private http: HttpClient
+    private http: HttpClient,
+    private cd: ChangeDetectorRef
   ) {
     //this.isBuyer = JSON.parse(localStorage.getItem('isB') || 'false');
     const role = localStorage.getItem('role');
@@ -184,6 +186,10 @@ export class HeaderComponent {
     // }
     this.cartLength = this.cartData.length ? this.cartData.length : 0;
     console.log('cart length', this.cartLength ? this.cartLength : 0);
+    if (changes['cartLength']) {
+      this.cartLength = changes['cartLength'].currentValue;
+      this.cd.detectChanges(); // Trigger change detection
+    }
   }
 
   setSelectData(groupName: string, groupCode: string) {
