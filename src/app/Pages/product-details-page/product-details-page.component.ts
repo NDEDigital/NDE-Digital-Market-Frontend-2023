@@ -31,7 +31,7 @@ export class ProductDetailsPageComponent {
   isBuyer = false;
   buyerValue: any;
   cartTotalAmount = 0;
-  cartData: any;
+  cartData: any[] = [];
   // Add cart related data
   cartDataDetail: Map<string, CartItem> = new Map<string, CartItem>();
   cartDataQt = new Map<string, number>();
@@ -427,15 +427,8 @@ export class ProductDetailsPageComponent {
   }
 
   setServiceData() {
-    // this.cartCount = this.cartDataService.getCartCount();
-    // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
     this.getAddTocartData();
     console.log(this.cartDataDetail, 'cart data');
-    // this.cartDataDetail = this.cartDataService.getCartData().cartDataDetail;
-
-    // console.log(this.cartDataDetail, 'cart data');
-    // this.cartDataQt = this.cartDataService.getCartData().cartDataQt;
-    // this.totalPrice = this.cartDataService.getTotalPrice();
   }
   getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
@@ -443,7 +436,7 @@ export class ProductDetailsPageComponent {
       next: (response: any) => {
         console.log(response.result);
         this.cartData = response.result;
-        this.cartLength = this.cartData.length ? this.cartData.length : 0;
+        this.cartLength = this.cartData.length;
         this.cartTotalAmount = 0;
         this.cartData.forEach((element: any) => {
           this.cartTotalAmount += parseFloat(element.totalPrice);
@@ -498,17 +491,6 @@ export class ProductDetailsPageComponent {
       },
     });
     console.log('updated cart value : ', addToCart);
-
-    let groupCodeIdSellerId =
-      entry.groupCode + '&' + entry.goodsId + '&' + entry.sellerCode;
-
-    // this.cartDataService.setCartCount(groupCodeIdSellerId);
-    // this.cartDataService.setPrice(
-    //   entry.netPrice,
-    //   parseInt(inputQt),
-    //   groupCodeIdSellerId
-    // );
-    // this.cartDataService.setCartData(entry, inputQt);
     this.setServiceData();
     this.popUpCount = parseInt(inputQt);
   }
@@ -543,10 +525,12 @@ export class ProductDetailsPageComponent {
       this.cartCount = 1;
     }
   }
+
   handleCartUpdate(): void {
     console.log('Cart needs to be updated');
     this.getAddTocartData();
   }
+
   deleteFromSideCart(entry: any) {
     console.log(entry, 'ashce');
     this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({

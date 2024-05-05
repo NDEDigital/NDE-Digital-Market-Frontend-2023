@@ -182,8 +182,8 @@ export class HeaderComponent {
     // if (changes['cartCount'] && !changes['cartCount'].firstChange) {
     //   this.cartCountLocal = changes['cartCount'].currentValue;
     // }
-    this.cartLength = this.cartData.length;
-    console.log('cart length', this.cartLength);
+    this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    console.log('cart length', this.cartLength ? this.cartLength : 0);
   }
 
   setSelectData(groupName: string, groupCode: string) {
@@ -229,8 +229,11 @@ export class HeaderComponent {
         this.cartData = response.result;
         this.cartLength = this.cartData.length;
         console.log('new cart Data header', response.result);
-        this.updateCartCount.emit(this.cartLength);
-        console.log('new cart Data header', this.cartLength);
+        this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
+        console.log(
+          'new cart Data header',
+          this.cartLength ? this.cartLength : 0
+        );
       },
       error: (error: any) => {
         console.log(error);

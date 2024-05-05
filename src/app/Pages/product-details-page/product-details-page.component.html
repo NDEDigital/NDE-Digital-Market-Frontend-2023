@@ -1,7 +1,7 @@
-<app-header [cartLength]="cartData.length"></app-header>
+<app-header [cartLength]="cartData.length ? cartData.length : 0"></app-header>
 
 <div
-  [ngClass]="{ show: cartData.length > 0 }"
+  [ngClass]="{ show: cartData.length ? cartData.length : 0 > 0 }"
   class="offcanvas right-sidebar offcanvas-end"
   data-bs-scroll="true"
   data-bs-backdrop="false"
