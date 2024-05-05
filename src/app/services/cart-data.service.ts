@@ -1,12 +1,17 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CartItem } from '../Pages/cart-added-product/cart-item.interface';
-
+import { API_URL } from '../config';
 @Injectable({
   providedIn: 'root',
 })
 export class CartDataService {
-  constructor() {}
-
+  URL = API_URL;
+  createAddCartDataByBuyerURL = `${this.URL}/api/AddToCart/AddToCartData`;
+  getAddToCartDataByBuyerURL = `${this.URL}/api/AddToCart/GetAddToCartData`;
+  deleteCartDataByBuyerURL = `${this.URL}/api/AddToCart/DeleteAddToCart`;
+  constructor(private http: HttpClient) {}
   private cartCount: number = 0;
   private cartDataDetail = new Map<string, CartItem>();
   private cartDataQt = new Map<string, number>();
@@ -14,160 +19,168 @@ export class CartDataService {
   private totalPriceWithDelivery = 0;
   // private saveLaterDataDetail = new Map<string, CartItem>();
   // private saveLaterDataQt = new Map<string, number>();
-
-  initializeAndLoadData() {
-    let localData = localStorage.getItem('cartDataDetail');
-    let localDataQt = localStorage.getItem('cartDataQt');
-    let localTotalPrice = localStorage.getItem('totalPrice');
-    let localCartCount = localStorage.getItem('cartCount');
-
-    if (localCartCount) {
-      this.cartCount = JSON.parse(localCartCount);
-    } else {
-      localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
-    }
-
-    if (localTotalPrice) {
-      this.totalPrice = JSON.parse(localTotalPrice);
-    } else {
-      localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
-    }
-
-    if (localData) {
-      this.cartDataDetail = new Map<string, CartItem>(JSON.parse(localData));
-    } else {
-      localStorage.setItem(
-        'cartDataDetail',
-        JSON.stringify(Array.from(this.cartDataDetail.entries()))
-      );
-    }
-
-    if (localDataQt) {
-      this.cartDataQt = new Map<string, number>(JSON.parse(localDataQt));
-    } else {
-      localStorage.setItem(
-        'cartDataQt',
-        JSON.stringify(Array.from(this.cartDataQt.entries()))
-      );
-    }
+  createAddCartDataByByer(addToCart: any) {
+    return this.http.post(this.createAddCartDataByBuyerURL, addToCart);
   }
-
-  loadIntoLocalStorage() {
-    localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
-    localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
-    localStorage.setItem(
-      'cartDataDetail',
-      JSON.stringify(Array.from(this.cartDataDetail.entries()))
-    );
-    localStorage.setItem(
-      'cartDataQt',
-      JSON.stringify(Array.from(this.cartDataQt.entries()))
-    );
+  getAddToCartDataByBuyer(userID: string) {
+    return this.http.get(`${this.getAddToCartDataByBuyerURL}/${userID}`);
   }
-
-  clearCartData() {
-    this.cartDataDetail.clear();
-    this.cartDataQt.clear();
-    this.totalPrice = 0;
-    this.totalPriceWithDelivery = 0;
-    this.cartCount = 0;
-    localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
-    localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
-    localStorage.setItem(
-      'cartDataDetail',
-      JSON.stringify(Array.from(this.cartDataDetail.entries()))
-    );
-    localStorage.setItem(
-      'cartDataQt',
-      JSON.stringify(Array.from(this.cartDataQt.entries()))
-    );
+  deleteCartDataByBuyer(productID: any) {
+    return this.http.delete(`${this.deleteCartDataByBuyerURL}/${productID}`);
   }
+  // initializeAndLoadData() {
+  //   let localData = localStorage.getItem('cartDataDetail');
+  //   let localDataQt = localStorage.getItem('cartDataQt');
+  //   let localTotalPrice = localStorage.getItem('totalPrice');
+  //   let localCartCount = localStorage.getItem('cartCount');
 
-  setCartCount(key: string) {
-    const count = this.cartDataQt.get(key);
-    if (count === undefined) {
-      this.cartCount++;
-    }
+  //   if (localCartCount) {
+  //     this.cartCount = JSON.parse(localCartCount);
+  //   } else {
+  //     localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
+  //   }
 
-    localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
-  }
+  //   if (localTotalPrice) {
+  //     this.totalPrice = JSON.parse(localTotalPrice);
+  //   } else {
+  //     localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
+  //   }
 
-  setPrice(price: number, qt: number, key: string) {
-    // console.log(price ,"keyy",  qt)
-    const count = this.cartDataQt.get(key);
-    // console.log("counter",count," --",this.totalPrice);
+  //   if (localData) {
+  //     this.cartDataDetail = new Map<string, CartItem>(JSON.parse(localData));
+  //   } else {
+  //     localStorage.setItem(
+  //       'cartDataDetail',
+  //       JSON.stringify(Array.from(this.cartDataDetail.entries()))
+  //     );
+  //   }
 
-    if (this.cartDataQt.has(key) && count !== undefined) {
-      this.totalPrice -= count * price;
-    }
-    this.totalPrice += qt * price;
-    if (this.totalPrice < 0) {
-      this.totalPrice = 0;
-    }
-    // console.log("totoal price",this.totalPrice);
-    localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
-  }
+  //   if (localDataQt) {
+  //     this.cartDataQt = new Map<string, number>(JSON.parse(localDataQt));
+  //   } else {
+  //     localStorage.setItem(
+  //       'cartDataQt',
+  //       JSON.stringify(Array.from(this.cartDataQt.entries()))
+  //     );
+  //   }
+  // }
 
-  getCartData() {
-    //console.log("cardData is a",this.cartDataDetail);
+  // loadIntoLocalStorage() {
+  //   localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
+  //   localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
+  //   localStorage.setItem(
+  //     'cartDataDetail',
+  //     JSON.stringify(Array.from(this.cartDataDetail.entries()))
+  //   );
+  //   localStorage.setItem(
+  //     'cartDataQt',
+  //     JSON.stringify(Array.from(this.cartDataQt.entries()))
+  //   );
+  // }
 
-    return {
-      cartDataDetail: this.cartDataDetail,
-      cartDataQt: this.cartDataQt,
-    };
-  }
+  // clearCartData() {
+  //   this.cartDataDetail.clear();
+  //   this.cartDataQt.clear();
+  //   this.totalPrice = 0;
+  //   this.totalPriceWithDelivery = 0;
+  //   this.cartCount = 0;
+  //   localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
+  //   localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
+  //   localStorage.setItem(
+  //     'cartDataDetail',
+  //     JSON.stringify(Array.from(this.cartDataDetail.entries()))
+  //   );
+  //   localStorage.setItem(
+  //     'cartDataQt',
+  //     JSON.stringify(Array.from(this.cartDataQt.entries()))
+  //   );
+  // }
 
-  getCartCount() {
-    return this.cartCount;
-  }
-  getTotalPrice() {
-    return this.totalPrice;
-  }
+  // setCartCount(key: string) {
+  //   const count = this.cartDataQt.get(key);
+  //   if (count === undefined) {
+  //     this.cartCount++;
+  //   }
 
-  setCartData(obj: any, qt: any) {
-    let groupCodeIdSellerId =
-      obj.groupCode + '&' + obj.goodsId + '&' + obj.sellerCode;
-    this.cartDataDetail.set(groupCodeIdSellerId, obj);
+  //   localStorage.setItem('cartCount', JSON.stringify(this.cartCount));
+  // }
 
-    this.cartDataQt.set(groupCodeIdSellerId, qt);
-    // console.log("entry ta holoddd",obj);
-    // Convert Map to an array of its entries and then stringify
-    localStorage.setItem(
-      'cartDataDetail',
-      JSON.stringify(Array.from(this.cartDataDetail.entries()))
-    );
-    localStorage.setItem(
-      'cartDataQt',
-      JSON.stringify(Array.from(this.cartDataQt.entries()))
-    );
-  }
+  // setPrice(price: number, qt: number, key: string) {
+  //   // console.log(price ,"keyy",  qt)
+  //   const count = this.cartDataQt.get(key);
+  //   // console.log("counter",count," --",this.totalPrice);
 
-  deleteCartData(key: string) {
-    if (key !== undefined) {
-      this.initializeAndLoadData();
-      const objData = this.cartDataDetail.get(key);
-      const objQt = this.cartDataQt.get(key);
+  //   if (this.cartDataQt.has(key) && count !== undefined) {
+  //     this.totalPrice -= count * price;
+  //   }
+  //   this.totalPrice += qt * price;
+  //   if (this.totalPrice < 0) {
+  //     this.totalPrice = 0;
+  //   }
+  //   // console.log("totoal price",this.totalPrice);
+  //   localStorage.setItem('totalPrice', JSON.stringify(this.totalPrice));
+  // }
 
-      if (objData !== undefined && objQt !== undefined) {
-        this.totalPrice -= objQt * objData.netPrice;
-      }
+  // getCartData() {
+  //   //console.log("cardData is a",this.cartDataDetail);
 
-      this.cartCount--;
-      this.cartDataDetail.delete(key);
-      this.cartDataQt.delete(key);
+  //   return {
+  //     cartDataDetail: this.cartDataDetail,
+  //     cartDataQt: this.cartDataQt,
+  //   };
+  // }
 
-      this.loadIntoLocalStorage();
-    }
-  }
+  // getCartCount() {
+  //   return this.cartCount;
+  // }
+  // getTotalPrice() {
+  //   return this.totalPrice;
+  // }
 
-  updateData(cartData: any, cartDataQt: any) {
-    this.cartDataDetail = cartData;
-    this.cartDataQt = cartDataQt;
-  }
-  setTotalPriceWithDelivery(value: number) {
-    this.totalPriceWithDelivery = value;
-  }
-  getTotalPriceWithDelivery() {
-    return this.totalPriceWithDelivery;
-  }
+  // setCartData(obj: any, qt: any) {
+  //   let groupCodeIdSellerId =
+  //     obj.groupCode + '&' + obj.goodsId + '&' + obj.sellerCode;
+  //   this.cartDataDetail.set(groupCodeIdSellerId, obj);
+
+  //   this.cartDataQt.set(groupCodeIdSellerId, qt);
+  //   // console.log("entry ta holoddd",obj);
+  //   // Convert Map to an array of its entries and then stringify
+  //   localStorage.setItem(
+  //     'cartDataDetail',
+  //     JSON.stringify(Array.from(this.cartDataDetail.entries()))
+  //   );
+  //   localStorage.setItem(
+  //     'cartDataQt',
+  //     JSON.stringify(Array.from(this.cartDataQt.entries()))
+  //   );
+  // }
+
+  // deleteCartData(key: string) {
+  //   if (key !== undefined) {
+  //     this.initializeAndLoadData();
+  //     const objData = this.cartDataDetail.get(key);
+  //     const objQt = this.cartDataQt.get(key);
+
+  //     if (objData !== undefined && objQt !== undefined) {
+  //       this.totalPrice -= objQt * objData.netPrice;
+  //     }
+
+  //     this.cartCount--;
+  //     this.cartDataDetail.delete(key);
+  //     this.cartDataQt.delete(key);
+
+  //     this.loadIntoLocalStorage();
+  //   }
+  // }
+
+  // updateData(cartData: any, cartDataQt: any) {
+  //   this.cartDataDetail = cartData;
+  //   this.cartDataQt = cartDataQt;
+  // }
+  // setTotalPriceWithDelivery(value: number) {
+  //   this.totalPriceWithDelivery = value;
+  // }
+  // getTotalPriceWithDelivery() {
+  //   return this.totalPriceWithDelivery;
+  // }
 }

@@ -4,6 +4,7 @@ import { CartItem } from './cart-item.interface';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OrderApiService } from 'src/app/services/order-api.service';
+
 @Component({
   selector: 'app-cart-added-product',
   templateUrl: './cart-added-product.component.html',
@@ -19,10 +20,16 @@ export class CartAddedProductComponent {
   saveLaterDataQt = new Map<string, number>();
   cartCount: number = 0;
   totalPrice: number = 0;
-showUpBtn: any ;
+  showUpBtn: any;
+  buyerValue: any;
+  cartTotalAmount = 0;
+  cartData: any;
+
+  cartLength: number = 0;
   constructor(
     private cartDataService: CartDataService,
     private route: Router,
+    private http: HttpClient,
     private orderApiService: OrderApiService
   ) {}
 
@@ -32,39 +39,99 @@ showUpBtn: any ;
   }
 
   fetchCartData(): void {
+    this.getAddTocartData();
     // this.cartDataService.clearCartData();
-    this.cartDataService.initializeAndLoadData();
-    const cartData = this.cartDataService.getCartData();
-    this.cartDataDetail = cartData.cartDataDetail;
-    console.log
-    this.cartDataQt = cartData.cartDataQt;
-    // console.log("cartDataQt",this.cartDataQt);
-    this.cartCount = this.cartDataService.getCartCount();
-    
-    this.totalPrice = this.cartDataService.getTotalPrice();
+    // this.cartDataService.initializeAndLoadData();
+    // const cartData = this.cartDataService.getCartData();
+    // this.cartDataDetail = cartData.cartDataDetail;
+    // console.log;
+    // this.cartDataQt = cartData.cartDataQt;
+    // // console.log("cartDataQt",this.cartDataQt);
+    // this.cartCount = this.cartDataService.getCartCount();
+
+    // this.totalPrice = this.cartDataService.getTotalPrice();
     //console.log(this.cartCount);
   }
 
+  getAddTocartData() {
+    this.buyerValue = localStorage.getItem('code');
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        this.cartTotalAmount = 0;
+        this.cartData.forEach((element: any) => {
+          this.cartTotalAmount += parseFloat(element.totalPrice);
+        });
+        console.log('new cart Data', response.result);
 
+        console.log('new cart Data', this.cartData.size);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
   // delete data
-  sentCardDetails(entry:any,changeValue:any,key:any){
- 
-  console.log("the entry you want",entry);
-  if(changeValue===''){
-  
-  changeValue=1;
-  }
-    this.cartDataService.setPrice(entry.netPrice,Number(changeValue),key);
+  sentcartDetails(changeValue: any, entry: any) {
+    const formData = new FormData();
+    const addToCart = {
+      companyCode: entry.companyCode,
+      productID: entry.goodsId,
+      productGroupID: entry.groupCode,
+      unitID: entry.unitId,
+      productCartQuantity: changeValue,
+      addedDate: '',
+      addedBy: 'user',
+      addedPC: '0.0.0.0',
+    };
+    console.log(addToCart, 'ashce');
+    formData.append('buyerUserID', this.buyerValue);
+    formData.append('companyCode', entry.companyCode);
+    formData.append('productID', entry.productID);
+    formData.append('productGroupID', entry.productGroupID);
+    formData.append('unitID', entry.unitID);
+    formData.append('productCartQuantity', changeValue);
+    formData.append('addedDate', '');
+    formData.append('addedBy', 'user');
+    formData.append('addedPC', '0.0.0.0');
+    formData.append('updatedDate', '');
+    formData.append('updatedBy', 'user');
+    formData.append('updatedPC', '0.0.0.0');
 
-    this.cartDataService.setCartData(entry,parseFloat(changeValue));
-     this.fetchCartData();
-     this.showUpBtn='';
-  }
+    this.cartDataService.createAddCartDataByByer(formData).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    if (changeValue === '') {
+      changeValue = 1;
+    }
+    // this.cartDataService.setPrice(entry.netPrice, Number(changeValue), key);
 
+    // this.cartDataService.setCartData(entry, parseFloat(changeValue));
+    this.fetchCartData();
+    this.showUpBtn = '';
+  }
 
   deleteCartProduct(entry: any) {
-    this.cartDataService.deleteCartData(entry);
-    this.cartCount--;
+    console.log(entry, 'ashce');
+    this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.getAddTocartData();
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+    // this.cartDataService.deleteCartData(entry);
+    // this.cartCount--;
     this.fetchCartData();
   }
 
@@ -85,22 +152,19 @@ showUpBtn: any ;
   //   this.cartDataQt.delete(entry.groupCode + '&' + entry.goodsID);
   //   this.cartDataService.updateData(this.cartDataDetail, this.cartDataQt);
   // }
-procedBtn:any;
+  procedBtn: any;
   procced() {
     // alert(this.showUpBtn);
-    if(this.showUpBtn){
+    if (this.showUpBtn) {
       // alert('Update the value');
-      this.procedBtn=false;
-    }
-    else{
-
-
+      this.procedBtn = false;
+    } else {
       //console.log(localStorage.getItem('loginStatus'));
       if (localStorage.getItem('loginStatus') === null) {
         // this.route.navigate(['/login']);
         this.LoginModalBTN.nativeElement.click();
       } else {
-        if (this.cartDataDetail.size > 0) {
+        if (this.cartData.length > 0) {
           this.route.navigate(['/checkout']);
         } else {
           //console.log('select product');
@@ -112,36 +176,29 @@ procedBtn:any;
   productPage() {
     this.route.navigate(['/']);
   }
-  
+
   validateInput(event: any, qty: any) {
-  
     if (String(event.target.value).match(/^\d+$/)) {
       let inputNumber = parseInt(event.target.value);
-  
+
       if (inputNumber < 1) {
         inputNumber = 1;
       } else if (inputNumber > qty) {
         // console.log("event data", event);
-        inputNumber = parseInt(event.value) || 1; 
+        inputNumber = parseInt(event.value) || 1;
       }
-  
-      event.target.value = inputNumber; 
+
+      event.target.value = inputNumber;
     } else {
-     
-      event.target.value = ''; 
+      event.target.value = '';
     }
   }
 
-  
-
-  
-
-    // Additional commented-out code that sets the value to 1 if it's 0
-    // Uncomment this section if needed
-    // else if (event.target.value === 0) {
-    //     event.target.value = 1;
-    // }
-
+  // Additional commented-out code that sets the value to 1 if it's 0
+  // Uncomment this section if needed
+  // else if (event.target.value === 0) {
+  //     event.target.value = 1;
+  // }
 
   // save later
   // saveForLater(key: any, value: any) {

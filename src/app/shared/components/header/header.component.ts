@@ -8,6 +8,8 @@ import {
   ViewChild,
   SimpleChanges,
 } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
 import {
   AbstractControl,
   FormControl,
@@ -31,6 +33,7 @@ import { PROJECT_TITLE } from 'src/app/config';
 export class HeaderComponent {
   imgSrc: string = '';
   pForm: FormGroup;
+  @Input() cartLength: number = 0;
   isLoggedIn = false;
   user$ = this.sharedService.user$;
   errorMessage: any;
@@ -43,11 +46,14 @@ export class HeaderComponent {
   isCategoriesVisible = false;
   goods: any;
   products = new Map();
+  buyerValue: any;
+  cartData: any;
   @ViewChild('closeButton')
   closeButton!: ElementRef;
   // @ViewChild(SearchResultComponent, { static: true })
   // searchResultComponent!: SearchResultComponent;
   @Output() someEvent = new EventEmitter<string>();
+  @Output() updateCartCount = new EventEmitter<number>();
 
   @Input() cartCount: number = 0;
   @Output() dataUpdated = new EventEmitter<void>();
@@ -60,7 +66,8 @@ export class HeaderComponent {
     private userDataService: UserDataService,
     private router: Router,
     private goodsData: GoodsDataService,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private http: HttpClient
   ) {
     //this.isBuyer = JSON.parse(localStorage.getItem('isB') || 'false');
     const role = localStorage.getItem('role');
@@ -158,7 +165,7 @@ export class HeaderComponent {
       this.cartCountLocal = JSON.parse(count);
     }
     this.loadCategories();
-    this.cartCount = this.cartDataService.getCartCount();
+    // this.cartCount = this.cartDataService.getCartCount();
     this.activeEntry = localStorage.getItem('activeEntry') || '';
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -167,12 +174,16 @@ export class HeaderComponent {
         }
       }
     });
+    this.getAddTocartData();
+    this.cartLength = this.cartData.length ? this.cartData.length : 0;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['cartCount'] && !changes['cartCount'].firstChange) {
-      this.cartCountLocal = changes['cartCount'].currentValue;
-    }
+    // if (changes['cartCount'] && !changes['cartCount'].firstChange) {
+    //   this.cartCountLocal = changes['cartCount'].currentValue;
+    // }
+    this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    console.log('cart length', this.cartLength ? this.cartLength : 0);
   }
 
   setSelectData(groupName: string, groupCode: string) {
@@ -210,6 +221,26 @@ export class HeaderComponent {
       this.isCategoriesVisible = window.scrollY > navBeltPosition;
     }
   }
+  getAddTocartData() {
+    this.buyerValue = localStorage.getItem('code');
+    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        this.cartData = response.result;
+        this.cartLength = this.cartData.length;
+        console.log('new cart Data header', response.result);
+        this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
+        console.log(
+          'new cart Data header',
+          this.cartLength ? this.cartLength : 0
+        );
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
+  }
+
   // Close modal bootstrap
   closeModal() {
     this.closeButton.nativeElement.click();

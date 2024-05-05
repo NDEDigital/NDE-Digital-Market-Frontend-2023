@@ -103,48 +103,38 @@
       <div class="container w-75 px-5 py-3 mt-5 rounded text-start">
         <div
           class="product row align-items-center py-2"
-          *ngFor="let entry of cartDataDetail | keyvalue"
+          *ngFor="let entry of cartData"
         >
           <div class="d-flex justify-content-between border-top border-1">
             <h5 class="fs-6">
               <span class="text-muted">Company: </span>
-              {{ entry.value.companyName }}
+              {{ entry.companyName }}
             </h5>
           </div>
           <div class="col-2">
             <img
               class="rounded border border-1"
               [src]="
-                entry.value.imagePath
-                  ? entry.value.imagePath.substring(
-                      entry.value.imagePath.indexOf('assets')
-                    )
-                  : '../../../assets/images/' + entry.value.groupName + '.jpg'
+                entry.imagePath
+                  ? entry.imagePath.substring(entry.imagePath.indexOf('assets'))
+                  : '../../../assets/images/' + entry.groupName + '.jpg'
               "
               alt=""
             />
           </div>
           <div class="col-5">
-            <label class="text-end" for="name">{{
-              entry.value.goodsName
-            }}</label>
-            <p class="text-muted py-1">{{ entry.value.specification }}</p>
+            <label class="text-end" for="name">{{ entry.productName }}</label>
+            <p class="text-muted py-1">{{ entry.specification }}</p>
           </div>
           <div class="col-3">
             <p class="text-muted fw-semibold">
               Qty:
-              <span>
-                {{
-                  cartDataQt.get(
-                    entry.value.groupCode + "&" + entry.value.goodsId + "&" + entry.value.sellerCode
-                  )
-                }}</span
-              >
+              <span> {{ entry.productCartQuantity }}</span>
             </p>
           </div>
           <div class="col-2">
             <p class="text-muted fw-semibold">
-              <span class="fs-3">৳</span>: <span> {{ entry.value.netPrice }}</span>
+              <span class="fs-3">৳</span>: <span> {{ entry.totalPrice }}</span>
             </p>
           </div>
         </div>
@@ -152,12 +142,12 @@
         <div
           class="d-flex align-items-center justify-content-end text-muted me-3"
         >
-          <P class="mt-2">{{ cartDataDetail.size }} Item(s).</P>
-          
+          <P class="mt-2">{{ cartData.length }} Item(s).</P>
+
           <P class="fw-semibold">
             <span> Subtotal: </span>
             <span class="color-primary">
-              <span class="fs-3">৳</span> {{ totalPriceWithDiscount }}</span
+              <span class="fs-3">৳</span> {{ cartTotalAmount }}</span
             >
           </P>
         </div>
@@ -171,23 +161,23 @@
             Order Summary
           </h5>
           <div class="row">
-            <div class="row">
+            <!-- <div class="row">
               <h6 class="col-5 mt-2">Items Total</h6>
               <div class="col-5 text-end">
-                <span class="fs-3">৳</span> {{ totalPriceWithDiscount }}
+                <span class="fs-3">৳</span> {{ cartTotalAmount }}
               </div>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <h6 class="col-5 mt-2">Discount Amount</h6>
               <div class="col-5 text-end">
-                <span class="fs-3">৳</span>  {{totalPrice - totalPriceWithDiscount }}
-               
+                <span class="fs-3">৳</span>
+                {{ totalPrice - totalPriceWithDiscount }}
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <h6 class="col-5 mt-2">Total Items Price</h6>
               <div class="col-5 text-end">
-                <span class="fs-3">৳</span> {{ totalPrice }}
+                <span class="fs-3">৳</span> {{ cartTotalAmount }}
               </div>
             </div>
             <div class="row">
@@ -199,7 +189,8 @@
             <div class="row">
               <h6 class="col-5 mt-2">Total Payment</h6>
               <div class="col-5 text-end">
-                <span class="fs-3">৳</span> {{ totalPriceWithDiscount + deliveryFee }}
+                <span class="fs-3">৳</span>
+                {{ cartTotalAmount + deliveryFee }}
               </div>
             </div>
           </div>

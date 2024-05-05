@@ -1,4 +1,4 @@
-<app-header [cartCount]="cartCount"></app-header>
+<app-header [cartCount]="cartData.length"></app-header>
 
 <section id="page-container" class="cart-detail">
   <div id="content-wrap" class="d-flex m-3">
@@ -8,9 +8,7 @@
           <h3 class="mb-0">Cart Detail</h3>
         </div>
         <hr />
-        <ng-container
-          *ngFor="let entry of cartDataDetail | keyvalue; let i = index"
-        >
+        <ng-container *ngFor="let entry of cartData; let i = index">
           <div class="d-flex ps-5">
             <div>
               <!-- <img class="product-img" src="/assets/images/hc1.jpg" alt=""> -->
@@ -19,46 +17,66 @@
                 width="300rem"
                 height="200rem"
                 [src]="
-                  entry.value.imagePath
-                    ? entry.value.imagePath.substring(
-                        entry.value.imagePath.indexOf('assets')
+                  entry.imagePath
+                    ? entry.imagePath.substring(
+                        entry.imagePath.indexOf('assets')
                       )
-                    : '../../../assets/images/' + entry.value.groupName + '.jpg'
+                    : '../../../assets/images/' + entry.groupName + '.jpg'
                 "
                 alt=""
               />
             </div>
             <div class="ps-3 product-detail">
               <span class="product-name">{{
-                entry.value.groupName + " (" + entry.value.goodsName + ")"
+                entry.productName + " (" + entry.productName + ")"
               }}</span>
-              <p class="fw-bold price">
-                ৳{{ entry.value.netPrice ? entry.value.netPrice : "" }}
-              </p>
-              <p>{{ entry.value.companyName }}</p>
-              <p>
-                Only {{ entry.value.approveSalesQty }} left in stock - order
-                soon.
-              </p>
+              <p class="fw-bold price">৳{{ entry.price ? entry.price : "" }}</p>
+              <p>{{ entry.companyName }}</p>
+              <p>Only {{ entry.availableQty }} left in stock - order soon.</p>
               <div class="product-foot">
-                <span>Qty: <input type="number"  (focus)="showUpBtn=entry.key" min="1" max="{{entry.value.approveSalesQty}}" (input)="validateInput($event,entry.value.approveSalesQty)"   class="bg-light" #changeValue value="{{ cartDataQt.get(entry.key) }}" > |</span>
-                <button *ngIf="showUpBtn===entry.key" class="btn btn-success ms-2" (click)="sentCardDetails(entry.value,changeValue.value,entry.key)" >Update</button>
-                <span class="ms-3 cursor" (click)="deleteCartProduct(entry.key)"
+                <span
+                  >Qty:
+                  <input
+                    type="number"
+                    (focus)="showUpBtn = entry.id"
+                    min="1"
+                    max="{{ entry.availableQty }}"
+                    (input)="validateInput($event, entry.availableQty)"
+                    class="bg-light"
+                    #changeValue
+                    value="{{ entry.productCartQuantity }}"
+                  />
+                  |</span
+                >
+                <button
+                  *ngIf="showUpBtn === entry.id"
+                  class="btn btn-success ms-2"
+                  (click)="sentcartDetails(changeValue.value, entry)"
+                >
+                  Update
+                </button>
+                <span class="ms-3 cursor" (click)="deleteCartProduct(entry)"
                   >Delete</span
                 >
                 <!-- <span class="ms-3 cursor"
                  (click) = "saveForLater(entry.key,entry.value)"
                 >Save for later</span> -->
-                <p *ngIf="showUpBtn===entry.key&&this.procedBtn===false" #updateQty class="text-danger">Update the Qty</p>
+                <p
+                  *ngIf="showUpBtn === entry.id && this.procedBtn === false"
+                  #updateQty
+                  class="text-danger"
+                >
+                  Update the Qty
+                </p>
               </div>
             </div>
           </div>
 
-          <hr *ngIf="i !== cartDataDetail.size - 1" />
+          <hr *ngIf="i !== cartData.length - 1" />
         </ng-container>
 
         <div
-          *ngIf="cartDataDetail.size === 0"
+          *ngIf="cartData.length === 0"
           class="text-center py-5 d-flex justify-content-center align-items-center flex-column"
         >
           <div
@@ -77,13 +95,12 @@
     <div class="d-flex flex-column subtotal-parent">
       <div class="ms-4 subtotal p-4">
         <p class="subtotal-title">
-          Subtotal ({{ this.cartCount }}): <b>৳{{ this.totalPrice }}</b>
+          Subtotal ({{ cartData.length }}): <b>৳{{ this.cartTotalAmount }}</b>
         </p>
         <button
           class="btn btn-warning mt-2 w-100"
-          [disabled]="this.totalPrice === 0"
+          [disabled]="this.cartTotalAmount === 0"
           (click)="procced()"
-          
         >
           Proceed to checkout
         </button>
