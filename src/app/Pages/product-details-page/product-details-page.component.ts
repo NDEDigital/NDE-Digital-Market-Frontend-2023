@@ -543,6 +543,10 @@ export class ProductDetailsPageComponent {
       this.cartCount = 1;
     }
   }
+  handleCartUpdate(): void {
+    console.log('Cart needs to be updated');
+    this.getAddTocartData();
+  }
   deleteFromSideCart(entry: any) {
     console.log(entry, 'ashce');
     this.cartDataService.deleteCartDataByBuyer(entry.id).subscribe({

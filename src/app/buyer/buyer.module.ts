@@ -25,6 +25,7 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
 import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 import { ClientsListSliderComponent } from './components/clients-list-slider/clients-list-slider.component';
 import { SharedModule } from '../shared/shared.module';
+import { CartListSideBarComponent } from './components/cart-list-side-bar/cart-list-side-bar.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -56,6 +57,7 @@ import { SharedModule } from '../shared/shared.module';
     WishListComponent,
     SubHeaderComponent,
     ClientsListSliderComponent,
+    CartListSideBarComponent,
   ],
   exports: [
     BannerComponent,
@@ -79,6 +81,7 @@ import { SharedModule } from '../shared/shared.module';
     WishListComponent,
     SubHeaderComponent,
     ClientsListSliderComponent,
+    CartListSideBarComponent,
   ],
 })
 export class BuyerModule {}
