@@ -11,6 +11,7 @@ p {
   /* box-shadow: 0 0 0.35rem var(--color-gray); */
   /* box-shadow: 0 0 0.35rem #ffffff; */
   border: 1px solid #d9d9d9;
+  justify-content: space-between;
 }
 .slider_wrap {
   position: relative;
@@ -136,6 +137,13 @@ p {
 
 .card:hover {
   transform: translateY(-5px);
+}
+.text {
+  color: rgb(0, 119, 255);
+  text-decoration: underline;
+  font-size: 1.5rem;
+  cursor: pointer;
+  /* padding-right: 100vw; */
 }
 
 /* .detail-img {
