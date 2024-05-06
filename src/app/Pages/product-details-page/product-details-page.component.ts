@@ -215,43 +215,6 @@ export class ProductDetailsPageComponent {
     }
   }
 
-  // addToWishlist() {
-
-  //   console.log('Adding to wishlist...');
-  //   this.isRed = !this.isRed; // Toggle the boolean value on each call
-  //   if (this.isRed) {
-
-  //     this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg";
-
-  //     this.wishlistIcon.nativeElement.width = "20";
-  //     this.wishlistIcon.nativeElement.height = "20";
-
-  //     this.WishlistService.DeleteWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
-  //       next: (response: any) => {
-  //           console.log(response);
-  //       },
-  //       error: (error: any) => {
-  //           console.log(error);
-  //       },
-  //     });
-
-  //   } else {
-  //     this.wishlistIcon.nativeElement.src = "//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg";
-
-  //     this.wishlistIcon.nativeElement.width = "20";
-  //     this.wishlistIcon.nativeElement.height = "20";
-  //     this.WishlistService.InsertWishList(this.buyerCode, this.productIdPa ,this.companyCodePa ).subscribe({
-  //       next: (response: any) => {
-  //           console.log(response);
-
-  //       },
-  //       error: (error: any) => {
-  //           console.log(error);
-  //       },
-  //     });
-  //   }
-  // }
-
   RatingsAndReview(ProductID: any) {
     this.service.getReviewRatingsData(ProductID).subscribe((data: any) => {
       console.log('review', data);
