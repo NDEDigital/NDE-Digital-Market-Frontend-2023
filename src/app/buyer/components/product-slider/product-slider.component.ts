@@ -210,6 +210,10 @@ export class ProductSliderComponent {
     event.target.src = '/assets/default-image.jpg';
   }
 
+  viewAllProducts(){
+    
+  }
+
   // updateQuantity() {
   //   this.intervalId = setInterval(() => {
   //     //console.log('Fetching carousel data...');
