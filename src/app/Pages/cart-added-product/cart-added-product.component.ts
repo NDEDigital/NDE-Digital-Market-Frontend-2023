@@ -107,6 +107,8 @@ export class CartAddedProductComponent {
       next: (response: any) => {
         console.log(response);
         this.getAddTocartData();
+
+        this.selectAll = false;
       },
       error: (error: any) => {
         console.log(error);
@@ -128,6 +130,7 @@ export class CartAddedProductComponent {
       next: (response: any) => {
         console.log(response);
         this.getAddTocartData();
+        this.selectAll = false;
         this.cartData = this.cartData.filter(
           (cartEntry: CartEntry) => cartEntry.id !== entry.id
         );
@@ -179,6 +182,15 @@ export class CartAddedProductComponent {
   //   this.cartDataQt.delete(entry.groupCode + '&' + entry.goodsID);
   //   this.cartDataService.updateData(this.cartDataDetail, this.cartDataQt);
   // }
+  truncateProductName(productName: string, maxLength: number): string {
+    // Check if the product name length exceeds maxLength
+    if (productName.length > maxLength) {
+      // Truncate the product name and add ellipsis
+      return productName.slice(0, maxLength) + '...';
+    }
+    // Return the original product name if length is within limit
+    return productName;
+  }
   procedBtn: any;
   procced() {
     // alert(this.showUpBtn);
