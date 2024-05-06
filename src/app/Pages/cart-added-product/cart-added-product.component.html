@@ -8,8 +8,21 @@
           <h3 class="mb-0">Cart Detail</h3>
         </div>
         <hr />
+        <div *ngIf="cartData.length > 0">
+          <input
+            type="checkbox"
+            [(ngModel)]="selectAll"
+            (change)="onSelectAllChange($event)"
+          />
+          <label for="selectAll">Select All</label>
+        </div>
         <ng-container *ngFor="let entry of cartData; let i = index">
           <div class="d-flex ps-5">
+            <input
+              type="checkbox"
+              [(ngModel)]="entry.selected"
+              (change)="onEntrySelected(entry)"
+            />
             <div>
               <!-- <img class="product-img" src="/assets/images/hc1.jpg" alt=""> -->
               <img
@@ -95,7 +108,8 @@
     <div class="d-flex flex-column subtotal-parent">
       <div class="ms-4 subtotal p-4">
         <p class="subtotal-title">
-          Subtotal ({{ cartData.length }}): <b>৳{{ this.cartTotalAmount }}</b>
+          Subtotal ({{ this.totalSelectedCart }}):
+          <b>৳{{ this.cartTotalAmount }}</b>
         </p>
         <button
           class="btn btn-warning mt-2 w-100"

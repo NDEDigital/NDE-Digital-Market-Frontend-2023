@@ -109,7 +109,7 @@ const routes: Routes = [
     component: InvoiceComponent,
   },
   {
-    path: 'checkout',
+    path: 'checkout/:selectedProducts',
     component: CheckoutPageComponent,
     canActivate: [BuyerOnlyGuard],
   },
