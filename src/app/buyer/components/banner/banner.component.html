@@ -56,13 +56,22 @@
   >
     <!-- Carousel Indicators -->
     <div class="carousel-indicators">
-      <!-- <button
+      <button
+        *ngIf="bannerDetails.length == 0"
         type="button"
         data-bs-target="#carouselExampleDark"
         data-bs-slide-to="0"
         class="active"
         aria-current="true"
         aria-label="Slide 1"
+      ></button>
+      <!-- <button
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+        aria-label="Slide 2"
       ></button> -->
       <button
         *ngFor="let detail of bannerDetails; let i = index"
@@ -85,12 +94,34 @@
           [src]="
             banner.bannerImage.substring(
               banner.bannerImage.indexOf('assets')
-            ) || 'assets/images/banner/default.jpg'
+            ) || 'assets/images/banner/banner1.jpg'
           "
           class="d-block img-fluid"
           alt="Banner Image"
         />
       </div>
+      <div
+        *ngIf="bannerDetails.length == 0"
+        class="carousel-item"
+        [ngClass]="{ active: 1 }"
+      >
+        <img
+          [src]="'assets/images/banner/banner1.jpg'"
+          class="d-block img-fluid"
+          alt="Banner Image"
+        />
+      </div>
+      <!-- <div
+        *ngIf="bannerDetails.length == 0"
+        class="carousel-item"
+        [ngClass]="{ active: 2 }"
+      >
+        <img
+          [src]="'assets/images/banner/banner1.jpg'"
+          class="d-block img-fluid"
+          alt="Banner Image"
+        />
+      </div> -->
     </div>
 
     <!-- Carousel Controls -->

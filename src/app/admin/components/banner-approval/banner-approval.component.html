@@ -100,7 +100,7 @@
           (change)="onStartDateChange(i, $event)"
         />
         <span *ngIf="btnIndex === 1">
-          {{ cmp.startDate }}
+          {{ cmp.startDate | date : "yyyy-MM-dd" }}
         </span>
       </div>
 

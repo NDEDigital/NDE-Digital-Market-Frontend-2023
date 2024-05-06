@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   OnInit,
 } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
 import { AddBannerService } from 'src/app/services/add-banner.service';
@@ -13,6 +14,7 @@ import { AddBannerService } from 'src/app/services/add-banner.service';
   selector: 'app-banner-approval',
   templateUrl: './banner-approval.component.html',
   styleUrls: ['./banner-approval.component.css'],
+  providers: [DatePipe],
 })
 export class BannerApprovalComponent implements OnInit {
   btnIndex = -1;
@@ -38,7 +40,8 @@ export class BannerApprovalComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private bannerService: AddBannerService
+    private bannerService: AddBannerService,
+    private datePipe: DatePipe
   ) {
     this.getCurrentDateTime();
 
@@ -62,20 +65,23 @@ export class BannerApprovalComponent implements OnInit {
 
   getCurrentDateTime(): string {
     const now = new Date();
-    return now.toISOString().substring(0, 16);
+    const formattedDate = this.datePipe.transform(now, 'yyyy-MM-dd');
+    return formattedDate || '';
   }
 
   getFormattedDate(date: string, index: number): string {
     // console.log(date);
 
-    this.selectedCompanyCodeValues[index + 1 + '_date2'] = date;
+    this.selectedCompanyCodeValues[index + 1 + '_date2'] =
+      this.datePipe.transform(date, 'yyyy-MM-dd');
 
     return this.selectedCompanyCodeValues[index + 1 + '_date2'] || null;
   }
 
   getFormattedDate2(date: string, index: number): string {
     // console.log(date, 'value');
-    this.selectedCompanyCodeValues[index + 1 + '_date1'] = date;
+    this.selectedCompanyCodeValues[index + 1 + '_date1'] =
+      this.datePipe.transform(date, 'yyyy-MM-dd');
     return this.selectedCompanyCodeValues[index + 1 + '_date1'] || null;
   }
 
@@ -174,8 +180,8 @@ export class BannerApprovalComponent implements OnInit {
       updatedDate: Date.now,
       updatedBy: 'admin',
       updatedPC: '0.0.0.0',
-      startDate: StartDate,
-      endDate: EndDate,
+      startDate: this.datePipe.transform(StartDate, 'yyyy-MM-dd'),
+      endDate: this.datePipe.transform(EndDate, 'yyyy-MM-dd'),
       isBannerStatus: IsBannerStatus,
     };
     const alert = {
