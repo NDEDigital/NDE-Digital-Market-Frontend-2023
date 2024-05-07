@@ -3,19 +3,50 @@
 <section id="page-container" class="cart-detail">
   <div id="content-wrap" class="d-flex m-3">
     <div class="full-detail">
-      <div class="container-fluid cart-product">
-        <div class="ps-3 pt-3">
-          <h3 class="mb-0">Cart Detail</h3>
+      <div class="cart-product">
+        <div class="container-fluid ps-3 pt-3">
+          <div *ngIf="cartData.length > 0">
+            <div class="row">
+              <!-- Left column: "Select All" checkbox -->
+              <div class="col-3 d-flex align-items-center">
+                <input
+                  type="checkbox"
+                  class="checkbox-color"
+                  id="selectAllCheckbox"
+                  [(ngModel)]="selectAll"
+                  (change)="onSelectAllChange($event)"
+                />
+                <label for="selectAllCheckbox" class="ms-2">Select All</label>
+              </div>
+
+              <!-- Center column: "Cart Detail" heading -->
+              <div class="col-6 text-center">
+                <h3 class="cart-details-header mb-0">Cart Detail</h3>
+              </div>
+
+              <!-- Right column: Can be used for other content (e.g. extra buttons) -->
+              <div class="col-3">
+                <!-- Add any other content here if needed -->
+              </div>
+            </div>
+          </div>
         </div>
+
         <hr />
+
         <ng-container *ngFor="let entry of cartData; let i = index">
-          <div class="d-flex ps-5">
-            <div>
+          <div class="cart-container d-flex ps-5">
+            <div class="cart-select">
+              <input
+                type="checkbox"
+                [(ngModel)]="entry.selected"
+                (change)="onEntrySelected(entry)"
+              />
+            </div>
+            <div class="cart-images">
               <!-- <img class="product-img" src="/assets/images/hc1.jpg" alt=""> -->
               <img
                 class="rounded border border-1 mb-3"
-                width="300rem"
-                height="200rem"
                 [src]="
                   entry.imagePath
                     ? entry.imagePath.substring(
@@ -26,49 +57,92 @@
                 alt=""
               />
             </div>
-            <div class="ps-3 product-detail">
+            <div class="cart-ProductName">
               <span class="product-name">{{
-                entry.productName + " (" + entry.productName + ")"
+                truncateProductName(entry.productName, 16)
               }}</span>
-              <p class="fw-bold price">৳{{ entry.price ? entry.price : "" }}</p>
-              <p>{{ entry.companyName }}</p>
-              <p>Only {{ entry.availableQty }} left in stock - order soon.</p>
-              <div class="product-foot">
-                <span
-                  >Qty:
-                  <input
-                    type="number"
-                    (focus)="showUpBtn = entry.id"
-                    min="1"
-                    max="{{ entry.availableQty }}"
-                    (input)="validateInput($event, entry.availableQty)"
-                    class="bg-light"
-                    #changeValue
-                    value="{{ entry.productCartQuantity }}"
-                  />
-                  |</span
-                >
+            </div>
+            <div class="cart-companyName">
+              <p>{{ truncateProductName(entry.companyName, 20) }}</p>
+            </div>
+            <div class="cart-amount">
+              <p class="product-amount fw-bold price">
+                ৳{{ entry.price ? entry.price : "" }}
+              </p>
+            </div>
+
+            <div class="cart-availability">
+              <span
+                >Only
+                <span class="cart-availabilityNumber">{{
+                  entry.availableQty
+                }}</span>
+                left in stock</span
+              >
+            </div>
+            <div class="product-foot">
+              <span
+                >Qty:
+                <input
+                  type="number"
+                  (focus)="showUpBtn = entry.id"
+                  min="1"
+                  max="{{ entry.availableQty }}"
+                  (input)="validateInput($event, entry.availableQty)"
+                  class="bg-light input-quantity"
+                  #changeValue
+                  value="{{ entry.productCartQuantity }}"
+                />
+              </span>
+              <div
+                class="update-button-container"
+                style="min-width: 3rem; min-height: 2rem"
+              >
                 <button
                   *ngIf="showUpBtn === entry.id"
-                  class="btn btn-success ms-2"
-                  (click)="sentcartDetails(changeValue.value, entry)"
+                  style="background: white"
                 >
-                  Update
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="green"
+                    class="update-button-icon bi bi-check2 me-3"
+                    viewBox="0 0 16 16"
+                    (click)="sentcartDetails(changeValue.value, entry)"
+                  >
+                    <path
+                      d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                    />
+                  </svg>
                 </button>
-                <span class="ms-3 cursor" (click)="deleteCartProduct(entry)"
-                  >Delete</span
+              </div>
+              <div class="delete-button cursor">
+                <button
+                  (click)="deleteCartProduct(entry)"
+                  style="background: white"
                 >
-                <!-- <span class="ms-3 cursor"
+                  <svg
+                    class="delete-button-icon bi bi-x-lg fw-bolder"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#d00404"
+                    height="1em"
+                    viewBox="0 0 448 512"
+                  >
+                    <path
+                      d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <!-- <span class="ms-3 cursor"
                  (click) = "saveForLater(entry.key,entry.value)"
                 >Save for later</span> -->
-                <p
-                  *ngIf="showUpBtn === entry.id && this.procedBtn === false"
-                  #updateQty
-                  class="text-danger"
-                >
-                  Update the Qty
-                </p>
-              </div>
+              <p
+                *ngIf="showUpBtn === entry.id && this.procedBtn === false"
+                #updateQty
+                class="text-danger"
+              >
+                Update the Qty
+              </p>
             </div>
           </div>
 
@@ -95,7 +169,8 @@
     <div class="d-flex flex-column subtotal-parent">
       <div class="ms-4 subtotal p-4">
         <p class="subtotal-title">
-          Subtotal ({{ cartData.length }}): <b>৳{{ this.cartTotalAmount }}</b>
+          Subtotal ({{ this.totalSelectedCart }}):
+          <b>৳{{ this.cartTotalAmount }}</b>
         </p>
         <button
           class="btn btn-warning mt-2 w-100"

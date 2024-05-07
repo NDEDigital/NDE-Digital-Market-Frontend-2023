@@ -24,8 +24,10 @@ export class CartAddedProductComponent {
   buyerValue: any;
   cartTotalAmount = 0;
   cartData: any;
+  selectAll: boolean = false;
 
   cartLength: number = 0;
+  totalSelectedCart: number = 0;
   constructor(
     private cartDataService: CartDataService,
     private route: Router,
@@ -61,9 +63,10 @@ export class CartAddedProductComponent {
         this.cartData = response.result;
         this.cartLength = this.cartData.length;
         this.cartTotalAmount = 0;
-        this.cartData.forEach((element: any) => {
-          this.cartTotalAmount += parseFloat(element.totalPrice);
-        });
+        this.totalSelectedCart = 0;
+        // this.cartData.forEach((element: any) => {
+        //   this.cartTotalAmount += parseFloat(element.totalPrice);
+        // });
         console.log('new cart Data', response.result);
 
         console.log('new cart Data', this.cartData.size);
@@ -104,6 +107,8 @@ export class CartAddedProductComponent {
       next: (response: any) => {
         console.log(response);
         this.getAddTocartData();
+
+        this.selectAll = false;
       },
       error: (error: any) => {
         console.log(error);
@@ -125,6 +130,31 @@ export class CartAddedProductComponent {
       next: (response: any) => {
         console.log(response);
         this.getAddTocartData();
+        this.selectAll = false;
+        this.cartData = this.cartData.filter(
+          (cartEntry: CartEntry) => cartEntry.id !== entry.id
+        );
+
+        // Recalculate the total price and total selected count after deletion
+        this.totalPrice = 0;
+        this.totalSelectedCart = 0;
+        this.cartData.forEach((element: CartEntry) => {
+          if (element.selected) {
+            this.totalPrice += parseFloat(element.totalPrice);
+            this.totalSelectedCart += 1;
+          }
+        });
+
+        // Update the cartTotalAmount
+        this.cartTotalAmount = this.totalPrice;
+
+        // Update the state of the selectAll checkbox based on remaining entries
+        this.selectAll = this.cartData.every(
+          (cartEntry: CartEntry) => cartEntry.selected
+        );
+
+        console.log('Total price of selected entries:', this.totalPrice);
+        console.log('Total selected cart:', this.totalSelectedCart);
       },
       error: (error: any) => {
         console.log(error);
@@ -152,6 +182,15 @@ export class CartAddedProductComponent {
   //   this.cartDataQt.delete(entry.groupCode + '&' + entry.goodsID);
   //   this.cartDataService.updateData(this.cartDataDetail, this.cartDataQt);
   // }
+  truncateProductName(productName: string, maxLength: number): string {
+    // Check if the product name length exceeds maxLength
+    if (productName.length > maxLength) {
+      // Truncate the product name and add ellipsis
+      return productName.slice(0, maxLength) + '...';
+    }
+    // Return the original product name if length is within limit
+    return productName;
+  }
   procedBtn: any;
   procced() {
     // alert(this.showUpBtn);
@@ -164,11 +203,26 @@ export class CartAddedProductComponent {
         // this.route.navigate(['/login']);
         this.LoginModalBTN.nativeElement.click();
       } else {
-        if (this.cartData.length > 0) {
-          this.route.navigate(['/checkout']);
+        // Filter cartData to include only selected products
+        const selectedProducts = this.cartData.filter(
+          (entry: CartEntry) => entry.selected
+        );
+        console.log(selectedProducts);
+        // If there are selected products, navigate to the checkout page
+        if (selectedProducts.length > 0) {
+          // Convert selectedProducts to a JSON string and then to base64
+          const selectedProductsBase64 = btoa(JSON.stringify(selectedProducts));
+          // Navigate to the checkout route, passing the base64 string as a URL parameter
+          this.route.navigate([`/checkout/${selectedProductsBase64}`]);
         } else {
-          //console.log('select product');
+          console.log('No products selected');
         }
+
+        // if (this.cartData.length > 0) {
+        //   this.route.navigate(['/checkout']);
+        // } else {
+        //   //console.log('select product');
+        // }
       }
     }
   }
@@ -192,6 +246,42 @@ export class CartAddedProductComponent {
     } else {
       event.target.value = '';
     }
+  }
+
+  // Function to handle when an entry is selected
+  onEntrySelected(entry: CartEntry): void {
+    console.log('Entry selected:', entry);
+
+    this.selectAll = this.cartData.every((entry: CartEntry) => entry.selected);
+
+    this.totalPrice = 0; // Reset total price before recalculating
+    this.totalSelectedCart = 0;
+    this.cartData.forEach((element: CartEntry) => {
+      if (element.selected) {
+        this.totalPrice += parseFloat(element.totalPrice);
+        this.totalSelectedCart += 1;
+      }
+    });
+    this.cartTotalAmount = this.totalPrice;
+
+    console.log('Total price of selected entries:', this.totalPrice);
+  }
+
+  // Function to handle when the "Select All" checkbox changes
+  onSelectAllChange(event: any): void {
+    const isChecked = event.target.checked;
+    this.cartData.forEach((entry: CartEntry) => {
+      entry.selected = isChecked;
+    });
+    this.totalPrice = 0; // Reset total price before recalculating
+    this.totalSelectedCart = 0;
+    this.cartData.forEach((element: CartEntry) => {
+      if (element.selected) {
+        this.totalPrice += parseFloat(element.totalPrice);
+        this.totalSelectedCart += 1;
+      }
+    });
+    this.cartTotalAmount = this.totalPrice;
   }
 
   // Additional commented-out code that sets the value to 1 if it's 0
@@ -240,4 +330,16 @@ export class CartAddedProductComponent {
   //     this.saveLaterDataQt
   //   );
   // }
+}
+interface CartEntry {
+  id: number;
+  productName: string;
+  price: number;
+  companyName: string;
+  availableQty: number;
+  imagePath?: string;
+  groupName?: string;
+  selected: boolean;
+  productCartQuantity: number;
+  totalPrice: string;
 }
