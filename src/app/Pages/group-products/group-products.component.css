@@ -1,4 +1,4 @@
-.products {
+.products { 
   margin: 20px;
 }
 
@@ -10,10 +10,7 @@
   flex: 0 0 16.666%; /* 100% / 6 cards = 16.666% */
 }
 
-.card {
-  width: 14rem;
-  margin-right: 10px;
-}
+
 
 .top-seller-heading {
   position: relative;
@@ -23,6 +20,147 @@
   height: 0.1vh;
   z-index: 1;
   background-color: rgb(145, 145, 145);
-  width: 70vw;
+  width: 80vw;
   margin-bottom: 20px;
+  border: none;
+  height: 1px;
+
+  margin: 1rem 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+   max-width: 16rem;
+  margin-right: 10px;
+
+
+}
+
+.card-look{
+  height: 13rem; 
+  position: relative
+}
+
+
+
+
+
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-out-of-stock {
+  opacity: 0.7;
+}
+
+.card-img-top {
+    border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  object-fit: cover;
+  height: 13rem; 
+  width: 100%; 
+border-bottom: 1px solid var(--color-primary);
+
+ 
+}
+
+.card-body {
+  padding: 1rem;
+  background-color: rgb(232 241 241);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+
+  
+
+}
+
+.company-name {
+  font-size: 1rem;
+  color:var(--color-primary);
+  margin-bottom:-.25rem;
+}
+
+
+
+
+
+#page-container {
+  padding-bottom: 2rem; /* Add some space at the bottom */
+}
+
+.category-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.category-divider {
+  border: none;
+  border-top: 2px solid #ddd;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-look {
+  height: 12rem;
+  position: relative;
+}
+
+.card-img-top {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-name {
+  font-size: 1rem;
+  color: #666;
+}
+
+.product-sidebar-container {
+  flex: 0 0 250px; /* Fixed width sidebar */
+  margin-right: 2rem; /* Add some space between sidebar and content */
+}
+
+.main-content-container {
+  flex: 1; /* Take remaining space */
+}
+

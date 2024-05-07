@@ -141,9 +141,10 @@ p {
 .text {
   color: rgb(0, 119, 255);
   text-decoration: underline;
-  font-size: 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
   background-color: #ffffff;
+  font-weight: bold;
   /* padding-right: 100vw; */
 }
 
