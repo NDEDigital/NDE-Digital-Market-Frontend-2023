@@ -10,7 +10,7 @@
         <ng-container
           *ngFor="let product of products3 | keyvalue; let i = index"
         >
-          <div class="mb-4 ml-md-3" style="margin-left: 5rem">
+          <div class="mb-4 ml-md-3" style="margin-left: 3rem">
             <h2 class="text-head fw-bold fs-3">
               {{ splitProductKey(product.key) }}
               <!-- Updated this line -->
@@ -40,11 +40,26 @@
                     </div>
                     <div class="card-body">
                       <h6 class="card-title">
-                        Product : {{ value.goodsName | slice : 0 : 12
-                        }}{{ value.goodsName.length > 12 ? "..." : "" }}
+                       {{ value.goodsName | slice : 0 : 12
+                        }}{{ value.goodsName.length > 12 ? "..." : "" }}  
                       </h6>
+
+                      <p *ngIf="value.approveSalesQty !== 0" class="quantity">
+                <span >Quantity :</span>
+                <span
+                  
+                  [class.text-muted]="value.approveSalesQty >= 1"
+                  [class.text-danger]="value.approveSalesQty < 1"
+                >
+                  {{ value.approveSalesQty }}
+                </span>
+              </p>
+
+
+
+
                       <p class="card-text company-name">
-                        Company : {{ value.companyName | slice : 0 : 20
+                       {{ value.companyName | slice : 0 : 20
                         }}{{ value.companyName.length > 20 ? "..." : "" }}
                       </p>
                     </div>
