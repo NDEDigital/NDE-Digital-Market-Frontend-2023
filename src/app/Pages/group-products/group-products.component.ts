@@ -152,7 +152,7 @@ export class GroupProductsComponent {
             };
             this.products3.set(this.goods[i].productGroupName, [obj]);
           }
-          // console.log(this.products3, ' ut');
+          console.log(this.products3, ' ut');
         }
       },
       (error: HttpErrorResponse) => {

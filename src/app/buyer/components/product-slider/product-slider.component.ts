@@ -159,28 +159,36 @@ export class ProductSliderComponent {
   //   // window.location.href = '/product';
   // }
 
-  viewAllProducts(groupCode:any) {
-        console.log("GROUPCODE",groupCode);
-     this.router.navigate(['/groupProducts'], {
-       queryParams: { groupCode: btoa(groupCode) },
-     });
-
+  viewAllProducts(groupCode: any) {
+    console.log('GROUPCODE', groupCode);
+    this.router.navigate(['/groupProducts'], {
+      queryParams: { groupCode: btoa(groupCode) },
+    });
   }
 
   shouldRemoveButton(product: any): boolean {
     // console.log(this.windowWidth, product);
-    //console.log(this.windowWidth, product);
+    console.log(this.windowWidth, product);
     if (this.windowWidth > 1440 && product > 7) {
       return true;
-    } else if (this.windowWidth <= 1440 && product >= 7) {
+    } else if (this.windowWidth <= 560 && product > 3) {
+      console.log('576 te ashce');
+      return true;
+    } else if (this.windowWidth <= 576 && product > 3) {
+      console.log('576 te ashce');
+      return false;
+    } else if (this.windowWidth <= 650 && product >= 4) {
+      console.log('650 te ashce');
+      return true;
+    } else if (this.windowWidth <= 768 && product > 4) {
+      console.log('768 te ashce');
+      return true;
+    } else if (this.windowWidth <= 1000 && product > 4) {
+      console.log('1000 te ashce');
       return true;
     } else if (this.windowWidth <= 1200 && product >= 5) {
       return true;
-    } else if (this.windowWidth <= 1000 && product >= 4) {
-      return true;
-    } else if (this.windowWidth <= 780 && product >= 3) {
-      return true;
-    } else if (this.windowWidth <= 576 && product >= 3) {
+    } else if (this.windowWidth <= 1440 && product >= 5) {
       return true;
     }
 
