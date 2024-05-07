@@ -143,6 +143,7 @@ p {
   text-decoration: underline;
   font-size: 1.5rem;
   cursor: pointer;
+  background-color: #ffffff;
   /* padding-right: 100vw; */
 }
 
