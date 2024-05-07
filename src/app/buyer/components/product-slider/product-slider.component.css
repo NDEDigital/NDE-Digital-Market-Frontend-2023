@@ -31,9 +31,9 @@ p {
   /* padding: 5rem; */
 }
 .card-img-top {
-  height: 1050px; /* Set the desired height */
-  width: 100%; /* Width will be the same as the card width */
-  object-fit: cover; /* Ensures the image doesn't distort */
+  height: 1050px;
+  width: 100%;
+  object-fit: cover;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -45,6 +45,10 @@ p {
 }
 
 .item {
+  transition: transform 0.6s ease-in-out;
+  transform: translateX(-100%);
+  transition: none;
+  transform: translateX(-100%);
   margin-bottom: 1rem;
   height: 16rem;
   width: 14rem;

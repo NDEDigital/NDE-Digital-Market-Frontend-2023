@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,7 +7,8 @@ import {
 } from '@angular/forms';
 import { CartDataService } from 'src/app/services/cart-data.service';
 import { CartItem } from '../cart-added-product/cart-item.interface';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
 import { OrderApiService } from 'src/app/services/order-api.service';
 import { SslPaymentService } from 'src/app/services/ssl-payment.service';
 interface OrderDetail {
@@ -32,7 +33,7 @@ interface OrderDetail {
   templateUrl: './checkout-page.component.html',
   styleUrls: ['./checkout-page.component.css'],
 })
-export class CheckoutPageComponent {
+export class CheckoutPageComponent implements OnInit {
   checkoutForm: FormGroup;
   editMode = false;
   productList: any = [1, 2, 3];
@@ -55,12 +56,14 @@ export class CheckoutPageComponent {
   cartLength: number = 0;
   orderdata: any;
   buyerCode: any;
+  selectedProducts: any[] = [];
   constructor(
     private fb: FormBuilder,
     private cartDataService: CartDataService,
     private route: Router,
     private orderService: OrderApiService,
-    private SSLPayment: SslPaymentService
+    private SSLPayment: SslPaymentService,
+    private activateRoute: ActivatedRoute
   ) {
     this.checkoutForm = this.fb.group({
       phone: [{ value: '01745671968', disabled: true }, [Validators.required]],
@@ -72,14 +75,24 @@ export class CheckoutPageComponent {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // const cartData = this.cartDataService.getCartData();
     // this.cartDataDetail = cartData.cartDataDetail;
     // this.cartDataQt = cartData.cartDataQt;
     // this.totalPriceWithDiscount = this.cartDataService.getTotalPrice();
     // console.log(this.cartDataDetail," cartDataDetal");
     // console.log(this.cartDataQt," cartDataDetal");
-
+    this.activateRoute.paramMap.subscribe((params) => {
+      const selectedProductsBase64 = params.get('selectedProducts');
+      if (selectedProductsBase64) {
+        // Decode the base64 string and parse it back to an array
+        const decodedProductsString = atob(selectedProductsBase64);
+        this.selectedProducts = JSON.parse(decodedProductsString);
+        console.log('Selected products:', this.selectedProducts);
+      } else {
+        console.log('No selected products found in route parameters.');
+      }
+    });
     this.getUserInfo();
     this.getAddTocartData();
 
@@ -112,8 +125,8 @@ export class CheckoutPageComponent {
     this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
         console.log(response.result);
-        this.cartData = response.result;
-        this.cartLength = this.cartData.length;
+        this.cartData = this.selectedProducts;
+        this.cartLength = this.selectedProducts.length;
         this.cartTotalAmount = 0;
         this.cartData.forEach((element: any) => {
           this.cartTotalAmount += parseFloat(element.totalPrice);
