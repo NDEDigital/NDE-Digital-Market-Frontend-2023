@@ -199,7 +199,7 @@ export class BannerApprovalComponent implements OnInit {
       console.log(cmp);
       this.updateBannerStatus(cmp, alert);
     }
-    if (StartDate >= EndDate) {
+    if (StartDate > EndDate) {
       this.isApproved = false;
       this.isRejected = true;
       this.alertTitle = 'Error';
