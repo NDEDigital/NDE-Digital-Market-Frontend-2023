@@ -1,0 +1,60 @@
+<section id="page-container-responsive ">
+  <div id="content-wrap">
+    <app-header (dataUpdated)="handleDataUpdated()"></app-header>
+    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
+    <div class="d-flex mx-5 px-5">
+      <div class="product_sidebar_container">
+        <app-product-sidebar></app-product-sidebar>
+      </div>
+      <div class="col-md-9">
+<ng-container *ngFor="let product of products3 | keyvalue; let i = index">
+  <div class="mb-4 ml-md-3" style="margin-left: 5rem;">
+    <h2 class="text-head fw-bold fs-3 ">
+      {{ splitProductKey(product.key) }} <!-- Updated this line -->
+    </h2>
+    <hr class="line" />
+    <div class="row">
+      <ng-container *ngFor="let value of product.value">
+        <div class="col-md-3 col-sm-6 col-xs-12 mb-3">
+          <div
+            class="card"
+            style="width: 14rem"
+            (click)="navigateToData(value)"
+            [ngClass]="{
+              'card-out-of-stock': value.approveSalesQty === 0
+            }"
+          >
+            <div style="height: 12rem; position: relative">
+              <img
+                [src]="
+                  value.imagePath
+                    ? '/assets' + value.imagePath.split('assets')[1]
+                    : '/assets/default-image.jpg'
+                "
+                class="card-img-top"
+                style="height: 12rem; width: 100%; object-fit: cover"
+                (error)="onImageError($event)"
+                alt="{{ value.goodsName }}"
+              />
+            </div>
+            <div class="card-body">
+              <h6 class="card-title">
+                {{ value.goodsName | slice : 0 : 12
+                }}{{ value.goodsName.length > 12 ? "..." : "" }}
+              </h6>
+              <p class="card-text company-name">
+                {{ value.companyName | slice : 0 : 20
+                }}{{ value.companyName.length > 20 ? "..." : "" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</section>

@@ -40,6 +40,7 @@ import { AdminModule } from './admin/admin.module';
 import { BuyerModule } from './buyer/buyer.module';
 import { SellerModule } from './seller/seller.module';
 import { SharedModule } from './shared/shared.module';
+import { GroupProductsComponent } from './Pages/group-products/group-products.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +70,7 @@ import { SharedModule } from './shared/shared.module';
     InvoiceComponent,
     RecommendedProductListComponent,
     OurTopSellerComponent,
+    GroupProductsComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,10 +7,11 @@ import {
   Renderer2,
   ViewChildren,
 } from '@angular/core';
+
 import { catchError, throwError } from 'rxjs';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-product-slider',
   templateUrl: './product-slider.component.html',
@@ -28,12 +29,14 @@ export class ProductSliderComponent {
     private goodsDataObj: GoodsDataService,
     private sharedService: SharedService,
     private renderer: Renderer2,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   productLengths: number[] = [];
   productType = new Map();
-  GroupdCode: string = '';
+  groupCode: string = '';
   products = new Map();
   productChildLength: any;
   isWidthGreater: boolean = false;
@@ -52,16 +55,10 @@ export class ProductSliderComponent {
   modalSpec: string = '';
   modalQuantity: string = '';
   modalGroup: string = 'Checkered Plate';
+  modalGroupCode: string = '';
   isMouseOverSlider: boolean[] = [true];
   ngOnInit() {
     this.getAllProduct();
-    // setTimeout(() => {
-    //   this.isMouseOverSlider = Array(this.itemsContainers.length).fill(false);
-    // }, 500);
-
-    // setTimeout(() => {
-    //   this.startAutoSlide();
-    // }, 600);
   }
   windowWidth: number = window.innerWidth;
 
@@ -69,70 +66,7 @@ export class ProductSliderComponent {
   onResize(event: any) {
     this.windowWidth = window.innerWidth;
   }
-  // getAllProduct() {
-  //   this.products.clear();
-  //   this.goodsDataObj.getCarouselData().subscribe((data: any[]) => {
-  //     // //console.log(data);
 
-  //     this.goods = data;
-  //     // //console.log(this.goods, 'allGoods');
-  //     for (let i = 0; i < this.goods.length; i++) {
-  //       let finObj = this.products3.get(this.goods[i].groupName);
-  //       //console.log();
-
-  //       if (this.goods[i].approveSalesQty === '0') continue;
-
-  //       if (finObj) {
-  //         let obj = {
-  //           companyName: this.goods[i].companyName,
-  //           groupName: this.goods[i].groupName,
-  //           groupCode: this.goods[i].groupCode,
-  //           goodsId: this.goods[i].goodsId,
-  //           goodsName: this.goods[i].goodsName,
-  //           specification: this.goods[i].specification,
-  //           stockQty: this.goods[i].stockQty,
-  //           salesQty: this.goods[i].salesQty,
-  //           approveSalesQty: this.goods[i].approveSalesQty,
-  //           price: this.goods[i].price,
-  //         };
-  //         finObj.push(obj);
-
-  //         this.products3.set(this.goods[i].groupName, finObj);
-  //       } else {
-  //         let obj = {
-  //           companyName: this.goods[i].companyName,
-  //           groupName: this.goods[i].groupName,
-  //           groupCode: this.goods[i].groupCode,
-  //           goodsId: this.goods[i].goodsId,
-  //           goodsName: this.goods[i].goodsName,
-  //           specification: this.goods[i].specification,
-  //           stockQty: this.goods[i].stockQty,
-  //           salesQty: this.goods[i].salesQty,
-  //           approveSalesQty: this.goods[i].approveSalesQty,
-  //           price: this.goods[i].price,
-  //         };
-  //         this.products3.set(this.goods[i].groupName, [obj]);
-  //       }
-  //     }
-  //     // //console.log(this.products3, ' products3');
-  //     this.updateQuantity();
-
-  //     // this.products3.forEach((product) => {
-  //     //   //console.log(product, 'product');
-  //     //   //console.log(product[0], 'product[0]');
-  //     // });
-
-  //     // this.products3.forEach((product) => {
-  //     //   //console.log(product, 'product');
-  //     //   product.forEach((item: Product) => {
-  //     //     //console.log(item.goodsName);
-  //     //   });
-  //     // });
-  //   }
-  //   );
-
-  //   // }
-  // }
   getAllProduct() {
     this.products.clear();
     this.goodsDataObj.getCarouselData().subscribe(
@@ -210,55 +144,29 @@ export class ProductSliderComponent {
     event.target.src = '/assets/default-image.jpg';
   }
 
-  viewAllProducts(){
-    
+  // productCardClick(groupCode: any) {
+  //   // alert('he')
+  //   this.sharedService.setGroupCode(groupCode.groupCode);
+  //   //console.log(company, 'companyCode');
+
+  //   this.router.navigate(['/product'], {
+  //     queryParams: {
+
+  //       groupCode: btoa(groupCode.productGroupCode),
+  //     },
+  //   });
+
+  //   // window.location.href = '/product';
+  // }
+
+  viewAllProducts(groupCode:any) {
+        console.log("GROUPCODE",groupCode);
+     this.router.navigate(['/groupProducts'], {
+       queryParams: { groupCode: btoa(groupCode) },
+     });
+
   }
 
-  // updateQuantity() {
-  //   this.intervalId = setInterval(() => {
-  //     //console.log('Fetching carousel data...');
-  //     this.goodsDataObj.getCarouselData().subscribe((data: any[]) => {
-  //         //console.log('Received carousel data:', data);
-  //         this.goods = data;
-  //         for (let i = 0; i < this.goods.length; i++) {
-  //           let key = this.goods[i].groupName;
-  //           let finObj = this.products3.get(key);
-  //           if (this.goods[i].approveSalesQty === '0') continue;
-
-  //           if (finObj) {
-  //             let product = finObj.find(
-  //               (p: any) => p.goodsId === this.goods[i].goodsId
-  //             );
-  //             if (product) {
-  //               product.approveSalesQty = this.goods[i].approveSalesQty;
-  //             } else {
-  //               let obj = {
-  //                 approveSalesQty: this.goods[i].approveSalesQty,
-  //               };
-  //               finObj.push(obj);
-  //             }
-  //           } else {
-  //             let obj = {
-  //               approveSalesQty: this.goods[i].approveSalesQty,
-  //             };
-  //             this.products3.set(key, [obj]);
-  //           }
-  //         }
-  //         //console.log(this.products3, ' product3');
-  //       },
-  //       catchError((error: HttpErrorResponse) => {
-  //         if (error.status === 401) {
-  //           // Handle unauthorized error
-  //           //console.error('Unauthorized Error', error);
-  //         } else {
-  //           // Handle other errors
-  //           //console.error('Unknown Error', error);
-  //         }
-  //         return throwError('Error occurred');
-  //       })
-  //     );
-  //   }, 5000);
-  // }
   shouldRemoveButton(product: any): boolean {
     // console.log(this.windowWidth, product);
     //console.log(this.windowWidth, product);
@@ -286,8 +194,11 @@ export class ProductSliderComponent {
         this.goods = data;
 
         for (let i = 0; i < this.goods.length; i++) {
-          let key = this.goods[i].productGroupName;
+          let key =
+            this.goods[i].productGroupName && this.goods[i].productGroupID;
+
           let finObj = this.products3.get(key);
+          console.log(finObj);
           if (this.goods[i].approveSalesQty === '0') continue;
 
           if (finObj) {
@@ -299,44 +210,8 @@ export class ProductSliderComponent {
               // product.salesQty = this.goods[i].salesQty;
               product.approveSalesQty = this.goods[i].availableQty;
             }
-            // else {
-            //   let obj = {
-            //     // groupName: this.goods[i].groupName,
-            //     // groupCode: this.goods[i].groupCode,
-            //     // goodsId: this.goods[i].goodsId,
-            //     // goodsName: this.goods[i].goodsName,
-            //     // specification: this.goods[i].specification,
-            //     // stockQty: this.goods[i].stockQty,
-            //     // salesQty: this.goods[i].salesQty,
-            //     approveSalesQty: this.goods[i].availableQty,
-            //   };
-            //   finObj.push(obj);
-            // }
-            // } else {
-            //   let obj = {
-            //     // groupName: this.goods[i].groupName,
-            //     // groupCode: this.goods[i].groupCode,
-            //     // goodsId: this.goods[i].goodsId,
-            //     // goodsName: this.goods[i].goodsName,
-            //     // specification: this.goods[i].specification,
-            //     // stockQty: this.goods[i].stockQty,
-            //     // salesQty: this.goods[i].salesQty,
-            //     approveSalesQty: this.goods[i].availableQty,
-            //   };
-            //   this.products3.set(key, [obj]);
           }
         }
-
-        // catchError((error: any) => {
-        //   //console.error('Error:', error);
-        //   if (error.status === 401) {
-        //     //console.log('Error status 401. Retrying after 5 seconds...');
-        //     setTimeout(() => this.updateQuantity , 3000);
-        //   }
-        //   return throwError(error);
-        // })
-
-        // //console.log(this.products3, 'products3');
       });
     }, 5000);
   }
@@ -346,59 +221,7 @@ export class ProductSliderComponent {
     // this.stopAutoSlide();
     // this.isMouseOverSlider = Array(this.itemsContainers.length).fill(false);
   }
-  // slide(index: number): void {
-  //   // //console.log('sliding');
 
-  //   if (this.isMouseOverSlider[index]) {
-  //     return;
-  //   }
-  //   const itemsContainer = this.itemsContainers.toArray()[index].nativeElement;
-  //   const items = Array.from(itemsContainer.children);
-
-  //   items.forEach((item: any) => {
-  //     item.style.transition = 'transform .5s ease-in-out';
-  //     item.style.transform = 'translateX(-105%)';
-
-  //     setTimeout(() => {
-  //       itemsContainer.appendChild(items[0]);
-  //       item.style.transition = 'none';
-  //       item.style.transform = 'translateX(-0.15%)';
-  //     }, 500);
-  //   });
-  // }
-
-  // onMouseEnter(index: number): void {
-  //   this.isMouseOverSlider[index] = true;
-  //   this.stopAutoSlide(index);
-  // }
-
-  // onMouseLeave(index: number): void {
-  //   this.isMouseOverSlider[index] = false;
-  //   if (!this.isMouseOverSlider.includes(true)) {
-  //     this.startAutoSlide();
-  //   }
-  // }
-  // startAutoSlide(): void {
-  //   // //console.log(this.isMouseOverSlider, 'isMouseOverSlider');
-
-  //   this.isMouseOverSlider.forEach((_, index) => {
-  //     this.intervalIds[index] = setInterval(() => {
-  //       if (!this.isMouseOverSlider[index]) {
-  //         this.slide(index);
-  //       }
-  //     }, 5000);
-  //   });
-  // }
-
-  // stopAutoSlide(index?: number): void {
-  //   if (index !== undefined) {
-  //     clearInterval(this.intervalIds[index]);
-  //   } else {
-  //     this.intervalIds.forEach((id) => {
-  //       clearInterval(id);
-  //     });
-  //   }
-  // }
   // =============================
   next(index: number): void {
     const itemsContainer = this.itemsContainers.toArray()[index].nativeElement;
@@ -454,24 +277,16 @@ export class ProductSliderComponent {
     title: string,
     specification: string,
     approveSalesQty: string,
-    groupName: string
+    groupName: string,
+    groupCode: string
   ) {
     this.modalTitle = title;
     this.modalSpec = specification;
     this.modalQuantity = approveSalesQty;
     this.modalGroup = groupName;
+    this.modalGroupCode = groupCode;
   }
 
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: Event) {
-  //   const windowWidth = (event.target as Window).innerWidth;
-  //   this.isWidthGreater = windowWidth >= 786;
-
-  //   if (windowWidth < 1300) {
-  //     this.renderer.removeClass(this.elementRef.nativeElement, 'remove-btn');
-  //     //console.log('removed');
-  //   }
-  // }
   // =========================================================
   // In your component or script file
   splitProductKey(key: string) {
@@ -483,10 +298,6 @@ export class ProductSliderComponent {
   }
 
   navigateToData(detail: any) {
-    // sessionStorage.setItem('productData', JSON.stringify(detail));
-    // console.log(detail);
-    // alert('hh');
-    //console.log('dashboard', detail);
     window.open(
       '/productDetails?productId=' +
         btoa(detail.goodsId) +

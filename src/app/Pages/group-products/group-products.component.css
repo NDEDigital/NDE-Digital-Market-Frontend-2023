@@ -1,0 +1,28 @@
+.products {
+  margin: 20px;
+}
+
+.flex-nowrap {
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 0 0 16.666%; /* 100% / 6 cards = 16.666% */
+}
+
+.card {
+  width: 14rem;
+  margin-right: 10px;
+}
+
+.top-seller-heading {
+  position: relative;
+  z-index: 1;
+}
+.line {
+  height: 0.1vh;
+  z-index: 1;
+  background-color: rgb(145, 145, 145);
+  width: 70vw;
+  margin-bottom: 20px;
+}

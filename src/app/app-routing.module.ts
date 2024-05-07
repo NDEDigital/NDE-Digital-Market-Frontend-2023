@@ -35,6 +35,8 @@ import { RecommendedProductListComponent } from './Pages/recommended-product-lis
 import { from } from 'rxjs';
 import { WishListComponent } from './buyer/components/wish-list/wish-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
+import { GroupProductsComponent } from './Pages/group-products/group-products.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -53,6 +55,10 @@ const routes: Routes = [
   {
     path: 'ourTopSeller',
     component: OurTopSellerComponent,
+  },
+  {
+    path: 'groupProducts',
+    component: GroupProductsComponent,
   },
   { path: 'searchResult', component: SearchResultComponent },
   { path: 'compare', component: CompareProductComponent },
