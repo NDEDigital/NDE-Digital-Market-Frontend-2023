@@ -37,16 +37,6 @@ import { AdminHeaderComponent } from './common/admin-header/admin-header.compone
     SellerListComponent,
     AdminHeaderComponent,
   ],
-  exports: [
-    SellerListComponent,
-    UnitListComponent,
-    AddGroupsComponent,
-    AddProductComponent,
-    BannerApprovalComponent,
-    CompanyApprovalComponent,
-    ProductApprovalComponent,
-    AdminOrderComponent,
-    BrandsComponent,
-  ],
+  exports: [],
 })
 export class AdminModule {}
