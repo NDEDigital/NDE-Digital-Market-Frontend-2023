@@ -43,7 +43,16 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [NegativeSellerAdminGuardGuard],
   },
-
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'seller',
+    loadChildren: () =>
+      import('./seller/seller.module').then((m) => m.SellerModule),
+  },
   { path: 'product', component: ProductComponent },
   { path: 'becomeASeller', component: BecomeASellerComponent },
   { path: 'homeComponent', component: HomeComponent },
@@ -148,11 +157,7 @@ const routes: Routes = [
     path: 'productsPageComponent/:groupCode',
     component: ProductsPageComponent,
   },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule),
-  },
+
   {
     path: 'seller',
     loadChildren: () =>

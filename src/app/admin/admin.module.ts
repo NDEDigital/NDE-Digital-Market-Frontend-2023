@@ -13,6 +13,9 @@ import { ProductApprovalComponent } from './components/product-approval/product-
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 import { SharedModule } from '../shared/shared.module';
 import { BrandsComponent } from './components/brands/brands.component';
+import { AdminComponent } from './admin.component';
+import { SellerListComponent } from './components/seller-list/seller-list.component';
+import { AdminHeaderComponent } from './common/admin-header/admin-header.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +25,7 @@ import { BrandsComponent } from './components/brands/brands.component';
     SharedModule,
   ],
   declarations: [
+    AdminComponent,
     UnitListComponent,
     AddGroupsComponent,
     AddProductComponent,
@@ -30,8 +34,11 @@ import { BrandsComponent } from './components/brands/brands.component';
     ProductApprovalComponent,
     AdminOrderComponent,
     BrandsComponent,
+    SellerListComponent,
+    AdminHeaderComponent,
   ],
   exports: [
+    SellerListComponent,
     UnitListComponent,
     AddGroupsComponent,
     AddProductComponent,

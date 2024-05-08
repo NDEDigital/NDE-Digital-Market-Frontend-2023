@@ -4,20 +4,32 @@ import { RouterModule, Routes } from '@angular/router';
 // Import the admin components
 import { UnitListComponent } from './components/unit-list/unit-list.component';
 import { AddGroupsComponent } from './components/add-groups/add-groups.component';
-import { AddProductComponent } from '../Pages/add-product/add-product.component';
+import { AddProductsComponent } from './components/add-products/add-products.component';
 import { CompanyApprovalComponent } from './components/company-approval/company-approval.component';
 import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
-
+import { AdminComponent } from './admin.component';
+import { BannerApprovalComponent } from './components/banner-approval/banner-approval.component';
+import { BrandsComponent } from './components/brands/brands.component';
+import { SellerListComponent } from './components/seller-list/seller-list.component';
 // Define the routes for the admin module
 const routes: Routes = [
-  { path: 'unit-list', component: UnitListComponent },
-  { path: 'add-groups', component: AddGroupsComponent },
-  { path: 'add-product', component: AddProductComponent },
-  { path: 'company-approval', component: CompanyApprovalComponent },
-  { path: 'product-approval', component: ProductApprovalComponent },
-  { path: 'admin-order', component: AdminOrderComponent },
-  { path: '', redirectTo: 'unit-list', pathMatch: 'full' }, // Default route for admin module
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      { path: 'product-groups', component: AddGroupsComponent },
+      { path: 'products', component: AddProductsComponent },
+      { path: 'user-list', component: SellerListComponent },
+      { path: 'admin-order', component: AdminOrderComponent },
+      { path: 'banner-approval', component: BannerApprovalComponent },
+      { path: 'brands', component: BrandsComponent },
+      { path: 'company-approval', component: CompanyApprovalComponent },
+      { path: 'product-approval', component: ProductApprovalComponent },
+      { path: 'unit-list', component: UnitListComponent },
+      { path: '', redirectTo: 'products', pathMatch: 'full' },
+    ],
+  },
 ];
 
 // Configure the routing module

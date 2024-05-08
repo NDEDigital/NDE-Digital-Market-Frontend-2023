@@ -24,8 +24,10 @@ export class NegativeSellerAdminGuardGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.role === 'seller' || this.role === 'admin') {
-      return this.router.navigate(['/dashboard']);
+    if (this.role === 'seller') {
+      return this.router.navigate(['/seller']);
+    } else if (this.role === 'admin') {
+      return this.router.navigate(['/admin']);
     } else {
       return true;
     }

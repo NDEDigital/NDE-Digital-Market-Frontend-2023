@@ -125,9 +125,9 @@ a {
   color: var(--color-primary);
 }
 /* .offcanvas-body div h5,
-    .icon_chevron-down i {
-      color: var(--color-gray);
-    } */
+      .icon_chevron-down i {
+        color: var(--color-gray);
+      } */
 .title_icon {
   color: rgb(164, 168, 175);
 }
@@ -180,10 +180,10 @@ a {
 }
 
 /* .addBanner{
-      overflow-x: auto;
-      border: 2px solid red;
-      
-    } */
+        overflow-x: auto;
+        border: 2px solid red;
+        
+      } */
 
 @media (max-width: 768px) {
   .sidebar {

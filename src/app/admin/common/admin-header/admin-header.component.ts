@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { LoginComponent } from '../Pages/login/login.component';
+import { LoginComponent } from 'src/app/Pages/login/login.component';
 import { DashboardDataService } from 'src/app/services/dashboard-data.service';
 import { Subscription } from 'rxjs';
 import { SellerDasboardPermissionService } from 'src/app/services/seller-dasboard-permission.service';
@@ -18,11 +18,11 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { EmailService } from 'src/app/services/email.service';
 
 @Component({
-  selector: 'app-seller',
-  templateUrl: './seller.component.html',
-  styleUrls: ['./seller.component.css'],
+  selector: 'app-admin-header',
+  templateUrl: './admin-header.component.html',
+  styleUrls: ['./admin-header.component.css'],
 })
-export class SellerComponent {
+export class AdminHeaderComponent {
   @ViewChild('closeButton')
   closeButton!: ElementRef;
   @ViewChild('approvalCloseButton')

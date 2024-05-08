@@ -8,7 +8,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { AddBannerService } from 'src/app/services/add-banner.service';
 
-
 @Component({
   selector: 'app-seller-add-banner',
   templateUrl: './seller-add-banner.component.html',
@@ -63,13 +62,11 @@ export class SellerAddBannerComponent {
     this.fetchBanners();
   }
   isApproved(banner: any): boolean {
-    return banner.isBannerStatus === true && banner.isActive === true ;
+    return banner.isBannerStatus === true && banner.isActive === true;
   }
   isExpired(banner: any): boolean {
     return banner.isBannerStatus === false && banner.isActive === false;
   }
-
-
 
   openAddGroupModal(): void {
     this.resetForm();
@@ -331,6 +328,3 @@ export class SellerAddBannerComponent {
     this.AddGroupModalCenterG.nativeElement.click();
   }
 }
-
-
-

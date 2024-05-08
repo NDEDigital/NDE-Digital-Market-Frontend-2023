@@ -228,48 +228,48 @@
   <!-- ================  end of sidebar =============  -->
   <div class="dashboard_body px-5 py-2" *ngIf="this.userPermission.length > 0">
     <!-- Sellers Add Quantity -->
-    <section *ngIf="SidebarIndex === 2" class="seller_quantity_body">
+    <!-- <section *ngIf="SidebarIndex === 2" class="seller_quantity_body">
       <app-add-product-quantity></app-add-product-quantity>
-    </section>
+    </section> -->
 
-    <section class="admin_order_body" *ngIf="isAdmin && SidebarIndex === 11">
+    <!-- <section class="admin_order_body" *ngIf="isAdmin && SidebarIndex === 11">
       <app-admin-order></app-admin-order>
-    </section>
+    </section> -->
 
     <!-- sellers inventory -->
-    <section class="seller_inventory_body" *ngIf="SidebarIndex === 1">
+    <!-- <section class="seller_inventory_body" *ngIf="SidebarIndex === 1">
       <app-seller-inventory></app-seller-inventory>
-    </section>
+    </section> -->
     <!-- sellers inventory end-->
 
     <!-- <section class="order_body" *ngIf="isSeller && SidebarIndex === 3"> -->
-    <section class="order_body" *ngIf="SidebarIndex === 3">
-      <!-- <app-orders-overview></app-orders-overview> -->
-
+    <!-- <section class="order_body" *ngIf="SidebarIndex === 3"> -->
+    <!-- <app-orders-overview></app-orders-overview> -->
+    <!-- 
       <app-seller-orders></app-seller-orders>
-    </section>
+    </section> -->
 
     <!-- Add products fields here -->
-    <section class="addProducts" *ngIf="SidebarIndex === 7">
+    <!-- <section class="addProducts" *ngIf="SidebarIndex === 7">
       <app-add-products></app-add-products>
-    </section>
+    </section> -->
     <!-- Add groups fields here -->
-    <section class="addgroups" *ngIf="SidebarIndex === 12">
+    <!-- <section class="addgroups" *ngIf="SidebarIndex === 12">
       <app-add-groups></app-add-groups>
     </section>
     <section class="unit" *ngIf="SidebarIndex === 13">
       <app-unit-list></app-unit-list>
-    </section>
-    <section class="companyApproval" *ngIf="SidebarIndex === 8">
+    </section> -->
+    <!-- <section class="companyApproval" *ngIf="SidebarIndex === 8">
       <app-company-approval></app-company-approval>
-    </section>
-    <section class="priceNdiscounts" *ngIf="SidebarIndex === 4">
+    </section> -->
+    <!-- <section class="priceNdiscounts" *ngIf="SidebarIndex === 4">
       <app-add-price-discounts></app-add-price-discounts>
-    </section>
-    <section class="productApproval" *ngIf="SidebarIndex === 9">
+    </section> -->
+    <!-- <section class="productApproval" *ngIf="SidebarIndex === 9">
       <app-product-approval></app-product-approval>
-    </section>
-    <section
+    </section> -->
+    <!-- <section
       class="sellerList"
       *ngIf="SidebarIndex === 5 || SidebarIndex === 10"
     >
@@ -281,14 +281,14 @@
     </section>
     <section class="addBanner" *ngIf="SidebarIndex === 14">
       <app-seller-add-banner *ngIf="userId"></app-seller-add-banner>
-    </section>
+    </section> -->
 
-    <section class="bannerApproval" *ngIf="SidebarIndex === 15">
+    <!-- <section class="bannerApproval" *ngIf="SidebarIndex === 15">
       <app-banner-approval *ngIf="userId"></app-banner-approval>
     </section>
     <section class="brands" *ngIf="SidebarIndex === 16">
       <app-brands *ngIf="userId"></app-brands>
-    </section>
+    </section> -->
   </div>
 
   <div *ngIf="userPermission.length === 0" class="bg-white pt-5">

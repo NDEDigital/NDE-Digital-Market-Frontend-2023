@@ -12,6 +12,7 @@ import { SellerOrdersComponent } from './components/seller-orders/seller-orders.
 import { SellerPermissionComponent } from './components/seller-permission/seller-permission.component';
 import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
 import { SharedModule } from '../shared/shared.module';
+import { SellerHeaderComponent } from './common/seller-header/seller-header.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -29,15 +30,8 @@ import { SharedModule } from '../shared/shared.module';
     SellerOrdersComponent,
     SellerPermissionComponent,
     SellerAddBannerComponent,
+    SellerHeaderComponent,
   ],
-  exports: [
-    AddPriceDiscountsComponent,
-    AddProductQuantityComponent,
-    SellerInventoryComponent,
-    SellerOrderComponent,
-    SellerOrdersComponent,
-    SellerPermissionComponent,
-    SellerAddBannerComponent,
-  ],
+  exports: [],
 })
 export class SellerModule {}
