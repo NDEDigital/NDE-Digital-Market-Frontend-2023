@@ -43,7 +43,20 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [NegativeSellerAdminGuardGuard],
   },
-
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./modules/admin-layout/admin-layout-routing.module').then(
+        (m) => m.AdminLayoutRoutingModule
+      ),
+  },
+  {
+    path: 'seller',
+    loadChildren: () =>
+      import('./modules/seller-layout/seller-layout-routing.module').then(
+        (m) => m.SellerLayoutRoutingModule
+      ),
+  },
   { path: 'product', component: ProductComponent },
   { path: 'becomeASeller', component: BecomeASellerComponent },
   { path: 'homeComponent', component: HomeComponent },
@@ -148,16 +161,7 @@ const routes: Routes = [
     path: 'productsPageComponent/:groupCode',
     component: ProductsPageComponent,
   },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule),
-  },
-  {
-    path: 'seller',
-    loadChildren: () =>
-      import('./seller/seller.module').then((m) => m.SellerModule),
-  },
+
   {
     path: 'buyer',
     loadChildren: () =>
@@ -167,6 +171,20 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () =>
       import('./shared/shared.module').then((m) => m.SharedModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./modules/admin-layout/admin-layout.module').then(
+        (m) => m.AdminLayoutModule
+      ),
+  },
+  {
+    path: 'seller',
+    loadChildren: () =>
+      import('./modules/seller-layout/seller-layout.module').then(
+        (m) => m.SellerLayoutModule
+      ),
   },
 ];
 

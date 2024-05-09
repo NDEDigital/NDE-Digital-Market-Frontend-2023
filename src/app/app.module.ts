@@ -29,16 +29,14 @@ import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoic
 import { ProductDetailsPageComponent } from './Pages/product-details-page/product-details-page.component';
 // token
 import { UserTokenInterceptor } from './Interceptor/user-token.interceptor';
-import { AddProductsComponent } from './admin/components/add-products/add-products.component';
+import { AddProductsComponent } from './modules/admin-layout/components/add-products/add-products.component';
 import { UserRegistrationComponent } from './Pages/user-registration/user-registration.component';
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 //module
-import { AdminModule } from './admin/admin.module';
 import { BuyerModule } from './buyer/buyer.module';
-import { SellerModule } from './seller/seller.module';
 import { SharedModule } from './shared/shared.module';
 import { GroupProductsComponent } from './Pages/group-products/group-products.component';
 @NgModule({
@@ -78,9 +76,7 @@ import { GroupProductsComponent } from './Pages/group-products/group-products.co
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminModule,
     BuyerModule,
-    SellerModule,
     SharedModule,
   ],
   exports: [],

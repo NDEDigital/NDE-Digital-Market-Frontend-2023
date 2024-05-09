@@ -90,7 +90,9 @@ export class LoginComponent {
           //     //console.log(error);
           //   },
           // });
-        } else this.router.navigate(['/dashboard']);
+        } else if (response.role === 'admin') {
+          this.router.navigate(['admin']);
+        } else this.router.navigate(['/seller']);
       },
       error: (error: any) => {
         //console.log(error);
