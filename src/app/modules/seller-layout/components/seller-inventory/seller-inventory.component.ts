@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { SellerOrderOverviewService } from '../../../services/SellerOrderOverviewService';
+import { SellerOrderOverviewService } from '../../../../services/SellerOrderOverviewService';
 import { FormsModule } from '@angular/forms';
 
 @Component({

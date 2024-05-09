@@ -53,7 +53,9 @@ const routes: Routes = [
   {
     path: 'seller',
     loadChildren: () =>
-      import('./seller/seller.module').then((m) => m.SellerModule),
+      import('./modules/seller-layout/seller-layout-routing.module').then(
+        (m) => m.SellerLayoutRoutingModule
+      ),
   },
   { path: 'product', component: ProductComponent },
   { path: 'becomeASeller', component: BecomeASellerComponent },
@@ -161,11 +163,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'seller',
-    loadChildren: () =>
-      import('./seller/seller.module').then((m) => m.SellerModule),
-  },
-  {
     path: 'buyer',
     loadChildren: () =>
       import('./buyer/buyer.module').then((m) => m.BuyerModule),
@@ -180,6 +177,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/admin-layout/admin-layout.module').then(
         (m) => m.AdminLayoutModule
+      ),
+  },
+  {
+    path: 'seller',
+    loadChildren: () =>
+      import('./modules/seller-layout/seller-layout.module').then(
+        (m) => m.SellerLayoutModule
       ),
   },
 ];

@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { SellerLayoutRoutingModule } from './seller-layout-routing.module';
+import { SellerLayoutComponent } from './seller-layout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SellerRoutingModule } from './seller-routing.module';
-import { SellerComponent } from './seller.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { AddPriceDiscountsComponent } from './components/add-price-discounts/add-price-discounts.component';
 import { AddProductQuantityComponent } from './components/add-product-quantity/add-product-quantity.component';
 import { SellerInventoryComponent } from './components/seller-inventory/seller-inventory.component';
@@ -11,18 +12,11 @@ import { SellerOrderComponent } from './components/seller-order/seller-order.com
 import { SellerOrdersComponent } from './components/seller-orders/seller-orders.component';
 import { SellerPermissionComponent } from './components/seller-permission/seller-permission.component';
 import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
-import { SharedModule } from '../shared/shared.module';
 import { SellerHeaderComponent } from './common/seller-header/seller-header.component';
+
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SellerRoutingModule,
-    SharedModule,
-  ],
   declarations: [
-    SellerComponent,
+    SellerLayoutComponent,
     AddPriceDiscountsComponent,
     AddProductQuantityComponent,
     SellerInventoryComponent,
@@ -32,6 +26,12 @@ import { SellerHeaderComponent } from './common/seller-header/seller-header.comp
     SellerAddBannerComponent,
     SellerHeaderComponent,
   ],
-  exports: [],
+  imports: [
+    CommonModule,
+    SellerLayoutRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+  ],
 })
-export class SellerModule {}
+export class SellerLayoutModule {}

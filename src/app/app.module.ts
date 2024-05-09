@@ -37,7 +37,6 @@ import { RecommendedProductListComponent } from './Pages/recommended-product-lis
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 //module
 import { BuyerModule } from './buyer/buyer.module';
-import { SellerModule } from './seller/seller.module';
 import { SharedModule } from './shared/shared.module';
 import { GroupProductsComponent } from './Pages/group-products/group-products.component';
 @NgModule({
@@ -78,7 +77,6 @@ import { GroupProductsComponent } from './Pages/group-products/group-products.co
     FormsModule,
     ReactiveFormsModule,
     BuyerModule,
-    SellerModule,
     SharedModule,
   ],
   exports: [],

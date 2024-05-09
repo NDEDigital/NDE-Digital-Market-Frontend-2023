@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SellerComponent } from './seller.component';
+import { SellerLayoutComponent } from './seller-layout.component';
 import { SellerInventoryComponent } from './components/seller-inventory/seller-inventory.component';
 import { AddProductQuantityComponent } from './components/add-product-quantity/add-product-quantity.component';
-import { SellerListComponent } from '../modules/admin-layout/components/seller-list/seller-list.component';
 import { SellerOrdersComponent } from './components/seller-orders/seller-orders.component';
 import { AddPriceDiscountsComponent } from './components/add-price-discounts/add-price-discounts.component';
+import { SellerListComponent } from '../admin-layout/components/seller-list/seller-list.component';
 import { SellerPermissionComponent } from './components/seller-permission/seller-permission.component';
-import { AddBannerService } from '../services/add-banner.service';
 import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SellerComponent,
+    component: SellerLayoutComponent,
     children: [
       { path: 'inventory', component: SellerInventoryComponent },
       { path: 'add-quantity', component: AddProductQuantityComponent },
@@ -27,8 +26,9 @@ const routes: Routes = [
     ],
   },
 ];
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SellerRoutingModule {}
+export class SellerLayoutRoutingModule {}
