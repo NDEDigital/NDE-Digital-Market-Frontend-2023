@@ -262,7 +262,7 @@ export class AddGroupsComponent {
       .subscribe({
         next: (response: any) => {
           // console.log(response);
-          isActive = isActive === true ? 0 : 1;
+          isActive = isActive === true ? 1 : 0;
 
           this.getProductGroup(isActive);
           this.btnIndex = isActive;
@@ -344,7 +344,7 @@ export class AddGroupsComponent {
             this.alertTitle = isActive ? 'Deactiveted!' : 'Activeted!';
             this.selectAll = false;
             this.selectedProducts1.length = 0;
-            // console.log("product id's are",this.selectedProductIds)
+            console.log(this.alertTitle);
           },
           error: (error: any) => {
             //console.log(error);

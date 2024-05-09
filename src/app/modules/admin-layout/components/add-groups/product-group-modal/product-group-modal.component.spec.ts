@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ProductGroupModalComponent } from './product-group-modal.component';
+
+describe('ProductGroupModalComponent', () => {
+  let component: ProductGroupModalComponent;
+  let fixture: ComponentFixture<ProductGroupModalComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ ProductGroupModalComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ProductGroupModalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

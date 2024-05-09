@@ -15,6 +15,7 @@ import { SellerListComponent } from './components/seller-list/seller-list.compon
 import { AdminHeaderComponent } from './common/admin-header/admin-header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ProductGroupModalComponent } from './components/add-groups/product-group-modal/product-group-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     BrandsComponent,
     SellerListComponent,
     AdminHeaderComponent,
+    ProductGroupModalComponent,
   ],
   imports: [
     CommonModule,
