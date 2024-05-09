@@ -2,56 +2,54 @@
   <div id="content-wrap">
     <app-header></app-header>
     <app-nav-belt></app-nav-belt>
-  <section class="mb-4"><app-banner></app-banner></section>
+    <section class="mb-4"><app-banner></app-banner></section>
     <!-- <app-home-core-content></app-home-core-content> -->
     <div class="product-slider-wrapper">
       <div class="advertisement-left-responsive">
-
-       <div class="card bg-dark text-white" *ngFor="let banner of bannerDetails; let i = index">
-
-         <p class="card-text">Advertisement</p>
-  <img
-    [src]="
-      banner.bannerImage.substring(
-        banner.bannerImage.indexOf('assets')
-      ) || 'assets/images/banner/banner1.jpg'
-    "
-    class="card-img"
-    alt="Advertisement Image"
-  />
-  <div class="card-img-overlay">
-   
-    <p class="card-text">{{ banner.description }}</p>
-  </div>
-</div>
-
+        <div
+          class="card bg-dark text-white"
+          *ngFor="let banner of bannerDetails; let i = index"
+        >
+          <p class="card-text">Advertisement</p>
+          <img
+            [src]="
+              banner.bannerImage.substring(
+                banner.bannerImage.indexOf('assets')
+              ) || 'assets/images/banner/banner1.jpg'
+            "
+            class="card-img"
+            alt="Advertisement Image"
+          />
+          <div class="card-img-overlay">
+            <p class="card-text">{{ banner.description }}</p>
+          </div>
+        </div>
       </div>
       <div class="product-slider">
-      
         <app-product-slider></app-product-slider>
         <app-clients-list-slider [clients]="clients"></app-clients-list-slider>
       </div>
       <div class="advertisement-right-responsive">
         <!-- Right Advertisement Content Goes Here -->
 
-
-            <div class="card bg-dark text-white cardL" *ngFor="let banner of bannerDetails; let i = index">
-
-         <p class="card-text">Advertisement</p>
-  <img
-    [src]="
-      banner.bannerImage.substring(
-        banner.bannerImage.indexOf('assets')
-      ) || 'assets/images/banner/banner1.jpg'
-    "
-    class="card-img"
-    alt="Advertisement Image"
-  />
-  <div class="card-img-overlay">
-   
-    <p class="card-text">{{ banner.description }}</p>
-  </div>
-</div>
+        <div
+          class="card bg-dark text-white cardL"
+          *ngFor="let banner of bannerDetails; let i = index"
+        >
+          <p class="card-text">Advertisement</p>
+          <img
+            [src]="
+              banner.bannerImage.substring(
+                banner.bannerImage.indexOf('assets')
+              ) || 'assets/images/banner/banner1.jpg'
+            "
+            class="card-img"
+            alt="Advertisement Image"
+          />
+          <div class="card-img-overlay">
+            <p class="card-text">{{ banner.description }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
