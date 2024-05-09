@@ -10,6 +10,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CompanyApprovalComponent } from './components/company-approval/company-approval.component';
 import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
 import { UnitListComponent } from './components/unit-list/unit-list.component';
+import { SellerAddBannerComponent } from '../seller-layout/components/seller-add-banner/seller-add-banner.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,8 @@ const routes: Routes = [
       { path: 'company-approval', component: CompanyApprovalComponent },
       { path: 'product-approval', component: ProductApprovalComponent },
       { path: 'unit-list', component: UnitListComponent },
+      { path: 'add-banner', component: SellerAddBannerComponent },
+
       { path: '', redirectTo: 'products', pathMatch: 'full' },
     ],
   },
