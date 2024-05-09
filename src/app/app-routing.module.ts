@@ -46,7 +46,9 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule),
+      import('./modules/admin-layout/admin-layout-routing.module').then(
+        (m) => m.AdminLayoutRoutingModule
+      ),
   },
   {
     path: 'seller',
@@ -172,6 +174,13 @@ const routes: Routes = [
     path: 'shared',
     loadChildren: () =>
       import('./shared/shared.module').then((m) => m.SharedModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./modules/admin-layout/admin-layout.module').then(
+        (m) => m.AdminLayoutModule
+      ),
   },
 ];
 

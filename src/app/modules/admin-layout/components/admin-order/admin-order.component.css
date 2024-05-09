@@ -1,4 +1,4 @@
-.container{
+.container {
   /* max-width: 300rem; */
   overflow-x: auto;
   max-width: 100%;
@@ -82,7 +82,7 @@
 
 /* Add a custom icon using a background image */
 .search_by_date input[type="date"] {
-  background: #fff url("../../../../assets/images/calendar.png") no-repeat
+  background: #fff url("../../../../../assets/images/calendar.png") no-repeat
     center right 0.5rem;
   background-size: 1rem 1rem; /* Set the size of the custom icon */
 }

@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Import the admin components
-import { UnitListComponent } from './components/unit-list/unit-list.component';
-import { AddGroupsComponent } from './components/add-groups/add-groups.component';
-import { AddProductsComponent } from './components/add-products/add-products.component';
-import { CompanyApprovalComponent } from './components/company-approval/company-approval.component';
-import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
-import { AdminOrderComponent } from './components/admin-order/admin-order.component';
+import { UnitListComponent } from '../modules/admin-layout/components/unit-list/unit-list.component';
+import { AddGroupsComponent } from '../modules/admin-layout/components/add-groups/add-groups.component';
+import { AddProductsComponent } from '../modules/admin-layout/components/add-products/add-products.component';
+import { CompanyApprovalComponent } from '../modules/admin-layout/components/company-approval/company-approval.component';
+import { ProductApprovalComponent } from '../modules/admin-layout/components/product-approval/product-approval.component';
+import { AdminOrderComponent } from '../modules/admin-layout/components/admin-order/admin-order.component';
 import { AdminComponent } from './admin.component';
-import { BannerApprovalComponent } from './components/banner-approval/banner-approval.component';
-import { BrandsComponent } from './components/brands/brands.component';
-import { SellerListComponent } from './components/seller-list/seller-list.component';
+import { BannerApprovalComponent } from '../modules/admin-layout/components/banner-approval/banner-approval.component';
+import { BrandsComponent } from '../modules/admin-layout/components/brands/brands.component';
+import { SellerListComponent } from '../modules/admin-layout/components/seller-list/seller-list.component';
 // Define the routes for the admin module
 const routes: Routes = [
   {

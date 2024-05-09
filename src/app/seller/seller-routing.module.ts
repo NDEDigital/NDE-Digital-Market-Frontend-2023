@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SellerComponent } from './seller.component';
 import { SellerInventoryComponent } from './components/seller-inventory/seller-inventory.component';
 import { AddProductQuantityComponent } from './components/add-product-quantity/add-product-quantity.component';
-import { SellerListComponent } from '../admin/components/seller-list/seller-list.component';
+import { SellerListComponent } from '../modules/admin-layout/components/seller-list/seller-list.component';
 import { SellerOrdersComponent } from './components/seller-orders/seller-orders.component';
 import { AddPriceDiscountsComponent } from './components/add-price-discounts/add-price-discounts.component';
 import { SellerPermissionComponent } from './components/seller-permission/seller-permission.component';

@@ -29,7 +29,7 @@ import { AdminInvoiceComponent } from './ReportDesign/admin-invoice/admin-invoic
 import { ProductDetailsPageComponent } from './Pages/product-details-page/product-details-page.component';
 // token
 import { UserTokenInterceptor } from './Interceptor/user-token.interceptor';
-import { AddProductsComponent } from './admin/components/add-products/add-products.component';
+import { AddProductsComponent } from './modules/admin-layout/components/add-products/add-products.component';
 import { UserRegistrationComponent } from './Pages/user-registration/user-registration.component';
 import { UserOrdersComponent } from './Pages/user-orders/user-orders.component';
 import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';

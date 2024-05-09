@@ -1,9 +1,9 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { AdminOrderDataGetService } from 'src/app/services/admin-order-data-get.service';
 import { FormsModule } from '@angular/forms';
-import { AdminOrderModel } from '../../../Model/AdminOrderModel';
-import { DetailsModel } from '../../../Model/DetailsModel';
-import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { AdminOrderModel } from '../../../../Model/AdminOrderModel';
+import { DetailsModel } from '../../../../Model/DetailsModel';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
