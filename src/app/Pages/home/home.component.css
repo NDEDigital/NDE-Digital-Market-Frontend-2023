@@ -38,6 +38,60 @@ body {
 }
 .product-slider {
   width: 90%;
-  margin-left: 5%;
-  flex-direction: column;
+  /* margin-left: 5%; */
+
+}
+
+.product-slider-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.advertisement-left,
+.advertisement-right {
+  /* Define width and other styles for the advertisement spaces */
+  width: 5%; /* Adjust this according to your design */
+}
+
+/* 
+.card{
+  border: 2px solid red; 
+  width: 13rem;
+  margin-left: 0.25rem;
+  height: 30rem;
+} */
+
+.card {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 10rem;
+  height: 20rem;
+ margin-left: 0.5rem;
+  margin-bottom: 5rem;
+  
+  margin-top: 2rem;  
+}
+
+.cardL{
+    background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  height: 20rem;
+ /* margin-left: -2.75rem; */
+  /* margin-bottom: 2rem; */
+   
+}
+
+/* .card .card-img-overlay {
+  padding: 1.25rem;
+} */
+.card-img {
+  height: 100vh;
+}
+
+.card-text{
+  text-align: center;
+  text-decoration: underline;
 }

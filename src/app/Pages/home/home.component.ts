@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AddBannerService } from 'src/app/services/add-banner.service';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -7,10 +8,16 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  constructor(private sharedService: SharedService) {
+  bannerDetails: any;
+  constructor(
+    private sharedService: SharedService,
+    private bannerServices: AddBannerService
+  ) {
     // this.user$.subscribe((user) => {
     //   //console.log(user, 'user');
     // });
+
+    this.getAddDetails();
   }
   user$ = this.sharedService.user$;
   user: any;
@@ -26,6 +33,19 @@ export class HomeComponent {
     this.user$.subscribe((user) => {
       // //console.log(user, 'user');
       this.user = user; // Update the user property for use in the component
+    });
+  }
+
+  getAddDetails() {
+    this.bannerServices.getAddForShowingInHomePage().subscribe({
+      next: (response: any) => {
+        console.log('Banner Details:', response);
+        this.bannerDetails = response;
+        console.log(this.bannerDetails);
+      },
+      error: (error: any) => {
+        console.error('Error Fetching banner Details:', error);
+      },
     });
   }
 }

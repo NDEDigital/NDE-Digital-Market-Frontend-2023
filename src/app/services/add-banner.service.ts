@@ -15,6 +15,7 @@ export class AddBannerService {
   getURL = `${this.URL}/AddBanner/GetAddBanner`;
   UpdateBannerStatusURL = `${this.URL}/api/AddBanner/UpdateBannerStatus`;
   getBannerForShowingInHomePageURL = `${this.URL}/api/AddBanner/GetBannerForShowingInHomePage`;
+  getAddForShowingInHomePageURL = `${this.URL}/api/AddBanner/ GetAddForShowingInHomePage`;
   constructor(private http: HttpClient) {}
 
   addBanner(formData: FormData): Observable<any> {
@@ -25,7 +26,7 @@ export class AddBannerService {
     console.log(CompanyCode);
     const getaAllURL = `${this.URL}/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`;
 
- return this.http.get<any>(getaAllURL);
+    return this.http.get<any>(getaAllURL);
   }
 
   createBanner(productListInsertData: any) {
@@ -64,5 +65,9 @@ export class AddBannerService {
   }
   getBannerForShowingInHomePage() {
     return this.http.get(this.getBannerForShowingInHomePageURL);
+  }
+
+  getAddForShowingInHomePage() {
+    return this.http.get(this.getAddForShowingInHomePageURL);
   }
 }
