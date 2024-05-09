@@ -36,6 +36,7 @@
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
       <div class="col tableHeader">Index</div>
+       <div class="col tableHeader">AD Type</div>
       <div class="col tableHeader">Company Name</div>
       <div class="col tableHeader">Banner Description</div>
       <div class="col tableHeader">Banner Image</div>
@@ -65,8 +66,19 @@
       </div>
 
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.companyName }}
+        <ng-container *ngIf="cmp.isAds === true">
+        <span >Advertise</span>
+        </ng-container>
+
+        <ng-container *ngIf="cmp.isAds === false">
+        <span >Banner</span>
+        </ng-container>
       </div>
+
+      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+  {{ cmp.companyName ? cmp.companyName : 'Admin' }}
+</div>
+
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ truncateDescription(cmp.bannerDescription) }}
       </div>

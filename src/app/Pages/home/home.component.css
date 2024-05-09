@@ -39,4 +39,5 @@ body {
 .product-slider {
   width: 90%;
   margin-left: 5%;
+  flex-direction: column;
 }

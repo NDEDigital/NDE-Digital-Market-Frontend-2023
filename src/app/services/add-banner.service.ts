@@ -25,7 +25,7 @@ export class AddBannerService {
     console.log(CompanyCode);
     const getaAllURL = `${this.URL}/api/AddBanner/GetAddBannerForSeller?ComapnayCode=${CompanyCode}`;
 
-https: return this.http.get<any>(getaAllURL);
+ return this.http.get<any>(getaAllURL);
   }
 
   createBanner(productListInsertData: any) {

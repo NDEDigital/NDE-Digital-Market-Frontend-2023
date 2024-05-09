@@ -15,6 +15,8 @@
       >
         Add Banner
       </button>
+
+     
     </div>
   </div>
 </div>
@@ -42,10 +44,18 @@
         <!-- Title -->
         <div class="d-flex justify-content-center align-items-center">
           <h2 class="register_title">
-            {{ isEditMode ? "Edit Banner" : "Add Banner" }}
+            {{ isEditMode ? "Edit Banner / Advertisement" : "Add Banner / Advertisement" }}
           </h2>
         </div>
         <hr />
+
+<div class="checkbox-container">
+  <input type="checkbox" id="bannerCheckbox" name="bannerCheckbox" (change)="adsFalse()" [checked]="!isAds" class="checkbox-input">
+  <label for="bannerCheckbox" class="checkbox-label">Banner</label>
+  <input type="checkbox" id="adsCheckbox" name="adsCheckbox" (change)="adsTrue()" [checked]="isAds" class="checkbox-input">
+  <label for="adsCheckbox" class="checkbox-label">Ads</label>
+</div>
+
         <!-- Banner Form -->
         <form [formGroup]="addBannerForm">
           <div class="form-group">
@@ -116,14 +126,15 @@
   <div class="row headerRow sticky-top fw-bolder">
     <div class="col tableHeader">Index</div>
     <!-- <div class="col tableHeader">Product Group ID</div> -->
-    <div class="col tableHeader">Banenr Image</div>
+        <div class="col tableHeader"> Type </div> 
+    <div class="col tableHeader">Image</div>
 
-    <div class="col tableHeader">Banner Description</div>
+    <div class="col tableHeader">Description</div>
 
     <div class="col tableHeader">Date Added</div>
-    <div class="col tableHeader">Banner Status</div>
+    <div class="col tableHeader"> Status</div>
 
-    <!-- <div class="col tableHeader">Banner active</div>  -->
+
 
     <!-- 
       <div class="col tableHeader" >Actions</div> -->
@@ -145,6 +156,21 @@
       }"
     >
       #{{ i + 1 }}
+    </div>
+
+     <div
+      class="col tableBody"
+      [ngClass]="{
+        'active-row': isHovered === i
+      }"
+    >
+    <ng-container *ngIf="banner.isAds === true">
+        <span >Advertise</span>
+      </ng-container>
+
+      <ng-container *ngIf="banner.isAds === false">
+        <span >Banner</span>
+      </ng-container>
     </div>
 
     <div
@@ -206,7 +232,12 @@
       >
         <span [style.color]="'red'">Rejected</span>
       </ng-container>
+
+
+
     </div>
+
+
   </section>
 </div>
 

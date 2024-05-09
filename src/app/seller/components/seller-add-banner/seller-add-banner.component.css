@@ -296,5 +296,46 @@ select {
 }
 
 
+/* ---------checkboxes---------- */
 
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Adjust as needed */
+}
 
+.checkbox-input {
+  appearance: none; /* Remove default checkbox appearance */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  margin-right: .5rem; /* Spacing between checkboxes and labels */
+  cursor: pointer; /* Show pointer cursor on hover */
+  margin-left: 1rem;
+}
+
+.checkbox-input:checked {
+  background-color: #007bff; /* Background color when checkbox is checked */
+}
+
+.checkbox-label {
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Text color */
+}
+
+/* Hide default checkbox indicator */
+.checkbox-input::before {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  background-color: #fff; /* Background color of default checkbox indicator */
+  border-radius: 3px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Show custom checkbox indicator when checked */
+.checkbox-input:checked::before {
+  background-color: #fff; /* Change background color when checked */
+}

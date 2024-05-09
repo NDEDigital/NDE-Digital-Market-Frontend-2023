@@ -37,6 +37,7 @@ export class BannerApprovalComponent implements OnInit {
   minEndDateTimes: string[] = [];
   activeEndDate: boolean[] = [];
   isEndDateEnabled: boolean[] = [];
+  code :string='';
 
   constructor(
     private http: HttpClient,
@@ -94,6 +95,7 @@ export class BannerApprovalComponent implements OnInit {
 
   getData() {
     console.log(this.btnIndex);
+   
     this.minDateTime = '';
     this.minEndDateTime = '';
     this.minEndDateTimes = [];
@@ -101,6 +103,7 @@ export class BannerApprovalComponent implements OnInit {
     this.isEndDateEnabled = [];
     this.minDateTime = this.getCurrentDateTime();
     this.minEndDateTime = this.getCurrentDateTime();
+     let code = localStorage.getItem('code');
     this.bannerService.getBannerDataByAdmin(this.btnIndex).subscribe({
       next: (response: any) => {
         this.banners = response;

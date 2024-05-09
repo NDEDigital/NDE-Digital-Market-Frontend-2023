@@ -8,7 +8,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { AddBannerService } from 'src/app/services/add-banner.service';
 
-
 @Component({
   selector: 'app-seller-add-banner',
   templateUrl: './seller-add-banner.component.html',
@@ -25,6 +24,8 @@ export class SellerAddBannerComponent {
   alertMsg: string = '';
   imagePathPreview: string = '';
   isEditMode: boolean = false;
+  showCheckboxes: boolean = false;
+  isAds: boolean = false;
   banners: any[] = [];
   bannerImage: string = '';
   currentBanner: any;
@@ -63,31 +64,70 @@ export class SellerAddBannerComponent {
     this.fetchBanners();
   }
   isApproved(banner: any): boolean {
-    return banner.isBannerStatus === true && banner.isActive === true ;
+    return banner.isBannerStatus === true && banner.isActive === true;
   }
   isExpired(banner: any): boolean {
     return banner.isBannerStatus === false && banner.isActive === false;
   }
 
+  adsTrue(): void {
+    this.isAds = true;
+  }
 
+  adsFalse(): void {
+    this.isAds = false;
+  }
 
   openAddGroupModal(): void {
     this.resetForm();
     this.isEditMode = false;
     this.currentBanner = null;
-
+    this.showCheckboxes = true;
     this.AddGroupModalCenterG.nativeElement.click();
     // this.EditBannerModalCenterG.nativeElement.click();
     this.fetchBanners();
   }
 
+  // fetchBanners(): void {
+  //   let companyCode = localStorage.getItem('CompanyCode');
+  //   if (companyCode && companyCode !== 'admin') {
+  //     this.bannerService.getaAllBanner(companyCode).subscribe(
+  //       (data) => {
+  //         this.banners = data;
+  //         // console.log('Banners updated:', this.banners);
+  //       },
+  //       (error) => {
+  //         // console.error('Error fetching banners:', error);
+  //       }
+  //     );
+  //   }
+
+ 
+  // }
+
+
+
   fetchBanners(): void {
     let companyCode = localStorage.getItem('CompanyCode');
-    if (companyCode) {
+    let role = localStorage.getItem('role');
+
+    if (role !== 'admin') {
+      // Company code is present, fetch banners with matching company code
       this.bannerService.getaAllBanner(companyCode).subscribe(
         (data) => {
           this.banners = data;
-          // console.log('Banners updated:', this.banners);
+          console.log('Banners updated:', this.banners);
+        },
+        (error) => {
+          // console.error('Error fetching banners:', error);
+        }
+      );
+    } else {
+      let role = 'admin';
+      this.bannerService.getaAllBanner(role).subscribe(
+        (data) => {
+          this.banners = data;
+          console.log('Banners updated:', this.banners, role);
         },
         (error) => {
           // console.error('Error fetching banners:', error);
@@ -141,10 +181,17 @@ export class SellerAddBannerComponent {
       }
 
       let companyCode = localStorage.getItem('CompanyCode');
+      let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+      if (userRole === 'admin') {
+        companyCode = 'admin';
+      }
+
       if (companyCode) {
         formData.append('CompanyCode', companyCode);
       }
+
       formData.append('IsActive', 'true');
+      formData.append('IsAds', this.isAds ? 'true' : 'false');
       formData.append('AddedBy', 'user');
       formData.append('AddedPC', '0.0.0.0');
 
@@ -163,6 +210,10 @@ export class SellerAddBannerComponent {
             this.btnIndex = -1;
 
             let companyCode = localStorage.getItem('CompanyCode');
+            let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+            if (userRole === 'admin') {
+              companyCode = 'admin';
+            }
             if (companyCode) {
               this.bannerService.getaAllBanner(companyCode).subscribe(
                 (data) => {
@@ -192,7 +243,10 @@ export class SellerAddBannerComponent {
       if (this.isEditMode) {
         let updateByUser = localStorage.getItem('CompanyCode');
         // console.log(updateByUser, 'CompanyCode...');
-
+let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+      if (userRole === 'admin') {
+        companyCode = 'admin';
+      }
         formData.append('BannerID', this.currentBanner);
         if (updateByUser !== null) {
           formData.append('UpdatedBy', updateByUser);
@@ -311,9 +365,10 @@ export class SellerAddBannerComponent {
   closeEditFormWithoutUpdate(): void {
     // Reset any form-related states
     this.resetForm();
-
+    this.showCheckboxes = false;
     // Set isEditMode to false to indicate that we are not in edit mode anymore
     this.isEditMode = false;
+
     this.updateFormValidators();
   }
 
@@ -331,6 +386,3 @@ export class SellerAddBannerComponent {
     this.AddGroupModalCenterG.nativeElement.click();
   }
 }
-
-
-
