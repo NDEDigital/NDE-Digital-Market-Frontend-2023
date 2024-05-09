@@ -36,7 +36,6 @@ import { InvoiceComponent } from './ReportDesign/invoice/invoice.component';
 import { RecommendedProductListComponent } from './Pages/recommended-product-list/recommended-product-list.component';
 import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.component';
 //module
-import { AdminModule } from './admin/admin.module';
 import { BuyerModule } from './buyer/buyer.module';
 import { SellerModule } from './seller/seller.module';
 import { SharedModule } from './shared/shared.module';
@@ -78,7 +77,6 @@ import { GroupProductsComponent } from './Pages/group-products/group-products.co
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminModule,
     BuyerModule,
     SellerModule,
     SharedModule,
