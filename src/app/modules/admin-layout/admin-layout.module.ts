@@ -16,6 +16,7 @@ import { AdminHeaderComponent } from './common/admin-header/admin-header.compone
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductGroupModalComponent } from './components/add-groups/product-group-modal/product-group-modal.component';
+import { GridViewComponent } from './components/add-groups/grid-view/grid-view.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ProductGroupModalComponent } from './components/add-groups/product-grou
     SellerListComponent,
     AdminHeaderComponent,
     ProductGroupModalComponent,
+    GridViewComponent,
   ],
   imports: [
     CommonModule,
