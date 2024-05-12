@@ -17,6 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductGroupModalComponent } from './components/add-groups/product-group-modal/product-group-modal.component';
 import { GridViewComponent } from './components/add-groups/grid-view/grid-view.component';
+import { AddGroupsModalComponent } from './components/add-groups/add-groups-modal/add-groups-modal.component';
+import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { GridViewComponent } from './components/add-groups/grid-view/grid-view.c
     AdminHeaderComponent,
     ProductGroupModalComponent,
     GridViewComponent,
+    AddGroupsModalComponent,
+    DynamicAlertModalComponent,
   ],
   imports: [
     CommonModule,

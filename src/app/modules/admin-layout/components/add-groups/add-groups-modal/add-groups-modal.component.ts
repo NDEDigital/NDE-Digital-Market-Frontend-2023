@@ -1,4 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -7,13 +14,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddProductService } from 'src/app/services/add-product.service';
-
+AddProductService;
 @Component({
-  selector: 'app-add-groups',
-  templateUrl: './add-groups.component.html',
-  styleUrls: ['./add-groups.component.css'],
+  selector: 'app-add-groups-modal',
+  templateUrl: './add-groups-modal.component.html',
+  styleUrls: ['./add-groups-modal.component.css'],
 })
-export class AddGroupsComponent {
+export class AddGroupsModalComponent {
+  @Output() resetFormEvent = new EventEmitter<{}>();
+  @Input() isEditMode!: any;
+
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
@@ -31,7 +41,6 @@ export class AddGroupsComponent {
   groupList: any;
   btnIndex = -1;
   isError: boolean = false;
-  isEditMode = false;
   existingImagePath: string = '';
   currentGroup: any = null;
   activeGroupId: number | null = null;
@@ -76,11 +85,7 @@ export class AddGroupsComponent {
   }
 
   resetForm(): void {
-    console.log(this.isEditMode);
-    this.addGroupForm.reset();
-    this.isEditMode = false;
-    this.currentGroup = null;
-    this.activeGroupId = null;
+    this.resetFormEvent.emit();
   }
 
   onSubmit(): void {
