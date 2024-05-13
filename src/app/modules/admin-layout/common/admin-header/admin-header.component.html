@@ -69,3 +69,114 @@
     </div>
   </div>
 </section>
+<!-- <app-header></app-header> -->
+<div
+  class="modal"
+  id="changePasswordModal"
+  tabindex="-1"
+  aria-labelledby="changePasswordModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordModalLabel">
+          Change Password
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!-- Add your password change form inputs here -->
+        <!-- For example: -->
+        <form [formGroup]="pForm">
+          <div class="mb-3">
+            <label for="currentPassword" class="form-label"
+              >Current Password</label
+            >
+            <input
+              type="password"
+              formControlName="currentPassword"
+              class="form-control"
+              id="currentPassword"
+              [ngClass]="{
+                'border-danger':
+                  isFieldInvalid('currentPassword') || errorMessage
+              }"
+            />
+            <div
+              class="text-danger"
+              *ngIf="isFieldInvalid('currentPassword'); else dbError"
+            >
+              <span>{{ getPasswordErrorMessage("currentPassword") }}</span>
+            </div>
+            <ng-template #dbError>
+              <span
+                *ngIf="errorMessage"
+                class="error-message text-danger border-danger"
+              >
+                {{ errorMessage }}
+              </span>
+            </ng-template>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input
+              type="password"
+              formControlName="newPassword"
+              class="form-control"
+              id="newPassword"
+            />
+            <div class="text-danger" *ngIf="isFieldInvalid('newPassword')">
+              <span>{{ getPasswordErrorMessage("newPassword") }}</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              class="form-control"
+              id="confirmPassword"
+            />
+            <!-- <div class="text-danger" *ngIf="isFieldInvalid('confirmPassword')">
+              <span>{{ getPasswordErrorMessage('confirmPassword') }}</span>
+            </div> -->
+            <div
+              *ngIf="
+                pForm.get('confirmPassword')?.hasError('passwordMismatch') &&
+                pForm.get('confirmPassword')?.dirty
+              "
+              class="text-danger"
+            >
+              Password and Confirm Password must match.
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="formSubmit()">
+          Save Changes
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          #closeButton
+          (click)="closebtn()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
