@@ -190,6 +190,7 @@ export class AddGroupsComponent {
   }
 
   getProductGroup(status: any) {
+    this.btnIndex = status;
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;

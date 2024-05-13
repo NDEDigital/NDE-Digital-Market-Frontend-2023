@@ -19,6 +19,8 @@ import { GridViewComponent } from './components/add-groups/grid-view/grid-view.c
 import { AddGroupsModalComponent } from './components/add-groups/add-groups-modal/add-groups-modal.component';
 import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
 import { AddProductComponent } from 'src/app/Pages/add-product/add-product.component';
+import { StatusButtonsComponentComponent } from './components/add-products/status-buttons-component/status-buttons-component.component';
+import { AdminStatusButtonsComponentComponent } from './components/add-groups/admin-status-buttons-component/admin-status-buttons-component.component';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -36,6 +38,8 @@ import { AddProductComponent } from 'src/app/Pages/add-product/add-product.compo
     AddGroupsModalComponent,
     DynamicAlertModalComponent,
     AddProductComponent,
+    StatusButtonsComponentComponent,
+    AdminStatusButtonsComponentComponent,
   ],
 
   imports: [

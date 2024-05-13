@@ -4,46 +4,10 @@
     title="Add Product Group Table"
   ></app-dashboard-menu-header>
 
-  <div
-    class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
-  >
-    <div class="headerbtns">
-      <button
-        class="custom-btn new-btn"
-        (click)="getProductGroup(-1); btnIndex = -1"
-        [ngClass]="{ active: btnIndex === -1 }"
-      >
-        New
-      </button>
-      <button
-        class="custom-btn btn-active"
-        (click)="getProductGroup(1)"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-      >
-        Active
-      </button>
-      <button
-        class="custom-btn btn-inactive"
-        (click)="getProductGroup(0)"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-      >
-        Inactive
-      </button>
-    </div>
-
-    <div>
-      <button
-        class="custom-btn addGroup-btn"
-        data-bs-toggle="modal"
-        data-bs-target="#addGroupModalCenter"
-        #addGroupModalCenterG
-      >
-        Add Group
-      </button>
-    </div>
-  </div>
+  <app-admin-status-buttons-component
+    [btnIndex]="btnIndex"
+    (getProductsEvent)="getProductGroup($event)"
+  ></app-admin-status-buttons-component>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">

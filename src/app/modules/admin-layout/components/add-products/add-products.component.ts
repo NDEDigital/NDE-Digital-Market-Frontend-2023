@@ -220,6 +220,9 @@ export class AddProductsComponent implements OnInit {
   }
   selectedProducts1: any[] = [];
   getProducts(status: any) {
+    console.log(status);
+    console.log(this.btnIndex);
+    this.btnIndex = status;
     this.selectAll = false;
     // this.selectedProducts1.length=0;
     this.productService.GetProductListByStatus(status).subscribe({
