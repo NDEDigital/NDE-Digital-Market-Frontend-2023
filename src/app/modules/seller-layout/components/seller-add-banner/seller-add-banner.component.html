@@ -7,20 +7,11 @@
       <h1 class="companyApproval_header_text">Add Banner</h1>
     </div>
   </div>
-  <div
-    class="mt-2 bg-light same-width border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
-  >
-    <div class="custom-btn addproduct-btn">
-      <button
-        class="bn"
-        data-bs-toggle="modal"
-        data-bs-target="#addGroupModalCenter"
-        #addGroupModalCenterG
-      >
-        Add Banner
-      </button>
-    </div>
-  </div>
+  <app-status-button
+    [AddButtonName]="'Add Banner'"
+    [addGroupModalCenter]="'#addGroupModalCenter'"
+    [btnIndex]="'2'"
+  ></app-status-button>
 </div>
 
 <div

@@ -1,7 +1,7 @@
 <div
   class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
 >
-  <div class="headerbtns">
+  <div *ngIf="btnIndex != 2" class="headerbtns">
     <button
       class="custom-btn new-btn"
       (click)="getProductGroup(-1); btnIndex = -1"
@@ -26,7 +26,7 @@
       {{ InactiveButton }}
     </button>
   </div>
-
+  <div *ngIf="btnIndex == 2" class="headerbtns"></div>
   <div *ngIf="AddButtonName">
     <button
       class="custom-btn addGroup-btn"

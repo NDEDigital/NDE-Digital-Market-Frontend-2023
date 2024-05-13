@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SellerLayoutRoutingModule } from './seller-layout-routing.module';
 import { SellerLayoutComponent } from './seller-layout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +12,7 @@ import { SellerOrdersComponent } from './components/seller-orders/seller-orders.
 import { SellerPermissionComponent } from './components/seller-permission/seller-permission.component';
 import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
 import { SellerHeaderComponent } from './common/seller-header/seller-header.component';
-
+import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
 @NgModule({
   declarations: [
     SellerLayoutComponent,
@@ -32,6 +31,7 @@ import { SellerHeaderComponent } from './common/seller-header/seller-header.comp
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    AdminLayoutModule,
   ],
 })
 export class SellerLayoutModule {}

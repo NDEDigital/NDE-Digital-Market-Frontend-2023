@@ -619,7 +619,7 @@ export class AddPriceDiscountsComponent {
   openModalWithData(product: any): void {
     this.isEditMode = true;
     this.updateFormValidators();
-    // console.log('product', product);
+    console.log('product', product);
 
     this.getProductData(product.productGroupID);
 

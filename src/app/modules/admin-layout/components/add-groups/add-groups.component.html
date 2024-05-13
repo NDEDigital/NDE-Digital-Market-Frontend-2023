@@ -1,9 +1,11 @@
 <!-- approval grid  -->
 <div class="container-responsive approval-grid">
+  <!-- Header Title -->
   <app-dashboard-menu-header
     title="Add Product Group Table"
   ></app-dashboard-menu-header>
 
+  <!-- Status Button -->
   <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getProductGroup($event)"
@@ -13,6 +15,7 @@
     [InactiveButton]="'Inactive'"
     [AddButtonName]="'Add Group'"
   ></app-status-button>
+
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
@@ -210,6 +213,15 @@
   data-bs-toggle="modal"
   data-bs-target="#productGroupModal"
   #userExistModalBTN
+>
+  Launch demo modal
+</button>
+<button
+  type="button"
+  class="btn btn-primary d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#addGroupModalCenter"
+  #addGroupModalCenterG
 >
   Launch demo modal
 </button>

@@ -2,47 +2,7 @@
   <app-dashboard-menu-header
     title="Product Approval"
   ></app-dashboard-menu-header>
-  <!-- <div
-    class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between align-items-center"
-  >
-    <div class="headerbtns">
-      <button
-        class="custom-btn new-btn active"
-        [ngClass]="{ active: btnIndex === -1 }"
-        (click)="btnIndex = -1"
-        (click)="getData('Pending')"
-      >
-        New
-      </button>
-      <button
-        class="custom-btn btn-active"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-        (click)="getData('Approved')"
-      >
-        Approved
-      </button>
-      <button
-        class="custom-btn btn-inactive"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-        (click)="getData('Rejected')"
-      >
-        Cancelled
-      </button>
-    </div>
 
-    <div class="d-flex align-items-center">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search Company"
-        aria-label="Search"
-        [(ngModel)]="searchTerm"
-        (keyup)="filterProducts()"
-      />
-    </div>
-  </div> -->
   <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getData($event)"

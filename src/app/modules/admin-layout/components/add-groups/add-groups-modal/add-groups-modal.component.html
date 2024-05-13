@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="addGroupModalCenter"
+  [id]="id"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -17,13 +17,9 @@
             (click)="resetForm()"
           ></button>
         </div>
-        <!-- add group form design  -->
-        <div>
-          <!-- <h2 class="register_title">Add Product Groups Name</h2> -->
-          <div class="d-flex justify-content-center align-items-center">
-            <!-- Back Button on the left -->
 
-            <!-- Title in the middle -->
+        <div>
+          <div class="d-flex justify-content-center align-items-center">
             <h2 class="register_title">
               {{
                 isEditMode

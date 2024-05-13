@@ -23,6 +23,7 @@ AddProductService;
 export class AddGroupsModalComponent {
   @Output() resetFormEvent = new EventEmitter<{}>();
   @Input() isEditMode!: any;
+  @Input() id!: any;
 
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
