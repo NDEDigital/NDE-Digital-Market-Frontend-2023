@@ -15,7 +15,6 @@ import { SellerListComponent } from './components/seller-list/seller-list.compon
 import { AdminHeaderComponent } from './common/admin-header/admin-header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ProductGroupModalComponent } from './components/add-groups/product-group-modal/product-group-modal.component';
 import { GridViewComponent } from './components/add-groups/grid-view/grid-view.component';
 import { AddGroupsModalComponent } from './components/add-groups/add-groups-modal/add-groups-modal.component';
 import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
@@ -33,7 +32,6 @@ import { AddProductComponent } from 'src/app/Pages/add-product/add-product.compo
     BrandsComponent,
     SellerListComponent,
     AdminHeaderComponent,
-    ProductGroupModalComponent,
     GridViewComponent,
     AddGroupsModalComponent,
     DynamicAlertModalComponent,
