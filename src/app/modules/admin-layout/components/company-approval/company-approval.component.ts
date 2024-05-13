@@ -35,7 +35,7 @@ export class CompanyApprovalComponent {
       next: (response: any) => {
         this.companies = response;
         // console.log(this.companies, 'companies....');
-           maxUser: this.companies.maxUser; 
+        maxUser: this.companies.maxUser;
       },
       error: (error: any) => {
         //console.log(error);
@@ -101,7 +101,7 @@ export class CompanyApprovalComponent {
           this.isApproved = false;
           this.isRejected = true;
           this.alertTitle = 'Rejected!';
-          this.alertMsg = 'Company is rejected.';
+          this.alertMsg = 'Company is Rejected.';
         }
         this.msgModalBTN.nativeElement.click();
       },

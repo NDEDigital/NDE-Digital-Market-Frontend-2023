@@ -62,7 +62,6 @@ import { GroupProductsComponent } from './Pages/group-products/group-products.co
     SellerInvoiceComponent,
     AdminInvoiceComponent,
     ProductDetailsPageComponent,
-    AddProductsComponent,
     UserRegistrationComponent,
     UserOrdersComponent,
     InvoiceComponent,

@@ -501,44 +501,9 @@
   Launch demo modal
 </button>
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="prodExistModal"
-  tabindex="-1"
-  aria-labelledby="userExistModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold">
-        <h1
-          class="modal-title fs-5"
-          id="userExistModalLabel"
-          [ngStyle]="{
-            color: alertMsg.includes('Deactiveted') ? 'red' : 'green'
-          }"
-          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
-        >
-          {{ alertTitle }}
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <p
-          class="fs-5 fw-bolder"
-          [ngStyle]="{
-            color: alertMsg.includes('Deactiveted') ? 'red' : 'green'
-          }"
-          [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
-        >
-          {{ alertMsg }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="alertTitle"
+  [id]="'prodExistModal'"
+></app-dynamic-alert-modal>

@@ -37,7 +37,7 @@ export class BannerApprovalComponent implements OnInit {
   minEndDateTimes: string[] = [];
   activeEndDate: boolean[] = [];
   isEndDateEnabled: boolean[] = [];
-  code :string='';
+  code: string = '';
 
   constructor(
     private http: HttpClient,
@@ -95,7 +95,7 @@ export class BannerApprovalComponent implements OnInit {
 
   getData() {
     console.log(this.btnIndex);
-   
+
     this.minDateTime = '';
     this.minEndDateTime = '';
     this.minEndDateTimes = [];
@@ -103,7 +103,7 @@ export class BannerApprovalComponent implements OnInit {
     this.isEndDateEnabled = [];
     this.minDateTime = this.getCurrentDateTime();
     this.minEndDateTime = this.getCurrentDateTime();
-     let code = localStorage.getItem('code');
+    let code = localStorage.getItem('code');
     this.bannerService.getBannerDataByAdmin(this.btnIndex).subscribe({
       next: (response: any) => {
         this.banners = response;
@@ -137,6 +137,7 @@ export class BannerApprovalComponent implements OnInit {
   }
 
   updateBannerStatus(cmp: any, alert: any) {
+    console.log(alert);
     this.bannerService.UpdateBannerStatus(cmp).subscribe({
       next: () => {
         this.alertTitle = alert.alertTitle;
@@ -198,15 +199,16 @@ export class BannerApprovalComponent implements OnInit {
       alert.btnIndex = 0;
       alert.isRejected = true;
       alert.isApproved = false;
-      this.alertMsg = 'Banner Rejected Successfully';
+      (alert.alertTitle = 'Rejected!'),
+        (alert.alertMsg = 'Banner Rejected Successfully');
       console.log(cmp);
       this.updateBannerStatus(cmp, alert);
     }
-    if (StartDate > EndDate) {
+    if (StartDate > EndDate && IsActive) {
       this.isApproved = false;
       this.isRejected = true;
-      this.alertTitle = 'Error';
-      this.alertMsg = 'StartDate Cant be greater than EndDate';
+      this.alertTitle = 'Reminder';
+      this.alertMsg = 'StartDate must be greater than EndDate';
       if (this.msgModalBTN) {
         this.msgModalBTN.nativeElement.click();
       }
@@ -219,13 +221,16 @@ export class BannerApprovalComponent implements OnInit {
       alert.btnIndex = 0;
       alert.isRejected = true;
       alert.isApproved = false;
-      this.alertMsg = 'Banner Rejected Successfully';
+      (alert.alertTitle = 'Rejected!'),
+        (alert.alertMsg = 'Banner Rejected Successfully');
       this.updateBannerStatus(cmp, alert);
     } else if (this.btnIndex == 1 && !IsActive) {
       alert.btnIndex = 0;
       alert.isRejected = true;
       alert.isApproved = false;
-      this.alertMsg = 'Banner Rejected Successfully';
+
+      (alert.alertTitle = 'Rejected!'),
+        (alert.alertMsg = 'Banner Rejected Successfully');
       console.log(cmp);
       this.updateBannerStatus(cmp, alert);
     } else if (this.btnIndex == 0 && StartDate && EndDate) {

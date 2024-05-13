@@ -36,7 +36,7 @@
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
       <div class="col tableHeader">Index</div>
-       <div class="col tableHeader">AD Type</div>
+      <div class="col tableHeader">AD Type</div>
       <div class="col tableHeader">Company Name</div>
       <div class="col tableHeader">Banner Description</div>
       <div class="col tableHeader">Banner Image</div>
@@ -67,17 +67,17 @@
 
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <ng-container *ngIf="cmp.isAds === true">
-        <span >Advertise</span>
+          <span>Advertise</span>
         </ng-container>
 
         <ng-container *ngIf="cmp.isAds === false">
-        <span >Banner</span>
+          <span>Banner</span>
         </ng-container>
       </div>
 
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-  {{ cmp.companyName ? cmp.companyName : 'Admin' }}
-</div>
+        {{ cmp.companyName ? cmp.companyName : "Admin" }}
+      </div>
 
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ truncateDescription(cmp.bannerDescription) }}
@@ -248,44 +248,8 @@
 </button>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="msgModal"
-  tabindex="-1"
-  aria-labelledby="msgModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="msgModalLabel">
-          <span
-            [ngClass]="{
-              'text-success': isApproved,
-              'text-danger': isRejected
-            }"
-          >
-            {{ alertTitle }}</span
-          >
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <span
-          [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
-          >{{ alertMsg }}</span
-        >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="alertTitle"
+  [id]="'msgModal'"
+></app-dynamic-alert-modal>

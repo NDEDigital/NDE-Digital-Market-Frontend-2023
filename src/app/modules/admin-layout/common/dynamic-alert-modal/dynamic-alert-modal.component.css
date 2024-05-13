@@ -68,7 +68,7 @@ select {
 
 .checkbox-group label {
   display: inline-block;
-  /* margin-right: 10px; */
+  margin-right: 10px;
 }
 
 .button {
@@ -92,9 +92,9 @@ select {
   border-color: red !important;
 }
 /* .pass_container .col-6 {
-
-    width: 47% !important;
-  } */
+    
+        width: 47% !important;
+      } */
 .form_content {
   /* display: flex; */
   flex-wrap: wrap;
@@ -222,9 +222,8 @@ select {
 
 .actionBtn {
   cursor: pointer;
-  background: white;
+  background: none;
   border: none;
-  /* margin-left: -30rem; */
 }
 
 .addGroup-btn {
@@ -232,8 +231,8 @@ select {
 }
 
 /* .marginBackBtn{
-  margin-left: 10rem;
-} */
+      margin-left: 10rem;
+    } */
 
 .active-row {
   background-color: rgb(233, 238, 243);
