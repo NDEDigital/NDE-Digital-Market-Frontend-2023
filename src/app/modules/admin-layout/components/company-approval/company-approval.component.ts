@@ -27,10 +27,12 @@ export class CompanyApprovalComponent {
   ) {}
 
   ngOnInit() {
-    this.getData();
+    this.getData(this.btnIndex);
   }
 
-  getData() {
+  getData(status: any) {
+    console.log(status);
+    this.btnIndex = status;
     this.companyService.GetCompaniesBasedOnStatus(this.btnIndex).subscribe({
       next: (response: any) => {
         this.companies = response;
@@ -88,7 +90,7 @@ export class CompanyApprovalComponent {
     this.companyService.UpdateCompany(cmp).subscribe({
       next: (response: any) => {
         //console.log(response);
-        this.getData();
+        this.getData(this.btnIndex);
         this.sendEmailToCompany(companyEmail, companyCode, userCnt, Isactive);
         this.selectedCompanyCodeValues[companyCode] = null;
 

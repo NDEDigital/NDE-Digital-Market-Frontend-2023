@@ -1,11 +1,15 @@
 <!-- approval grid  -->
 <div class="container-responsive body-design">
-   <div class="bg-white same-width d-flex justify-content-center p-2 border border-1 rounded">
+  <div
+    class="bg-white same-width d-flex justify-content-center p-2 border border-1 rounded"
+  >
     <div class="d-flex justify-content-center">
       <h1 class="companyApproval_header_text">Add Banner</h1>
     </div>
   </div>
- <div class="mt-2 bg-light same-width border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between">
+  <div
+    class="mt-2 bg-light same-width border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
+  >
     <div class="custom-btn addproduct-btn">
       <button
         class="bn"
@@ -15,8 +19,6 @@
       >
         Add Banner
       </button>
-
-     
     </div>
   </div>
 </div>
@@ -44,17 +46,35 @@
         <!-- Title -->
         <div class="d-flex justify-content-center align-items-center">
           <h2 class="register_title">
-            {{ isEditMode ? "Edit Banner / Advertisement" : "Add Banner / Advertisement" }}
+            {{
+              isEditMode
+                ? "Edit Banner / Advertisement"
+                : "Add Banner / Advertisement"
+            }}
           </h2>
         </div>
         <hr />
 
-<div class="checkbox-container">
-  <input type="checkbox" id="bannerCheckbox" name="bannerCheckbox" (change)="adsFalse()" [checked]="!isAds" class="checkbox-input">
-  <label for="bannerCheckbox" class="checkbox-label">Banner</label>
-  <input type="checkbox" id="adsCheckbox" name="adsCheckbox" (change)="adsTrue()" [checked]="isAds" class="checkbox-input">
-  <label for="adsCheckbox" class="checkbox-label">Ads</label>
-</div>
+        <div class="checkbox-container">
+          <input
+            type="checkbox"
+            id="bannerCheckbox"
+            name="bannerCheckbox"
+            (change)="adsFalse()"
+            [checked]="!isAds"
+            class="checkbox-input"
+          />
+          <label for="bannerCheckbox" class="checkbox-label">Banner</label>
+          <input
+            type="checkbox"
+            id="adsCheckbox"
+            name="adsCheckbox"
+            (change)="adsTrue()"
+            [checked]="isAds"
+            class="checkbox-input"
+          />
+          <label for="adsCheckbox" class="checkbox-label">Ads</label>
+        </div>
 
         <!-- Banner Form -->
         <form [formGroup]="addBannerForm">
@@ -83,19 +103,19 @@
             />
           </div>
           <!-- Description field -->
-       <div class="form-group">
-  <label><span class="text-danger">*</span>Description</label>
-  <textarea
-    formControlName="bannerDescription"
-    class="w-100 p-1 rounded-1 border border-1 large-textarea"
-    [attr.required]="!isEditMode ? true : null"
-  ></textarea>
-  <span
-    class="text-danger"
-    *ngIf="isFieldInvalid('bannerDescription')"
-    >Description is required.</span
-  >
-</div>
+          <div class="form-group">
+            <label><span class="text-danger">*</span>Description</label>
+            <textarea
+              formControlName="bannerDescription"
+              class="w-100 p-1 rounded-1 border border-1 large-textarea"
+              [attr.required]="!isEditMode ? true : null"
+            ></textarea>
+            <span
+              class="text-danger"
+              *ngIf="isFieldInvalid('bannerDescription')"
+              >Description is required.</span
+            >
+          </div>
 
           <button
             type="submit"
@@ -121,20 +141,18 @@
   </div>
 </div>
 
-<div class="scrollable-table border border-1 bg-light ">
+<div class="scrollable-table border border-1 bg-light">
   <!-- TABLE header -->
   <div class="row headerRow sticky-top fw-bolder">
     <div class="col tableHeader">Index</div>
     <!-- <div class="col tableHeader">Product Group ID</div> -->
-        <div class="col tableHeader"> Type </div> 
+    <div class="col tableHeader">Type</div>
     <div class="col tableHeader">Image</div>
 
     <div class="col tableHeader">Description</div>
 
     <div class="col tableHeader">Date Added</div>
-    <div class="col tableHeader"> Status</div>
-
-
+    <div class="col tableHeader">Status</div>
 
     <!-- 
       <div class="col tableHeader" >Actions</div> -->
@@ -145,7 +163,9 @@
   <section
     class="row tablebodyRow fw-semibold"
     *ngFor="let banner of banners; let i = index"
-    (dblclick)="!(isApproved(banner) || isExpired(banner)) && openEditForm(banner)"
+    (dblclick)="
+      !(isApproved(banner) || isExpired(banner)) && openEditForm(banner)
+    "
     (mouseover)="isHovered = i"
     (mouseout)="isHovered = null"
   >
@@ -158,18 +178,18 @@
       #{{ i + 1 }}
     </div>
 
-     <div
+    <div
       class="col tableBody"
       [ngClass]="{
         'active-row': isHovered === i
       }"
     >
-    <ng-container *ngIf="banner.isAds === true">
-        <span >Advertise</span>
+      <ng-container *ngIf="banner.isAds === true">
+        <span>Advertise</span>
       </ng-container>
 
       <ng-container *ngIf="banner.isAds === false">
-        <span >Banner</span>
+        <span>Banner</span>
       </ng-container>
     </div>
 
@@ -196,7 +216,7 @@
         'active-row': isHovered === i
       }"
     >
-     <p class="description">{{ banner.bannerDescription }}</p>
+      <p class="description">{{ banner.bannerDescription }}</p>
     </div>
     <div
       class="col tableBody"
@@ -232,12 +252,7 @@
       >
         <span [style.color]="'red'">Rejected</span>
       </ng-container>
-
-
-
     </div>
-
-
   </section>
 </div>
 

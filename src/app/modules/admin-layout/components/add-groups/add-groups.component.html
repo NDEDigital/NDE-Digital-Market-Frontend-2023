@@ -4,10 +4,15 @@
     title="Add Product Group Table"
   ></app-dashboard-menu-header>
 
-  <app-admin-status-buttons-component
+  <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getProductGroup($event)"
-  ></app-admin-status-buttons-component>
+    [addGroupModalCenter]="'#addGroupModalCenter'"
+    [NewButton]="'New'"
+    [ActiveButton]="'Active'"
+    [InactiveButton]="'Inactive'"
+    [AddButtonName]="'Add Group'"
+  ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">

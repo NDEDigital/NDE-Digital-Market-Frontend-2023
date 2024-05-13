@@ -2,7 +2,7 @@
   <app-dashboard-menu-header
     title="Product Approval"
   ></app-dashboard-menu-header>
-  <div
+  <!-- <div
     class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between align-items-center"
   >
     <div class="headerbtns">
@@ -42,7 +42,17 @@
         (keyup)="filterProducts()"
       />
     </div>
-  </div>
+  </div> -->
+  <app-status-button
+    [btnIndex]="btnIndex"
+    (getProductsEvent)="getData($event)"
+    [NewButton]="'New'"
+    [ActiveButton]="'Approved'"
+    [InactiveButton]="'Rejected'"
+    [SearchTerm]="searchTerm"
+    [featureName]="'ProductApproval'"
+    (KeyupEvent)="filterProducts($event)"
+  ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
 

@@ -186,6 +186,12 @@ export class BrandsComponent {
   }
 
   getNewBrands(status: any) {
+    this.btnIndex = status;
+    if (status == 1) {
+      status = false;
+    } else if (status == 0) {
+      status = true;
+    }
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;

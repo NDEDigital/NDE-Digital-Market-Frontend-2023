@@ -4,10 +4,15 @@
     title="Add Product Table"
   ></app-dashboard-menu-header>
 
-  <app-status-buttons-component
+  <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getProducts($event)"
-  ></app-status-buttons-component>
+    [addGroupModalCenter]="'#addProductModalCenter'"
+    [NewButton]="'New'"
+    [ActiveButton]="'Active'"
+    [InactiveButton]="'Inactive'"
+    [AddButtonName]="'Add Product'"
+  ></app-status-button>
 
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
@@ -73,13 +78,6 @@
       >
         #{{ i + 1 }}
       </div>
-
-      <!-- <div
-        class="col tableBody"
-        [ngClass]="{ 'active-row': product.productId === activeProductId }"
-      >
-        {{ product.productId }}
-      </div> -->
 
       <div
         class="col tableBody"

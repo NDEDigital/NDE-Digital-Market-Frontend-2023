@@ -7,7 +7,7 @@
       (click)="getProductGroup(-1); btnIndex = -1"
       [ngClass]="{ active: btnIndex === -1 }"
     >
-      New
+      {{ NewButton }}
     </button>
     <button
       class="custom-btn btn-active"
@@ -15,7 +15,7 @@
       [ngClass]="{ active: btnIndex === 1 }"
       (click)="btnIndex = 1"
     >
-      Active
+      {{ ActiveButton }}
     </button>
     <button
       class="custom-btn btn-inactive"
@@ -23,18 +23,29 @@
       [ngClass]="{ active: btnIndex === 0 }"
       (click)="btnIndex = 0"
     >
-      Inactive
+      {{ InactiveButton }}
     </button>
   </div>
 
-  <div>
+  <div *ngIf="AddButtonName">
     <button
       class="custom-btn addGroup-btn"
       data-bs-toggle="modal"
-      data-bs-target="#addGroupModalCenter"
+      [attr.data-bs-target]="addGroupModalCenter"
       #addGroupModalCenterG
     >
-      Add Group
+      {{ AddButtonName }}
     </button>
+  </div>
+
+  <div *ngIf="featureName" class="d-flex align-items-center">
+    <input
+      class="form-control me-2"
+      type="search"
+      placeholder="Search Company"
+      aria-label="Search"
+      [(ngModel)]="SearchTerm"
+      (keyup)="filterProducts(SearchTerm)"
+    />
   </div>
 </div>
