@@ -299,6 +299,8 @@ export class SellerAddBannerComponent {
       bannerDescription: banner.bannerDescription,
       bannerImage: banner.imagePathPreview,
     });
+
+     this.isAds = banner.isAds;
     // console.log(this.addBannerForm);
     // Open the edit banner modal without jQuery
     const modalElement = document.getElementById('editBannerModalCenter');
