@@ -43,9 +43,19 @@ export class HomeComponent {
   //   this.bannerDetails[index].hidden = true; // Set flag to hide the image
   // }
 
+  hideBannerAndShowReason(index: number): void {
+    this.bannerDetails[index].hideClose = true;
+    this.bannerDetails[index].hidden = true;
+    this.bannerDetails[index].showWhyThisAd = true;
+  }
+
+  showCloseIcon(index: number): void {
+    this.bannerDetails[index].hideClose = false;
+  }
   toggleBannerVisibility(banner: any) {
     banner.hidden = !banner.hidden;
     banner.showWhyThisAd = !banner.showWhyThisAd;
+    banner.hideClose = false;
   }
 
   getAddDetails() {

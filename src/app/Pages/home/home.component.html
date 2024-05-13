@@ -10,11 +10,16 @@
           class="card bg-dark text-white"
           *ngFor="let banner of bannerDetails; let i = index"
         >
-<p class="card-text">
-  Advertisement
-  <!-- (click)="hideBanner(i)" -->
-  <span class="cls"  (click)="toggleBannerVisibility(banner)"><i class="fas fa-times"></i></span>
-</p>
+          <p class="card-text">
+            Advertisement
+            <!-- (click)="hideBanner(i)" -->
+            <span
+              class="cls"
+              *ngIf="!banner.hideClose"
+              (click)="hideBannerAndShowReason(i)"
+              ><i class="fas fa-times"></i
+            ></span>
+          </p>
 
           <img
             [src]="
@@ -31,7 +36,7 @@
               Why This Ad?
               <span
                 class="reverse-icon-wrapper"
-                (click)="toggleBannerVisibility(banner)"
+                (click)="toggleBannerVisibility(banner); showCloseIcon(i)"
                 ><i class="fas fa-undo reverse-icon"></i
               ></span>
             </p>
@@ -49,9 +54,15 @@
           class="card bg-dark text-white"
           *ngFor="let banner of bannerDetails; let i = index"
         >
-          <p class="card-text">
+             <p class="card-text">
             Advertisement
-         <span class="cls"  (click)="toggleBannerVisibility(banner)"><i class="fas fa-times"></i></span>
+            <!-- (click)="hideBanner(i)" -->
+            <span
+              class="cls"
+              *ngIf="!banner.hideClose"
+              (click)="hideBannerAndShowReason(i)"
+              ><i class="fas fa-times"></i
+            ></span>
           </p>
           <img
             [src]="

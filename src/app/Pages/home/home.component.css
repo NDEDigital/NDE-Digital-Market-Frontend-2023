@@ -81,7 +81,8 @@ body {
 
 .card-text {
   text-align: center;
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  margin-left: 0.7rem;
 }
 
 .hidden {
