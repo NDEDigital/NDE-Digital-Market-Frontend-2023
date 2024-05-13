@@ -84,7 +84,7 @@
 </div>
 
 <!-- add Group modal   -->
-<div
+<!-- <div
   class="modal fade"
   id="addGroupModalCenter"
   tabindex="-1"
@@ -103,13 +103,9 @@
             (click)="resetForm()"
           ></button>
         </div>
-        <!-- add group form design  -->
         <div>
-          <!-- <h2 class="register_title">Add Product Groups Name</h2> -->
           <div class="d-flex justify-content-center align-items-center">
-            <!-- Back Button on the left -->
-
-            <!-- Title in the middle -->
+            
             <h2 class="register_title">
               {{
                 isEditMode
@@ -205,8 +201,15 @@
       </div>
     </div>
   </div>
-</div>
-
+</div> -->
+<app-add-groups-modal
+  [id]="'addGroupModalCenter'"
+  [isEditMode]="isEditMode"
+  (resetFormEvent)="resetForm()"
+  (isFieldInvalidEvent)="isFieldInvalid(status)"
+  [addGroupForm]="addGroupForm"
+  [imagePathPreview]="imagePathPreview"
+></app-add-groups-modal>
 <button
   type="button"
   class="btn btn-primary d-none"
