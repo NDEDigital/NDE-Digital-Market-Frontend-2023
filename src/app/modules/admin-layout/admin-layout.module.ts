@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminLayoutRoutingModule } from './admin-layout-routing.module';
 import { AdminLayoutComponent } from './admin-layout.component';
 import { UnitListComponent } from './components/unit-list/unit-list.component';
 import { AddGroupsComponent } from './components/add-groups/add-groups.component';
-import { AddProductComponent } from 'src/app/Pages/add-product/add-product.component';
+import { AddProductsComponent } from './components/add-products/add-products.component';
 import { BannerApprovalComponent } from './components/banner-approval/banner-approval.component';
 import { CompanyApprovalComponent } from './components/company-approval/company-approval.component';
 import { ProductApprovalComponent } from './components/product-approval/product-approval.component';
@@ -19,13 +19,13 @@ import { ProductGroupModalComponent } from './components/add-groups/product-grou
 import { GridViewComponent } from './components/add-groups/grid-view/grid-view.component';
 import { AddGroupsModalComponent } from './components/add-groups/add-groups-modal/add-groups-modal.component';
 import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
-
+import { AddProductComponent } from 'src/app/Pages/add-product/add-product.component';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     UnitListComponent,
     AddGroupsComponent,
-    AddProductComponent,
+    AddProductsComponent,
     BannerApprovalComponent,
     CompanyApprovalComponent,
     ProductApprovalComponent,
@@ -37,7 +37,9 @@ import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic
     GridViewComponent,
     AddGroupsModalComponent,
     DynamicAlertModalComponent,
+    AddProductComponent,
   ],
+
   imports: [
     CommonModule,
     AdminLayoutRoutingModule,
@@ -45,5 +47,6 @@ import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic
     ReactiveFormsModule,
     SharedModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AdminLayoutModule {}

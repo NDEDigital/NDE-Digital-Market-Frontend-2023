@@ -115,15 +115,17 @@
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         {{ cmp.preferredPaymentMethodName }}
       </div>
-    <div class="col tableBody d-flex align-items-center" [ngClass]="{ 'active-row': isHovered === i }">
+      <div
+        class="col tableBody d-flex align-items-center"
+        [ngClass]="{ 'active-row': isHovered === i }"
+      >
         <input
           [(ngModel)]="selectedCompanyCodeValues[cmp.companyCode]"
           type="number"
           class="border border-1 p-2 w-50 me-2"
           min="0"
-            placeholder="{{ cmp.maxUser }}"
+          placeholder="{{ cmp.maxUser }}"
         />
-      
       </div>
       <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
         <div class="d-flex justify-content-center align-items-center">
@@ -147,20 +149,13 @@
             </button>
           </div>
           <div>
-            <button
-              class="actionBtn"
-              *ngIf="btnIndex != 0"
-             
-            >
-
-
-               <svg
+            <button class="actionBtn" *ngIf="btnIndex != 0">
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
                 height="30"
                 fill="green"
                 class="bi bi-check2 me-3"
-        
                 viewBox="0 0 16 16"
                 (click)="
                   updateCompany(cmp.email, cmp.companyCode, 1, cmp.maxUser)
@@ -178,10 +173,9 @@
                 fill="red"
                 class="bi bi-x-lg fw-bolder"
                 viewBox="0 0 16 16"
-        
-                 (click)="
-                updateCompany(cmp.email, cmp.companyCode, 0, cmp.maxUser)
-              "
+                (click)="
+                  updateCompany(cmp.email, cmp.companyCode, 0, cmp.maxUser)
+                "
               >
                 <path
                   d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
@@ -242,44 +236,8 @@
 </button>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="msgModal"
-  tabindex="-1"
-  aria-labelledby="msgModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="msgModalLabel">
-          <span
-            [ngClass]="{
-              'text-success': isApproved,
-              'text-danger': isRejected
-            }"
-          >
-            {{ alertTitle }}</span
-          >
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <span
-          [ngClass]="{ 'text-success': isApproved, 'text-danger': isRejected }"
-          >{{ alertMsg }}</span
-        >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="alertTitle"
+  [id]="'msgModal'"
+></app-dynamic-alert-modal>

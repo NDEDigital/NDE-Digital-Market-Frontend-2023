@@ -147,7 +147,7 @@ export class ProductApprovalComponent {
           this.isApproved = false;
           this.isRejected = true;
           this.alertTitle = 'Rejected!';
-          this.alertMsg = 'Product is rejected.';
+          this.alertMsg = 'Product is Rejected.';
         }
 
         this.msgModalBTN.nativeElement.click();

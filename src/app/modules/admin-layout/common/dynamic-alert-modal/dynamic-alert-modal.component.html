@@ -1,18 +1,19 @@
-<div
-  class="modal fade"
-  id="productGroupModal"
-  tabindex="-1"
-  aria-labelledby="productGroupModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" [id]="id" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1
           class="modal-title fs-5 fw-bold"
-          id="productGroupModalLabel"
+          [id]="id"
           [ngStyle]="{
-            color: alertMsg.includes('Deactivated') ? 'red' : 'green'
+            color:
+              alertMsg.includes('Deactivated') ||
+              alertMsg.includes('Rejected') ||
+              alertMsg.includes('Deactivation') ||
+              alertMsg.includes('greater') ||
+              alertMsg.includes('Please')
+                ? 'red'
+                : 'green'
           }"
           [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
         >
@@ -29,7 +30,14 @@
         <p
           class="fs-5 fw-bolder"
           [ngStyle]="{
-            color: alertMsg.includes('Deactivated') ? 'red' : 'green'
+            color:
+              alertMsg.includes('Deactivated') ||
+              alertMsg.includes('Rejected') ||
+              alertMsg.includes('Deactivation') ||
+              alertMsg.includes('greater') ||
+              alertMsg.includes('Please')
+                ? 'red'
+                : 'green'
           }"
           [ngStyle]="{ color: alertMsg.includes('No') ? 'red' : 'green' }"
         >

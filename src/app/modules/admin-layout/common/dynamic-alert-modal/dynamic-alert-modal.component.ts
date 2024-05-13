@@ -9,5 +9,6 @@ import { AddProductService } from 'src/app/services/add-product.service';
 export class DynamicAlertModalComponent {
   @Input() alertMsg!: string;
   @Input() alertTitle!: string;
+  @Input() id!: string;
   constructor(private addProductService: AddProductService) {}
 }

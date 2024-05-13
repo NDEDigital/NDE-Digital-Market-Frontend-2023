@@ -258,7 +258,7 @@
           {{ sl.addedDate | date : "dd MMM yyyy" }}
         </div>
         <div
-       class="col tableBody text-break d-flex align-items-center" 
+          class="col tableBody text-break d-flex align-items-center"
           [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
           [ngClass]="{ 'active-row': isHovered === i }"
         >
@@ -276,7 +276,7 @@
         <ng-template #elseBlock>
           <!-- Content to be displayed when the condition is not met -->
           <div
-            class="col tableBody text-break d-flex align-items-center" 
+            class="col tableBody text-break d-flex align-items-center"
             [ngClass]="{ 'active-row': isHovered === i }"
             [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
           >
@@ -395,47 +395,8 @@
   Launch demo modal
 </button>
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="msgModal"
-  tabindex="-1"
-  aria-labelledby="msgModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold text-success">
-        <h1
-          class="modal-title fs-5"
-          id="msgModalLabel"
-          [ngStyle]="{
-            color: alertMsg.includes('Deactivation') ? 'red' : 'green'
-          }"
-          [ngStyle]="{ color: alertTitle.includes('No') ? 'red' : 'green' }"
-        >
-          {{ alertTitle }}
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div
-        class="modal-body"
-        [ngStyle]="{
-          color: alertMsg.includes('Deactivation') ? 'red' : 'green'
-        }"
-        [ngStyle]="{ color: alertTitle.includes('No') ? 'red' : 'green' }"
-      >
-        {{ alertMsg }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="alertTitle"
+  [id]="'msgModal'"
+></app-dynamic-alert-modal>

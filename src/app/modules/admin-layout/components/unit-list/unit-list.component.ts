@@ -273,7 +273,7 @@ export class UnitListComponent {
       .subscribe({
         next: (response: any) => {
           // console.log(response);
-          const active = isActive == true ? 0 : 1;
+          const active = isActive == true ? 1 : 0;
 
           this.getProductGroup(isActive);
           if (isActive) {
