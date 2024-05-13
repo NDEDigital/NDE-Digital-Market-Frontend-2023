@@ -8,7 +8,8 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  bannerDetails: any;
+  bannerDetails: any[] = []; // Assuming bannerDetails is an array of objects
+
   constructor(
     private sharedService: SharedService,
     private bannerServices: AddBannerService
@@ -16,8 +17,6 @@ export class HomeComponent {
     // this.user$.subscribe((user) => {
     //   //console.log(user, 'user');
     // });
-
-    this.getAddDetails();
   }
   user$ = this.sharedService.user$;
   user: any;
@@ -34,6 +33,19 @@ export class HomeComponent {
       // //console.log(user, 'user');
       this.user = user; // Update the user property for use in the component
     });
+
+    this.getAddDetails();
+  }
+
+  // hideBanner(index: number) {
+  //   console.log('click hocche');
+  //   this.bannerDetails[index].showWhyThisAd = true; // Show the "Why This Ad" text
+  //   this.bannerDetails[index].hidden = true; // Set flag to hide the image
+  // }
+
+  toggleBannerVisibility(banner: any) {
+    banner.hidden = !banner.hidden;
+    banner.showWhyThisAd = !banner.showWhyThisAd;
   }
 
   getAddDetails() {
