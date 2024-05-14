@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  [id]="id"
+  id="addGroupModalCenter"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -17,7 +17,6 @@
             (click)="resetForm()"
           ></button>
         </div>
-
         <div>
           <div class="d-flex justify-content-center align-items-center">
             <h2 class="register_title">
@@ -101,14 +100,15 @@
                 formControlName="productGroupDetails"
               ></textarea>
             </div>
-            <!-- <button
+
+            <button
               type="submit"
               class="button mt-3"
               id="sign-in-button"
               (click)="onSubmit()"
             >
               Submit
-            </button> -->
+            </button>
           </form>
         </div>
       </div>

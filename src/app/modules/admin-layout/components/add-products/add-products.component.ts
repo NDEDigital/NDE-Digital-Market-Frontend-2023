@@ -292,26 +292,28 @@ export class AddProductsComponent implements OnInit {
     this.AddProductModalCenterG.nativeElement.click();
   }
 
-  updateIsActive(isActive: any, producID: any) {
-    // console.log("for type", typeof producID);
+  updateIsActive(event: any) {
+    console.log('for type', event);
 
-    // console.log(isActive, 'isActive', producID, 'productID');
-    this.productService.updateProductStatus([producID], isActive).subscribe({
-      next: (response: any) => {
-        // console.log(response);
-        this.getProducts(isActive);
-        this.btnIndex = isActive;
-        this.PrdouctExistModalBTN.nativeElement.click();
-        this.alertMsg = isActive
-          ? 'Product is  Activated!'
-          : 'Product is Deactivated!';
-        this.alertTitle = isActive ? 'Activated!' : 'Deactivated!';
-      },
-      error: (error: any) => {
-        //console.log(error);
-        this.alertMsg = error.error.message;
-      },
-    });
+    console.log(event.isActive, 'isActive', event.productGroupId, 'productID');
+    this.productService
+      .updateProductStatus([event.productGroupId], event.isActive)
+      .subscribe({
+        next: (response: any) => {
+          // console.log(response);
+          this.getProducts(event.isActive);
+          this.btnIndex = event.isActive;
+          this.PrdouctExistModalBTN.nativeElement.click();
+          this.alertMsg = event.isActive
+            ? 'Product is  Activated!'
+            : 'Product is Deactivated!';
+          this.alertTitle = event.isActive ? 'Activated!' : 'Deactivated!';
+        },
+        error: (error: any) => {
+          //console.log(error);
+          this.alertMsg = error.error.message;
+        },
+      });
   }
   selectedProductIds: any[] = [];
 
@@ -382,16 +384,16 @@ export class AddProductsComponent implements OnInit {
     }
   }
 
-  checkboxSelected(productId: any, event: any) {
-    const isSelected: boolean = event.target.checked;
-    // console.log(isSelected);
+  checkboxSelected(event: { productId: any; event: any }) {
+    const isSelected: boolean = event.event.target.checked;
+    console.log(event);
     if (isSelected) {
       // Add the selected product to the list
-      this.selectedProducts1.push(productId);
+      this.selectedProducts1.push(event.productId);
     } else if (!isSelected) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== productId
+        (id) => id !== event.productId
       );
     }
     this.allSelectedCheckbox.nativeElement.checked = false;

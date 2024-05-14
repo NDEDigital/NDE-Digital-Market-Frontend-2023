@@ -20,6 +20,8 @@ import { AddGroupsModalComponent } from './components/add-groups/add-groups-moda
 import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
 import { AddProductComponent } from 'src/app/Pages/add-product/add-product.component';
 import { StatusButtonComponent } from './common/status-button/status-button.component';
+import { ProductGridViewComponent } from './components/add-products/product-grid-view/product-grid-view.component';
+import { CompanyApprovalGridViewComponent } from './components/company-approval/company-approval-grid-view/company-approval-grid-view.component';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -38,6 +40,8 @@ import { StatusButtonComponent } from './common/status-button/status-button.comp
     DynamicAlertModalComponent,
     AddProductComponent,
     StatusButtonComponent,
+    ProductGridViewComponent,
+    CompanyApprovalGridViewComponent,
   ],
   exports: [StatusButtonComponent],
   imports: [

@@ -43,128 +43,15 @@
       (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
     >
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        #{{ i + 1 }}
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.companyCode }}
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.companyName }}
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.email.split("@")[0] }}
-
-        @{{ cmp.email.split("@")[1] }}
-      </div>
-      <div
-        class="col tableBody text-break"
-        [ngClass]="{ 'active-row': isHovered === i }"
-      >
-        {{ cmp.businessRegistrationNumber }}
-      </div>
-      <div
-        class="col tableBody text-break"
-        [ngClass]="{ 'active-row': isHovered === i }"
-      >
-        {{ cmp.taxIdentificationNumber }}
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.companyFoundationDate | date : "dd MMM yyyy" }}
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        <button
-          class="custom-btn btn-trade-company"
-          data-bs-toggle="modal"
-          data-bs-target="#showImgModal"
-          (click)="showImage(cmp.tradeLicense, 'Trade License')"
-        >
-          view
-        </button>
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        <button
-          class="custom-btn btn-trade-company"
-          data-bs-toggle="modal"
-          data-bs-target="#showImgModal"
-          (click)="showImage(cmp.companyImage, 'Company Image')"
-        >
-          view
-        </button>
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        {{ cmp.preferredPaymentMethodName }}
-      </div>
-      <div
-        class="col tableBody d-flex align-items-center"
-        [ngClass]="{ 'active-row': isHovered === i }"
-      >
-        <input
-          [(ngModel)]="selectedCompanyCodeValues[cmp.companyCode]"
-          type="number"
-          class="border border-1 p-2 w-50 me-2"
-          min="0"
-          placeholder="{{ cmp.maxUser }}"
-        />
-      </div>
-      <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
-        <div class="d-flex justify-content-center align-items-center">
-          <div>
-            <button class="actionBtn" *ngIf="btnIndex != 1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                fill="green"
-                class="bi bi-check2 me-3"
-                viewBox="0 0 16 16"
-                (click)="
-                  updateCompany(cmp.email, cmp.companyCode, 1, cmp.maxUser)
-                "
-              >
-                <path
-                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-                />
-              </svg>
-            </button>
-          </div>
-          <div>
-            <button class="actionBtn" *ngIf="btnIndex != 0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                fill="green"
-                class="bi bi-check2 me-3"
-                viewBox="0 0 16 16"
-                (click)="
-                  updateCompany(cmp.email, cmp.companyCode, 1, cmp.maxUser)
-                "
-              >
-                <path
-                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-                />
-              </svg>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="red"
-                class="bi bi-x-lg fw-bolder"
-                viewBox="0 0 16 16"
-                (click)="
-                  updateCompany(cmp.email, cmp.companyCode, 0, cmp.maxUser)
-                "
-              >
-                <path
-                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
+      <app-company-approval-grid-view
+        [cmp]="cmp"
+        [isHovered]="isHovered"
+        [i]="i"
+        (showImageEvent)="showImage($event)"
+        (updateCompanyEvent)="updateCompany($event)"
+        [btnIndex]="btnIndex"
+        (selectedCompanyCodeValuesChange)="onSelectedCompanyCodeChange($event)"
+      ></app-company-approval-grid-view>
 
       <!-- Modal for tadeLicence -->
       <div
