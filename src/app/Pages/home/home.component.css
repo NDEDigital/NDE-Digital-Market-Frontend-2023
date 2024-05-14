@@ -72,9 +72,7 @@ body {
   margin-top: 2.6rem;
 }
 
-/* .card .card-img-overlay {
-  padding: 1.25rem;
-} */
+
 .card-img {
   height: 100vh;
 }
@@ -88,16 +86,17 @@ body {
 .hidden {
   display: none;
 }
-.cls {
+.close_icon {
   /* border: 1px solid red; */
+  cursor: pointer;
+   /* padding-top: 1rem; */
   margin-left: 1rem;
-  padding-top: 1rem;
   font-size: 1rem;
-   
-z-index: 10;
+z-index: 1000  !important;
+
 }
 
-.why {
+.reverse_para {
   text-align: center;
   margin-top: 10rem;
   font-size: 1.2rem;
@@ -118,4 +117,9 @@ z-index: 10;
 .reverse-icon {
   color: white;
   font-size: 24px; /* Adjust the size as needed */
+}
+.left_Ads_header{
+ display: flex;
+ flex-direction: row;
+z-index: 1000  !important;
 }

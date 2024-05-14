@@ -6,40 +6,40 @@
     <!-- <app-home-core-content></app-home-core-content> -->
     <div class="product-slider-wrapper">
       <div class="advertisement-left-responsive">
-        <div
-          class="card bg-dark text-white"
-          *ngFor="let banner of bannerDetails; let i = index"
-        >
-          <p class="card-text">
-            Advertisement
-            <!-- (click)="hideBanner(i)" -->
-            <span
-              class="cls"
-              *ngIf="!banner.hideClose"
-              (click)="hideBannerAndShowReason(i)"
-              ><i class="fas fa-times"></i
-            ></span>
-          </p>
+        <div *ngFor="let banner of leftAdvertisements">
+          <div class="card bg-dark text-white">
+            <div class="left_Ads_header">
+              <p class="card-text">Advertisement</p>
+              <div
+                class="close_icon"
+                *ngIf="!banner.hideClose"
+                (click)="hideBannerAndShowReason(banner)"
+              >
+              <i class="fas fa-times"></i>
+              </div>
+            </div>
 
-          <img
-            [src]="
-              banner.bannerImage.substring(
-                banner.bannerImage.indexOf('assets')
-              ) || 'assets/images/banner/banner1.jpg'
-            "
-            class="card-img"
-            [class.hidden]="banner.hidden"
-            alt="Advertisement Image"
-          />
-          <div class="card-img-overlay">
-            <p class="why" *ngIf="banner.showWhyThisAd">
-              Why This Ad?
-              <span
-                class="reverse-icon-wrapper"
-                (click)="toggleBannerVisibility(banner); showCloseIcon(i)"
-                ><i class="fas fa-undo reverse-icon"></i
-              ></span>
-            </p>
+            <img
+              [src]="
+                banner.bannerImage.substring(
+                  banner.bannerImage.indexOf('assets')
+                ) || 'assets/images/banner/banner1.jpg'
+              "
+              class="card-img"
+              [class.hidden]="banner.hidden"
+              alt="Advertisement Image"
+            />
+            <div class="card-img-overlay">
+              <p class="reverse_para" *ngIf="banner.showWhyThisAd">
+                Why This Ad?
+                <span
+                  class="reverse-icon-wrapper"
+                  (click)="toggleBannerVisibility(banner)"
+                >
+                  <i class="fas fa-undo reverse-icon"></i>
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -48,41 +48,39 @@
         <app-clients-list-slider [clients]="clients"></app-clients-list-slider>
       </div>
       <div class="advertisement-right-responsive">
-        <!-- Right Advertisement Content Goes Here -->
-
-        <div
-          class="card bg-dark text-white"
-          *ngFor="let banner of bannerDetails; let i = index"
-        >
-             <p class="card-text">
-            Advertisement
-            <!-- (click)="hideBanner(i)" -->
-            <span
-              class="cls"
-              *ngIf="!banner.hideClose"
-              (click)="hideBannerAndShowReason(i)"
-              ><i class="fas fa-times"></i
-            ></span>
-          </p>
-          <img
-            [src]="
-              banner.bannerImage.substring(
-                banner.bannerImage.indexOf('assets')
-              ) || 'assets/images/banner/banner1.jpg'
-            "
-            class="card-img"
-            alt="Advertisement Image"
-            [class.hidden]="banner.hidden"
-          />
-          <div class="card-img-overlay">
-            <p class="why" *ngIf="banner.showWhyThisAd">
-              Why This Ad?
-              <span
-                class="reverse-icon-wrapper"
-                (click)="toggleBannerVisibility(banner)"
-                ><i class="fas fa-undo reverse-icon"></i
-              ></span>
-            </p>
+        <div *ngFor="let banner of rightAdvertisements">
+          <div class="card bg-dark text-white">
+            <div class="left_Ads_header">
+              <p class="card-text">Advertisement</p>
+              <div
+                class="close_icon"
+                *ngIf="!banner.hideClose"
+                (click)="hideBannerAndShowReason(banner)"
+              >
+              <i class="fas fa-times"></i>
+              </div>
+            </div>
+            <img
+              [src]="
+                banner.bannerImage.substring(
+                  banner.bannerImage.indexOf('assets')
+                ) || 'assets/images/banner/banner1.jpg'
+              "
+              class="card-img"
+              alt="Advertisement Image"
+              [class.hidden]="banner.hidden"
+            />
+            <div class="card-img-overlay">
+              <p class="reverse_para" *ngIf="banner.showWhyThisAd">
+                Why This Ad?
+                <span
+                  class="reverse-icon-wrapper"
+                  (click)="toggleBannerVisibility(banner)"
+                >
+                  <i class="fas fa-undo reverse-icon"></i>
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

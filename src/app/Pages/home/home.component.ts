@@ -9,6 +9,8 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class HomeComponent {
   bannerDetails: any[] = []; // Assuming bannerDetails is an array of objects
+  leftAdvertisements: any[] = [];
+  rightAdvertisements: any[] = [];
 
   constructor(
     private sharedService: SharedService,
@@ -42,11 +44,11 @@ export class HomeComponent {
   //   this.bannerDetails[index].showWhyThisAd = true; // Show the "Why This Ad" text
   //   this.bannerDetails[index].hidden = true; // Set flag to hide the image
   // }
-
-  hideBannerAndShowReason(index: number): void {
-    this.bannerDetails[index].hideClose = true;
-    this.bannerDetails[index].hidden = true;
-    this.bannerDetails[index].showWhyThisAd = true;
+  hideBannerAndShowReason(banner: any): void {
+    console.log("asche")
+    banner.hideClose = true;
+    banner.hidden = true;
+    banner.showWhyThisAd = true;
   }
 
   showCloseIcon(index: number): void {
@@ -63,11 +65,21 @@ export class HomeComponent {
       next: (response: any) => {
         console.log('Banner Details:', response);
         this.bannerDetails = response;
-        console.log(this.bannerDetails);
+        this.splitAdvertisements();
       },
       error: (error: any) => {
         console.error('Error Fetching banner Details:', error);
       },
     });
+  }
+
+  splitAdvertisements() {
+    const numberOfLeftBanners = 3; // Number of banners to display on the left
+    const numberOfRightBanners = 3; // Number of banners to display on the right
+    this.leftAdvertisements = this.bannerDetails.slice(0, numberOfLeftBanners);
+    this.rightAdvertisements = this.bannerDetails.slice(
+      numberOfLeftBanners,
+      numberOfLeftBanners + numberOfRightBanners
+    );
   }
 }
