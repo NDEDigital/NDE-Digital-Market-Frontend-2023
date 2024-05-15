@@ -136,12 +136,9 @@
         />
         Select All
       </div>
-      <div class="col tableHeader">#</div>
-      <div class="col tableHeader">Full Name</div>
-      <div class="col tableHeader">Phone</div>
-      <div class="col tableHeader">Email</div>
-      <div class="col tableHeader">Address</div>
-      <div class="col tableHeader">Added Date</div>
+      <ng-container *ngFor="let header of headers">
+        <div class="col tableHeader">{{ header }}</div>
+      </ng-container>
       <div
         class="col tableHeader"
         [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"

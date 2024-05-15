@@ -28,7 +28,7 @@ export class TableHeadersService {
     'Date Added',
   ];
 
-  producTableHeaders: string[] = [
+  productTableHeaders: string[] = [
     'Index',
     'Product Group Name',
     'Product Name',
@@ -77,9 +77,6 @@ export class TableHeadersService {
     'Email',
     'Address',
     'Added Date',
-    'Company',
-    'Role',
-    'Action',
   ];
   unitListTableHeaders: string[] = ['Index', 'Unit Name', 'Unit Symbol'];
   constructor() {}

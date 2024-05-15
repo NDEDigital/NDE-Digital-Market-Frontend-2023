@@ -26,21 +26,9 @@
         />
         Select All
       </div>
-      <div class="col tableHeader">Index</div>
-      <div class="col tableHeader">Image</div>
-      <div class="col tableHeader">Product Name</div>
-      <div class="col tableHeader">Seller Name</div>
-      <div class="col tableHeader">Company</div>
-      <div class="col tableHeader">Price</div>
-      <div class="col tableHeader">Discount Amount</div>
-      <div class="col tableHeader">Discount %</div>
-      <div class="col tableHeader">Net Price</div>
-      <div class="col tableHeader">Effective Date</div>
-      <div class="col tableHeader">End Date</div>
-
-      <div class="col tableHeader">Previous Price</div>
-
-      <div class="col tableHeader">Action</div>
+      <ng-container *ngFor="let header of headers">
+        <div class="col tableHeader">{{ header }}</div>
+      </ng-container>
     </div>
     <div>
       <h1

@@ -67,7 +67,7 @@ export class AddProductsComponent implements OnInit {
     this.getBrand();
     this.getUnit();
     this.getProducts(-1);
-    this.headers = this.tableHeadersService.productGroupsTableHeaders;
+    this.headers = this.tableHeadersService.productTableHeaders;
   }
 
   openAddProductModal(): void {

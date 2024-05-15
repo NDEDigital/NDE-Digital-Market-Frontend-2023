@@ -62,7 +62,7 @@ export class UnitListComponent {
       name: new FormControl('', Validators.required),
     });
     this.getProductGroup(-1);
-      this.headers = this.tableHeadersService.companyApprovalTableHeaders;
+    this.headers = this.tableHeadersService.unitListTableHeaders;
   }
 
   openAddGroupModal(): void {

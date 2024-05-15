@@ -58,7 +58,7 @@ export class BannerApprovalComponent implements OnInit {
     this.minEndDateTime = this.getCurrentDateTime();
     this.minEndDateTimes = [this.minEndDateTime];
     this.isEndDateEnabled = [false]; // Default to false
-    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
+    this.headers = this.tableHeadersService.bannerApprovalTableHeaders;
   }
 
   // ngAfterViewInit() {

@@ -19,6 +19,9 @@ export class ProductGridViewComponent {
     productId: number;
     event: any;
   }>();
+  constructor() {
+    console.log(this.product);
+  }
   updateIsActive(isActive: number, productGroupId: any) {
     // const { isActive, productGroupId } = event;
     this.updateIsActiveEvent.emit({ isActive, productGroupId });
