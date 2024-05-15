@@ -33,7 +33,6 @@ const routes: Routes = [
       { path: 'product-approval', component: ProductApprovalComponent },
       { path: 'unit-list', component: UnitListComponent },
       { path: 'add-banner', component: SellerAddBannerComponent },
-
       { path: '', redirectTo: 'products', pathMatch: 'full' },
     ],
   },
