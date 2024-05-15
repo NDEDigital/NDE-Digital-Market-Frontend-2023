@@ -65,24 +65,24 @@ body {
   height: 30rem;
 } */
 
-.card {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+.cards {
   width: 10rem;
-  height: 25rem;
+  height: 21.8rem;
   margin-left: 0.5rem;
-  margin-bottom: 2rem;
+  margin-right: 1.5rem;
+  margin-bottom: 1.4rem;
 
-  margin-top: 2.6rem;
+  margin-top: 1.1rem;
 }
 
-.card-img {
-  height: 100vh;
+.cards-img {
+  height: 20rem;
+  width: 10rem;
+
 }
 
-.card-text {
-  text-align: center;
+.cards-text {
+
   /* text-decoration: underline; */
   margin-left: 0.7rem;
 }
@@ -94,7 +94,7 @@ body {
   /* border: 1px solid red; */
   cursor: pointer;
   /* padding-top: 1rem; */
-  margin-left: 1rem;
+  margin-left: 2.2rem;
   font-size: 1rem;
   z-index: 1000 !important;
 }

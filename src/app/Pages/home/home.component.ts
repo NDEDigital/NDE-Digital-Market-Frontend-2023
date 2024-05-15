@@ -45,7 +45,7 @@ export class HomeComponent {
   //   this.bannerDetails[index].hidden = true; // Set flag to hide the image
   // }
   hideBannerAndShowReason(banner: any): void {
-    console.log("asche")
+    console.log('asche');
     banner.hideClose = true;
     banner.hidden = true;
     banner.showWhyThisAd = true;
@@ -72,14 +72,17 @@ export class HomeComponent {
       },
     });
   }
-
   splitAdvertisements() {
-    const numberOfLeftBanners = 3; // Number of banners to display on the left
-    const numberOfRightBanners = 3; // Number of banners to display on the right
-    this.leftAdvertisements = this.bannerDetails.slice(0, numberOfLeftBanners);
-    this.rightAdvertisements = this.bannerDetails.slice(
-      numberOfLeftBanners,
-      numberOfLeftBanners + numberOfRightBanners
-    );
+    const numberOfAdsPerSide = 3; // Number of ads to display on each side alternately
+    this.leftAdvertisements = [];
+    this.rightAdvertisements = [];
+    const totalAdsToShow = Math.min(this.bannerDetails.length, 6); // Show maximum 6 ads
+    for (let i = 0; i < totalAdsToShow; i++) {
+      if (i % (numberOfAdsPerSide * 2) < numberOfAdsPerSide) {
+        this.leftAdvertisements.push(this.bannerDetails[i]);
+      } else {
+        this.rightAdvertisements.push(this.bannerDetails[i]);
+      }
+    }
   }
 }

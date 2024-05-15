@@ -9,9 +9,9 @@
     <div class="product-slider-wrapper">
       <div class="advertisement-left-responsive">
         <div *ngFor="let banner of leftAdvertisements">
-          <div class="card bg-dark text-white">
+          <div class="cards bg-dark text-white">
             <div class="left_Ads_header">
-              <p class="card-text">Advertisement</p>
+              <div class="cards-text">Advertisement</div>
               <div
                 class="close_icon"
                 *ngIf="!banner.hideClose"
@@ -27,7 +27,7 @@
                   banner.bannerImage.indexOf('assets')
                 ) || 'assets/images/banner/banner1.jpg'
               "
-              class="card-img"
+              class="cards-img"
               [class.hidden]="banner.hidden"
               alt="Advertisement Image"
             />
@@ -51,9 +51,9 @@
       </div>
       <div class="advertisement-right-responsive">
         <div *ngFor="let banner of rightAdvertisements">
-          <div class="card bg-dark text-white">
+          <div class="cards bg-dark text-white">
             <div class="left_Ads_header">
-              <p class="card-text">Advertisement</p>
+              <div class="cards-text">Advertisement</div>
               <div
                 class="close_icon"
                 *ngIf="!banner.hideClose"
@@ -68,7 +68,7 @@
                   banner.bannerImage.indexOf('assets')
                 ) || 'assets/images/banner/banner1.jpg'
               "
-              class="card-img"
+              class="cards-img"
               alt="Advertisement Image"
               [class.hidden]="banner.hidden"
             />
