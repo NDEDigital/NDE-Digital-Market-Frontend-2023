@@ -73,12 +73,11 @@ export class HomeComponent {
     });
   }
   splitAdvertisements() {
-    const numberOfAdsPerSide = 3; // Number of ads to display on each side alternately
+    const totalAdsToShow = Math.min(this.bannerDetails.length, 6); // Show maximum 6 ads
     this.leftAdvertisements = [];
     this.rightAdvertisements = [];
-    const totalAdsToShow = Math.min(this.bannerDetails.length, 6); // Show maximum 6 ads
     for (let i = 0; i < totalAdsToShow; i++) {
-      if (i % (numberOfAdsPerSide * 2) < numberOfAdsPerSide) {
+      if (i % 2 === 0) {
         this.leftAdvertisements.push(this.bannerDetails[i]);
       } else {
         this.rightAdvertisements.push(this.bannerDetails[i]);
