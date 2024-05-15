@@ -13,18 +13,9 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
-      <div class="col tableHeader">Index</div>
-      <div class="col tableHeader">Company Code</div>
-      <div class="col tableHeader">Company Name</div>
-      <div class="col tableHeader">Email</div>
-      <div class="col tableHeader">Business Registration Number</div>
-      <div class="col tableHeader">Tax Id. Number</div>
-      <div class="col tableHeader">Foundation Date</div>
-      <div class="col tableHeader">Trade Licence File</div>
-      <div class="col tableHeader">Company Image</div>
-      <div class="col tableHeader">Prefered Method</div>
-      <div class="col tableHeader">Max User</div>
-      <div class="col tableHeader">Action</div>
+      <ng-container *ngFor="let header of headers">
+        <div class="col tableHeader">{{ header }}</div>
+      </ng-container>
     </div>
     <div>
       <h1

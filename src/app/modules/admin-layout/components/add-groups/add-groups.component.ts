@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddProductService } from 'src/app/services/add-product.service';
-
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 @Component({
   selector: 'app-add-groups',
   templateUrl: './add-groups.component.html',
@@ -22,7 +22,7 @@ export class AddGroupsComponent {
   @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
-
+  headers!: string[];
   isHovered: any | null = null;
 
   addGroupForm!: FormGroup;
@@ -38,7 +38,10 @@ export class AddGroupsComponent {
   imagePathPreview: string = '';
   alertTitle: any;
 
-  constructor(private addProductService: AddProductService) {}
+  constructor(
+    private addProductService: AddProductService,
+    private tableHeadersService: TableHeadersService
+  ) {}
 
   toggleAddProductGroupDiv(): void {
     this.showProductDiv = !this.showProductDiv;
@@ -60,6 +63,7 @@ export class AddGroupsComponent {
       productGroupDetails: new FormControl(''),
     });
     this.getProductGroup(-1);
+    this.headers = this.tableHeadersService.productGroupsTableHeaders;
   }
 
   openAddGroupModal(): void {

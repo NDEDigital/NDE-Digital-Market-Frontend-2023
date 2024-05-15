@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
 import { EmailService } from 'src/app/services/email.service';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 
 @Component({
   selector: 'app-company-approval',
@@ -8,6 +9,7 @@ import { EmailService } from 'src/app/services/email.service';
   styleUrls: ['./company-approval.component.css'],
 })
 export class CompanyApprovalComponent {
+  headers!: string[];
   btnIndex = -1;
   companies: any;
   imagePath = '';
@@ -23,11 +25,13 @@ export class CompanyApprovalComponent {
 
   constructor(
     private companyService: CompanyService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private tableHeadersService: TableHeadersService
   ) {}
 
   ngOnInit() {
     this.getData(this.btnIndex);
+    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
   }
   onSelectedCompanyCodeChange(event: any) {
     console.log('Selected Company Code Value:', event);
