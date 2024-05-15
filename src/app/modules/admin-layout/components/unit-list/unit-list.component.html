@@ -23,10 +23,9 @@
         />
         Select All
       </div>
-      <div class="col tableHeader">Index</div>
-      <!-- <div class="col tableHeader">Product Group ID</div> -->
-      <div class="col tableHeader">Unit Name</div>
-      <div class="col tableHeader">Unit Symbol</div>
+      <ng-container *ngFor="let header of headers">
+        <div class="col tableHeader">{{ header }}</div>
+      </ng-container>
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
     <div>

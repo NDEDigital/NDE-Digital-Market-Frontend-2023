@@ -15,14 +15,9 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
-      <div class="col tableHeader">Index</div>
-      <div class="col tableHeader">AD Type</div>
-      <div class="col tableHeader">Company Name</div>
-      <div class="col tableHeader">Banner Description</div>
-      <div class="col tableHeader">Banner Image</div>
-      <div class="col tableHeader">Start Date</div>
-      <div class="col tableHeader">End Date</div>
-      <div class="col tableHeader">Action</div>
+      <ng-container *ngFor="let header of headers">
+        <div class="col tableHeader">{{ header }}</div>
+      </ng-container>
     </div>
     <div>
       <h1
@@ -177,7 +172,20 @@
           </div>
         </div>
       </div>
-
+      <!-- <div class="table-grid-view">
+        <app-banner-approval-grid-view
+          [banner]="banner"
+          [isHovered]="isHovered"
+          [i]="i"
+          [btnIndex]="btnIndex"
+          (truncateDescriptionEvent)="truncateDescription($event)"
+          (showImageEvent)="showImage($event)"
+          (selectedCompanyCodeValuesChange)="
+            onSelectedCompanyCodeChange($event)
+          "
+        >
+        </app-banner-approval-grid-view>
+      </div> -->
       <!-- Modal for tadeLicence -->
       <div
         class="modal fade"

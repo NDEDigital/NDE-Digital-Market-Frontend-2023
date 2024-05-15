@@ -1,5 +1,5 @@
 <!-- <div class="delimeter"> -->
-  <div
+<div
   class="navbelt_container-responsive d-flex flex-column align-items-center justify-content-center"
 >
   <div
@@ -32,10 +32,21 @@
   </div>
 </div>
 <div class="button-container" [ngClass]="getDynamicWidthClass()">
-  <button type="button" class="slider-btn prevBtnmargin" (click)="prev()">
+  <button
+    *ngIf="products.size > 7"
+    type="button"
+    class="slider-btn prevBtnmargin"
+    (click)="prev()"
+  >
     <i class="fa-solid fa-chevron-left btn-size"></i>
+    <!-- <p>{{ products.size }}</p> -->
   </button>
-  <button type="button" class="slider-btn" (click)="next()">
+  <button
+    *ngIf="products.size > 7"
+    type="button"
+    class="slider-btn"
+    (click)="next()"
+  >
     <i class="fa-solid fa-chevron-right btn-size"></i>
   </button>
 </div>

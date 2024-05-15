@@ -62,7 +62,7 @@ export class UnitListComponent {
       name: new FormControl('', Validators.required),
     });
     this.getProductGroup(-1);
-      this.headers = this.tableHeadersService.companyApprovalTableHeaders;
+    this.headers = this.tableHeadersService.unitListTableHeaders;
   }
 
   openAddGroupModal(): void {
@@ -99,7 +99,7 @@ export class UnitListComponent {
         let value = this.addGroupForm.value[key];
         if (key === 'productId' || key === 'unitId') {
           value = String(Math.floor(Number(value)));
-          //console.log(value);
+          console.log(value);
         }
         formData.append(key, value);
       });

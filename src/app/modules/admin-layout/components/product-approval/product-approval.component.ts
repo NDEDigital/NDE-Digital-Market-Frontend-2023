@@ -40,7 +40,7 @@ export class ProductApprovalComponent {
 
   ngOnInit() {
     this.getData(this.btnIndex);
-    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
+    this.headers = this.tableHeadersService.productApprovalTableHeaders;
   }
 
   getData(status: any) {

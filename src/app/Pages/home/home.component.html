@@ -1,7 +1,9 @@
 <section id="page-container" class="container-responsive">
   <div id="content-wrap">
     <app-header></app-header>
-    <app-nav-belt></app-nav-belt>
+    <div class="nav-belt">
+      <app-nav-belt></app-nav-belt>
+    </div>
     <section class="mb-4"><app-banner></app-banner></section>
     <!-- <app-home-core-content></app-home-core-content> -->
     <div class="product-slider-wrapper">
@@ -15,7 +17,7 @@
                 *ngIf="!banner.hideClose"
                 (click)="hideBannerAndShowReason(banner)"
               >
-              <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i>
               </div>
             </div>
 
@@ -57,7 +59,7 @@
                 *ngIf="!banner.hideClose"
                 (click)="hideBannerAndShowReason(banner)"
               >
-              <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i>
               </div>
             </div>
             <img

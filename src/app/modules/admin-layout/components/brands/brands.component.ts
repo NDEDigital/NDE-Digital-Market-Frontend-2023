@@ -63,7 +63,7 @@ export class BrandsComponent {
       //name: new FormControl('', Validators.required),
     });
     this.getNewBrands(-1);
-    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
+    this.headers = this.tableHeadersService.brandTableHeaders;
   }
 
   openAddGroupModal(): void {

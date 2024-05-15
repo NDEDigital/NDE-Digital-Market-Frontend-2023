@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
 import { reload } from 'firebase/auth';
 
-
 import { CompanyService } from 'src/app/services/company.service';
 import { EmailService } from 'src/app/services/email.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
@@ -47,7 +46,7 @@ export class SellerListComponent {
       this.getSeller();
     }
     this.getDropdownValues();
-    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
+    this.headers = this.tableHeadersService.userListTableHeaders;
     // alert(this.UserId);
   }
   //  currentIndex: number = 0;
