@@ -68,8 +68,8 @@ body {
 .cards {
   width: 10rem;
   height: 21.8rem;
-  margin-left: 0.5rem;
-  margin-right: 1.5rem;
+  margin-left: 3.5rem;
+  /* margin-right: 1.5rem; */
   margin-bottom: 1.4rem;
 
   margin-top: 1.1rem;
@@ -78,15 +78,22 @@ body {
 .cards-img {
   height: 20rem;
   width: 10rem;
-
 }
 
 .cards-text {
-
   /* text-decoration: underline; */
   margin-left: 0.7rem;
 }
 
+.cards2 {
+  width: 10rem;
+  height: 21.8rem;
+  margin-right: 3.5rem;
+  /* margin-right: 1.5rem; */
+  margin-bottom: 1.4rem;
+
+  margin-top: 1.1rem;
+}
 .hidden {
   display: none;
 }
