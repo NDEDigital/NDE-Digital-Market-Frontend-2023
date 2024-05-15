@@ -1,0 +1,35 @@
+<div class="table-body-data">
+  <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+    #{{ i + 1 }}
+  </div>
+
+  <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+    <ng-container *ngIf="banner.isAds === true">
+      <span>Advertise</span>
+    </ng-container>
+
+    <ng-container *ngIf="banner.isAds === false">
+      <span>Banner</span>
+    </ng-container>
+  </div>
+
+  <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+    {{ banner.companyName ? banner.companyName : "Admin" }}
+  </div>
+
+  <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+    {{ truncateDescription(banner.bannerDescription) }}
+  </div>
+
+  <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
+    <button
+      class="custom-btn btn-trade-company"
+      data-bs-toggle="modal"
+      data-bs-target="#showImgModal"
+      (click)="showImage(banner.bannerImage, 'Banner Image')"
+    >
+      view
+    </button>
+  </div>
+</div>
+<!-- Date Picker 1 -->

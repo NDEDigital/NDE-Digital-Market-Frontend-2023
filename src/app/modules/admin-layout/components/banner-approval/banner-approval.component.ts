@@ -90,11 +90,13 @@ export class BannerApprovalComponent implements OnInit {
     return this.selectedCompanyCodeValues[index + 1 + '_date1'] || null;
   }
 
-  truncateDescription(description: string, maxLength: number = 16): string {
-    if (description.length > maxLength) {
-      return `${description.substring(0, maxLength)}...`;
+  truncateDescription(bannerDescription: any): any {
+    const maxLength = 16;
+    console.log('ashce', bannerDescription);
+    if (bannerDescription.length > maxLength) {
+      return `${bannerDescription.substring(0, maxLength)}...`;
     }
-    return description;
+    return bannerDescription;
   }
 
   getData(status: any) {
@@ -133,13 +135,16 @@ export class BannerApprovalComponent implements OnInit {
     }, 10);
   }
 
-  showImage(path: any, title: any) {
-    console.log(path);
+  showImage(event: any, title: any) {
+    console.log(event);
 
-    this.imagePath = '/asset' + path.split('asset')[1];
+    this.imagePath = '/asset' + event.split('asset')[1];
     this.imageTitle = title;
   }
-
+  onSelectedCompanyCodeChange(event: any) {
+    console.log('Selected Company Code Value:', event);
+    this.selectedCompanyCodeValues[event.companyCode] = event.event;
+  }
   updateBannerStatus(cmp: any, alert: any) {
     console.log(alert);
     this.bannerService.UpdateBannerStatus(cmp).subscribe({

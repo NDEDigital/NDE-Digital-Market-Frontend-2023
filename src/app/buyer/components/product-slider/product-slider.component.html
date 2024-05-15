@@ -76,9 +76,9 @@
 </div>
 
 <!-- =============================================== -->
-<section class="slider_container mx-auto px-3 py-2 rounded border border-1">
+<section class="slider_container mx-auto">
   <section
-    class="product_slider bg-white rounded mx-auto my-3 px-3 py-1 align-items-center"
+    class="product_slider bg-white mx-auto my-3 py-1 align-items-center"
     *ngFor="let product of products3 | keyvalue; let i = index"
   >
     <!-- (mouseenter)="onMouseEnter(i)"
@@ -89,7 +89,7 @@
     >
       <span>{{ splitProductKey(product.key) }}</span>
       <button
-        class="text m-0 text-start px-3 py-4 text-nowrap"
+        class="text m-0 text-start px-3 py-3 text-nowrap"
         (click)="viewAllProducts(product.key)"
       >
         View All

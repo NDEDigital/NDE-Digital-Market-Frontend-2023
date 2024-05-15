@@ -9,7 +9,7 @@
 }
 .navbelt_container {
   height: 10rem;
-  background: #eceff2a4;
+  background: #ffffff;
 }
 .navbelt_items {
   font-size: 1rem;
@@ -18,7 +18,7 @@
   justify-content: center;
 }
 .navbelt-item {
-  padding: 3px;
+  /* padding: 3px; */
   cursor: pointer;
 }
 .navbelt_image img {

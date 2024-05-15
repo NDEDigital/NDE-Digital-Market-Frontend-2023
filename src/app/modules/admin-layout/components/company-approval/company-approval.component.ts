@@ -36,7 +36,6 @@ export class CompanyApprovalComponent {
   onSelectedCompanyCodeChange(event: any) {
     console.log('Selected Company Code Value:', event);
     this.selectedCompanyCodeValues[event.companyCode] = event.event;
-    // You can perform any action with the received value here
   }
   getData(status: any) {
     console.log(status);
