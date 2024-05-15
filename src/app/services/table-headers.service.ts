@@ -27,5 +27,6 @@ export class TableHeadersService {
     'Product Group Details',
     'Date Added',
   ];
+
   constructor() {}
 }

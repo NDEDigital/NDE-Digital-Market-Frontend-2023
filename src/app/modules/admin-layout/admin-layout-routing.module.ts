@@ -18,7 +18,13 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: 'product-groups', component: AddGroupsComponent },
-      { path: 'products', component: AddProductsComponent },
+      {
+        path: 'products',
+        loadChildren: () =>
+          import('./components/add-products/add-products-routing.module').then(
+            (m) => m.AddProductsRoutingModule
+          ),
+      },
       { path: 'user-list', component: SellerListComponent },
       { path: 'admin-order', component: AdminOrderComponent },
       { path: 'banner-approval', component: BannerApprovalComponent },
