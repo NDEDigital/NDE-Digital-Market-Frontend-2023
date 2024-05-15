@@ -50,7 +50,7 @@ export class BannerApprovalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getData();
+    this.getData(this.btnIndex);
     this.minDateTime = this.getCurrentDateTime(); // Initialize before change detection
     this.minEndDateTime = this.getCurrentDateTime();
     this.minEndDateTimes = [this.minEndDateTime];
@@ -93,9 +93,9 @@ export class BannerApprovalComponent implements OnInit {
     return description;
   }
 
-  getData() {
-    console.log(this.btnIndex);
-
+  getData(status: any) {
+    console.log(status);
+    this.btnIndex = status;
     this.minDateTime = '';
     this.minEndDateTime = '';
     this.minEndDateTimes = [];
@@ -154,7 +154,7 @@ export class BannerApprovalComponent implements OnInit {
         if (this.msgModalBTN) {
           this.msgModalBTN.nativeElement.click();
         }
-        this.getData();
+        this.getData(this.btnIndex);
       },
       error: (error) => {
         console.log(error);

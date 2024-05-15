@@ -1,13 +1,21 @@
 <!-- approval grid  -->
 <div class="container-responsive approval-grid">
+  <!-- Header Title -->
   <app-dashboard-menu-header
     title="Add Product Group Table"
   ></app-dashboard-menu-header>
 
-  <app-admin-status-buttons-component
+  <!-- Status Button -->
+  <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getProductGroup($event)"
-  ></app-admin-status-buttons-component>
+    [addGroupModalCenter]="'#addGroupModalCenter'"
+    [NewButton]="'New'"
+    [ActiveButton]="'Active'"
+    [InactiveButton]="'Inactive'"
+    [AddButtonName]="'Add Group'"
+  ></app-status-button>
+
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
@@ -20,13 +28,9 @@
         />
         Select All
       </div>
-      <div class="col tableHeader">Index</div>
-      <div class="col tableHeader">Image</div>
-      <div class="col tableHeader">Product Group Code</div>
-      <div class="col tableHeader">Product Group Name</div>
-      <div class="col tableHeader">Product Group Prefix</div>
-      <div class="col tableHeader">Product Group Details</div>
-      <div class="col tableHeader">Date Added</div>
+      <ng-container *ngFor="let header of headers">
+        <div class="col tableHeader">{{ header }}</div>
+      </ng-container>
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
     <div>
@@ -95,13 +99,8 @@
             (click)="resetForm()"
           ></button>
         </div>
-        <!-- add group form design  -->
         <div>
-          <!-- <h2 class="register_title">Add Product Groups Name</h2> -->
           <div class="d-flex justify-content-center align-items-center">
-            <!-- Back Button on the left -->
-
-            <!-- Title in the middle -->
             <h2 class="register_title">
               {{
                 isEditMode
@@ -198,13 +197,33 @@
     </div>
   </div>
 </div>
-
+<!-- <app-add-groups-modal
+  [id]="'addGroupModalCenter'"
+  [isEditMode]="isEditMode"
+  (resetFormEvent)="resetForm()"
+  (isFieldInvalidEvent)="isFieldInvalid(status)"
+  [addGroupForm]="addGroupForm"
+  [imagePathPreview]="imagePathPreview"
+></app-add-groups-modal> -->
+<app-add-groups-modal
+  [isEditMode]="isEditMode"
+  (formSubmitted)="onSubmit()"
+></app-add-groups-modal>
 <button
   type="button"
   class="btn btn-primary d-none"
   data-bs-toggle="modal"
   data-bs-target="#productGroupModal"
   #userExistModalBTN
+>
+  Launch demo modal
+</button>
+<button
+  type="button"
+  class="btn btn-primary d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#addGroupModalCenter"
+  #addGroupModalCenterG
 >
   Launch demo modal
 </button>

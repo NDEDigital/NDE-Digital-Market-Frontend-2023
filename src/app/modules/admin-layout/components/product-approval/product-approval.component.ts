@@ -11,7 +11,7 @@ export class ProductApprovalComponent {
   btnIndex = -1;
   productsData: any;
   imagePath = '';
-  status = 'Pending';
+
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: number } = {};
   isHovered: any | null = null;
@@ -35,12 +35,20 @@ export class ProductApprovalComponent {
   constructor(private productService: AddProductService) {}
 
   ngOnInit() {
-    this.getData(this.status);
+    this.getData(this.btnIndex);
   }
 
-  getData(status: string) {
+  getData(status: any) {
+    this.btnIndex = status;
     this.allSelectedCheckbox.nativeElement.checked = false;
-
+    if (this.btnIndex == -1) {
+      status = 'Pending';
+    } else if (this.btnIndex == 1) {
+      status = 'Approved';
+    } else {
+      status = 'Rejected';
+    }
+    console.log(status);
     this.selectedProducts1.length = 0;
     this.productService.getProductData(status).subscribe({
       next: (response: any) => {
@@ -349,14 +357,13 @@ export class ProductApprovalComponent {
     console.log(this.selectedProducts1, 'selectedProducts');
   }
 
-  filterProducts() {
-    if (!this.searchTerm) {
+  filterProducts(data: any) {
+    console.log(data.status);
+    if (!data.status) {
       this.filteredProductsData = this.productsData;
     } else {
       this.filteredProductsData = this.productsData.filter((product: any) =>
-        product.companyName
-          .toLowerCase()
-          .includes(this.searchTerm.toLowerCase())
+        product.companyName.toLowerCase().includes(data.status.toLowerCase())
       );
     }
   }

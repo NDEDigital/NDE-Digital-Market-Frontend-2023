@@ -187,6 +187,13 @@ export class UnitListComponent {
   }
 
   getProductGroup(status: any) {
+    console.log(status);
+    this.btnIndex = status;
+    if (status == 0) {
+      status = true;
+    } else if (status == 1) {
+      status = false;
+    }
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;

@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
 import { EmailService } from 'src/app/services/email.service';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 
 @Component({
   selector: 'app-company-approval',
@@ -8,6 +9,7 @@ import { EmailService } from 'src/app/services/email.service';
   styleUrls: ['./company-approval.component.css'],
 })
 export class CompanyApprovalComponent {
+  headers!: string[];
   btnIndex = -1;
   companies: any;
   imagePath = '';
@@ -23,14 +25,22 @@ export class CompanyApprovalComponent {
 
   constructor(
     private companyService: CompanyService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private tableHeadersService: TableHeadersService
   ) {}
 
   ngOnInit() {
-    this.getData();
+    this.getData(this.btnIndex);
+    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
   }
-
-  getData() {
+  onSelectedCompanyCodeChange(event: any) {
+    console.log('Selected Company Code Value:', event);
+    this.selectedCompanyCodeValues[event.companyCode] = event.event;
+    // You can perform any action with the received value here
+  }
+  getData(status: any) {
+    console.log(status);
+    this.btnIndex = status;
     this.companyService.GetCompaniesBasedOnStatus(this.btnIndex).subscribe({
       next: (response: any) => {
         this.companies = response;
@@ -43,19 +53,14 @@ export class CompanyApprovalComponent {
     });
   }
 
-  showImage(path: any, title: any) {
-    console.log(path);
-
-    this.imagePath = '/asset' + path.split('asset')[1];
-    this.imageTitle = title;
+  showImage(event: any) {
+    console.log(event);
+    this.imagePath = '/asset' + event.tradeLicense.split('asset')[1];
+    this.imageTitle = event.status;
   }
 
-  updateCompany(
-    companyEmail: any,
-    companyCode: any,
-    Isactive: any,
-    maxUser: any
-  ) {
+  updateCompany(event: any) {
+    console.log(event);
     //console.log(companyCode, Isactive, companyEmail);
     // const selectedCompany = this.companies.find(
     //   (cmp: any) => cmp.companyCode === companyCode
@@ -71,7 +76,8 @@ export class CompanyApprovalComponent {
     //   'Selected Company Code Value:',
     //   this.selectedCompanyCodeValues[companyCode]
     // );
-    const userCnt = this.selectedCompanyCodeValues[companyCode] || maxUser;
+    const userCnt =
+      this.selectedCompanyCodeValues[event.companyCode] || event.maxUser;
     if (userCnt < 0) {
       // Handle the invalid input (e.g., display an error message)
       this.alertTitle = 'Error!';
@@ -79,20 +85,27 @@ export class CompanyApprovalComponent {
       this.msgModalBTN.nativeElement.click();
       return; // Prevent further processing
     }
-
     const cmp = {
-      companyCode: companyCode,
-      isActive: Isactive,
+      companyCode: event.companyCode,
+      isActive: event.status,
       maxUser: userCnt,
     };
+    console.log('kire', this.selectedCompanyCodeValues[event.companyCode]);
+    console.log('kire', event.maxUser);
+    console.log('kire', userCnt);
+    console.log(cmp);
     this.companyService.UpdateCompany(cmp).subscribe({
       next: (response: any) => {
         //console.log(response);
-        this.getData();
-        this.sendEmailToCompany(companyEmail, companyCode, userCnt, Isactive);
-        this.selectedCompanyCodeValues[companyCode] = null;
-
-        if (Isactive) {
+        this.getData(this.btnIndex);
+        this.sendEmailToCompany(
+          event.email,
+          event.companyCode,
+          userCnt,
+          event.status
+        );
+        this.selectedCompanyCodeValues[event.companyCode] = null;
+        if (event.status) {
           this.isApproved = true;
           this.isRejected = false;
           this.alertTitle = 'Success!';

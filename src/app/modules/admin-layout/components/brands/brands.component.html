@@ -3,46 +3,16 @@
   <app-dashboard-menu-header
     title="Add Brands Table"
   ></app-dashboard-menu-header>
-  <div
-    class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
-  >
-    <div class="headerbtns">
-      <button
-        class="custom-btn new-btn"
-        (click)="getNewBrands(-1); btnIndex = -1"
-        [ngClass]="{ active: btnIndex === -1 }"
-      >
-        New
-      </button>
-      <button
-        class="custom-btn btn-active"
-        (click)="getNewBrands(true)"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-      >
-        Active
-      </button>
-      <button
-        class="custom-btn btn-inactive"
-        (click)="getNewBrands(false)"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-      >
-        Inactive
-      </button>
-    </div>
 
-    <div>
-      <button
-        class="custom-btn addGroup-btn"
-        data-bs-toggle="modal"
-        data-bs-target="#addGroupModalCenter"
-        #addGroupModalCenterG
-      >
-        Add Brand
-      </button>
-    </div>
-  </div>
+  <app-status-button
+    [btnIndex]="btnIndex"
+    (getProductsEvent)="getNewBrands($event)"
+    [addGroupModalCenter]="'#addGroupModalCenter'"
+    [NewButton]="'New'"
+    [ActiveButton]="'Active'"
+    [InactiveButton]="'Inactive'"
+    [AddButtonName]="'Add Brand'"
+  ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
@@ -282,6 +252,15 @@
   data-bs-toggle="modal"
   data-bs-target="#productGroupModal"
   #userExistModalBTN
+>
+  Launch demo modal
+</button>
+<button
+  type="button"
+  class="btn btn-primary d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#addGroupModalCenter"
+  #addGroupModalCenterG
 >
   Launch demo modal
 </button>

@@ -5,6 +5,8 @@ import {
   Input,
   Output,
   EventEmitter,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,10 +22,9 @@ AddProductService;
   templateUrl: './add-groups-modal.component.html',
   styleUrls: ['./add-groups-modal.component.css'],
 })
-export class AddGroupsModalComponent {
-  @Output() resetFormEvent = new EventEmitter<{}>();
-  @Input() isEditMode!: any;
-
+export class AddGroupsModalComponent implements OnChanges {
+  @Input() isEditMode!: boolean;
+  @Output() formSubmitted = new EventEmitter<any>();
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
   @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
@@ -85,116 +86,31 @@ export class AddGroupsModalComponent {
   }
 
   resetForm(): void {
-    this.resetFormEvent.emit();
+    console.log(this.isEditMode);
+    this.addGroupForm.reset();
+    this.isEditMode = false;
+    this.currentGroup = null;
+    this.activeGroupId = null;
   }
 
-  onSubmit(): void {
-    Object.values(this.addGroupForm.controls).forEach((control) => {
-      control.markAsTouched();
-      control.markAsDirty();
-    });
-
+  onSubmit() {
     if (this.addGroupForm.valid) {
-      // //console.log('Form Data:', this.addGroupForm.value);
-      const formData = new FormData();
-
-      Object.keys(this.addGroupForm.value).forEach((key) => {
-        let value = this.addGroupForm.value[key];
-        if (key === 'productId' || key === 'unitId') {
-          value = String(Math.floor(Number(value)));
-          //console.log(value);
-        }
-        formData.append(key, value);
-      });
-
-      if (this.ProductImageInput.nativeElement.files[0]) {
-        // If a new file is selected, append it
-        formData.append(
-          'imageFile',
-          this.ProductImageInput.nativeElement.files[0]
-        );
-      } else if (this.isEditMode && this.existingImagePath) {
-        // If in edit mode and no new file is selected, append the existing image path
-        formData.append('existingImagePath', this.existingImagePath);
-      }
-
-      // Append additional fields
-      formData.append('addedBy', 'user');
-      formData.append('addedPC', '0.0.0.0');
-
-      for (let pair of (formData as any).entries()) {
-        console.log(`${pair[0]}: `, pair[1]);
-      }
-      if (!this.isEditMode) {
-        this.addProductService.createProductGroup(formData).subscribe({
-          next: (response: any) => {
-            //console.log(response, 'successfull');
-            this.alertMsg = response.message;
-            this.isError = false;
-            //console.log(response.message);
-            setTimeout(() => {
-              this.UserExistModalBTN.nativeElement.click();
-              this.addGroupForm.reset();
-              // this.toggleAddProductGroupDiv();
-            }, 50);
-            this.getProductGroup(-1);
-          },
-          error: (error: any) => {
-            //console.log(error, 'error');
-            this.alertMsg = error.error.message;
-            this.isError = true;
-            this.UserExistModalBTN.nativeElement.click();
-          },
-        });
-      }
-      // console.log(this.isEditMode, "inserting on submit");
-
-      if (this.isEditMode) {
-        let updateByUser = localStorage.getItem('code');
-        console.log(updateByUser, 'code...');
-
-        // console.log("edit mode");
-        formData.append('ProductGroupID', this.currentGroup.productGroupID);
-        if (updateByUser !== null) {
-          formData.append('UpdatedBy', updateByUser);
-        } else {
-          console.error('Update by code not found in localStorage');
-        }
-        formData.append('UpdatedPC', '0.0.0.0');
-
-        this.addProductService.updateProductGroup(formData).subscribe({
-          next: (response: any) => {
-            // Handle successful response here
-            console.log('Update successful:', response);
-            this.alertMsg = 'Product group updated successfully';
-            this.isEditMode = false;
-            // Optionally, reset the form and refresh the group list
-            this.addGroupForm.reset();
-            this.getProductGroup(-1);
-
-            // Close the modal if you have one open
-            this.UserExistModalBTN.nativeElement.click();
-          },
-          error: (error: any) => {
-            // Handle error response here
-            console.error('Error updating product group:', error);
-            this.alertMsg =
-              error.error.message || 'Error updating product group';
-            this.isError = true;
-            this.isEditMode = false;
-
-            // Show the error modal or message
-            this.UserExistModalBTN.nativeElement.click();
-          },
-        });
-        console.log(this.isEditMode, 'updating on submit');
-      }
-    } else {
-      console.log('Form is not valid');
+      // Emit form submission event to parent component
+      this.formSubmitted.emit(this.addGroupForm.value);
     }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    // if (changes.isEditMode && !changes.isEditMode.firstChange) {
+    //   // Handle changes to isEditMode here
+    //   // For example, if you need to reset the form when editMode changes
+    //   this.resetForm();
+    // }
+    console.log('changes', changes);
   }
 
   getProductGroup(status: any) {
+    this.btnIndex = status;
+    console.log(this.btnIndex);
     this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;

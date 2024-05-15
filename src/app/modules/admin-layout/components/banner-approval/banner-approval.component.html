@@ -4,34 +4,14 @@
   >
     <h1 class="companyApproval_header_text">Banner Approval</h1>
   </div>
-  <div class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2">
-    <div class="headerbtns">
-      <button
-        class="custom-btn new-btn active"
-        [ngClass]="{ active: btnIndex === -1 }"
-        (click)="btnIndex = -1"
-        (click)="getData()"
-      >
-        New Request
-      </button>
-      <button
-        class="custom-btn btn-active"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-        (click)="getData()"
-      >
-        Approved
-      </button>
-      <button
-        class="custom-btn btn-inactive"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-        (click)="getData()"
-      >
-        Rejected
-      </button>
-    </div>
-  </div>
+
+  <app-status-button
+    [btnIndex]="btnIndex"
+    (getProductsEvent)="getData($event)"
+    [NewButton]="'New'"
+    [ActiveButton]="'Approved'"
+    [InactiveButton]="'Rejected'"
+  ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
