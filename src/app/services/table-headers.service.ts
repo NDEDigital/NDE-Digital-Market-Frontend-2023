@@ -27,5 +27,65 @@ export class TableHeadersService {
     'Product Group Details',
     'Date Added',
   ];
+
+  producTableHeaders: string[] = [
+    'Index',
+    'Product Group Name',
+    'Product Name',
+    'Product SubName',
+    'Brand',
+    'Unit',
+    'Specification',
+    'Image',
+    'Date Added',
+  ];
+  bannerApprovalTableHeaders: string[] = [
+    'Index',
+    'AD Type',
+    'Company Name',
+    'Banner Description',
+    'Banner Image',
+    'Start Date',
+    'End Date',
+    'Action',
+  ];
+  brandTableHeaders: string[] = [
+    'Index',
+    'Brands Name',
+    'Short Name',
+    'Description',
+  ];
+  productApprovalTableHeaders: string[] = [
+    'Index',
+    'Image',
+    'Product Name',
+    'Seller Name',
+    'Company',
+    'Price',
+    'Discount Amount',
+    'Discount %',
+    'Net Price',
+    'Effective Date',
+    'End Date',
+    'Previous Price',
+    'Action',
+  ];
+  userListTableHeaders: string[] = [
+    '#',
+    'Full Name',
+    'Phone',
+    'Email',
+    'Address',
+    'Added Date',
+    'Company',
+    'Role',
+    'Action',
+  ];
+  unitListTableHeaders: string[] = [
+    'Index',
+    'Unit Name',
+
+    'Unit Symbol',
+  ];
   constructor() {}
 }

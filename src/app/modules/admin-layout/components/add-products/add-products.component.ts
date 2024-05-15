@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { empty } from 'rxjs';
 import { AddProductService } from 'src/app/services/add-product.service';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 
 @Component({
   selector: 'app-add-products',
@@ -15,6 +16,7 @@ export class AddProductsComponent implements OnInit {
   @ViewChild('allselected', { static: false })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
   addProductForm!: FormGroup;
+  headers!: string[];
   productGroups: any[] = [];
   units: any[] = [];
   brands: any[] = [];
@@ -32,7 +34,10 @@ export class AddProductsComponent implements OnInit {
   existingImagePath: string = '';
   imagePathPreview: string = '';
 
-  constructor(private productService: AddProductService) {}
+  constructor(
+    private productService: AddProductService,
+    private tableHeadersService: TableHeadersService
+  ) {}
 
   toggleAddProductDiv(): void {
     this.showProductDiv = !this.showProductDiv;
@@ -62,6 +67,7 @@ export class AddProductsComponent implements OnInit {
     this.getBrand();
     this.getUnit();
     this.getProducts(-1);
+    this.headers = this.tableHeadersService.productGroupsTableHeaders;
   }
 
   openAddProductModal(): void {

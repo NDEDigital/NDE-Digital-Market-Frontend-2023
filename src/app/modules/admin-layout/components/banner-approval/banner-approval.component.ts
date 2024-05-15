@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
 import { AddBannerService } from 'src/app/services/add-banner.service';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 
 @Component({
   selector: 'app-banner-approval',
@@ -17,6 +18,7 @@ import { AddBannerService } from 'src/app/services/add-banner.service';
   providers: [DatePipe],
 })
 export class BannerApprovalComponent implements OnInit {
+  headers!: string[];
   btnIndex = -1;
   // companies: any;
   imagePath = '';
@@ -42,7 +44,8 @@ export class BannerApprovalComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private bannerService: AddBannerService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private tableHeadersService: TableHeadersService
   ) {
     this.getCurrentDateTime();
 
@@ -55,6 +58,7 @@ export class BannerApprovalComponent implements OnInit {
     this.minEndDateTime = this.getCurrentDateTime();
     this.minEndDateTimes = [this.minEndDateTime];
     this.isEndDateEnabled = [false]; // Default to false
+    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
   }
 
   // ngAfterViewInit() {

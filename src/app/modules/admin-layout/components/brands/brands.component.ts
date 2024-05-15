@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 
 import { BrandsService } from 'src/app/services/brands.service';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 @Component({
   selector: 'app-brands',
   templateUrl: './brands.component.html',
@@ -21,7 +22,7 @@ export class BrandsComponent {
   @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
-
+  headers!: string[];
   isHovered: any | null = null;
 
   addGroupForm!: FormGroup;
@@ -37,7 +38,10 @@ export class BrandsComponent {
   imagePathPreview: string = '';
   alertTitle: any;
 
-  constructor(private brandsService: BrandsService) {}
+  constructor(
+    private brandsService: BrandsService,
+    private tableHeadersService: TableHeadersService
+  ) {}
 
   toggleAddProductGroupDiv(): void {
     this.showProductDiv = !this.showProductDiv;
@@ -59,6 +63,7 @@ export class BrandsComponent {
       //name: new FormControl('', Validators.required),
     });
     this.getNewBrands(-1);
+    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
   }
 
   openAddGroupModal(): void {

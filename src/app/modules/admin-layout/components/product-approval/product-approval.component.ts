@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { combineAll } from 'rxjs';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 @Component({
   selector: 'app-product-approval',
   templateUrl: './product-approval.component.html',
@@ -11,7 +12,7 @@ export class ProductApprovalComponent {
   btnIndex = -1;
   productsData: any;
   imagePath = '';
-
+  headers!: string[];
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: number } = {};
   isHovered: any | null = null;
@@ -32,10 +33,14 @@ export class ProductApprovalComponent {
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
 
   @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
-  constructor(private productService: AddProductService) {}
+  constructor(
+    private productService: AddProductService,
+    private tableHeadersService: TableHeadersService
+  ) {}
 
   ngOnInit() {
     this.getData(this.btnIndex);
+    this.headers = this.tableHeadersService.companyApprovalTableHeaders;
   }
 
   getData(status: any) {

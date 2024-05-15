@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AddProductService } from 'src/app/services/add-product.service';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 import { UnitService } from 'src/app/services/unit.service';
 @Component({
   selector: 'app-unit-list',
@@ -21,7 +22,7 @@ export class UnitListComponent {
   @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
-
+  headers!: string[];
   isHovered: any | null = null;
 
   addGroupForm!: FormGroup;
@@ -39,7 +40,8 @@ export class UnitListComponent {
 
   constructor(
     private addProductService: AddProductService,
-    private unitServices: UnitService
+    private unitServices: UnitService,
+    private tableHeadersService: TableHeadersService
   ) {}
 
   toggleAddProductGroupDiv(): void {
@@ -60,6 +62,7 @@ export class UnitListComponent {
       name: new FormControl('', Validators.required),
     });
     this.getProductGroup(-1);
+      this.headers = this.tableHeadersService.companyApprovalTableHeaders;
   }
 
   openAddGroupModal(): void {
