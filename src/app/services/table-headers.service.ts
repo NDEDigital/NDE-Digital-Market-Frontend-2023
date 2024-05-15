@@ -81,11 +81,6 @@ export class TableHeadersService {
     'Role',
     'Action',
   ];
-  unitListTableHeaders: string[] = [
-    'Index',
-    'Unit Name',
-
-    'Unit Symbol',
-  ];
+  unitListTableHeaders: string[] = ['Index', 'Unit Name', 'Unit Symbol'];
   constructor() {}
 }
