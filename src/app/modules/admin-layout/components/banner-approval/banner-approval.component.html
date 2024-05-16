@@ -7,10 +7,14 @@
 
   <app-status-button
     [btnIndex]="btnIndex"
+    [btnFilter]="btnFilter"
     (getProductsEvent)="getData($event)"
     [NewButton]="'New'"
     [ActiveButton]="'Approved'"
     [InactiveButton]="'Rejected'"
+    [FilterButton1]="'Advertise'"
+    [FilterButton2]="'Banner'"
+    (getProductsFilterEvent)="getFilterData($event)"
   ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
@@ -32,7 +36,7 @@
 
     <section
       class="row tablebodyRow fw-semibold"
-      *ngFor="let cmp of banners; let i = index"
+      *ngFor="let cmp of bannerFilter; let i = index"
       (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
     >

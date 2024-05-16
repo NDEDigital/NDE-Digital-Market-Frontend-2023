@@ -4,7 +4,7 @@
   <div *ngIf="btnIndex != 2" class="headerbtns">
     <button
       class="custom-btn new-btn"
-      (click)="getProductGroup(-1); btnIndex = -1"
+      (click)="getProductGroup(-1); btnIndex = -1; btnFilter = 0"
       [ngClass]="{ active: btnIndex === -1 }"
     >
       {{ NewButton }}
@@ -13,7 +13,7 @@
       class="custom-btn btn-active"
       (click)="getProductGroup(1)"
       [ngClass]="{ active: btnIndex === 1 }"
-      (click)="btnIndex = 1"
+      (click)="btnIndex = 1; btnFilter = 0"
     >
       {{ ActiveButton }}
     </button>
@@ -21,12 +21,17 @@
       class="custom-btn btn-inactive"
       (click)="getProductGroup(0)"
       [ngClass]="{ active: btnIndex === 0 }"
-      (click)="btnIndex = 0"
+      (click)="btnIndex = 0; btnFilter = 0"
     >
       {{ InactiveButton }}
     </button>
   </div>
-  <div *ngIf="btnIndex == 2" class="headerbtns"></div>
+  <!-- <div *ngIf="btnIndex == 2" class="headerbtns"></div>
+  <div *ngIf="FilterButton1" class="headerbtns"></div>
+  <div *ngIf="FilterButton1" class="headerbtns"></div>
+
+  <div *ngIf="FilterButton1" class="headerbtns"></div>
+  <div *ngIf="FilterButton1" class="headerbtns"></div> -->
   <div *ngIf="AddButtonName">
     <button
       class="custom-btn addGroup-btn"
@@ -37,7 +42,28 @@
       {{ AddButtonName }}
     </button>
   </div>
-
+  <div class="filter-button" *ngIf="FilterButton1">
+    <div *ngIf="FilterButton1">
+      <button
+        class="custom-btn btn-active"
+        (click)="getProductGroupFilter(0)"
+        [ngClass]="{ active: btnFilter === 0 }"
+        (click)="btnFilter = 0"
+      >
+        {{ FilterButton1 }}
+      </button>
+    </div>
+    <div *ngIf="FilterButton2">
+      <button
+        class="custom-btn btn-inactive"
+        (click)="getProductGroupFilter(1)"
+        [ngClass]="{ active: btnFilter === 1 }"
+        (click)="btnFilter = 1"
+      >
+        {{ FilterButton2 }}
+      </button>
+    </div>
+  </div>
   <div *ngIf="featureName" class="d-flex align-items-center">
     <input
       class="form-control me-2"

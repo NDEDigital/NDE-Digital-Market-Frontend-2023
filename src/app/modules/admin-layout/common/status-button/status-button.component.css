@@ -238,3 +238,13 @@ select {
 .active-row {
   background-color: rgb(233, 238, 243);
 }
+.filter-button {
+  display: flex;
+  flex-direction: row;
+}
+.filter-button .custom-btn {
+  background: #f0faff;
+  color: rgb(3, 20, 43);
+  font-weight: 500;
+  border: 1px solid var(--color-primary-dark);
+}

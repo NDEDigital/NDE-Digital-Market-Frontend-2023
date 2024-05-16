@@ -20,6 +20,8 @@ import { TableHeadersService } from 'src/app/services/table-headers.service';
 export class BannerApprovalComponent implements OnInit {
   headers!: string[];
   btnIndex = -1;
+  btnFilter = 0;
+  bannerFilter: any;
   // companies: any;
   imagePath = '';
   isHovered: any | null = null;
@@ -92,7 +94,7 @@ export class BannerApprovalComponent implements OnInit {
 
   truncateDescription(bannerDescription: any): any {
     const maxLength = 16;
-    console.log('ashce', bannerDescription);
+    // console.log('ashce', bannerDescription);
     if (bannerDescription.length > maxLength) {
       return `${bannerDescription.substring(0, maxLength)}...`;
     }
@@ -115,6 +117,12 @@ export class BannerApprovalComponent implements OnInit {
         this.banners = response;
 
         this.selectedCompanyCodeValues = [];
+        // this.banners = this.banners.filter(
+        //   (banner: any) => banner.isAds === true
+        // );
+        this.bannerFilter = 0;
+        this.getFilterData(0);
+        console.log(this.banners, 'Filtered banners...');
         console.log(this.banners, 'banners....');
       },
       error: (error: any) => {
@@ -122,7 +130,19 @@ export class BannerApprovalComponent implements OnInit {
       },
     });
   }
-
+  getFilterData(status: any) {
+    const filteredAds = this.banners.filter(
+      (banner: any) => banner.isAds === true
+    );
+    const filteredBanners = this.banners.filter(
+      (banner: any) => banner.isAds === false
+    );
+    if (status == 0) {
+      this.bannerFilter = filteredAds;
+    } else {
+      this.bannerFilter = filteredBanners;
+    }
+  }
   onStartDateChange(index: number, event: any): void {
     // this.isEndDateEnabled[index] = true;
     const selectedDate = new Date(event.target.value);
