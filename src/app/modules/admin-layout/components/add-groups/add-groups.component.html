@@ -1,6 +1,6 @@
-<!-- approval grid  -->
+<!-- Approval grid component -->
 <div class="container-responsive approval-grid">
-  <!-- Header Title -->
+  <!-- Dashboard Menu Header -->
   <app-dashboard-menu-header
     title="Add Product Group Table"
   ></app-dashboard-menu-header>
@@ -18,10 +18,12 @@
     [addBtnIndex]="addBtnIndex"
   ></app-status-button>
 
+  <!-- Scrollable Table -->
   <div class="scrollable-table border border-1 bg-light">
-    <!-- TABLE header -->
+    <!-- Table Header Row -->
     <div class="row headerRow sticky-top fw-bolder">
       <div class="col tableHeader">
+        <!-- Checkbox to select all -->
         <input
           type="checkbox"
           [(ngModel)]="selectAll"
@@ -30,11 +32,14 @@
         />
         Select All
       </div>
+      <!-- Display table headers -->
       <ng-container *ngFor="let header of headers">
         <div class="col tableHeader">{{ header }}</div>
       </ng-container>
+      <!-- Display Actions column if applicable -->
       <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
     </div>
+    <!-- Display message if no groups found -->
     <div>
       <h1
         *ngIf="groupList && groupList.length == 0"
@@ -45,7 +50,7 @@
       </h1>
     </div>
 
-    <!-- table body -->
+    <!-- Table Body -->
     <section
       class="row tablebodyRow fw-semibold"
       *ngFor="let group of groupList; let i = index"
@@ -53,6 +58,7 @@
       (mouseout)="isHovered = null"
       (dblclick)="openModalWithData(group)"
     >
+      <!-- Render Grid View for each group -->
       <app-grid-view
         [group]="group"
         [i]="i"
@@ -63,6 +69,7 @@
     </section>
   </div>
 
+  <!-- Buttons for Active and Inactive states -->
   <div class="d-flex justify-content-end">
     <button
       *ngIf="btnIndex === 0 || btnIndex === -1"
@@ -81,6 +88,7 @@
   </div>
 </div>
 
+<!-- Add Groups Modal -->
 <div *ngIf="btnClick">
   <app-add-groups-modal
     [IdName]="'#addGroupModalCenter'"
@@ -92,6 +100,7 @@
   ></app-add-groups-modal>
 </div>
 
+<!-- Hidden buttons for modals -->
 <button
   type="button"
   class="btn btn-primary d-none"
@@ -110,7 +119,8 @@
 >
   Launch demo modal
 </button>
-<!-- Modal -->
+
+<!-- Dynamic Alert Modal -->
 <app-dynamic-alert-modal
   [alertMsg]="alertMsg"
   [alertTitle]="alertTitle"
