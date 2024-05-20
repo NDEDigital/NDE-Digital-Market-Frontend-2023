@@ -1,9 +1,4 @@
-#before-price {
-  text-decoration: line-through;
-  font-size: 0.9rem;
-  color: rgb(163, 163, 163);
-  margin-bottom: 0;
-}
+
 .product {
   width: 18rem;
   background-color: white;
@@ -12,10 +7,7 @@
 .product:hover{
     border: 1px solid gray;
 }
-img {
- max-width: 15rem;
 
-}
 .product-title {
   color: #5b5a5a;
  
@@ -48,3 +40,83 @@ img {
      font-size: 30px;
      font-weight: bold;
 } */
+
+/* 
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border: 1px solid aqua; 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+} */
+.card{
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+   max-width: 30rem;
+
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+margin-bottom: 2rem;
+/* border: 1px solid red; */
+}
+
+  
+
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-body {
+  /* padding: 20px; */
+  /* border: 1px solid #000; */
+ 
+}
+
+.card-image-container {
+  /* object-fit: cover;
+
+  width: 100%;  */
+  /* Ensure images don't overflow container */
+ 
+  /* Center the image horizontally */
+}
+
+/* .card-image-container img {
+  width: 100%;
+  height: 12rem; 
+  object-fit: cover;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+} */
+
+.product-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  
+}
+.card-look{
+  height: 11.5rem; 
+  position: relative
+
+}
+
+
+.card-img-top {
+  height: 11.5rem; 
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom: 1px solid var(--color-primary);
+}

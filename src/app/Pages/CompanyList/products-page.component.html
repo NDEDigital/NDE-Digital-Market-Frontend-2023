@@ -1,33 +1,40 @@
-<section id="page-container" class="container-responsive">
+<section id="page-container">
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
-    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
-    <div class="d-flex mx-5 px-5">
+    <div class="nav-belt-container">
+      <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
+    </div>
+
+    <div class="d-flex  pp">
       <div class="product_sidebar_container">
         <app-product-sidebar></app-product-sidebar>
       </div>
 
-      <div class="products ms-5 ps-5">
-        <div class="row">
-          <div
-            [ngClass]="
-              companyList.length <= 2
-                ? 'col-lg-6 col-md-6 col-sm-12'
-                : 'col-lg-4 col-md-6 col-sm-6'
-            "
-            *ngFor="let company of companyList"
-          >
-            <app-card
-              [title]="company.companyName"
-              [img]="company.companyImage"
-              (click)="productCardClick(company.companyCode)"
-            ></app-card>
+      <div class="products">
+        <div
+          class="product_slider bg-white mx-auto my-2 py-1 align-items-center"
+        >
+          <div class="companyName">
+            <h3>Company Name</h3>
+          </div>
+          <div class="line"></div>
+          <div class="grid-container">
+            <ng-container *ngFor="let company of companyList">
+              <div class="grid-item">
+                <app-card
+                  [title]="company.companyName"
+                  [img]="company.companyImage"
+                  (click)="productCardClick(company.companyCode)"
+                ></app-card>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div id="footer">
+
+  <div id="footer" class="footer-responsive">
     <app-footer></app-footer>
   </div>
 </section>

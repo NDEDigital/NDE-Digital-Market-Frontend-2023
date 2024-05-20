@@ -123,6 +123,9 @@ img {
   width: 6rem; /* Initial fixed width */
   height: 2.5rem; /* Initial fixed height */
 }
+.app-nav-belt {
+  background-color: white;
+}
 
 .custom-btn:hover {
   background-color: var(--color-primary);

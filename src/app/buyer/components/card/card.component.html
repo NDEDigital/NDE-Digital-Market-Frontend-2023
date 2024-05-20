@@ -1,15 +1,17 @@
-<section class="rounded product mt-3 product mb-5 h-75">
-  <div class="ms-2 mt-2 mb-4 d-flex flex flex-column align-items-center pb-2 " >
-    <div >
-      <img   [src]="img?'/asset' + img.split('asset')[1]:'Not Upload yet'" alt="" height="120rem" width="200rem">
-    </div>
 
-    <div class="mt-4">
-      <p class="product-title">{{ title }}</p>
+  <section class="rounded product-responsive mt-3 mb-5 h-75   ">
+  <!-- <div class="card-body d-flex flex-column align-items-center"> -->
+<div class="card"> 
+    <div class="card-look">
+      <img [src]="img ? '/asset' + img.split('asset')[1] : 'placeholder.jpg'" 
+      class="card-img-top"
+  >
     </div>
-    <!-- <button class="supplier mt-2" (click)="contactSupplier()">
-      Contact Supplier
-    </button> -->
-   
+    <h3 class="product-title">{{ title }}</h3>
   </div>
+
 </section>
+
+
+
+
