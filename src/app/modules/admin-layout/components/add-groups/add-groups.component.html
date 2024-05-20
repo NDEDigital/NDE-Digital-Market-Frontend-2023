@@ -9,11 +9,13 @@
   <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getProductGroup($event)"
+    (openAddGroupModalEvent)="openAddGroupModal()"
     [addGroupModalCenter]="'#addGroupModalCenter'"
     [NewButton]="'New'"
     [ActiveButton]="'Active'"
     [InactiveButton]="'Inactive'"
     [AddButtonName]="'Add Group'"
+    [addBtnIndex]="addBtnIndex"
   ></app-status-button>
 
   <div class="scrollable-table border border-1 bg-light">
@@ -79,136 +81,17 @@
   </div>
 </div>
 
-<!-- add Group modal   -->
-<div
-  class="modal fade"
-  id="addGroupModalCenter"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="d-flex justify-content-end align-items-center">
-          <button
-            type="button"
-            class="btn-close border border-1"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            (click)="resetForm()"
-          ></button>
-        </div>
-        <div>
-          <div class="d-flex justify-content-center align-items-center">
-            <h2 class="register_title">
-              {{
-                isEditMode
-                  ? "Edit Product Groups Name"
-                  : "Add Product Groups Name"
-              }}
-            </h2>
-          </div>
-          <hr />
-          <form [formGroup]="addGroupForm">
-            <div class="form-group">
-              <label for="productGroupName"
-                ><span class="text-danger">*</span>Product Group Name</label
-              >
-              <input
-                type="text"
-                id="productGroupName"
-                formControlName="productGroupName"
-                [class.error]="isFieldInvalid('productGroupName')"
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('productGroupName')"
-                >Product Group Name is required.</span
-              >
-            </div>
-            <div *ngIf="isEditMode" class="image-preview">
-              <label> Group Image Preview </label>
-              <img
-                [src]="imagePathPreview"
-                alt="Product Group Image"
-                class="product_image"
-              />
-            </div>
-            <div class="form-group">
-              <label
-                ><span class="text-danger">*</span>Upload Product Group Image
-              </label>
-              <input
-                type="file"
-                class="form-control"
-                id="productGroupImage"
-                formControlName="productGroupImage"
-                accept="image/jpeg, image/jpg, image/png, image/webp"
-                [class.error]="
-                  isFieldInvalid('productGroupImage') && !isEditMode
-                "
-                #productGroupImageInput
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('productGroupImage') && !isEditMode"
-                >Product Image is required.</span
-              >
-            </div>
-            <div class="form-group">
-              <label for="productGroupPrefix"
-                ><span class="text-danger">*</span>Product Group Prefix</label
-              >
-              <input
-                type="text"
-                id="productGroupPrefix"
-                formControlName="productGroupPrefix"
-                [class.error]="isFieldInvalid('productGroupPrefix')"
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('productGroupPrefix')"
-                >Product Group Prefix is required.</span
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="productGroupDetails">Product Group Detail</label>
-              <textarea
-                type="text"
-                id="productGroupDetails"
-                class="textAreaDesign"
-                formControlName="productGroupDetails"
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              class="button mt-3"
-              id="sign-in-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+<div *ngIf="btnClick">
+  <app-add-groups-modal
+    [IdName]="'#addGroupModalCenter'"
+    [isEdit]="isEditMode"
+    [doubleClickData]="doubleClickData"
+    (resetFormEvent)="resetForm()"
+    (formDataEvent)="onSubmit($event)"
+    [addBtnClick]="addbtnClickP"
+  ></app-add-groups-modal>
 </div>
-<!-- <app-add-groups-modal
-  [id]="'addGroupModalCenter'"
-  [isEditMode]="isEditMode"
-  (resetFormEvent)="resetForm()"
-  (isFieldInvalidEvent)="isFieldInvalid(status)"
-  [addGroupForm]="addGroupForm"
-  [imagePathPreview]="imagePathPreview"
-></app-add-groups-modal> -->
-<app-add-groups-modal
-  [isEditMode]="isEditMode"
-  (formSubmitted)="onSubmit()"
-></app-add-groups-modal>
+
 <button
   type="button"
   class="btn btn-primary d-none"
