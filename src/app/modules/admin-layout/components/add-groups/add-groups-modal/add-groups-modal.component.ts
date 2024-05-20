@@ -64,10 +64,10 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
       this.initializeModal();
     }
     if (changes['addBtnClick'] && changes['addBtnClick'].currentValue == true) {
-      console.log('addBtnClick change detected');
       this.initializeModal();
     }
   }
+
   initializeForm(): void {
     this.addGroupForm = new FormGroup({
       productGroupName: new FormControl('', Validators.required),
@@ -76,42 +76,51 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
       productGroupDetails: new FormControl(''),
     });
   }
+
   initializeModal(): void {
     if (this.addGroupModalCenterG && this.addGroupModalCenterG.nativeElement) {
       const modalElement = this.addGroupModalCenterG.nativeElement;
-      this.modalInstance = new bootstrap.Modal(modalElement, {
-        backdrop: 'static',
-      });
-
-      this.renderer.listen(modalElement, 'shown.bs.modal', () => {
-        console.log('Modal is shown');
-      });
-
-      this.renderer.listen(modalElement, 'hidden.bs.modal', () => {
-        console.log('Modal is hidden');
-        this.resetFormEvent.emit();
-      });
-
-      if (this.IdName != null) {
-        this.modalInstance.show();
-        console.log('isEdit', this.isEdit);
-        console.log('doubleClickData', this.doubleClickData);
-        if (this.isEdit == true) {
-          this.updateFormValidators();
-          this.populateForm(this.doubleClickData);
-        } else {
-          // this.addGroupModalCenterG.nativeElement.click();
-          this.resetForm();
-        }
-      }
+      this.createModalInstance(modalElement);
+      this.attachModalEventListeners(modalElement);
+      this.handleModalDisplay();
     } else {
       console.error('addGroupModalCenterG is not defined');
     }
   }
 
+  createModalInstance(modalElement: any): void {
+    this.modalInstance = new bootstrap.Modal(modalElement, {
+      backdrop: 'static',
+    });
+  }
+
+  attachModalEventListeners(modalElement: any): void {
+    this.renderer.listen(modalElement, 'shown.bs.modal', () => {
+      console.log('Modal is shown');
+    });
+
+    this.renderer.listen(modalElement, 'hidden.bs.modal', () => {
+      console.log('Modal is hidden');
+      this.resetFormEvent.emit();
+    });
+  }
+
+  handleModalDisplay(): void {
+    if (this.IdName != null) {
+      this.modalInstance.show();
+      console.log('isEdit', this.isEdit);
+      console.log('doubleClickData', this.doubleClickData);
+      if (this.isEdit) {
+        this.updateFormValidators();
+        this.populateForm(this.doubleClickData);
+      } else {
+        this.resetForm();
+      }
+    }
+  }
+
   resetForm(): void {
     console.log('isEdit', this.isEdit);
-
     this.modalInstance.hide();
     console.log(this.isEdit);
     this.addGroupForm.reset();
@@ -132,12 +141,8 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
   }
 
   displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
-
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
-
-      console.log('Constructed imageUrl:', imageUrl);
       this.imagePathPreview = imageUrl;
     } else {
       this.imagePathPreview = 'not upload yet';
@@ -169,34 +174,52 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
     });
 
     if (this.addGroupForm.valid) {
-      console.log('Form Data:', this.addGroupForm.value);
-      const formData = new FormData();
-
-      Object.keys(this.addGroupForm.value).forEach((key) => {
-        let value = this.addGroupForm.value[key];
-        if (key === 'productId' || key === 'unitId') {
-          value = String(Math.floor(Number(value)));
-        }
-        formData.append(key, value);
-      });
-
-      if (this.ProductImageInput.nativeElement.files[0]) {
-        formData.append(
-          'imageFile',
-          this.ProductImageInput.nativeElement.files[0]
-        );
-      } else if (this.isEdit && this.existingImagePath) {
-        formData.append('existingImagePath', this.existingImagePath);
-      }
-
-      formData.append('addedBy', 'user');
-      formData.append('addedPC', '0.0.0.0');
-
-      for (let pair of (formData as any).entries()) {
-        console.log(`${pair[0]}: `, pair[1]);
-      }
-
+      const formData = this.prepareFormData();
       this.formDataEvent.emit(formData);
+    }
+  }
+
+  prepareFormData(): FormData {
+    console.log('Form Data:', this.addGroupForm.value);
+    const formData = new FormData();
+
+    this.appendFormValues(formData);
+    this.appendImageFile(formData);
+    this.appendAdditionalData(formData);
+    this.logFormData(formData);
+
+    return formData;
+  }
+
+  appendFormValues(formData: FormData) {
+    Object.keys(this.addGroupForm.value).forEach((key) => {
+      let value = this.addGroupForm.value[key];
+      if (key === 'productId' || key === 'unitId') {
+        value = String(Math.floor(Number(value)));
+      }
+      formData.append(key, value);
+    });
+  }
+
+  appendImageFile(formData: FormData) {
+    if (this.ProductImageInput.nativeElement.files[0]) {
+      formData.append(
+        'imageFile',
+        this.ProductImageInput.nativeElement.files[0]
+      );
+    } else if (this.isEdit && this.existingImagePath) {
+      formData.append('existingImagePath', this.existingImagePath);
+    }
+  }
+
+  appendAdditionalData(formData: FormData) {
+    formData.append('addedBy', 'user');
+    formData.append('addedPC', '0.0.0.0');
+  }
+
+  logFormData(formData: FormData) {
+    for (let pair of (formData as any).entries()) {
+      console.log(`${pair[0]}: `, pair[1]);
     }
   }
 }

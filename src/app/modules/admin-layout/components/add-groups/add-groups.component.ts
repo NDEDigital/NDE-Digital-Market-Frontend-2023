@@ -15,49 +15,42 @@ import { TableHeadersService } from 'src/app/services/table-headers.service';
 })
 export class AddGroupsComponent {
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
-  @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
-  @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
-  @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
+  @ViewChild('productGroupImageInput') productImageInput!: ElementRef;
+  @ViewChild('addGroupModalCenterG') addGroupModalCenterG!: ElementRef;
+  @ViewChild('modalGroupImage') modalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+
   headers!: string[];
-  isHovered: any | null = null;
-  btnClick: boolean = false;
-  addbtnClickP: boolean = false;
-  doubleClickData!: any;
-  addGroupForm!: FormGroup;
-  alertMsg = '';
-  showProductDiv: boolean = false;
-  groupList: any;
-  btnIndex = -1;
-  isError: boolean = false;
-  isEditMode = false;
-  existingImagePath: string = '';
-  currentGroup: any = null;
-  activeGroupId: number | null = null;
-  imagePathPreview: string = '';
-  alertTitle: any;
-  addBtnIndex = 5;
+  groupList: any[] = [];
   selectedProductIds: any[] = [];
   selectedProducts1: any[] = [];
+
+  addGroupForm!: FormGroup;
+  currentGroup: any = null;
+
+  alertMsg = '';
+  alertTitle = '';
+  existingImagePath = '';
+  imagePathPreview = '';
+
+  isHovered: any | null = null;
+  btnClick = false;
+  addbtnClickP = false;
+  showProductDiv = false;
+  isError = false;
+  isEditMode = false;
   selectAll = false;
+
+  btnIndex = -1;
+  addBtnIndex = 5;
+  activeGroupId: number | null = null;
+  doubleClickData!: any;
 
   constructor(
     private addProductService: AddProductService,
     private tableHeadersService: TableHeadersService
   ) {}
-
-  toggleAddProductGroupDiv(): void {
-    this.showProductDiv = !this.showProductDiv;
-    this.btnIndex = -1;
-    this.getProductGroup(-1);
-    this.ngOnInit();
-  }
-
-  showApprovalProductGrid(): void {
-    this.showProductDiv = false;
-    this.addGroupForm.reset();
-  }
 
   ngOnInit() {
     this.getProductGroup(-1);
@@ -202,6 +195,7 @@ export class AddGroupsComponent {
       this.showModalAndResetForm();
     }
   }
+
   updateProductGroupStatus(isActive: number): void {
     this.addProductService
       .updateProductGroupStatus(this.selectedProducts1.toString(), isActive)
@@ -222,6 +216,7 @@ export class AddGroupsComponent {
         },
       });
   }
+
   checkboxSelected(event: { groupId: any; event: any }): void {
     const isSelected: boolean = event.event.target.checked;
     if (isSelected && !this.selectedProducts1.includes(event.groupId)) {
