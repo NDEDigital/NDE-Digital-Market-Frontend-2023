@@ -10,7 +10,10 @@ export class StatusButtonComponent {
   @Output() getProductsEvent = new EventEmitter<number>();
   @Output() getProductsFilterEvent = new EventEmitter<number>();
   @Input() SearchTerm!: any;
+  @Input() addBtnIndex!: any;
   @Output() KeyupEvent = new EventEmitter<{ status: any }>();
+  @Output() openAddGroupModalEvent = new EventEmitter<any>();
+
   @Input() addGroupModalCenter!: string;
   @Input() NewButton!: string;
   @Input() ActiveButton!: string;
@@ -34,5 +37,8 @@ export class StatusButtonComponent {
 
   getProductGroupFilter(groupId: number) {
     this.getProductsFilterEvent.emit(groupId);
+  }
+  openAddGroupModal() {
+    this.openAddGroupModalEvent.emit();
   }
 }

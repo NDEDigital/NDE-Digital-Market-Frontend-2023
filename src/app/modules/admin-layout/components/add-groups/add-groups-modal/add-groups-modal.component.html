@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="addGroupModalCenter"
+  #addGroupModalCenterG
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -21,9 +21,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <h2 class="register_title">
               {{
-                isEditMode
-                  ? "Edit Product Groups Name"
-                  : "Add Product Groups Name"
+                isEdit ? "Edit Product Groups Name" : "Add Product Groups Name"
               }}
             </h2>
           </div>
@@ -45,7 +43,7 @@
                 >Product Group Name is required.</span
               >
             </div>
-            <div *ngIf="isEditMode" class="image-preview">
+            <div *ngIf="isEdit" class="image-preview">
               <label> Group Image Preview </label>
               <img
                 [src]="imagePathPreview"
@@ -63,14 +61,12 @@
                 id="productGroupImage"
                 formControlName="productGroupImage"
                 accept="image/jpeg, image/jpg, image/png, image/webp"
-                [class.error]="
-                  isFieldInvalid('productGroupImage') && !isEditMode
-                "
+                [class.error]="isFieldInvalid('productGroupImage') && !isEdit"
                 #productGroupImageInput
               />
               <span
                 class="text-danger"
-                *ngIf="isFieldInvalid('productGroupImage') && !isEditMode"
+                *ngIf="isFieldInvalid('productGroupImage') && !isEdit"
                 >Product Image is required.</span
               >
             </div>
