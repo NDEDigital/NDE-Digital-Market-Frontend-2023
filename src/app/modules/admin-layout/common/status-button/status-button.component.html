@@ -30,7 +30,7 @@
 
   <div *ngIf="AddButtonName">
     <button
-      *ngIf="addBtnIndex != 5"
+      *ngIf="addBtnIndex != 5 && addBtnIndex != 1"
       class="custom-btn addGroup-btn"
       data-bs-toggle="modal"
       [attr.data-bs-target]="addGroupModalCenter"
@@ -42,6 +42,13 @@
       *ngIf="addBtnIndex == 5"
       class="custom-btn addGroup-btn"
       (click)="openAddGroupModal()"
+    >
+      {{ AddButtonName }}
+    </button>
+    <button
+      *ngIf="addBtnIndex == 1"
+      class="custom-btn addGroup-btn"
+      (click)="openAddProductModal()"
     >
       {{ AddButtonName }}
     </button>
