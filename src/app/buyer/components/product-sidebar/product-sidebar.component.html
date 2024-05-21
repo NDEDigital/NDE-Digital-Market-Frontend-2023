@@ -2,7 +2,16 @@
   <p class="parent">Categories</p>
   <div *ngFor="let entry of groupData | keyvalue; let i = index">
     <div *ngIf="showAll || i < initialLimit">
-      <p class="" style="cursor: pointer">{{ entry.value }}</p>
+      <input
+            class="form-check-input"
+            
+            type="radio"
+            name="flexRadioDefault"
+            id="checkbox"
+             (click)="setSelectData(entry.key, entry.value)"
+      [class.active]="entry.value === activeEntry"
+          />
+      <label class="categoryName" style="cursor: pointer">{{ entry.value }}</label>
     </div>
   </div>
   <h5

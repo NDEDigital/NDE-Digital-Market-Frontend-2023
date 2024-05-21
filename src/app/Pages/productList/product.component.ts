@@ -219,6 +219,8 @@ export class ProductComponent {
     //     });
     // }, 5000);
   }
+
+  
   getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
     this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
