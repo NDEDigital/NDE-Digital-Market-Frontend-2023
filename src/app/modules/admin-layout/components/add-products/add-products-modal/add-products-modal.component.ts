@@ -21,25 +21,27 @@ import {
 import { AddProductService } from 'src/app/services/add-product.service';
 
 declare var bootstrap: any;
-
 @Component({
-  selector: 'app-add-groups-modal',
-  templateUrl: './add-groups-modal.component.html',
-  styleUrls: ['./add-groups-modal.component.css'],
+  selector: 'app-add-products-modal',
+  templateUrl: './add-products-modal.component.html',
+  styleUrls: ['./add-products-modal.component.css'],
 })
-export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
-  @ViewChild('addGroupModalCenterG') addGroupModalCenterG!: ElementRef; // Reference to the modal element
+export class AddProductsModalComponent {
+  @ViewChild('addProductModalCenterG') addProductModalCenterG!: ElementRef; // Reference to the modal element
   @Input() isEdit!: boolean; // Indicates if the form is in edit mode
   @Input() doubleClickData!: {}; // Data passed when an item is double clicked for editing
   @Input() IdName!: string; // Unique identifier for the modal
   @Input() addBtnClick!: boolean; // Indicates if the add button was clicked
+  @Input() productGroups!: any;
+  @Input() brands!: any;
+  @Input() units!: any;
   @Output() resetFormEvent = new EventEmitter<any>(); // Event emitted when the form is reset
   @Output() formDataEvent = new EventEmitter<any>(); // Event emitted with form data on form submission
   @Output() formSubmitted = new EventEmitter<any>(); // Event emitted when the form is submitted
   @Output() openModalWithDataEvent = new EventEmitter<any>(); // Event emitted when the modal is opened with data
 
-  @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef; // Reference to the file input element
-  addGroupForm!: FormGroup; // Form group for the modal
+  @ViewChild('ProductImageInput') ProductImageInput!: ElementRef; // Reference to the file input element
+  addProductForm!: FormGroup; // Form group for the modal
 
   imagePathPreview: string = ''; // Image preview path
   existingImagePath: string = ''; // Path to the existing image
@@ -74,18 +76,24 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
 
   initializeForm(): void {
     // Initialize the form group with controls and validators
-    this.addGroupForm = new FormGroup({
-      productGroupName: new FormControl('', Validators.required),
-      productGroupImage: new FormControl('', Validators.required),
-      productGroupPrefix: new FormControl('', Validators.required),
-      productGroupDetails: new FormControl(''),
+    this.addProductForm = new FormGroup({
+      productGroupID: new FormControl('', Validators.required),
+      productName: new FormControl('', Validators.required),
+      productSubName: new FormControl(''),
+      specification: new FormControl('', Validators.required),
+      brandId: new FormControl('', Validators.required),
+      unitId: new FormControl('', Validators.required),
+      productImage: new FormControl('', Validators.required),
     });
   }
 
   initializeModal(): void {
     // Initialize the modal if the modal element is defined
-    if (this.addGroupModalCenterG && this.addGroupModalCenterG.nativeElement) {
-      const modalElement = this.addGroupModalCenterG.nativeElement;
+    if (
+      this.addProductModalCenterG &&
+      this.addProductModalCenterG.nativeElement
+    ) {
+      const modalElement = this.addProductModalCenterG.nativeElement;
       this.createModalInstance(modalElement);
       this.attachModalEventListeners(modalElement);
       this.handleModalDisplay();
@@ -133,44 +141,49 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
     console.log('isEdit', this.isEdit);
     this.modalInstance.hide();
     console.log(this.isEdit);
-    this.addGroupForm.reset();
+    this.addProductForm.reset();
     this.isEdit = false;
     this.addBtnClick = false;
   }
 
-  populateForm(group: any): void {
+  populateForm(product: any): void {
     // Populate the form with the provided data
-    this.addGroupForm.patchValue({
-      productGroupName: group.productGroupName,
-      productGroupPrefix: group.productGroupPrefix,
-      productGroupDetails: group.productGroupDetails,
+    this.addProductForm.patchValue({
+      productGroupID: product.productGroupID,
+      productName: product.productName,
+      productSubName: product.productSubName,
+      specification: product.specification,
+      unitId: product.unitId,
+      brandId: product.brandId,
     });
 
-    this.displayImage(group.imagepath); // Display the image
-    this.existingImagePath = group.imagepath;
+    this.displayImage(product.imagePath); // Display the image
+    this.existingImagePath = product.imagePath;
     console.log('ExistingImagePath :', this.existingImagePath);
   }
 
   displayImage(imagePath: string): void {
     // Display the image preview
+    console.log('imagePath:', imagePath);
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
       this.imagePathPreview = imageUrl;
+      console.log('imagePathPreview :', this.imagePathPreview);
     } else {
       this.imagePathPreview = 'not upload yet';
     }
-    this.addGroupModalCenterG.nativeElement.click();
+    this.addProductModalCenterG.nativeElement.click();
   }
 
   isFieldInvalid(fieldName: string): boolean {
     // Check if a form field is invalid
-    const field = this.addGroupForm.get(fieldName);
+    const field = this.addProductForm.get(fieldName);
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
   updateFormValidators(): void {
     // Update the form validators based on the edit mode
-    const productGroupImageControl = this.addGroupForm.get('productGroupImage');
+    const productGroupImageControl = this.addProductForm.get('productImage');
     if (productGroupImageControl) {
       if (this.isEdit) {
         productGroupImageControl.clearValidators();
@@ -183,12 +196,12 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
 
   onSubmit() {
     // Handle form submission
-    Object.values(this.addGroupForm.controls).forEach((control) => {
+    Object.values(this.addProductForm.controls).forEach((control) => {
       control.markAsTouched();
       control.markAsDirty();
     });
 
-    if (this.addGroupForm.valid) {
+    if (this.addProductForm.valid) {
       const formData = this.prepareFormData();
       this.formDataEvent.emit(formData); // Emit event with form data
     }
@@ -196,7 +209,7 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
 
   prepareFormData(): FormData {
     // Prepare form data for submission
-    console.log('Form Data:', this.addGroupForm.value);
+    console.log('Form Data:', this.addProductForm.value);
     const formData = new FormData();
 
     this.appendFormValues(formData); // Append form values to form data
@@ -209,8 +222,8 @@ export class AddGroupsModalComponent implements AfterViewInit, OnChanges {
 
   appendFormValues(formData: FormData) {
     // Append form values to form data
-    Object.keys(this.addGroupForm.value).forEach((key) => {
-      let value = this.addGroupForm.value[key];
+    Object.keys(this.addProductForm.value).forEach((key) => {
+      let value = this.addProductForm.value[key];
       if (key === 'productId' || key === 'unitId') {
         value = String(Math.floor(Number(value)));
       }

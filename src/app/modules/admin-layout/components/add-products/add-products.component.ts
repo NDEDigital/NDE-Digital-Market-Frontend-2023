@@ -1,6 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { empty } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
 
@@ -9,7 +16,7 @@ import { TableHeadersService } from 'src/app/services/table-headers.service';
   templateUrl: './add-products.component.html',
   styleUrls: ['./add-products.component.css'],
 })
-export class AddProductsComponent implements OnInit {
+export class AddProductsComponent implements OnInit, OnDestroy {
   @ViewChild('ProductImageInput') ProductImageInput!: ElementRef;
   @ViewChild('prdouctExistModalBTN') PrdouctExistModalBTN!: ElementRef;
   @ViewChild('addProductModalCenterG') AddProductModalCenterG!: ElementRef;
@@ -27,386 +34,254 @@ export class AddProductsComponent implements OnInit {
   productList: any;
   btnIndex = -1;
   isHovered: any | null = null;
-
+  btnClick = false;
+  addbtnClickP = false;
   isEditMode = false;
   activeProductId: number | null = null;
   currentProduct: any = null;
   existingImagePath: string = '';
   imagePathPreview: string = '';
+  doubleClickData!: any;
+  addBtnIndex = 1;
+
+  selectedProducts1: any[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private productService: AddProductService,
     private tableHeadersService: TableHeadersService
   ) {}
 
-  toggleAddProductDiv(): void {
-    this.showProductDiv = !this.showProductDiv;
-    this.btnIndex = -1;
-    this.getProducts(-1);
-    this.ngOnInit();
-  }
-
-  showApprovalGrid(): void {
-    this.showProductDiv = false;
-    this.addProductForm.reset();
-  }
-
   ngOnInit() {
-    this.addProductForm = new FormGroup({
-      productGroupID: new FormControl('', Validators.required),
-      productName: new FormControl('', Validators.required),
-      productSubName: new FormControl(''),
-      specification: new FormControl('', Validators.required),
-      brandId: new FormControl('', Validators.required),
-      unitId: new FormControl('', Validators.required),
-      productImage: new FormControl('', Validators.required),
-    });
-
-    // Fetch product groups when the component is initialized
-    this.getProductGroups();
-    this.getBrand();
-    this.getUnit();
-    this.getProducts(-1);
     this.headers = this.tableHeadersService.productTableHeaders;
+    this.getProductGroups();
+    this.getBrands();
+    this.getUnits();
+    this.getProducts(-1);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  getProductGroups(): void {
+    this.productService
+      .getProductGroups()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data: any) => {
+          this.productGroups = data;
+        },
+        (error) => {
+          console.error('Error fetching product groups:', error);
+        }
+      );
+  }
+
+  getBrands(): void {
+    this.productService
+      .getActiveBrands()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data: any) => {
+          this.brands = data;
+          console.log('Brands List:', this.brands);
+        },
+        (error) => {
+          console.error('Error fetching brands:', error);
+        }
+      );
+  }
+
+  getUnits(): void {
+    this.productService
+      .getUnitGroups()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data: any) => {
+          this.units = data;
+        },
+        (error) => {
+          console.error('Error fetching units:', error);
+        }
+      );
+  }
+
+  handleApiResponse(response: any, successMsg: string, status: number): void {
+    setTimeout(() => {
+      this.alertMsg = response.message || successMsg;
+      this.isError = false;
+      this.PrdouctExistModalBTN.nativeElement.click();
+      this.addProductForm.reset();
+    }, 50);
+
+    this.getProducts(status);
+  }
+
+  handleError(error: any, errorMsg: string): void {
+    this.alertMsg = error.error.message || errorMsg;
+    this.isError = true;
+    this.PrdouctExistModalBTN.nativeElement.click();
+  }
+
+  onSubmit(formData: any): void {
+    this.isEditMode
+      ? this.updateProduct(formData)
+      : this.createProduct(formData);
+  }
+
+  createProduct(formData: any): void {
+    this.productService
+      .createProductList(formData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) =>
+          this.handleApiResponse(
+            response,
+            'Product created successfully',
+            this.btnIndex
+          ),
+        error: (error: any) =>
+          this.handleError(error, 'Error creating product'),
+      });
+  }
+
+  updateProduct(formData: any): void {
+    formData.append('ProductId', this.currentProduct.productId);
+    formData.append('UpdatedBy', localStorage.getItem('code') || 'Unknown');
+    formData.append('UpdatedPC', '0.0.0.0');
+
+    this.productService
+      .updateProductList(formData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) =>
+          this.handleApiResponse(
+            response,
+            'Product updated successfully',
+            this.btnIndex
+          ),
+        error: (error: any) =>
+          this.handleError(error, 'Error updating product'),
+      });
+  }
+
+  getProducts(status: any): void {
+    this.btnIndex = status;
+    this.selectAll = false;
+    this.productService
+      .GetProductListByStatus(status)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) => {
+          this.productList = response;
+          this.selectedProducts1 = [];
+        },
+        error: (error: any) =>
+          this.handleError(error, 'Error fetching products'),
+      });
   }
 
   openAddProductModal(): void {
-    this.resetForm();
+    console.log('ashce');
     this.isEditMode = false;
     this.currentProduct = null;
-    this.AddProductModalCenterG.nativeElement.click();
-  }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.addProductForm.get(fieldName);
-    return field ? field.invalid && (field.dirty || field.touched) : false;
+    this.btnClick = true;
+    this.openModalWithData(null);
   }
 
   resetForm(): void {
-    this.addProductForm.reset();
     this.isEditMode = false;
-    this.currentProduct = null;
-    this.activeProductId = null;
-  }
-
-  getProductGroups() {
-    this.productService.getProductGroups().subscribe(
-      (data: any) => {
-        this.productGroups = data;
-        //console.log('Product Groups:', this.productGroups);
-      },
-      (error) => {
-        console.error('Error fetching product groups:', error);
-      }
-    );
-  }
-
-  getBrand() {
-    this.productService.getActiveBrands().subscribe(
-      (data: any) => {
-        this.brands = data;
-        console.log('Brands List:', this.brands);
-      },
-      (error) => {
-        console.error('Error fetching product groups:', error);
-      }
-    );
-  }
-
-  getUnit() {
-    this.productService.getUnitGroups().subscribe(
-      (data: any) => {
-        this.units = data;
-        //console.log('unit Groups:', this.units);
-      },
-      (error) => {
-        console.error('Error fetching product groups:', error);
-      }
-    );
-  }
-
-  onSubmit(): void {
-    Object.values(this.addProductForm.controls).forEach((control) => {
-      control.markAsTouched();
-      control.markAsDirty();
-    });
-
-    if (this.addProductForm.valid) {
-      // Create FormData object
-      const formData = new FormData();
-
-      Object.keys(this.addProductForm.value).forEach((key) => {
-        let value = this.addProductForm.value[key];
-        if (key === 'productId' || key === 'unitId') {
-          value = String(Math.floor(Number(value)));
-          //console.log(value);
-        }
-        formData.append(key, value);
-      });
-
-      formData.append(
-        'imageFile',
-        this.ProductImageInput.nativeElement.files[0]
-      );
-
-      // Append additional fields
-      formData.append('addedBy', 'user');
-      formData.append('addedPC', '0.0.0.0');
-
-      // for (let pair of (formData as any).entries()) {
-      //   //console.log(`${pair[0]}: `, pair[1]);
-      // }
-
-      if (!this.isEditMode) {
-        this.productService.createProductList(formData).subscribe({
-          next: (response: any) => {
-            //console.log(response);
-            this.alertMsg = response.message;
-            this.isError = false; // Set isError to false for a success message
-            setTimeout(() => {
-              this.PrdouctExistModalBTN.nativeElement.click();
-              this.addProductForm.reset();
-              this.toggleAddProductDiv();
-            }, 50);
-            this.getProducts(-1);
-          },
-          error: (error: any) => {
-            //console.log(error);
-            this.alertMsg = error.error.message;
-            this.isError = true; // Set isError to true for an error message
-            this.PrdouctExistModalBTN.nativeElement.click();
-          },
-        });
-      }
-
-      if (this.isEditMode) {
-        // console.log('this.isEditMode: ', this.isEditMode);
-
-        let updateByUser = localStorage.getItem('code');
-        // console.log(updateByUser, 'code...');
-        formData.append('ProductId', this.currentProduct.productId);
-        if (updateByUser !== null) {
-          formData.append('UpdatedBy', updateByUser);
-        } else {
-          console.error('Update by code not found in localStorage');
-        }
-        formData.append('UpdatedPC', '0.0.0.0');
-
-        // Your logic to handle form submission in edit mode
-        // ...
-
-        this.productService.updateProductList(formData).subscribe({
-          next: (response: any) => {
-            // Handle successful response here
-            // console.log('Update successful:', response);
-            this.alertMsg = 'Product  updated successfully';
-            this.isEditMode = false;
-            // Optionally, reset the form and refresh the group list
-            this.addProductForm.reset();
-            this.getProducts(1);
-
-            // Close the modal if you have one open
-            this.PrdouctExistModalBTN.nativeElement.click();
-          },
-          error: (error: any) => {
-            // Handle error response here
-            console.error('Error updating product :', error);
-            this.alertMsg = error.error.message || 'Error updating product';
-            this.isError = true;
-            this.isEditMode = false;
-
-            // Show the error modal or message
-            this.PrdouctExistModalBTN.nativeElement.click();
-          },
-        });
-      }
-    } else {
-      // console.log('form is not valid');
-    }
-  }
-  selectedProducts1: any[] = [];
-  getProducts(status: any) {
-    console.log(status);
-    console.log(this.btnIndex);
-    this.btnIndex = status;
-    this.selectAll = false;
-    // this.selectedProducts1.length=0;
-    this.productService.GetProductListByStatus(status).subscribe({
-      next: (response: any) => {
-        // console.log(response);
-        this.productList = response;
-        this.selectedProducts1.length = 0;
-      },
-      error: (error: any) => {
-        //console.log(error);
-        this.alertMsg = error.error.message;
-      },
-    });
-  }
-
-  updateFormValidators(): void {
-    // Check if the control exists
-    const productImageControl = this.addProductForm.get('productImage');
-    if (productImageControl) {
-      if (this.isEditMode) {
-        productImageControl.clearValidators();
-      } else {
-        productImageControl.setValidators(Validators.required);
-      }
-      productImageControl.updateValueAndValidity();
-    }
+    this.addbtnClickP = false;
   }
 
   openModalWithData(product: any): void {
-    this.isEditMode = true;
-    this.updateFormValidators();
-    // console.log('productId', product);
-    this.populateForm(product);
+    this.isEditMode = !!product;
     this.currentProduct = product;
-
-    //Ensure the modal is opened before calling displayImage
-
-    this.displayImage(product.imagePath);
-    this.activeProductId = product.productId;
-  }
-
-  populateForm(product: any): void {
-    this.addProductForm.patchValue({
-      productGroupID: product.productGroupID,
-      productName: product.productName,
-      productSubName: product.productSubName,
-      specification: product.specification,
-      unitId: product.unitId,
-      brandId: product.brandId,
-    });
-
-    this.displayImage(product.imagepath);
-    this.existingImagePath = product.imagepath;
-  }
-
-  displayImage(imagePath: string): void {
-    // console.log('Received imagePath:', imagePath);
-
-    if (imagePath) {
-      const imageUrl = '/asset' + imagePath.split('asset')[1];
-
-      // console.log('Constructed imageUrl:', imageUrl);
-      this.imagePathPreview = imageUrl;
-    } else {
-      this.imagePathPreview = 'not upload yet';
+    this.btnClick = true;
+    this.addbtnClickP = !product;
+    console.log(product);
+    if (product) {
+      this.doubleClickData = product;
+      this.activeProductId = product.productGroupID;
     }
-    this.AddProductModalCenterG.nativeElement.click();
   }
 
-  updateIsActive(event: any) {
-    console.log('for type', event);
-
-    console.log(event.isActive, 'isActive', event.productGroupId, 'productID');
+  updateIsActive(event: any): void {
+    const { isActive, productGroupId } = event;
     this.productService
-      .updateProductStatus([event.productGroupId], event.isActive)
+      .updateProductStatus([productGroupId], isActive)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: any) => {
-          // console.log(response);
-          this.getProducts(event.isActive);
-          this.btnIndex = event.isActive;
-          this.PrdouctExistModalBTN.nativeElement.click();
-          this.alertMsg = event.isActive
-            ? 'Product is  Activated!'
-            : 'Product is Deactivated!';
-          this.alertTitle = event.isActive ? 'Activated!' : 'Deactivated!';
+          this.handleProductStatusUpdate(response, isActive);
         },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-        },
+        error: (error: any) =>
+          this.handleError(error, 'Error updating product status'),
       });
   }
+
   selectedProductIds: any[] = [];
 
   selectAll = false;
-  toggleAllCheckboxes() {
-    // console.log("all seelcted",)
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-
-    // Toggle the state of all checkboxes based on the "Select All" checkbox
+  toggleAllCheckboxes(): void {
     this.productList.forEach(
       (product: { isSelected: boolean; productId: any }) => {
         product.isSelected = this.selectAll;
-
-        // Update the selectedProducts array based on the state of each checkbox
-        if (
-          this.selectAll &&
-          !this.selectedProducts1.includes(product.productId)
-        ) {
-          this.selectedProducts1.push(product.productId);
-        } else if (
-          !this.selectAll &&
-          this.selectedProducts1.includes(product.productId)
-        ) {
-          // Remove the deselected product from the list
-          this.selectedProducts1 = this.selectedProducts1.filter(
-            (id) => id !== product.productId
-          );
-          // this.selectAll=false;
-        }
+        this.updateSelectedProducts(product.productId, this.selectAll);
       }
     );
-
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-    // console.log("this.selectedProducts1.length",this.productList.length);
   }
 
-  chageActiveInactive(isActive: any) {
+  chageActiveInactive(isActive: any): void {
     if (this.selectedProducts1.length > 0) {
       this.productService
         .updateProductStatus(this.selectedProducts1, isActive)
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (response: any) => {
-            // console.log(response);
-            this.getProducts(isActive);
-            this.btnIndex = isActive;
-            this.PrdouctExistModalBTN.nativeElement.click();
-            this.alertMsg = isActive
-              ? 'Product is  Activated!'
-              : 'Product is Deactivated!';
-            this.alertTitle = isActive ? 'Activatad!' : 'Deactivated!';
-            //         this.selectAll = false;
-
-            this.selectAll = false;
-            this.selectedProducts1.length = 0;
-            // console.log("product id's are",this.selectedProductIds)
-          },
-          error: (error: any) => {
-            //console.log(error);
-            this.alertMsg = error.error.message;
-          },
+          next: (response: any) =>
+            this.handleProductStatusUpdate(response, isActive),
+          error: (error: any) =>
+            this.handleError(error, 'Error updating products status'),
         });
     } else {
-      this.PrdouctExistModalBTN.nativeElement.click();
-      this.alertTitle = 'No Selection!';
-
-      this.alertMsg = 'No Product is selected';
+      this.showAlert('No Product is selected', 'No Selection!');
     }
   }
 
-  checkboxSelected(event: { productId: any; event: any }) {
+  checkboxSelected(event: { productId: any; event: any }): void {
     const isSelected: boolean = event.event.target.checked;
-    console.log(event);
+    this.updateSelectedProducts(event.productId, isSelected);
+    this.allSelectedCheckbox.nativeElement.checked = false;
+  }
+
+  private updateSelectedProducts(productId: any, isSelected: boolean): void {
     if (isSelected) {
-      // Add the selected product to the list
-      this.selectedProducts1.push(event.productId);
-    } else if (!isSelected) {
-      // Remove the deselected product from the list
+      this.selectedProducts1.push(productId);
+    } else {
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== event.productId
+        (id) => id !== productId
       );
     }
-    this.allSelectedCheckbox.nativeElement.checked = false;
-    // Update the selectedProductIds array with the current list of selected product IDs
-    this.selectedProductIds = this.selectedProducts1.slice();
-    if (this.selectedProducts1.length === this.productList.length) {
-      this.allSelectedCheckbox.nativeElement.checked = true;
-    }
+    this.allSelectedCheckbox.nativeElement.checked =
+      this.selectedProducts1.length === this.productList.length;
+  }
+
+  showAlert(message: string, title: string): void {
+    this.alertMsg = message;
+    this.alertTitle = title;
+    this.PrdouctExistModalBTN.nativeElement.click();
+  }
+
+  handleProductStatusUpdate(response: any, isActive: number): void {
+    this.getProducts(isActive);
+    this.btnIndex = isActive;
+    this.showAlert(
+      isActive ? 'Product is Activated!' : 'Product is Deactivated!',
+      isActive ? 'Activated!' : 'Deactivated!'
+    );
+    this.selectAll = false;
+    this.selectedProducts1 = [];
   }
 }
