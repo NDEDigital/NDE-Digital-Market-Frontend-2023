@@ -1,389 +1,273 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CompanyService } from 'src/app/services/company.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from 'src/app/services/destroy.service';
 import { AddProductService } from 'src/app/services/add-product.service';
-import { combineAll } from 'rxjs';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
+import { DestroyService } from 'src/app/services/destroy.service';
+
+// Interface for product status update
+interface ProductStatusUpdate {
+  userId: any;
+  companyCode: any;
+  productId: any;
+  status: any;
+}
+
+// Interface for API response
+interface ApiResponse {
+  message: string;
+}
+
+// Enum for product status
+enum ProductStatus {
+  Approved = 'Approved',
+  Pending = 'Pending',
+  Rejected = 'Rejected',
+}
+
 @Component({
   selector: 'app-product-approval',
   templateUrl: './product-approval.component.html',
   styleUrls: ['./product-approval.component.css'],
 })
-export class ProductApprovalComponent {
+export class ProductApprovalComponent implements OnInit {
+  // ViewChild decorators to access DOM elements
+  @ViewChild('allselected', { static: true })
+  allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+  @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
+
+  // Component properties
   btnIndex = -1;
   productsData: any;
-  imagePath = '';
   headers!: string[];
+  imagePath = '';
   imageTitle = 'No Data Found!';
   selectedCompanyCodeValues: { [key: string]: number } = {};
   isHovered: any | null = null;
-
   showModal = false;
   selectedProduct: any = null;
-
   alertTitle: string = '';
   alertMsg: string = '';
-
-  isApproved: boolean = false;
-  isRejected: boolean = false;
-
-  searchTerm: string = '';
+  isApproved = false;
+  isRejected = false;
+  searchTerm = '';
   filteredProductsData: any;
+  selectedProducts: any[] = [];
+  selectedProductIds: any[] = [];
+  selectedProducts1: any[] = [];
+  selectAll = false;
+  loading = false;
 
-  @ViewChild('allselected', { static: true })
-  allSelectedCheckbox!: ElementRef<HTMLInputElement>;
-
-  @ViewChild('msgModalBTN') msgModalBTN!: ElementRef;
+  // Constructor injecting necessary services
   constructor(
     private productService: AddProductService,
-    private tableHeadersService: TableHeadersService
+    private tableHeadersService: TableHeadersService,
+    private destroyService: DestroyService
   ) {}
 
-  ngOnInit() {
-    this.getData(this.btnIndex);
+  // OnInit lifecycle hook to initialize component
+  ngOnInit(): void {
+    // Setting headers for the table
     this.headers = this.tableHeadersService.productApprovalTableHeaders;
+    // Fetching initial data
+    this.getData(this.btnIndex);
   }
 
-  getData(status: any) {
+  // Method to fetch product data based on status
+  getData(status: any): void {
     this.btnIndex = status;
     this.allSelectedCheckbox.nativeElement.checked = false;
-    if (this.btnIndex == -1) {
-      status = 'Pending';
-    } else if (this.btnIndex == 1) {
-      status = 'Approved';
-    } else {
-      status = 'Rejected';
-    }
-    console.log(status);
+    status = this.resolveStatus(status);
     this.selectedProducts1.length = 0;
-    this.productService.getProductData(status).subscribe({
-      next: (response: any) => {
-        // console.log(response);
+    this.handleApiCall(
+      this.productService.getProductData(status),
+      (response: any) => {
         this.productsData = response;
-        //console.log(this.productsData);
         this.filteredProductsData = response;
       },
-      error: (error: any) => {
-        //console.log(error);
-      },
-    });
+      'Error fetching product data'
+    );
   }
 
-  showDetails(product: any) {
+  // Method to show product details in a modal
+  showDetails(product: any): void {
     this.selectedProduct = product;
     this.showModal = true;
     console.log('click', product.productId);
   }
 
-  showImage(path: any, title: any) {
-    //console.log(path, title);
+  // Method to show product image
+  showImage(path: string, title: string): void {
     this.imagePath = path.split('src')[1];
     this.imageTitle = title;
   }
-  // updateProduct(UserId: any, CompanyCode: any, ProductId: any, Status: any) {
-  //   //console.log(UserId, CompanyCode, ProductId, Status);
-  //   const productStatus = {
-  //     UserId,
-  //     CompanyCode,
-  //     ProductId,
-  //     Status,
-  //   };
-  //   console.log("productStatus",productStatus);
-  //   console.log(Status, 'Status');
 
-  //   this.productService.updateProduct([productStatus],this.status).subscribe({
-  //     next: (response: any) => {
-  //       //console.log(response);
-  //       // this.productsData = response;
-  //       // //console.log(this.productsData);
-  //       // if ((this.btnIndex = -1)) {
-  //       //   this.getData('Pending');
-  //       // } else if ((this.btnIndex = 1)) {
-  //       //   this.getData('Approved');
-  //       // } else {
-  //       //   this.getData('Rejected');
-  //       // }
-  //       this.getData(Status);
-  //       if (Status == 'Approved') {
-  //         this.btnIndex = 1;
-  //         this.isApproved = true;
-  //         this.isRejected = false;
-  //         this.alertTitle = 'Success!';
-  //         this.alertMsg = 'Product is approved sucessfully.';
-  //       }
-  //       if (Status == 'Rejected') {
-  //         this.btnIndex = 0;
-  //         this.isApproved = false;
-  //         this.isRejected = true;
-  //         this.alertTitle = 'Rejected!';
-  //         this.alertMsg = 'Product is rejected.';
-  //       }
-
-  //       this.msgModalBTN.nativeElement.click();
-  //     },
-  //     error: (error: any) => {
-  //       //console.log(error);
-  //     },
-  //   });
-  // }
-  updateProduct(event: {
-    userId: any;
-    companyCode: any;
-    productId: any;
-    status: any;
-  }) {
+  // Method to update product status
+  updateProduct(event: ProductStatusUpdate): void {
     const { userId, companyCode, productId, status } = event;
-    console.log(event.userId, event.companyCode, event.productId, event.status);
-    const productStatus = {
-      userId,
-      companyCode,
-      productId,
-      status,
-    };
-    console.log(status, 'Status');
+    const productStatus = { userId, companyCode, productId, status };
     this.selectedProducts = [{ ...productStatus }];
-    this.productService.updateProduct(this.selectedProducts).subscribe({
-      next: (response: any) => {
-        //console.log(response);
-        // this.productsData = response;
-        // //console.log(this.productsData);
-        // if ((this.btnIndex = -1)) {
-        //   this.getData('Pending');
-        // } else if ((this.btnIndex = 1)) {
-        //   this.getData('Approved');
-        // } else {
-        //   this.getData('Rejected');
-        // }
-        this.getData(status);
-        if (status == 'Approved') {
-          this.btnIndex = 1;
-          this.isApproved = true;
-          this.isRejected = false;
-          this.alertTitle = 'Success!';
-          this.alertMsg = 'Product is approved sucessfully.';
-        }
-        if (status == 'Rejected') {
-          this.btnIndex = 0;
-          this.isApproved = false;
-          this.isRejected = true;
-          this.alertTitle = 'Rejected!';
-          this.alertMsg = 'Product is Rejected.';
-        }
-
+    this.handleApiCall(
+      this.productService.updateProduct(this.selectedProducts),
+      (response: any) => {
+        this.handleApiResponse(
+          response,
+          'Product status updated successfully',
+          status
+        );
         this.msgModalBTN.nativeElement.click();
+        this.handleStatusChange(status);
       },
-      error: (error: any) => {
-        //console.log(error);
-      },
-    });
+      'Error updating product'
+    );
   }
 
-  // updateCompany(companyCode: any, Isactive: any) {
-  //   //console.log(companyCode, Isactive);
-  //   // const selectedCompany = this.productsData.find(
-  //   //   (cmp: any) => cmp.companyCode === companyCode
-  //   // );
-  //   // if (selectedCompany) {
-  //   //   this.selectedCompanyCodeValue = selectedCompany.companyCode;
-  //   //   //console.log(
-  //   //     'Selected Company Code Value:',
-  //   //     this.selectedCompanyCodeValue
-  //   //   );
-  //   // }
-  //   //console.log(
-  //     'Selected Company Code Value:',
-  //     this.selectedCompanyCodeValues[companyCode]
-  //   );
-  //   const cmp = {
-  //     companyCode: companyCode,
-  //     isActive: Isactive,
-  //     maxUser: this.selectedCompanyCodeValues[companyCode] || 0,
-  //   };
-  //   // this.companyService.UpdateCompany(cmp).subscribe({
-  //   //   next: (response: any) => {
-  //   //     //console.log(response);
-  //   //     this.getData();
-  //   //   },
-  //   //   error: (error: any) => {
-  //   //     //console.log(error);
-  //   //   },
-  //   // });
-  // }
-
-  changeStatus(Status: any) {
-    this.selectedProducts = this.selectedProducts1;
-    console.log('the data are', this.selectedProducts);
-
-    if (this.selectedProducts.length > 0) {
-      this.selectedProducts.forEach((product) => {
-        product.status = Status;
+  // Method to change the status of selected products
+  changeStatus(status: any): void {
+    if (this.selectedProducts1.length > 0) {
+      this.selectedProducts1.forEach((product) => {
+        product.status = status;
       });
-      // console.log("the data are after staatsu",this.selectedProducts);
-      this.productService.updateProduct(this.selectedProducts).subscribe({
-        next: (response: any) => {
-          // console.log(response);
-          // this.getProducts(isActive);
-          // this.btnIndex = isActive;
-          // this.PrdouctExistModalBTN.nativeElement.click();
-
-          //         this.selectAll = false;
-
-          this.selectAll = false;
-          this.selectedProducts.length = 0;
-          this.selectedProducts1.length = 0;
-          // console.log("product id's are",this.selectedProductIds)
-          this.getData(Status);
-          if (Status == 'Approved') {
-            this.btnIndex = 1;
-            this.isApproved = true;
-            this.isRejected = false;
-            this.alertTitle = 'Success!';
-            this.alertMsg = 'Product is approved sucessfully.';
-          }
-          if (Status == 'Rejected') {
-            this.btnIndex = 0;
-            this.isApproved = false;
-            this.isRejected = true;
-            this.alertTitle = 'Rejected!';
-            this.alertMsg = 'Product is rejected.';
-          }
-
+      this.handleApiCall(
+        this.productService.updateProduct(this.selectedProducts1),
+        (response: any) => {
+          this.handleApiResponse(
+            response,
+            'Product statuses updated successfully',
+            status
+          );
           this.msgModalBTN.nativeElement.click();
+          this.handleStatusChange(status);
         },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-        },
-      });
+        'Error updating product statuses'
+      );
     } else {
-      this.msgModalBTN.nativeElement.click();
-      this.alertTitle = 'No Selection!';
-
-      this.alertMsg = 'No Product is selected';
+      this.showNoSelectionAlert();
     }
   }
-  selectedProducts: any[] = [];
 
-  selectedProductIds: any[] = [];
-  selectedProducts1: any[] = [];
-  selectAll = false;
-  // toggleAllCheckboxes() {
-  //   console.log("all products",this.selectedProducts);
-
-  //   // Toggle the state of all checkboxes based on the "Select All" checkbox
-  //   this.productsData.forEach(
-  //     (product: { isSelected: boolean, productId: any, userId: any, companyCode: any }) => {
-  //       product.isSelected = this.selectAll;
-
-  //       // Update the selectedProducts array based on the state of each checkbox
-  //       if (this.selectAll && !this.isSelected(product.productId)) {
-  //         this.selectedProducts.push({
-  //           userId: product.userId,
-  //           companyCode: product.companyCode,
-  //           productId: product.productId
-  //         });
-  //       } else if (!this.selectAll && this.isSelected(product.productId)) {
-  //         // Remove the deselected product from the list
-  //         this.selectedProducts = this.selectedProducts.filter(
-  //           (selectedProduct) => selectedProduct.productId !== product.productId
-  //         );
-  //       }
-  //     }
-  //   );
-  // }
-
-  toggleAllCheckboxes() {
-    // console.log("all seelcted",this.selectAll)
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-
-    // console.log(this.productsData,"ijhnon'lonsf'amn");
-
-    if (this.selectAll === true) {
-      this.selectedProducts1.length = 0;
-
-      this.productsData.forEach((product: any) => {
-        product.isSelected = this.selectAll;
+  // Method to toggle all checkboxes for product selection
+  toggleAllCheckboxes(): void {
+    this.selectedProducts1.length = 0;
+    this.productsData.forEach((product: any) => {
+      product.isSelected = this.selectAll;
+      if (this.selectAll) {
         this.selectedProducts1.push({
           userId: product.userId,
           companyCode: product.companyCode,
           productId: product.productId,
         });
-      });
-
-      // console.log(this.productsData,"asfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsfsf");
-    } else {
-      this.selectedProducts1.length = 0;
-      this.productsData.forEach((product: any) => {
-        product.isSelected = this.selectAll;
-      });
-    }
-
-    //     console.log('Selected Product IDs:', this.selectedProducts1);
-    //     console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-    // console.log("this.productsData.length",this.productsData.length);
+      }
+    });
   }
 
-  // checkboxSelected(userId: any, companyCode: any, productId: any, event: any) {
-  //   const isSelected: boolean = event.target.checked;
+  // Method to handle individual product selection via checkboxes
 
-  //   if (isSelected && !this.isSelected(productId)) {
-  //     // Add the selected product to the list
-  //     this.selectedProducts.push({ userId, companyCode, productId });
-  //   } else if (!isSelected && this.isSelected(productId)) {
-  //     // Remove the deselected product from the list
-  //     this.selectedProducts = this.selectedProducts.filter(
-  //       (product) => product.productId !== productId
-  //     );
-  //   }
-
-  //   console.log(this.selectedProducts, "selectedProducts");
-  // }
-
-  // isSelected(productId: any): boolean {
-  //   return this.selectedProducts.some((product) => product.productId === productId);
-  // }
   checkboxSelected(event: {
     userId: any;
     companyCode: any;
     productId: any;
     event: Event;
-  }) {
+  }): void {
     const { userId, companyCode, productId, event: nativeEvent } = event;
     const isSelected: boolean = (nativeEvent.target as HTMLInputElement)
       .checked;
-    console.log(event);
     if (isSelected) {
-      // Add the selected product to the list
       this.selectedProducts1.push({ userId, companyCode, productId });
     } else {
-      // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
         (product) =>
-          !(
-            product.productId === productId &&
-            product.userId === userId &&
-            product.companyCode === companyCode
-          )
+          product.productId !== productId ||
+          product.userId !== userId ||
+          product.companyCode !== companyCode
       );
     }
-    this.allSelectedCheckbox.nativeElement.checked = false;
-    // Update the selectedProductIds array with the current list of selected product IDs
-    this.selectedProductIds = this.selectedProducts1.slice();
-
-    if (this.selectedProducts1.length === this.productsData.length) {
-      this.allSelectedCheckbox.nativeElement.checked = true;
-    }
-
-    console.log(this.selectedProducts1, 'selectedProducts');
+    this.allSelectedCheckbox.nativeElement.checked =
+      this.selectedProducts1.length === this.productsData.length;
   }
 
-  filterProducts(data: any) {
-    console.log(data.status);
-    if (!data.status) {
-      this.filteredProductsData = this.productsData;
+  // Method to filter products based on search criteria
+  filterProducts(data: any): void {
+    this.filteredProductsData = data.status
+      ? this.productsData.filter((product: any) =>
+          product.companyName.toLowerCase().includes(data.status.toLowerCase())
+        )
+      : this.productsData;
+  }
+
+  // Helper method to resolve status from enum or status code
+  private resolveStatus(status: any): string {
+    const APPROVED_STATUS = 1;
+    const PENDING_STATUS = -1;
+    if (status == APPROVED_STATUS || status == ProductStatus.Approved) {
+      return ProductStatus.Approved;
+    } else if (status == PENDING_STATUS || status == ProductStatus.Pending) {
+      return ProductStatus.Pending;
     } else {
-      this.filteredProductsData = this.productsData.filter((product: any) =>
-        product.companyName.toLowerCase().includes(data.status.toLowerCase())
-      );
+      return ProductStatus.Rejected;
     }
+  }
+  // Method to handle status change logic
+  private handleStatusChange(status: string): void {
+    if (status == 'Approved') {
+      this.btnIndex = 1;
+      this.isApproved = true;
+      this.isRejected = false;
+      this.alertTitle = 'Success!';
+      this.alertMsg = 'Product is approved successfully.';
+    } else if (status == 'Rejected') {
+      this.btnIndex = 0;
+      this.isApproved = false;
+      this.isRejected = true;
+      this.alertTitle = 'Rejected!';
+      this.alertMsg = 'Product is rejected.';
+    }
+  }
+  // Method to show alert when no product is selected
+  private showNoSelectionAlert(): void {
+    this.alertTitle = 'No Selection!';
+    this.alertMsg = 'No Product is selected';
+    this.msgModalBTN.nativeElement.click();
+  }
+
+  // Handle API response success
+  private handleApiResponse(
+    response: ApiResponse,
+    successMsg: string,
+    status: number
+  ): void {
+    setTimeout(() => {
+      this.alertMsg = response.message || successMsg;
+      this.isApproved = false;
+      this.msgModalBTN.nativeElement.click();
+    }, 50);
+
+    this.getData(status);
+  }
+
+  // Handle API response error
+  private handleError(error: any, errorMsg: string): void {
+    this.alertMsg = error.error.message || errorMsg;
+    this.isRejected = true;
+    this.msgModalBTN.nativeElement.click();
+  }
+
+  // Handle API call with success and error handling
+  private handleApiCall<T>(
+    observable: Observable<T>,
+    successCallback: (data: T) => void,
+    errorMsg: string
+  ): void {
+    this.loading = true;
+    observable.pipe(takeUntilDestroyed(this.destroyService)).subscribe({
+      next: (data: T) => {
+        this.loading = false;
+        successCallback(data);
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this.handleError(error, errorMsg);
+      },
+    });
   }
 }
