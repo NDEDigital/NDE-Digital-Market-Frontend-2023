@@ -125,15 +125,21 @@ export class ProductApprovalComponent {
   //     },
   //   });
   // }
-  updateProduct(UserId: any, CompanyCode: any, ProductId: any, Status: any) {
-    //console.log(UserId, CompanyCode, ProductId, Status);
+  updateProduct(event: {
+    userId: any;
+    companyCode: any;
+    productId: any;
+    status: any;
+  }) {
+    const { userId, companyCode, productId, status } = event;
+    console.log(event.userId, event.companyCode, event.productId, event.status);
     const productStatus = {
-      UserId,
-      CompanyCode,
-      ProductId,
-      Status,
+      userId,
+      companyCode,
+      productId,
+      status,
     };
-    console.log(Status, 'Status');
+    console.log(status, 'Status');
     this.selectedProducts = [{ ...productStatus }];
     this.productService.updateProduct(this.selectedProducts).subscribe({
       next: (response: any) => {
@@ -147,15 +153,15 @@ export class ProductApprovalComponent {
         // } else {
         //   this.getData('Rejected');
         // }
-        this.getData(Status);
-        if (Status == 'Approved') {
+        this.getData(status);
+        if (status == 'Approved') {
           this.btnIndex = 1;
           this.isApproved = true;
           this.isRejected = false;
           this.alertTitle = 'Success!';
           this.alertMsg = 'Product is approved sucessfully.';
         }
-        if (Status == 'Rejected') {
+        if (status == 'Rejected') {
           this.btnIndex = 0;
           this.isApproved = false;
           this.isRejected = true;
@@ -335,9 +341,16 @@ export class ProductApprovalComponent {
   // isSelected(productId: any): boolean {
   //   return this.selectedProducts.some((product) => product.productId === productId);
   // }
-  checkboxSelected(userId: any, companyCode: any, productId: any, event: any) {
-    const isSelected: boolean = event.target.checked;
-
+  checkboxSelected(event: {
+    userId: any;
+    companyCode: any;
+    productId: any;
+    event: Event;
+  }) {
+    const { userId, companyCode, productId, event: nativeEvent } = event;
+    const isSelected: boolean = (nativeEvent.target as HTMLInputElement)
+      .checked;
+    console.log(event);
     if (isSelected) {
       // Add the selected product to the list
       this.selectedProducts1.push({ userId, companyCode, productId });
@@ -359,6 +372,7 @@ export class ProductApprovalComponent {
     if (this.selectedProducts1.length === this.productsData.length) {
       this.allSelectedCheckbox.nativeElement.checked = true;
     }
+
     console.log(this.selectedProducts1, 'selectedProducts');
   }
 

@@ -6,10 +6,10 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from 'src/app/services/destroy.service';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
-
+import { DestroyService } from 'src/app/services/destroy.service';
 interface Product {
   productId: number;
   productGroupID: number;
@@ -24,8 +24,9 @@ interface ApiResponse {
   selector: 'app-add-products',
   templateUrl: './add-products.component.html',
   styleUrls: ['./add-products.component.css'],
+  providers: [DestroyService],
 })
-export class AddProductsComponent implements OnInit, OnDestroy {
+export class AddProductsComponent implements OnInit {
   // ViewChild for accessing DOM elements
   @ViewChild('ProductImageInput') ProductImageInput!: ElementRef;
   @ViewChild('prdouctExistModalBTN') PrdouctExistModalBTN!: ElementRef;
@@ -63,11 +64,11 @@ export class AddProductsComponent implements OnInit, OnDestroy {
   selectedProductIds: any[] = [];
 
   selectAll = false;
-  private destroy$ = new Subject<void>();
   loading = false;
   constructor(
     private productService: AddProductService,
-    private tableHeadersService: TableHeadersService
+    private tableHeadersService: TableHeadersService,
+    private destroyService: DestroyService
   ) {}
 
   ngOnInit() {
@@ -76,16 +77,15 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     this.fetchInitialData();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+  // Fetch initial data for product groups, brands, and units
   private fetchInitialData(): void {
     this.getProductGroups();
     this.getBrands();
     this.getUnits();
     this.getProducts(-1);
   }
+
+  // Generic method to fetch data using a provided function
   private getData<T>(
     fetchFunction: () => Observable<T>,
     successCallback: (data: T) => void,
@@ -93,6 +93,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
   ) {
     this.handleApiCall(fetchFunction(), successCallback, errorMsg);
   }
+
   // Fetch product groups
   getProductGroups(): void {
     this.getData(
@@ -137,12 +138,13 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Submit form data
+  // Submit form data  (create or update product)
   onSubmit(formData: any): void {
     this.isEditMode
       ? this.updateProduct(formData)
       : this.createProduct(formData);
   }
+
   // Create a new product
   createProduct(formData: FormData): void {
     this.handleApiCall(
@@ -194,6 +196,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
       this.updateSelectedProducts(product.productId, this.selectAll);
     });
   }
+
   // Change status (active/inactive) for selected products
   chageActiveInactive(isActive: boolean): void {
     if (this.selectedProducts1.length > 0) {
@@ -210,6 +213,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
       this.showAlert('No Product is selected', 'No Selection!');
     }
   }
+
   // Handle checkbox selection
   checkboxSelected(event: { productId: number; event: Event }): void {
     const isSelected: boolean = (event.event.target as HTMLInputElement)
@@ -225,11 +229,13 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     this.btnClick = true;
     this.openModalWithData(null);
   }
+
   // Reset the form
   resetForm(): void {
     this.isEditMode = false;
     this.addbtnClickP = false;
   }
+
   // Open modal with product data for editing
   openModalWithData(product: any): void {
     this.isEditMode = !!product;
@@ -242,6 +248,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
       this.activeProductId = product.productGroupID;
     }
   }
+
   // Update selected products list based on checkbox state
   private updateSelectedProducts(productId: number, isSelected: boolean): void {
     if (isSelected) {
@@ -255,13 +262,14 @@ export class AddProductsComponent implements OnInit, OnDestroy {
       this.selectedProducts1.length === this.productList.length;
   }
 
+  // Handle API call with success and error handling
   private handleApiCall<T>(
     observable: Observable<T>,
     successCallback: (data: T) => void,
     errorMsg: string
   ): void {
     this.loading = true;
-    observable.pipe(takeUntil(this.destroy$)).subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyService)).subscribe({
       next: (data: T) => {
         this.loading = false;
         successCallback(data);
@@ -272,6 +280,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
       },
     });
   }
+
   // Show alert modal with a message and title
   showAlert(message: string, title: string): void {
     this.alertMsg = message;
@@ -279,7 +288,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     this.PrdouctExistModalBTN.nativeElement.click();
   }
 
-  //handle Product Status
+  // Handle product status update and refresh product list
   handleProductStatusUpdate(response: ApiResponse, isActive: number): void {
     this.getProducts(isActive);
     this.btnIndex = isActive;
@@ -305,6 +314,7 @@ export class AddProductsComponent implements OnInit, OnDestroy {
 
     this.getProducts(status);
   }
+
   // Handle API response error
   handleError(error: any, errorMsg: string): void {
     this.alertMsg = error.error.message || errorMsg;

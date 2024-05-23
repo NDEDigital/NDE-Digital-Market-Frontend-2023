@@ -23,6 +23,8 @@ import { ProductGridViewComponent } from './components/add-products/product-grid
 import { CompanyApprovalGridViewComponent } from './components/company-approval/company-approval-grid-view/company-approval-grid-view.component';
 import { BannerApprovalGridViewComponent } from './components/banner-approval/banner-approval-grid-view/banner-approval-grid-view.component';
 import { AddProductsModalComponent } from './components/add-products/add-products-modal/add-products-modal.component';
+import { ProductApprovalGridViewComponent } from './components/product-approval/product-approval-grid-view/product-approval-grid-view.component';
+
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -45,6 +47,7 @@ import { AddProductsModalComponent } from './components/add-products/add-product
     CompanyApprovalGridViewComponent,
     BannerApprovalGridViewComponent,
     AddProductsModalComponent,
+    ProductApprovalGridViewComponent,
   ],
   exports: [StatusButtonComponent],
   imports: [
