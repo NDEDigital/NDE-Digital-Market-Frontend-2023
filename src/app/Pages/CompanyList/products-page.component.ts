@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { switchMap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ export class ProductsPageComponent {
   companyList: any;
   groupCode: string = '';
   groupCodePa: string = '';
-
+  isProductPage: boolean = false;
   groupName: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   constructor(
@@ -41,7 +41,28 @@ export class ProductsPageComponent {
   }
 
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isProductPage = event.url === '/products-page';
+      }
+    });
+
+    this.route.queryParams.subscribe((params) => {
+      this.groupCode = atob(params['groupCode'] || '');
+      this.groupCodePa = this.groupCode;
+
+      if (this.groupCode) {
+        sessionStorage.setItem('groupCode', this.groupCode);
+        this.loadCompanyList(this.groupCode);
+      }
+    });
+
     this.callApi();
+  }
+  loadCompanyList(groupCode: string): void {
+    this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
+      this.companyList = data;
+    });
   }
 
   handleDataUpdated() {

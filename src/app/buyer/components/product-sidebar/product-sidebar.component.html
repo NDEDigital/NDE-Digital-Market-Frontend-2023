@@ -1,18 +1,21 @@
 <div class="side">
   <p class="parent">Categories</p>
   <div *ngFor="let entry of groupData | keyvalue; let i = index">
-    <div *ngIf="showAll || i < initialLimit">
-      <input
-            class="form-check-input"
-            
-            type="radio"
-            name="flexRadioDefault"
-            id="checkbox"
-             (click)="setSelectData(entry.key, entry.value)"
-      [class.active]="entry.value === activeEntry"
-          />
-      <label class="categoryName" style="cursor: pointer">{{ entry.value }}</label>
-    </div>
+    <div *ngIf="showAll || i < initialLimit" class="radio-container">
+  <input
+    class="form-check-input"
+    type="radio"
+    name="flexRadioDefault"
+    id="checkbox-{{i}}"
+    style="cursor: pointer"
+    (click)="setSelectData(entry.key, entry.value)"
+    [ngClass]="{ 'selected': entry.value === activeEntry }"
+        [checked]="entry.value === activeEntry"
+  />
+  <label for="checkbox-{{i}}" class="radio-label" style="cursor: pointer" [ngClass]="{ 'bold': entry.value === activeEntry }">
+    {{ entry.value }}
+  </label>
+</div>
   </div>
   <h5
     *ngIf="groupData && groupData.size > initialLimit"
@@ -25,7 +28,7 @@
 
   <hr />
 
-  <div>
+  <div *ngIf="!isProductPage">
     <p class="parent">Brands</p>
     <ul class="list-unstyled mb-3">
       <div *ngFor="let company of companyList; let i = index">
@@ -52,8 +55,8 @@
     </ul>
     <hr />
   </div>
-
-  <!-- Supplier feature
+</div>
+<!-- Supplier feature
   <div class="service mb-4">
     <p class="parent">Supplier Feature</p>
     <ul class="list-unstyled mb-3">
@@ -106,9 +109,9 @@
     <hr />
   </div> -->
 
-  <!-- Product feature -->
+<!-- Product feature -->
 
-  <!-- <div class="service mb-4">
+<!-- <div class="service mb-4">
     <p class="parent">Product Feature</p>
     <ul class="list-unstyled mb-3">
       <li></li>
@@ -147,9 +150,9 @@
     <hr />
   </div> -->
 
-  <!-- Service -->
+<!-- Service -->
 
-  <!-- <div class="service mb-4">
+<!-- <div class="service mb-4">
     <p class="parent">Service</p>
     <ul class="list-unstyled mb-3">
       <li></li>
@@ -217,4 +220,3 @@
       </li>
     </ul>
   </div> -->
-</div>
