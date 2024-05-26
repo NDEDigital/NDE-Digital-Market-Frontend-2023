@@ -14,6 +14,7 @@ import { SellerAddBannerComponent } from './components/seller-add-banner/seller-
 import { SellerHeaderComponent } from './common/seller-header/seller-header.component';
 import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
 import { SellerAddBannerGridViewComponent } from './components/seller-add-banner/seller-add-banner-grid-view/seller-add-banner-grid-view.component';
+import { SellerListGridViewComponent } from './components/seller-list/seller-list-grid-view/seller-list-grid-view.component';
 @NgModule({
   declarations: [
     SellerLayoutComponent,
@@ -26,6 +27,7 @@ import { SellerAddBannerGridViewComponent } from './components/seller-add-banner
     SellerAddBannerComponent,
     SellerHeaderComponent,
     SellerAddBannerGridViewComponent,
+    SellerListGridViewComponent,
   ],
   imports: [
     CommonModule,

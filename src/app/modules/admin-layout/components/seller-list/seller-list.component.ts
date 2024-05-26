@@ -185,47 +185,45 @@ export class SellerListComponent {
     }
   }
 
-  UpdatedSellerBuyer(userIds: any, Isactive: any) {
+  UpdatedSellerBuyer(userId: any, status: any) {
     //  console.log("userIds",userIds);
     //  console.log("IsActive",Isactive);
-    userIds = userIds.toString();
+    userId = userId.toString();
     //  console.log("userIds",typeof userIds);
 
-    this.companyService
-      .UpdateSellerActiveInActive(userIds, Isactive)
-      .subscribe({
-        next: (response: any) => {
-          // console.log(response);
+    this.companyService.UpdateSellerActiveInActive(userId, status).subscribe({
+      next: (response: any) => {
+        // console.log(response);
 
-          if (this.btnIndex === 1 && this.userBtnIndex === 1) {
-            this.alertTitle = 'Buyer Deactivation!';
-            this.alertMsg = 'Buyer is Deactivation Successfully.';
-          } else if (this.btnIndex === 1 && this.userBtnIndex === 0) {
-            this.alertTitle = 'Seller Deactivation!';
-            this.alertMsg = 'Seller is Deactivation Successfully.';
-          } else if (this.btnIndex === 0 && this.userBtnIndex === 1) {
-            this.alertTitle = 'Buyer Activation!';
-            this.alertMsg = 'Buyer is Activation Successfully.';
-          } else {
-            this.alertTitle = 'Seller Activation!';
-            this.alertMsg = 'Seller Activation Successfully.';
-          }
+        if (this.btnIndex === 1 && this.userBtnIndex === 1) {
+          this.alertTitle = 'Buyer Deactivation!';
+          this.alertMsg = 'Buyer is Deactivation Successfully.';
+        } else if (this.btnIndex === 1 && this.userBtnIndex === 0) {
+          this.alertTitle = 'Seller Deactivation!';
+          this.alertMsg = 'Seller is Deactivation Successfully.';
+        } else if (this.btnIndex === 0 && this.userBtnIndex === 1) {
+          this.alertTitle = 'Buyer Activation!';
+          this.alertMsg = 'Buyer is Activation Successfully.';
+        } else {
+          this.alertTitle = 'Seller Activation!';
+          this.alertMsg = 'Seller Activation Successfully.';
+        }
 
-          this.msgModalBTN.nativeElement.click();
+        this.msgModalBTN.nativeElement.click();
 
-          if (this.whoUser === 'seller') {
-            this.getData();
-            // console.log('getData');
-          } else {
-            //  this.getSeller();
-            this.getUser();
-            //  console.log('getSeller')
-          }
-        },
-        error: (error: any) => {
-          // console.log(error);
-        },
-      });
+        if (this.whoUser === 'seller') {
+          this.getData();
+          // console.log('getData');
+        } else {
+          //  this.getSeller();
+          this.getUser();
+          //  console.log('getSeller')
+        }
+      },
+      error: (error: any) => {
+        // console.log(error);
+      },
+    });
   }
   selectedProductIds: any[] = [];
   selectedProducts1: any[] = [];
@@ -309,16 +307,16 @@ export class SellerListComponent {
     }
   }
 
-  checkboxSelected(productId: any, event: any) {
+  checkboxSelected(userId: any, event: any) {
     const isSelected: boolean = event.target.checked;
     // console.log(isSelected);
-    if (isSelected && !this.selectedProducts1.includes(productId)) {
+    if (isSelected && !this.selectedProducts1.includes(userId)) {
       // Add the selected product to the list
-      this.selectedProducts1.push(productId);
-    } else if (!isSelected && this.selectedProducts1.includes(productId)) {
+      this.selectedProducts1.push(userId);
+    } else if (!isSelected && this.selectedProducts1.includes(userId)) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== productId
+        (id) => id !== userId
       );
     }
     this.allSelectedCheckbox.nativeElement.checked = false;
