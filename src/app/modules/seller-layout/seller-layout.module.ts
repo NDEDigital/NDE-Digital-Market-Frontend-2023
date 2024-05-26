@@ -13,6 +13,7 @@ import { SellerPermissionComponent } from './components/seller-permission/seller
 import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
 import { SellerHeaderComponent } from './common/seller-header/seller-header.component';
 import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
+import { SellerAddBannerGridViewComponent } from './components/seller-add-banner/seller-add-banner-grid-view/seller-add-banner-grid-view.component';
 @NgModule({
   declarations: [
     SellerLayoutComponent,
@@ -24,6 +25,7 @@ import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
     SellerPermissionComponent,
     SellerAddBannerComponent,
     SellerHeaderComponent,
+    SellerAddBannerGridViewComponent,
   ],
   imports: [
     CommonModule,

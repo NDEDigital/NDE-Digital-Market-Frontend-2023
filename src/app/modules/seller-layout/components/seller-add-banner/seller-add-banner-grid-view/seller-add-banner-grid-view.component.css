@@ -1,0 +1,339 @@
+.container {
+  /* max-width: 300rem; */
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.head {
+  background-color: var(--color-primary);
+  height: 100px;
+}
+.head img {
+  height: 100px;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+.containgFields {
+  width: 50rem;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--background-color);
+  box-shadow: 0 0 1rem var(--color-gray);
+}
+
+h2 {
+  text-align: center;
+}
+
+.register_title {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  text-shadow: 2px 2px 2px rgb(34, 77, 85);
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 35px;
+}
+.textAreaDesign {
+  resize: none;
+  height: 6.2rem;
+}
+.checkbox-group {
+  margin-top: 10px;
+  /* margin-bottom: 20px; */
+}
+
+.checkbox-group label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-primary);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+.button:hover {
+  transition: 0.5s ease-in-out;
+  opacity: 1;
+}
+.error {
+  border-color: red !important;
+}
+/* .pass_container .col-6 {
+  
+      width: 47% !important;
+    } */
+.form_content {
+  /* display: flex; */
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.allUser,
+.sellerNbothOnly {
+  flex-basis: 45%;
+}
+
+.otpInput::-webkit-inner-spin-button,
+.otpInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.otpInput:focus,
+.verify_btn:focus {
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 0 0.2rem var(--color-primary);
+}
+.error {
+  border: 1px solid red;
+  box-shadow: 0 0 0.2rem red;
+}
+.resend_btn {
+  background: transparent;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.resend_btn.active {
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.verify_btn {
+  background: var(--color-primary);
+  color: #ffff;
+}
+.timer {
+  font-weight: 500;
+}
+
+.modal-heading {
+  background-color: var(--color-primary);
+}
+
+/* .readOnlyInput{
+    background-color: #e0dede;
+  } */
+
+.hidden {
+  display: none;
+}
+
+/* grid design */
+
+/* header text design*/
+.companyApproval_header_text {
+  color: var(--color-primary);
+}
+
+/* table design */
+
+.headerRow,
+.tablebodyRow {
+  flex-wrap: nowrap;
+}
+.scrollable-table {
+  height: 35rem; /* Adjust the height as needed */
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+.headerRow {
+  text-align: center;
+}
+.tablebodyRow {
+  text-align: center;
+}
+/* .tablebodyRow:hover{
+    background-color: #78ac8b;
+  } */
+.tableHeader,
+.tableBody {
+  min-width: 10rem;
+}
+
+.tableBody {
+  background-color: white;
+  padding: 0.7rem;
+  border-bottom: 1px solid var(--color-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tableHeader {
+  background-color: #e5f1f7;
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--color-gray);
+}
+
+/* modal heading */
+.modal-heading {
+  background-color: var(--color-primary);
+}
+.custom-btn {
+  background: #608897;
+  color: rgb(3, 20, 43);
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  border: 1px solid var(--color-primary-dark);
+  margin-left: auto; /* Align the button to the end of its container */
+}
+.bn {
+  color: white;
+  background-color: #608897;
+  transition: background-color 0.3s ease;
+}
+.custom-btn:hover button {
+  opacity: 0.75;
+}
+
+.headerbtns .btn-active {
+  border: 1px solid #78ac8b;
+  padding: 0 0rem;
+}
+.headerbtns .btn-inactive {
+  border: 1px solid #a4a554;
+  padding: 0 0rem;
+}
+
+.headerbtns .new-btn.active {
+  background-color: var(--color-primary-dark) !important ;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: #ebf8ff !important;
+}
+.btn-active.active {
+  background-color: #78ac8b !important ;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: #ebf8ff !important;
+}
+.btn-inactive.active {
+  background-color: #a4a554 !important ;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: #ebf8ff !important;
+}
+/* 
+  .btn-trade-company {
+    width: 4rem !important;
+  } */
+
+.actionBtn {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.addproduct-btn {
+  width: 10rem !important;
+}
+
+/* .marginBackBtn{
+    margin-left: 10rem;
+  } */
+.product_image {
+  width: 5rem;
+  height: 3rem;
+}
+
+.active-row {
+  background-color: rgb(233, 238, 243);
+}
+
+.img-preview {
+  width: 8rem;
+  height: 5rem;
+}
+
+.red-button {
+  background-color: red;
+  color: white;
+}
+
+.description {
+  font-size: 16px; /* Adjust the font size as needed */
+  line-height: 1.5; /* Adjust the line height as needed */
+  overflow: hidden; /* Hide any overflow text */
+  text-overflow: ellipsis; /* Display an ellipsis (...) when text overflows */
+  white-space: nowrap; /* Prevent wrapping */
+}
+.large-textarea {
+  width: 100%; /* Adjust the width as needed */
+  height: 80px; /* Adjust the height as needed */
+}
+
+/* ---------checkboxes---------- */
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Adjust as needed */
+}
+
+.checkbox-input {
+  appearance: none; /* Remove default checkbox appearance */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  margin-right: 0.5rem; /* Spacing between checkboxes and labels */
+  cursor: pointer; /* Show pointer cursor on hover */
+  margin-left: 1rem;
+}
+
+.checkbox-input:checked {
+  background-color: #007bff; /* Background color when checkbox is checked */
+}
+
+.checkbox-label {
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Text color */
+}
+
+/* Hide default checkbox indicator */
+.checkbox-input::before {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  background-color: #fff; /* Background color of default checkbox indicator */
+  border-radius: 3px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Show custom checkbox indicator when checked */
+.checkbox-input:checked::before {
+  background-color: #fff; /* Change background color when checked */
+}
+.table-body-data {
+  flex-direction: row;
+  display: flex;
+  background-color: white;
+  /* padding-right: 3rem; */
+}
