@@ -192,9 +192,9 @@ export class BrandsComponent {
 
   getNewBrands(status: any) {
     this.btnIndex = status;
-    if (status == 1) {
+    if (status == 0) {
       status = false;
-    } else if (status == 0) {
+    } else if (status == 1) {
       status = true;
     }
     this.allSelectedCheckbox.nativeElement.checked = false;
@@ -277,17 +277,17 @@ export class BrandsComponent {
     this.AddGroupModalCenterG.nativeElement.click();
   }
 
-  updateIsActive(isActive: any, groupIds: any) {
-    console.log(isActive, 'isActive', groupIds, 'groupId');
+  updateIsActive(status: any, brandId: any) {
+    console.log(status, 'isActive', brandId, 'groupId');
     this.brandsService
-      .updateUnitsActiveStatus(groupIds.toString(), isActive)
+      .updateUnitsActiveStatus(brandId.toString(), status)
       .subscribe({
         next: (response: any) => {
           // console.log(response);
-          const active = isActive == true ? 1 : 0;
+          const active = status == true ? 1 : 0;
 
-          this.getNewBrands(isActive);
-          if (isActive) {
+          this.getNewBrands(status);
+          if (status) {
             this.btnIndex = 1;
           } else {
             this.btnIndex = 0;
@@ -386,19 +386,19 @@ export class BrandsComponent {
     }
   }
 
-  checkboxSelected(groupId: any, event: any) {
+  checkboxSelected(event: { brandId: any; event: any }) {
     // console.log("productId",groupId);
-
-    const isSelected: boolean = event.target.checked;
+    const { brandId, event: domEvent } = event;
+    const isSelected: boolean = domEvent.target.checked;
     // console.log("event is",isSelected);
     // console.log(isSelected);
-    if (isSelected && !this.selectedProducts1.includes(groupId)) {
+    if (isSelected && !this.selectedProducts1.includes(brandId)) {
       // Add the selected product to the list
-      this.selectedProducts1.push(groupId);
-    } else if (!isSelected && this.selectedProducts1.includes(groupId)) {
+      this.selectedProducts1.push(brandId);
+    } else if (!isSelected && this.selectedProducts1.includes(brandId)) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== groupId
+        (id) => id !== brandId
       );
     }
     this.allSelectedCheckbox.nativeElement.checked = false;

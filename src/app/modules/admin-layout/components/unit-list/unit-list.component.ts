@@ -192,9 +192,9 @@ export class UnitListComponent {
   getProductGroup(status: any) {
     console.log(status);
     this.btnIndex = status;
-    if (status == 0) {
+    if (status == 1) {
       status = true;
-    } else if (status == 1) {
+    } else if (status == 0) {
       status = false;
     }
     this.allSelectedCheckbox.nativeElement.checked = false;
@@ -276,22 +276,20 @@ export class UnitListComponent {
     this.AddGroupModalCenterG.nativeElement.click();
   }
 
-  updateIsActive(isActive: any, groupIds: any) {
-    console.log(isActive, 'isActive', groupIds, 'groupId');
+  updateIsActive(status: Boolean, unitIds: any) {
+    console.log(status, 'status', unitIds, 'unitIds');
     this.unitServices
-      .updateUnitActiveStatus(groupIds.toString(), isActive)
+      .updateUnitActiveStatus(unitIds.toString(), status)
       .subscribe({
         next: (response: any) => {
-          // console.log(response);
-          const active = isActive == true ? 1 : 0;
-
-          this.getProductGroup(isActive);
-          if (isActive) {
+          console.log(response);
+          const active = status == true ? 1 : 0;
+          this.getProductGroup(status);
+          if (status) {
             this.btnIndex = 1;
           } else {
             this.btnIndex = 0;
           }
-
           this.UserExistModalBTN.nativeElement.click();
           this.alertMsg = active
             ? 'Product is  Activated!'
@@ -299,7 +297,7 @@ export class UnitListComponent {
           this.alertTitle = active ? 'Activated!' : 'Deactivated!';
         },
         error: (error: any) => {
-          //console.log(error);
+          console.log(error);
           this.alertMsg = error.error.message;
         },
       });
@@ -383,19 +381,19 @@ export class UnitListComponent {
     }
   }
 
-  checkboxSelected(groupId: any, event: any) {
+  checkboxSelected(event: { unitId: any; event: any }) {
     // console.log("productId",groupId);
-
-    const isSelected: boolean = event.target.checked;
+    const { unitId, event: domEvent } = event;
+    const isSelected: boolean = domEvent.target.checked;
     // console.log("event is",isSelected);
     // console.log(isSelected);
-    if (isSelected && !this.selectedProducts1.includes(groupId)) {
+    if (isSelected && !this.selectedProducts1.includes(unitId)) {
       // Add the selected product to the list
-      this.selectedProducts1.push(groupId);
-    } else if (!isSelected && this.selectedProducts1.includes(groupId)) {
+      this.selectedProducts1.push(unitId);
+    } else if (!isSelected && this.selectedProducts1.includes(unitId)) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== groupId
+        (id) => id !== unitId
       );
     }
     this.allSelectedCheckbox.nativeElement.checked = false;

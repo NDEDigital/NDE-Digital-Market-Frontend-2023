@@ -32,7 +32,7 @@ export class UnitService {
   }
 
   updateUnitActiveStatus(UnitID: any, isActive: any) {
-    //console.log('Update', UnitID);
+    // console.log('Update', UnitID);
     return this.http.put(
       `${this.updateActiveStatusByUnitIdURL}?unitID=${UnitID}&isActive=${isActive}`,
       {}

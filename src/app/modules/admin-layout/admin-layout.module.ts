@@ -25,6 +25,9 @@ import { BannerApprovalGridViewComponent } from './components/banner-approval/ba
 import { AddProductsModalComponent } from './components/add-products/add-products-modal/add-products-modal.component';
 import { ProductApprovalGridViewComponent } from './components/product-approval/product-approval-grid-view/product-approval-grid-view.component';
 import { ProductCompareModalComponent } from './components/product-approval/product-compare-modal/product-compare-modal.component';
+import { UnitListGridViewComponent } from './components/unit-list/unit-list-grid-view/unit-list-grid-view.component';
+import { BrandsGridViewComponent } from './components/brands/brands-grid-view/brands-grid-view.component';
+
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -49,6 +52,8 @@ import { ProductCompareModalComponent } from './components/product-approval/prod
     AddProductsModalComponent,
     ProductApprovalGridViewComponent,
     ProductCompareModalComponent,
+    UnitListGridViewComponent,
+    BrandsGridViewComponent,
   ],
   exports: [StatusButtonComponent],
   imports: [
