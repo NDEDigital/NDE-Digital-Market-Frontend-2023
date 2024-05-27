@@ -59,18 +59,18 @@ export class GroupProductsComponent {
     this.callApi(); // Moved outside the queryParams subscription
   }
 
-  getRecommendedProduct() {
-    this.companyService.getTopSeller().subscribe({
-      next: (response: any) => {
-        console.log(response);
-        this.getTopSellerData = response;
-        console.log('data:', this.getTopSellerData);
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
-  }
+  // getRecommendedProduct() {
+  //   this.companyService.getTopSeller().subscribe({
+  //     next: (response: any) => {
+  //       console.log(response);
+  //       this.getTopSellerData = response;
+  //       console.log('data:', this.getTopSellerData);
+  //     },
+  //     error: (error: any) => {
+  //       console.log(error);
+  //     },
+  //   });
+  // }
   handleDataUpdated() {
     this.callApi();
   }
@@ -107,6 +107,7 @@ export class GroupProductsComponent {
           (item) =>
             item.productGroupName === groupCode && item.approveSalesQty !== '0'
         );
+         this.products3.clear();
         for (let i = 0; i < this.goods.length; i++) {
           let finObj = this.products3.get(this.goods[i].productGroupName);
           if (finObj) {

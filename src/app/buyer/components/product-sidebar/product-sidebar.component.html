@@ -2,29 +2,29 @@
   <p class="parent">Categories</p>
   <div *ngFor="let entry of groupData | keyvalue; let i = index">
     <div *ngIf="showAll || i < initialLimit" class="radio-container">
-  <input
-    class="form-check-input"
-    type="radio"
-    name="flexRadioDefault"
-    id="checkbox-{{i}}"
-    style="cursor: pointer"
-    (click)="setSelectData(entry.key, entry.value)"
-    [ngClass]="{ 'selected': entry.value === activeEntry }"
+      <input
+        class="form-check-input"
+        type="radio"
+        name="flexRadioDefault"
+        id="checkbox-{{ i }}"
+        style="cursor: pointer"
+        (click)="setSelectData(entry.key, entry.value)"
+        (click)="filterProductsByCategory(groupName)"
+        [ngClass]="{ selected: entry.value === activeEntry }"
         [checked]="entry.value === activeEntry"
-  />
-  <label for="checkbox-{{i}}" class="radio-label" style="cursor: pointer" [ngClass]="{ 'bold': entry.value === activeEntry }">
-    {{ entry.value }}
-  </label>
-</div>
+
+      />
+      <label
+        for="checkbox-{{ i }}"
+        class="radio-label"
+        style="cursor: pointer"
+        [ngClass]="{ bold: entry.value === activeEntry }"
+        
+      >
+        {{ entry.value }}
+      </label>
+    </div>
   </div>
-  <h5
-    *ngIf="groupData && groupData.size > initialLimit"
-    (click)="showAll = !showAll"
-    class="text-primary"
-    style="cursor: pointer"
-  >
-    {{ showAll ? "Show Less" : "Show All" }}
-  </h5>
 
   <hr />
 
@@ -50,12 +50,15 @@
         class="text-primary"
         style="cursor: pointer"
       >
-        {{ showAll ? "Show Less" : "Show All" }}
+        {{ showAllBrand ? "Show Less" : "Show All" }}
       </h5>
     </ul>
     <hr />
   </div>
-</div>
+  
+ 
+
+
 <!-- Supplier feature
   <div class="service mb-4">
     <p class="parent">Supplier Feature</p>

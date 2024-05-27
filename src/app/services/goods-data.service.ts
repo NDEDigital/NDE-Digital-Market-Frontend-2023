@@ -71,7 +71,18 @@ ngOnInit(): void {
   getDetaileData() {
     return this.detailData;
   }
+// getGroupData(){
+//   const GroupUrl = `${this.URL}/api/Goods/GetGoodsList`;
+//   return this.http.get<any[]>(GroupUrl).pipe(
+//     tap((response: any[]) => {
+//       this.carousalData = response;
+//     }),
 
+//     catchError((error: any) => {
+//       return throwError(error);
+//     })
+//   );
+// }
   getCarouselData() {
     const carouselURL = `${this.URL}/api/Goods/GetGoodsList`;
     return this.http.get<any[]>(carouselURL).pipe(
@@ -85,6 +96,7 @@ ngOnInit(): void {
       catchError((error: any) => {
         return throwError(error);
       })
+      
     );
   }
 
