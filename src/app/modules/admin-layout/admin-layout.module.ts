@@ -28,6 +28,8 @@ import { ProductCompareModalComponent } from './components/product-approval/prod
 import { UnitListGridViewComponent } from './components/unit-list/unit-list-grid-view/unit-list-grid-view.component';
 import { BrandsGridViewComponent } from './components/brands/brands-grid-view/brands-grid-view.component';
 import { SellerListGridViewComponent } from './components/seller-list/seller-list-grid-view/seller-list-grid-view.component';
+import { CompanyTradeLicenceModalComponent } from './components/company-approval/company-trade-licence-modal/company-trade-licence-modal.component';
+
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -55,6 +57,7 @@ import { SellerListGridViewComponent } from './components/seller-list/seller-lis
     UnitListGridViewComponent,
     BrandsGridViewComponent,
     SellerListGridViewComponent,
+    CompanyTradeLicenceModalComponent,
   ],
   exports: [StatusButtonComponent],
   imports: [

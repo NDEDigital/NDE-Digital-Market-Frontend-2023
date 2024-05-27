@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, DestroyRef } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,6 +6,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
 @Component({
@@ -67,7 +68,8 @@ export class AddGroupsComponent {
 
   constructor(
     private addProductService: AddProductService,
-    private tableHeadersService: TableHeadersService
+    private tableHeadersService: TableHeadersService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit() {
@@ -109,19 +111,22 @@ export class AddGroupsComponent {
    * @param formData Form data for creating the group
    */
   createProductGroup(formData: any): void {
-    this.addProductService.createProductGroup(formData).subscribe({
-      next: (response: any) => {
-        this.alertMsg = response.message;
-        this.isError = false;
-        setTimeout(() => {
-          this.showModalAndResetForm();
-        }, 50);
-        this.getProductGroup(-1);
-      },
-      error: (error: any) => {
-        this.handleErrorResponse(error);
-      },
-    });
+    this.addProductService
+      .createProductGroup(formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.alertMsg = response.message;
+          this.isError = false;
+          setTimeout(() => {
+            this.showModalAndResetForm();
+          }, 50);
+          this.getProductGroup(-1);
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
   }
 
   /**
@@ -134,19 +139,22 @@ export class AddGroupsComponent {
     formData.append('UpdatedBy', updateByUser);
     formData.append('UpdatedPC', '0.0.0.0');
 
-    this.addProductService.updateProductGroup(formData).subscribe({
-      next: (response: any) => {
-        this.alertMsg = 'Product group updated successfully';
-        this.isEditMode = false;
-        setTimeout(() => {
-          this.showModalAndResetForm();
-        }, 50);
-        this.getProductGroup(-1);
-      },
-      error: (error: any) => {
-        this.handleErrorResponse(error);
-      },
-    });
+    this.addProductService
+      .updateProductGroup(formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.alertMsg = 'Product group updated successfully';
+          this.isEditMode = false;
+          setTimeout(() => {
+            this.showModalAndResetForm();
+          }, 50);
+          this.getProductGroup(-1);
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
   }
 
   /**
@@ -159,14 +167,17 @@ export class AddGroupsComponent {
     this.selectedProducts1.length = 0;
     this.selectAll = false;
 
-    this.addProductService.GetProductGroupsListByStatus(status).subscribe({
-      next: (response: any) => {
-        this.groupList = response;
-      },
-      error: (error: any) => {
-        this.handleErrorResponse(error);
-      },
-    });
+    this.addProductService
+      .GetProductGroupsListByStatus(status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.groupList = response;
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
   }
 
   /**
@@ -191,6 +202,7 @@ export class AddGroupsComponent {
   updateIsActive(event: { isActive: any; productGroupId: number }): void {
     this.addProductService
       .updateProductGroupStatus(event.productGroupId.toString(), event.isActive)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           const newStatus = event.isActive ? 1 : 0;
@@ -260,6 +272,7 @@ export class AddGroupsComponent {
   updateProductGroupStatus(isActive: number): void {
     this.addProductService
       .updateProductGroupStatus(this.selectedProducts1.toString(), isActive)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           const newStatus = isActive ? 1 : 0;

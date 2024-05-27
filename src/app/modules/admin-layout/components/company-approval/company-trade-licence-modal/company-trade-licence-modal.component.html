@@ -1,0 +1,24 @@
+<div
+  class="modal-dialog modal-xl d-flex align-items-center justify-content-center"
+>
+  <div class="modal-content">
+    <div class="modal-header modal-heading">
+      <h1 class="modal-title text-light fs-5" id="showImgModalLabel">
+        {{ imageTitle }}
+      </h1>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body text-center">
+      <img
+        class="company_images"
+        [src]="imagePath"
+        alt="no image was uploaded!"
+      />
+    </div>
+  </div>
+</div>

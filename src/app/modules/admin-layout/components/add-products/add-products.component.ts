@@ -3,13 +3,13 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
-  OnDestroy,
+  DestroyRef,
 } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { takeUntilDestroyed } from 'src/app/services/destroy.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
-import { DestroyService } from 'src/app/services/destroy.service';
+
 interface Product {
   productId: number;
   productGroupID: number;
@@ -24,7 +24,6 @@ interface ApiResponse {
   selector: 'app-add-products',
   templateUrl: './add-products.component.html',
   styleUrls: ['./add-products.component.css'],
-  providers: [DestroyService],
 })
 export class AddProductsComponent implements OnInit {
   // ViewChild for accessing DOM elements
@@ -68,7 +67,7 @@ export class AddProductsComponent implements OnInit {
   constructor(
     private productService: AddProductService,
     private tableHeadersService: TableHeadersService,
-    private destroyService: DestroyService
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit() {
@@ -269,7 +268,7 @@ export class AddProductsComponent implements OnInit {
     errorMsg: string
   ): void {
     this.loading = true;
-    observable.pipe(takeUntilDestroyed(this.destroyService)).subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data: T) => {
         this.loading = false;
         successCallback(data);

@@ -1,9 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  DestroyRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
-import { takeUntilDestroyed } from 'src/app/services/destroy.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
-import { DestroyService } from 'src/app/services/destroy.service';
 
 // Interface for product status update
 interface ProductStatusUpdate {
@@ -62,7 +67,7 @@ export class ProductApprovalComponent implements OnInit {
   constructor(
     private productService: AddProductService,
     private tableHeadersService: TableHeadersService,
-    private destroyService: DestroyService
+    private destroyRef: DestroyRef
   ) {}
 
   // OnInit lifecycle hook to initialize component
@@ -259,7 +264,7 @@ export class ProductApprovalComponent implements OnInit {
     errorMsg: string
   ): void {
     this.loading = true;
-    observable.pipe(takeUntilDestroyed(this.destroyService)).subscribe({
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data: T) => {
         this.loading = false;
         successCallback(data);
