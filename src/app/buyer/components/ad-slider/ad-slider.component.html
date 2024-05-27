@@ -1,0 +1,24 @@
+  <div id="content-wrap">
+<section class="slider_container mx-auto">
+  <section class="product_slider bg-white mx-auto my-3 py-1 align-items-center">
+    <div class="grid-container">
+      <div *ngFor="let banner of leftAdvertisements; let i = index" [ngClass]="getClass(i)">
+        <div class="cards bg-dark text-white">
+   
+          <img
+            [src]="
+              banner.bannerImage.substring(
+                banner.bannerImage.indexOf('assets')
+              ) || 'assets/images/banner/banner1.jpg'
+            "
+            class="cards-img"
+    
+            alt="Advertisement Image"
+          />
+      
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+</div>

@@ -4,11 +4,13 @@
     <div class="nav-belt">
       <app-nav-belt></app-nav-belt>
     </div>
-    <section class="mb-4"><app-banner></app-banner></section>
+    <section class="mb-4"><app-banner></app-banner>
+    </section>
+
     <!-- <app-home-core-content></app-home-core-content> -->
     <div class="product-slider-wrapper">
       <div class="advertisement-left-responsive">
-        <div *ngFor="let banner of leftAdvertisements">
+        <!-- <div *ngFor="let banner of leftAdvertisements">
           <div class="cards bg-dark text-white">
             <div class="left_Ads_header">
               <div class="cards-text">Advertisement</div>
@@ -43,14 +45,16 @@
               </p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="product-slider">
+        
+       <app-ad-slider></app-ad-slider>
         <app-product-slider></app-product-slider>
         <app-clients-list-slider [clients]="clients"></app-clients-list-slider>
       </div>
       <div class="advertisement-right-responsive">
-        <div *ngFor="let banner of rightAdvertisements">
+        <!-- <div *ngFor="let banner of rightAdvertisements">
           <div class="cards2 bg-dark text-white">
             <div class="left_Ads_header">
               <div class="cards-text">Advertisement</div>
@@ -84,7 +88,7 @@
               </p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
