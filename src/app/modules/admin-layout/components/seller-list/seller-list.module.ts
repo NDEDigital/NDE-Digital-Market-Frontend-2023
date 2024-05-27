@@ -6,5 +6,6 @@ import { SellerListRoutingModule } from './seller-list-routing.module';
 @NgModule({
   declarations: [],
   imports: [CommonModule, SellerListRoutingModule],
+  exports: [CommonModule],
 })
 export class SellerListModule {}
