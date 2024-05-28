@@ -1,0 +1,75 @@
+<div
+  class="modal fade"
+  #addGroupModalCenterG
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-end align-items-center">
+          <button
+            type="button"
+            class="btn-close border border-1"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="resetForm()"
+          ></button>
+        </div>
+        <!-- add group form design  -->
+        <div>
+          <!-- <h2 class="register_title">Add Product Groups Name</h2> -->
+          <div class="d-flex justify-content-center align-items-center">
+            <!-- Back Button on the left -->
+
+            <!-- Title in the middle -->
+            <h2 class="register_title">
+              {{ isEdit ? "Edit Brand Name" : "Add Brand Name" }}
+            </h2>
+          </div>
+          <hr />
+          <form [formGroup]="addGroupForm">
+            <div class="form-group">
+              <label for="brandName"
+                ><span class="text-danger">*</span>Brand Name</label
+              >
+              <input
+                type="text"
+                id="brandName"
+                formControlName="brandName"
+                [class.error]="isFieldInvalid('brandName')"
+              />
+              <span class="text-danger" *ngIf="isFieldInvalid('brandName')"
+                >Brand Name is required.</span
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="shortName">Brand Short Name</label>
+              <input type="text" id="shortName" formControlName="shortName" />
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                id="description"
+                formControlName="description"
+              ></textarea>
+            </div>
+
+            <!-- Button trigger modal -->
+            <button
+              type="submit"
+              class="button mt-3"
+              id="sign-in-button"
+              (click)="onSubmit()"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

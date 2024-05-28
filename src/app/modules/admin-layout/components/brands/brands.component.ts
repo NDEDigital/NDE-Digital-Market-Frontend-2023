@@ -1,12 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BrandsService } from 'src/app/services/brands.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
 @Component({
@@ -16,16 +10,11 @@ import { TableHeadersService } from 'src/app/services/table-headers.service';
 })
 export class BrandsComponent {
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
-  @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
-  @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
-  //@ViewChild('modalGroupImage') ModalGroupImage!: ElementRef;
-  @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
   headers!: string[];
   isHovered: any | null = null;
-
-  addGroupForm!: FormGroup;
+  addBtnIndex = 9;
   alertMsg = '';
   showProductDiv: boolean = false;
   groupList: any;
@@ -37,159 +26,113 @@ export class BrandsComponent {
   activeGroupId: number | null = null;
   imagePathPreview: string = '';
   alertTitle: any;
+  doubleClickData!: any;
+  // Flags for button clicks and mode
+  btnClick = false;
+  addbtnClickP = false;
+  selectedProductIds: any[] = [];
+  selectedProducts1: any[] = [];
 
+  selectAll = false;
   constructor(
     private brandsService: BrandsService,
-    private tableHeadersService: TableHeadersService
+    private tableHeadersService: TableHeadersService,
+    protected destroyRef: DestroyRef
   ) {}
 
-  toggleAddProductGroupDiv(): void {
-    this.showProductDiv = !this.showProductDiv;
-    this.btnIndex = -1;
-    this.getNewBrands(true);
-    this.ngOnInit();
-  }
-
-  showApprovalProductGrid(): void {
-    this.showProductDiv = false;
-    this.addGroupForm.reset();
-  }
-
   ngOnInit() {
-    this.addGroupForm = new FormGroup({
-      brandName: new FormControl('', Validators.required),
-      description: new FormControl(),
-      shortName: new FormControl(),
-      //name: new FormControl('', Validators.required),
-    });
+    // Initialize component
     this.getNewBrands(-1);
     this.headers = this.tableHeadersService.brandTableHeaders;
   }
-
-  openAddGroupModal(): void {
-    this.resetForm();
+  /**
+   * Opens the modal for adding a new product group.
+   */
+  openAddBrandModal(): void {
+    console.log('ashce');
     this.isEditMode = false;
     this.currentGroup = null;
-    this.AddGroupModalCenterG.nativeElement.click();
+    this.btnClick = true;
+    this.openModalWithData(null);
   }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.addGroupForm.get(fieldName);
-    // Check if the field is not null before accessing its properties
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
-
+  /**
+   * Resets the form.
+   */
   resetForm(): void {
-    this.addGroupForm.reset();
     this.isEditMode = false;
-    this.currentGroup = null;
-    this.activeGroupId = null;
+    this.addbtnClickP = false;
   }
-
-  onSubmit(): void {
-    Object.values(this.addGroupForm.controls).forEach((control) => {
-      control.markAsTouched();
-      control.markAsDirty();
-    });
-
-    if (this.addGroupForm.valid) {
-      console.log('Form Data:', this.addGroupForm.value);
-      const formData = new FormData();
-
-      Object.keys(this.addGroupForm.value).forEach((key) => {
-        let value = this.addGroupForm.value[key];
-        if (key === 'brandId') {
-          value = String(Math.floor(Number(value)));
-          //console.log(value);
-        }
-        formData.append(key, value);
+  /**
+   * Handles form submission.
+   * @param formData Form data to be submitted
+   */
+  onSubmit(formData: any): void {
+    this.isEditMode ? this.updateBrands(formData) : this.createBrands(formData);
+  }
+  /**
+   * Creates a new brand.
+   * @param formData Form data for creating the brand
+   */
+  createBrands(formData: any) {
+    this.brandsService
+      .createBrand(formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.alertMsg = response.message;
+          this.isError = false;
+          setTimeout(() => {
+            this.showModalAndResetForm();
+          }, 50);
+          this.getNewBrands(-1);
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
       });
-
-      // Append additional fields
-      // let addedByUser = localStorage.getItem('code') || 'user';
-      formData.append('addedBy', 'user');
-      formData.append('addedPC', '0.0.0.0');
-      // formData.append('isActive', true ? '1' : '0');
-      // formData.append('isConversion', true ? '1' : '0');
-
-      // for (let pair of (formData as any).entries()) {
-      //   console.log(`${pair[0]}: `, pair[1]);
-      // }
-      if (!this.isEditMode) {
-        console.log(formData);
-        for (let [key, value] of (formData as any).entries()) {
-          console.log(key, value);
-        }
-        this.brandsService.createBrand(formData).subscribe({
-          next: (response: any) => {
-            //console.log(response, 'successfull');
-            this.alertMsg = response.message;
-            this.isError = false;
-            //console.log(response.message);
-            setTimeout(() => {
-              this.UserExistModalBTN.nativeElement.click();
-              this.addGroupForm.reset();
-              // this.toggleAddProductGroupDiv();
-            }, 50);
-            this.getNewBrands(-1);
-          },
-          error: (error: any) => {
-            //console.log(error, 'error');
-            this.alertMsg = error.error.message;
-            this.isError = true;
-            this.UserExistModalBTN.nativeElement.click();
-          },
-        });
-      }
-      // console.log(this.isEditMode, "inserting on submit");
-
-      if (this.isEditMode) {
-        let updateByUser = localStorage.getItem('code');
-        console.log(updateByUser, 'code...');
-
-        // console.log("edit mode");
-        formData.append('brandId', this.currentGroup.brandId);
-        if (updateByUser !== null) {
-          formData.append('updatedBy', updateByUser);
-        } else {
-          console.error('Update by code not found in localStorage');
-        }
-        formData.append('updatedPC', '0.0.0.0');
-        console.log('form value', formData);
-        for (let [key, value] of (formData as any).entries()) {
-          console.log(key, value);
-        }
-        this.brandsService.updateBrand(formData).subscribe({
-          next: (response: any) => {
-            // Handle successful response here
-            console.log('Update successful:', response);
-            this.alertMsg = 'Brand updated successfully';
-            this.isEditMode = false;
-            // Optionally, reset the form and refresh the group list
-            this.addGroupForm.reset();
-            this.getNewBrands(-1);
-
-            // Close the modal if you have one open
-            this.UserExistModalBTN.nativeElement.click();
-          },
-          error: (error: any) => {
-            // Handle error response here
-            console.error('Error updating  unit:', error);
-            this.alertMsg = error.error.message || 'Error updating  Brand';
-            this.isError = true;
-            this.isEditMode = false;
-
-            // Show the error modal or message
-            this.UserExistModalBTN.nativeElement.click();
-          },
-        });
-        console.log(this.isEditMode, 'updating on submit');
-      }
-    } else {
-      console.log('Form is not valid');
-    }
   }
 
+  /**
+   * Updates an existing brand.
+   * @param formData Form data for updating the brand
+   */
+  updateBrands(formData: any) {
+    const updateByUser = localStorage.getItem('code');
+    formData.append('brandId', this.currentGroup.brandId);
+    if (updateByUser !== null) {
+      formData.append('updatedBy', updateByUser);
+    } else {
+      console.error('Update by code not found in localStorage');
+    }
+    formData.append('updatedPC', '0.0.0.0');
+    for (let [key, value] of (formData as any).entries()) {
+      console.log(key, value);
+    }
+    this.brandsService
+      .updateBrand(formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          // Handle successful response here
+          console.log('Update successful:', response);
+          this.alertMsg = 'Brand updated successfully';
+          this.isEditMode = false;
+
+          setTimeout(() => {
+            this.showModalAndResetForm();
+          }, 50);
+          this.getNewBrands(-1);
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
+    console.log(this.isEditMode, 'updating on submit');
+  }
+  /**
+   * Retrieves brands based on status.
+   * @param status Status of the brands to retrieve
+   */
   getNewBrands(status: any) {
     this.btnIndex = status;
     if (status == 0) {
@@ -201,17 +144,17 @@ export class BrandsComponent {
     this.selectedProducts1.length = 0;
     this.selectAll = false;
     if (status != -1) {
-      this.brandsService.getBrands(status).subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.groupList = response;
-        },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-          this.UserExistModalBTN.nativeElement.click();
-        },
-      });
+      this.brandsService
+        .getBrands(status)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: any) => {
+            this.groupList = response;
+          },
+          error: (error: any) => {
+            this.handleErrorResponse(error);
+          },
+        });
     } else {
       this.brandsService.getNewBrands().subscribe({
         next: (response: any) => {
@@ -227,77 +170,30 @@ export class BrandsComponent {
     }
   }
 
-  updateFormValidators(): void {
-    // Check if the control exists
-    const productGroupImageControl = this.addGroupForm.get('productGroupImage');
-    if (productGroupImageControl) {
-      if (this.isEditMode) {
-        productGroupImageControl.clearValidators();
-      } else {
-        productGroupImageControl.setValidators(Validators.required);
-      }
-      productGroupImageControl.updateValueAndValidity();
-    }
-  }
-
   openModalWithData(group: any): void {
-    this.isEditMode = true;
-    this.updateFormValidators();
-    console.log('group', group);
-    this.populateForm(group);
-    console.log(group);
-    console.log('group ashce');
+    this.isEditMode = !!group;
     this.currentGroup = group;
-
-    // Ensure the modal is opened before calling displayImage
-    this.displayImage(group.imagepath);
-    this.activeGroupId = group.unitId;
-  }
-  populateForm(group: any): void {
-    this.addGroupForm.patchValue({
-      brandName: group.brandName,
-      description: group.description,
-      shortName: group.shortName,
-      productGroupDetails: group.productGroupDetails,
-    });
-
-    this.existingImagePath = group.imagepath;
-  }
-  displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
-
-    if (imagePath) {
-      const imageUrl = '/asset' + imagePath.split('asset')[1];
-
-      console.log('Constructed imageUrl:', imageUrl);
-      this.imagePathPreview = imageUrl;
-    } else {
-      this.imagePathPreview = 'not upload yet';
+    this.btnClick = true;
+    this.addbtnClickP = !group;
+    if (group) {
+      this.doubleClickData = group;
+      this.activeGroupId = group.productGroupID;
     }
-    this.AddGroupModalCenterG.nativeElement.click();
   }
 
   updateIsActive(status: any, brandId: any) {
     console.log(status, 'isActive', brandId, 'groupId');
     this.brandsService
       .updateUnitsActiveStatus(brandId.toString(), status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => {
+        next: () => {
           // console.log(response);
-          const active = status == true ? 1 : 0;
+          const newStatus = status ? 1 : 0;
 
-          this.getNewBrands(status);
-          if (status) {
-            this.btnIndex = 1;
-          } else {
-            this.btnIndex = 0;
-          }
-
-          this.UserExistModalBTN.nativeElement.click();
-          this.alertMsg = active
-            ? 'Brand is  Activated!'
-            : 'Brand is Deactivated!';
-          this.alertTitle = active ? 'Activated!' : 'Deactivated!';
+          this.getNewBrands(newStatus);
+          this.showAlertAndResetForm(newStatus);
+          this.showModalAndResetForm();
         },
         error: (error: any) => {
           //console.log(error);
@@ -306,107 +202,123 @@ export class BrandsComponent {
       });
   }
 
-  selectedProductIds: any[] = [];
-  selectedProducts1: any[] = [];
-
-  selectAll = false;
-
+  /**
+   * Toggles the selection of all checkboxes.
+   */
   toggleAllCheckboxes() {
-    //this.selectAll = true;
-    console.log('all seelcted');
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-    // console.log("product id's areeeeee",this.selectedProducts1)
-
-    // Toggle the state of all checkboxes based on the "Select All" checkbox
-    console.log('group list are', this.groupList);
-    this.groupList.forEach((product: { isSelected: boolean; brandId: any }) => {
-      product.isSelected = this.selectAll;
-
-      // Update the selectedProducts array based on the state of each checkbox
-      if (this.selectAll && !this.selectedProducts1.includes(product.brandId)) {
-        this.selectedProducts1.push(product.brandId);
-      } else if (
-        !this.selectAll &&
-        this.selectedProducts1.includes(product.brandId)
-      ) {
-        // Remove the deselected product from the list
-        this.selectedProducts1 = this.selectedProducts1.filter(
-          (id) => id !== product.brandId
-        );
-        this.selectAll = false;
-      }
+    this.groupList.forEach((brand: { isSelected: boolean; brandId: any }) => {
+      brand.isSelected = this.selectAll;
+      this.updateSelectedProducts(brand);
     });
-
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-    // console.log("this.selectedProducts1.length",this.productList.length);
-    console.log('checking making', this.selectedProducts1);
   }
-
+  /**
+   * Updates the list of selected brands.
+   * @param brand Brand to update selection status
+   */
+  updateSelectedProducts(brand: { isSelected: boolean; brandId: any }): void {
+    // Update the selectedProducts array based on the state of each checkbox
+    if (this.selectAll && !this.selectedProducts1.includes(brand.brandId)) {
+      this.selectedProducts1.push(brand.brandId);
+    } else if (
+      !this.selectAll &&
+      this.selectedProducts1.includes(brand.brandId)
+    ) {
+      // Remove the deselected product from the list
+      this.selectedProducts1 = this.selectedProducts1.filter(
+        (id) => id !== brand.brandId
+      );
+      this.selectAll = false;
+    }
+  }
+  /**
+   * Updates the status of selected product groups.
+   * @param isActive Flag indicating whether to activate or deactivate
+   */
+  updateBrandsStatus(isActive: number): void {
+    this.brandsService
+      .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          const newStatus = isActive ? 1 : 0;
+          this.getNewBrands(newStatus);
+          this.showAlertAndResetForm(newStatus);
+          this.selectAll = false;
+          this.selectedProducts1.length = 0;
+          this.showModalAndResetForm();
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
+  }
+  /**
+   * Changes the active/inactive status of selected brands .
+   * @param isActive Flag indicating whether to activate or deactivate
+   */
   chageActiveInactive(isActive: any) {
-    // console.log("hello ");
-
-    // console.log("get groupIds are ",this.selectedProducts1);
-    // console.log("is active are",isActive);
-
     if (this.selectedProducts1.length > 0) {
-      console.log('selectedProducts1', this.selectedProducts1);
-      console.log('selectedProducts1', isActive);
-
-      this.brandsService
-        .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
-        .subscribe({
-          next: (response: any) => {
-            console.log(response);
-            this.getNewBrands(isActive);
-            if (isActive) {
-              this.btnIndex = 1;
-            } else {
-              this.btnIndex = 0;
-            }
-            this.UserExistModalBTN.nativeElement.click();
-            this.alertMsg = isActive
-              ? 'Brand is  Deactivated!'
-              : 'Brand is Activated!';
-            this.alertTitle = isActive ? 'Deactiveted!' : 'Activeted!';
-            this.selectAll = false;
-            this.selectedProducts1.length = 0;
-            // console.log("product id's are",this.selectedProductIds)
-          },
-          error: (error: any) => {
-            //console.log(error);
-            this.alertMsg = error.error.message;
-          },
-        });
+      this.updateBrandsStatus(isActive);
     } else {
-      this.UserExistModalBTN.nativeElement.click();
       this.alertTitle = 'No Selection!';
-
-      this.alertMsg = 'No Brand is selected';
+      this.alertMsg = 'No group is selected';
+      this.showModalAndResetForm();
     }
   }
 
+  /**
+   * Handles selection of checkboxes.
+   * @param event Event containing brand ID and checkbox state
+   */
   checkboxSelected(event: { brandId: any; event: any }) {
-    // console.log("productId",groupId);
     const { brandId, event: domEvent } = event;
     const isSelected: boolean = domEvent.target.checked;
-    // console.log("event is",isSelected);
-    // console.log(isSelected);
+
     if (isSelected && !this.selectedProducts1.includes(brandId)) {
-      // Add the selected product to the list
       this.selectedProducts1.push(brandId);
     } else if (!isSelected && this.selectedProducts1.includes(brandId)) {
-      // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
         (id) => id !== brandId
       );
     }
+    this.updateSelectAllCheckbox();
+  }
+  /**
+   * Updates the state of the select-all checkbox.
+   */
+  updateSelectAllCheckbox(): void {
     this.allSelectedCheckbox.nativeElement.checked = false;
-    // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
     if (this.selectedProducts1.length === this.groupList.length) {
       this.allSelectedCheckbox.nativeElement.checked = true;
     }
-    //  console.log("selected areee",this.selectedProducts1);
+  }
+
+  /**
+   * Shows alert message and resets the form.
+   * @param newStatus New status of the product
+   */
+  showAlertAndResetForm(newStatus: number): void {
+    this.alertMsg = newStatus
+      ? 'Product is Activated!'
+      : 'Product is Deactivated!';
+    this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
+    this.showModalAndResetForm();
+  }
+  /**
+   * Shows modal and resets the form.
+   */
+  showModalAndResetForm(): void {
+    this.UserExistModalBTN.nativeElement.click();
+    // this.addGroupForm.reset();
+  }
+  /**
+   * Handles error responses.
+   * @param error Error response
+   */
+  handleErrorResponse(error: any): void {
+    this.alertMsg = error.error.message;
+    this.isError = true;
+    this.UserExistModalBTN.nativeElement.click();
   }
 }
