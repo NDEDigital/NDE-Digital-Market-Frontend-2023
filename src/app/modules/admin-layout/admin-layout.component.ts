@@ -85,14 +85,4 @@ export class AdminLayoutComponent {
   toggleSidebar() {
     this.showSidebar = window.innerWidth >= 547;
   }
-
-  setActiveButton(buttonName: string) {
-    const selectAllCheckbox = document.querySelector(
-      '#selectAllCheckbox'
-    ) as HTMLInputElement;
-    selectAllCheckbox.checked = false;
-    this.currentPage = 0;
-    this.activeButton = buttonName;
-    this.status = buttonName;
-  }
 }
