@@ -1,194 +1,158 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
 import { UnitService } from 'src/app/services/unit.service';
+import { AlertHandleBase } from '../../common/alert-handle-base';
+
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-unit-list',
   templateUrl: './unit-list.component.html',
   styleUrls: ['./unit-list.component.css'],
 })
-export class UnitListComponent {
-  @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
-  @ViewChild('productGroupImageInput') ProductImageInput!: ElementRef;
-  @ViewChild('addGroupModalCenterG') AddGroupModalCenterG!: ElementRef;
-  //@ViewChild('modalGroupImage') ModalGroupImage!: ElementRef;
-  @ViewChild('modalGroupImage') ModalGroupImage!: ElementRef<HTMLImageElement>;
+export class UnitListComponent
+  extends AlertHandleBase
+  implements AfterViewInit
+{
+  // ViewChild references to various HTML elements
+  @ViewChild('userExistModalBTN') override UserExistModalBTN!: ElementRef;
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
   headers!: string[];
   isHovered: any | null = null;
-
-  addGroupForm!: FormGroup;
-  alertMsg = '';
+  addBtnIndex = 7;
   showProductDiv: boolean = false;
   groupList: any;
   btnIndex = -1;
-  isError: boolean = false;
   isEditMode = false;
   existingImagePath: string = '';
   currentGroup: any = null;
   activeGroupId: number | null = null;
   imagePathPreview: string = '';
-  alertTitle: any;
+  doubleClickData!: any;
+  // Flags for button clicks and mode
+  btnClick = false;
+  addbtnClickP = false;
+  selectedProductIds: any[] = [];
+  selectedProducts1: any[] = [];
 
+  selectAll = false;
   constructor(
-    private addProductService: AddProductService,
+    protected destroyRef: DestroyRef,
     private unitServices: UnitService,
     private tableHeadersService: TableHeadersService
-  ) {}
-
-  toggleAddProductGroupDiv(): void {
-    this.showProductDiv = !this.showProductDiv;
-    this.btnIndex = -1;
-    this.getProductGroup(true);
-    this.ngOnInit();
-  }
-
-  showApprovalProductGrid(): void {
-    this.showProductDiv = false;
-    this.addGroupForm.reset();
+  ) {
+    super();
   }
 
   ngOnInit() {
-    this.addGroupForm = new FormGroup({
-      description: new FormControl('', Validators.required),
-      name: new FormControl('', Validators.required),
-    });
+    // Initialize component
     this.getProductGroup(-1);
     this.headers = this.tableHeadersService.unitListTableHeaders;
   }
-
+  ngAfterViewInit(): void {
+    // Ensure UserExistModalBTN is set
+    if (!this.UserExistModalBTN) {
+      console.error('UserExistModalBTN ViewChild is not initialized.');
+    }
+  }
+  /**
+   * Opens the modal for adding a new product group.
+   */
   openAddGroupModal(): void {
-    this.resetForm();
+    console.log('ashce');
     this.isEditMode = false;
     this.currentGroup = null;
-    this.AddGroupModalCenterG.nativeElement.click();
+    this.btnClick = true;
+    this.openModalWithData(null);
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.addGroupForm.get(fieldName);
-    // Check if the field is not null before accessing its properties
-    return field ? field.invalid && (field.dirty || field.touched) : false;
-  }
-
-  resetForm(): void {
-    this.addGroupForm.reset();
-    this.isEditMode = false;
-    this.currentGroup = null;
-    this.activeGroupId = null;
-  }
-
-  onSubmit(): void {
-    Object.values(this.addGroupForm.controls).forEach((control) => {
-      control.markAsTouched();
-      control.markAsDirty();
-    });
-
-    if (this.addGroupForm.valid) {
-      console.log('Form Data:', this.addGroupForm.value);
-      const formData = new FormData();
-
-      Object.keys(this.addGroupForm.value).forEach((key) => {
-        let value = this.addGroupForm.value[key];
-        if (key === 'productId' || key === 'unitId') {
-          value = String(Math.floor(Number(value)));
-          console.log(value);
-        }
-        formData.append(key, value);
-      });
-
-      // Append additional fields
-      // let addedByUser = localStorage.getItem('code') || 'user';
-      formData.append('addedBy', 'user');
-      formData.append('addedPC', '0.0.0.0');
-      // formData.append('isActive', true ? '1' : '0');
-      // formData.append('isConversion', true ? '1' : '0');
-
-      // for (let pair of (formData as any).entries()) {
-      //   console.log(`${pair[0]}: `, pair[1]);
-      // }
-      if (!this.isEditMode) {
-        console.log(formData);
-        for (let [key, value] of (formData as any).entries()) {
-          console.log(key, value);
-        }
-        this.unitServices.createUnit(formData).subscribe({
-          next: (response: any) => {
-            //console.log(response, 'successfull');
-            this.alertMsg = response.message;
-            this.isError = false;
-            //console.log(response.message);
-            setTimeout(() => {
-              this.UserExistModalBTN.nativeElement.click();
-              this.addGroupForm.reset();
-              // this.toggleAddProductGroupDiv();
-            }, 50);
-            this.getProductGroup(-1);
-          },
-          error: (error: any) => {
-            //console.log(error, 'error');
-            this.alertMsg = error.error.message;
-            this.isError = true;
-            this.UserExistModalBTN.nativeElement.click();
-          },
-        });
-      }
-      // console.log(this.isEditMode, "inserting on submit");
-
-      if (this.isEditMode) {
-        let updateByUser = localStorage.getItem('code');
-        console.log(updateByUser, 'code...');
-
-        // console.log("edit mode");
-        formData.append('unitId', this.currentGroup.unitId);
-        if (updateByUser !== null) {
-          formData.append('updatedBy', updateByUser);
-        } else {
-          console.error('Update by code not found in localStorage');
-        }
-        formData.append('updatedPC', '0.0.0.0');
-        console.log('form value', formData);
-        for (let [key, value] of (formData as any).entries()) {
-          console.log(key, value);
-        }
-        this.unitServices.updateUnitName(formData).subscribe({
-          next: (response: any) => {
-            // Handle successful response here
-            console.log('Update successful:', response);
-            this.alertMsg = 'Unit updated successfully';
-            this.isEditMode = false;
-            // Optionally, reset the form and refresh the group list
-            this.addGroupForm.reset();
-            this.getProductGroup(-1);
-
-            // Close the modal if you have one open
-            this.UserExistModalBTN.nativeElement.click();
-          },
-          error: (error: any) => {
-            // Handle error response here
-            console.error('Error updating  unit:', error);
-            this.alertMsg = error.error.message || 'Error updating  unit';
-            this.isError = true;
-            this.isEditMode = false;
-
-            // Show the error modal or message
-            this.UserExistModalBTN.nativeElement.click();
-          },
-        });
-        console.log(this.isEditMode, 'updating on submit');
-      }
-    } else {
-      console.log('Form is not valid');
+  openModalWithData(group: any): void {
+    console.log('ashce modal e');
+    this.isEditMode = !!group;
+    this.currentGroup = group;
+    this.btnClick = true;
+    this.addbtnClickP = !group;
+    console.log('brand', group);
+    if (group) {
+      this.doubleClickData = group;
+      this.activeGroupId = group.productGroupID;
     }
   }
 
+  /**
+   * Resets the form.
+   */
+  resetForm(): void {
+    this.isEditMode = false;
+    this.addbtnClickP = false;
+  }
+
+  /**
+   * Handles form submission.
+   * @param formData Form data to be submitted
+   */
+  onSubmit(formData: any): void {
+    this.isEditMode ? this.updateUnit(formData) : this.createUnit(formData);
+  }
+
+  /**
+   * Creates a new brand.
+   * @param formData Form data for creating the unit
+   */
+  createUnit(formData: any) {
+    this.unitServices
+      .createUnit(formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.alertMsg = response.message;
+          this.isError = false;
+          setTimeout(() => {
+            this.showModalAndResetForm();
+          }, 50);
+          this.getProductGroup(-1);
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
+  }
+  updateUnit(formData: any) {
+    let updateByUser = localStorage.getItem('code');
+    formData.append('unitId', this.currentGroup.unitId);
+    if (updateByUser !== null) {
+      formData.append('updatedBy', updateByUser);
+    } else {
+      console.error('Update by code not found in localStorage');
+    }
+    formData.append('updatedPC', '0.0.0.0');
+    console.log('form value', formData);
+    for (let [key, value] of (formData as any).entries()) {
+      console.log(key, value);
+    }
+    this.unitServices
+      .updateUnitName(formData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.alertMsg = 'Unit updated successfully';
+          this.isEditMode = false;
+          setTimeout(() => {
+            this.showModalAndResetForm();
+          }, 50);
+          this.getProductGroup(-1);
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
+  }
+  /**
+   * Retrieves units based on status.
+   * @param status Status of the brands to retrieve
+   */
   getProductGroup(status: any) {
     console.log(status);
     this.btnIndex = status;
@@ -201,100 +165,44 @@ export class UnitListComponent {
     this.selectedProducts1.length = 0;
     this.selectAll = false;
     if (status != -1) {
-      this.unitServices.getUnitGroups(status).subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.groupList = response;
-        },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-          this.UserExistModalBTN.nativeElement.click();
-        },
-      });
+      this.unitServices
+        .getUnitGroups(status)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: any) => {
+            this.groupList = response;
+          },
+          error: (error: any) => {
+            this.handleErrorResponse(error);
+          },
+        });
     } else {
-      this.unitServices.getUnitGroup().subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.groupList = response;
-        },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-          this.UserExistModalBTN.nativeElement.click();
-        },
-      });
+      this.unitServices
+        .getUnitGroup()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: any) => {
+            console.log(response);
+            this.groupList = response;
+          },
+          error: (error: any) => {
+            this.handleErrorResponse(error);
+          },
+        });
     }
-  }
-
-  updateFormValidators(): void {
-    // Check if the control exists
-    const productGroupImageControl = this.addGroupForm.get('productGroupImage');
-    if (productGroupImageControl) {
-      if (this.isEditMode) {
-        productGroupImageControl.clearValidators();
-      } else {
-        productGroupImageControl.setValidators(Validators.required);
-      }
-      productGroupImageControl.updateValueAndValidity();
-    }
-  }
-
-  openModalWithData(group: any): void {
-    this.isEditMode = true;
-    this.updateFormValidators();
-    console.log('group', group);
-    this.populateForm(group);
-    console.log(group);
-    console.log('group ashce');
-    this.currentGroup = group;
-
-    // Ensure the modal is opened before calling displayImage
-    this.displayImage(group.imagepath);
-    this.activeGroupId = group.unitId;
-  }
-  populateForm(group: any): void {
-    this.addGroupForm.patchValue({
-      description: group.description,
-      name: group.name,
-      productGroupDetails: group.productGroupDetails,
-    });
-
-    this.existingImagePath = group.imagepath;
-  }
-  displayImage(imagePath: string): void {
-    console.log('Received imagePath:', imagePath);
-
-    if (imagePath) {
-      const imageUrl = '/asset' + imagePath.split('asset')[1];
-
-      console.log('Constructed imageUrl:', imageUrl);
-      this.imagePathPreview = imageUrl;
-    } else {
-      this.imagePathPreview = 'not upload yet';
-    }
-    this.AddGroupModalCenterG.nativeElement.click();
   }
 
   updateIsActive(status: Boolean, unitIds: any) {
     console.log(status, 'status', unitIds, 'unitIds');
     this.unitServices
       .updateUnitActiveStatus(unitIds.toString(), status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
-          console.log(response);
-          const active = status == true ? 1 : 0;
-          this.getProductGroup(status);
-          if (status) {
-            this.btnIndex = 1;
-          } else {
-            this.btnIndex = 0;
-          }
-          this.UserExistModalBTN.nativeElement.click();
-          this.alertMsg = active
-            ? 'Product is  Activated!'
-            : 'Product is Deactivated!';
-          this.alertTitle = active ? 'Activated!' : 'Deactivated!';
+          const newStatus = status ? 1 : 0;
+          this.getProductGroup(newStatus);
+          this.showAlertAndResetForm(newStatus);
+          this.showModalAndResetForm();
         },
         error: (error: any) => {
           console.log(error);
@@ -303,76 +211,58 @@ export class UnitListComponent {
       });
   }
 
-  selectedProductIds: any[] = [];
-  selectedProducts1: any[] = [];
-
-  selectAll = false;
+  /**
+   * Toggles the selection of all checkboxes.
+   */
   toggleAllCheckboxes() {
-    console.log('all seelcted');
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-    // console.log("product id's areeeeee",this.selectedProducts1)
-
-    // Toggle the state of all checkboxes based on the "Select All" checkbox
     console.log('group list are', this.groupList);
 
-    this.groupList.forEach((product: { isSelected: boolean; unitId: any }) => {
-      product.isSelected = this.selectAll;
-
-      // Update the selectedProducts array based on the state of each checkbox
-      if (this.selectAll && !this.selectedProducts1.includes(product.unitId)) {
-        this.selectedProducts1.push(product.unitId);
-      } else if (
-        !this.selectAll &&
-        this.selectedProducts1.includes(product.unitId)
-      ) {
-        // Remove the deselected product from the list
-        this.selectedProducts1 = this.selectedProducts1.filter(
-          (id) => id !== product.unitId
-        );
-        this.selectAll = false;
-      }
+    this.groupList.forEach((unit: { isSelected: boolean; unitId: any }) => {
+      unit.isSelected = this.selectAll;
+      this.updateSelectedProducts(unit);
     });
-
-    // console.log('Selected Product IDs:', this.selectedProducts1);
-    // console.log("this.selectedProducts1.length",this.selectedProducts1.length);
-    // console.log("this.selectedProducts1.length",this.productList.length);
   }
-
+  /**
+   * Updates the list of selected units.
+   * @param unit Unit to update selection status
+   */
+  updateSelectedProducts(unit: { isSelected: boolean; unitId: any }) {
+    if (this.selectAll && !this.selectedProducts1.includes(unit.unitId)) {
+      this.selectedProducts1.push(unit.unitId);
+    } else if (
+      !this.selectAll &&
+      this.selectedProducts1.includes(unit.unitId)
+    ) {
+      this.selectedProducts1 = this.selectedProducts1.filter(
+        (id) => id !== unit.unitId
+      );
+      this.selectAll = false;
+    }
+  }
+  updateUnitsStatus(isActive: number): void {
+    this.unitServices
+      .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
+      .subscribe({
+        next: (response: any) => {
+          const newStatus = isActive ? 1 : 0;
+          this.getProductGroup(newStatus);
+          this.showAlertAndResetForm(newStatus);
+          this.selectAll = false;
+          this.selectedProducts1.length = 0;
+          this.showModalAndResetForm();
+        },
+        error: (error: any) => {
+          this.handleErrorResponse(error);
+        },
+      });
+  }
+  /**
+   * Changes the active/inactive status of selected units .
+   * @param isActive Flag indicating whether to activate or deactivate
+   */
   chageActiveInactive(isActive: any) {
-    // console.log("hello ");
-
-    // console.log("get groupIds are ",this.selectedProducts1);
-    // console.log("is active are",isActive);
-
     if (this.selectedProducts1.length > 0) {
-      console.log('selectedProducts1', this.selectedProducts1.toString());
-      // console.log("selectedProducts1",isActive);
-
-      this.unitServices
-        .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
-        .subscribe({
-          next: (response: any) => {
-            console.log(response);
-            this.getProductGroup(isActive);
-            if (isActive) {
-              this.btnIndex = 1;
-            } else {
-              this.btnIndex = 0;
-            }
-            this.UserExistModalBTN.nativeElement.click();
-            this.alertMsg = isActive
-              ? 'Group is  Deactivated!'
-              : 'Group is Activated!';
-            this.alertTitle = isActive ? 'Deactiveted!' : 'Activeted!';
-            this.selectAll = false;
-            this.selectedProducts1.length = 0;
-            // console.log("product id's are",this.selectedProductIds)
-          },
-          error: (error: any) => {
-            //console.log(error);
-            this.alertMsg = error.error.message;
-          },
-        });
+      this.updateUnitsStatus(isActive);
     } else {
       this.UserExistModalBTN.nativeElement.click();
       this.alertTitle = 'No Selection!';
@@ -380,28 +270,30 @@ export class UnitListComponent {
       this.alertMsg = 'No group is selected';
     }
   }
-
+  /**
+   * Handles selection of checkboxes.
+   * @param event Event containing unit ID and checkbox state
+   */
   checkboxSelected(event: { unitId: any; event: any }) {
-    // console.log("productId",groupId);
     const { unitId, event: domEvent } = event;
     const isSelected: boolean = domEvent.target.checked;
-    // console.log("event is",isSelected);
-    // console.log(isSelected);
     if (isSelected && !this.selectedProducts1.includes(unitId)) {
-      // Add the selected product to the list
       this.selectedProducts1.push(unitId);
     } else if (!isSelected && this.selectedProducts1.includes(unitId)) {
-      // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
         (id) => id !== unitId
       );
     }
+    this.updateSelectAllCheckbox();
+  }
+  /**
+   * Updates the state of the select-all checkbox.
+   */
+  updateSelectAllCheckbox(): void {
     this.allSelectedCheckbox.nativeElement.checked = false;
-    // Update the selectedProductIds array with the current list of selected product IDs
     this.selectedProductIds = this.selectedProducts1.slice();
     if (this.selectedProducts1.length === this.groupList.length) {
       this.allSelectedCheckbox.nativeElement.checked = true;
     }
-    //  console.log("selected areee",this.selectedProducts1);
   }
 }

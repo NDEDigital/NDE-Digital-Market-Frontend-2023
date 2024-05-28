@@ -1,31 +1,32 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BrandsService } from 'src/app/services/brands.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
+import { AlertHandleBase } from '../../common/alert-handle-base';
 @Component({
   selector: 'app-brands',
   templateUrl: './brands.component.html',
   styleUrls: ['./brands.component.css'],
 })
-export class BrandsComponent {
-  @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
+export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
+  // ViewChild references to various HTML elements
+  @ViewChild('userExistModalBTN') override UserExistModalBTN!: ElementRef;
+
   @ViewChild('allselected', { static: true })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
+  // Array to hold table headers
   headers!: string[];
   isHovered: any | null = null;
   addBtnIndex = 9;
-  alertMsg = '';
   showProductDiv: boolean = false;
   groupList: any;
   btnIndex = -1;
-  isError: boolean = false;
   isEditMode = false;
   existingImagePath: string = '';
   currentGroup: any = null;
   activeGroupId: number | null = null;
   imagePathPreview: string = '';
-  alertTitle: any;
   doubleClickData!: any;
   // Flags for button clicks and mode
   btnClick = false;
@@ -35,10 +36,18 @@ export class BrandsComponent {
 
   selectAll = false;
   constructor(
-    private brandsService: BrandsService,
-    private tableHeadersService: TableHeadersService,
+    protected brandsService: BrandsService,
+    protected tableHeadersService: TableHeadersService,
     protected destroyRef: DestroyRef
-  ) {}
+  ) {
+    super();
+  }
+  ngAfterViewInit(): void {
+    // Ensure UserExistModalBTN is set
+    if (!this.UserExistModalBTN) {
+      console.error('UserExistModalBTN ViewChild is not initialized.');
+    }
+  }
 
   ngOnInit() {
     // Initialize component
@@ -54,6 +63,18 @@ export class BrandsComponent {
     this.currentGroup = null;
     this.btnClick = true;
     this.openModalWithData(null);
+  }
+
+  openModalWithData(group: any): void {
+    this.isEditMode = !!group;
+    this.currentGroup = group;
+    this.btnClick = true;
+    this.addbtnClickP = !group;
+    console.log('ashce modal e');
+    if (group) {
+      this.doubleClickData = group;
+      this.activeGroupId = group.productGroupID;
+    }
   }
   /**
    * Resets the form.
@@ -113,8 +134,6 @@ export class BrandsComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
-          // Handle successful response here
-          console.log('Update successful:', response);
           this.alertMsg = 'Brand updated successfully';
           this.isEditMode = false;
 
@@ -156,28 +175,18 @@ export class BrandsComponent {
           },
         });
     } else {
-      this.brandsService.getNewBrands().subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.groupList = response;
-        },
-        error: (error: any) => {
-          //console.log(error);
-          this.alertMsg = error.error.message;
-          this.UserExistModalBTN.nativeElement.click();
-        },
-      });
-    }
-  }
-
-  openModalWithData(group: any): void {
-    this.isEditMode = !!group;
-    this.currentGroup = group;
-    this.btnClick = true;
-    this.addbtnClickP = !group;
-    if (group) {
-      this.doubleClickData = group;
-      this.activeGroupId = group.productGroupID;
+      this.brandsService
+        .getNewBrands()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: any) => {
+            console.log(response);
+            this.groupList = response;
+          },
+          error: (error: any) => {
+            this.handleErrorResponse(error);
+          },
+        });
     }
   }
 
@@ -292,33 +301,5 @@ export class BrandsComponent {
     if (this.selectedProducts1.length === this.groupList.length) {
       this.allSelectedCheckbox.nativeElement.checked = true;
     }
-  }
-
-  /**
-   * Shows alert message and resets the form.
-   * @param newStatus New status of the product
-   */
-  showAlertAndResetForm(newStatus: number): void {
-    this.alertMsg = newStatus
-      ? 'Product is Activated!'
-      : 'Product is Deactivated!';
-    this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
-    this.showModalAndResetForm();
-  }
-  /**
-   * Shows modal and resets the form.
-   */
-  showModalAndResetForm(): void {
-    this.UserExistModalBTN.nativeElement.click();
-    // this.addGroupForm.reset();
-  }
-  /**
-   * Handles error responses.
-   * @param error Error response
-   */
-  handleErrorResponse(error: any): void {
-    this.alertMsg = error.error.message;
-    this.isError = true;
-    this.UserExistModalBTN.nativeElement.click();
   }
 }

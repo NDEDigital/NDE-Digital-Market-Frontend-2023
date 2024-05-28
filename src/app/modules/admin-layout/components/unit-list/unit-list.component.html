@@ -5,11 +5,13 @@
   <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getProductGroup($event)"
+    (openAddGroupModalEvent)="openAddGroupModal()"
     [addGroupModalCenter]="'#addGroupModalCenter'"
     [NewButton]="'New'"
     [ActiveButton]="'Active'"
     [InactiveButton]="'Inactive'"
     [AddButtonName]="'Add Unit'"
+    [addBtnIndex]="addBtnIndex"
   ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
@@ -75,83 +77,16 @@
 </div>
 
 <!-- add Group modal   -->
-<div
-  class="modal fade"
-  id="addGroupModalCenter"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="d-flex justify-content-end align-items-center">
-          <button
-            type="button"
-            class="btn-close border border-1"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            (click)="resetForm()"
-          ></button>
-        </div>
-        <!-- add group form design  -->
-        <div>
-          <!-- <h2 class="register_title">Add Product Groups Name</h2> -->
-          <div class="d-flex justify-content-center align-items-center">
-            <!-- Back Button on the left -->
-
-            <!-- Title in the middle -->
-            <h2 class="register_title">
-              {{ isEditMode ? "Edit Unit Name" : "Add Unit Name" }}
-            </h2>
-          </div>
-          <hr />
-          <form [formGroup]="addGroupForm">
-            <div class="form-group">
-              <label for="description"
-                ><span class="text-danger">*</span>Product Unit Name</label
-              >
-              <input
-                type="text"
-                id="description"
-                formControlName="description"
-                [class.error]="isFieldInvalid('description')"
-              />
-              <span class="text-danger" *ngIf="isFieldInvalid('description')"
-                >Product Unit Name is required.</span
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="name"
-                ><span class="text-danger">*</span>Product Unit Symbol</label
-              >
-              <input
-                type="text"
-                id="name"
-                formControlName="name"
-                [class.error]="isFieldInvalid('name')"
-              />
-              <span class="text-danger" *ngIf="isFieldInvalid('name')"
-                >Product Unit Symbol is required.</span
-              >
-            </div>
-            <!-- Button trigger modal -->
-            <button
-              type="submit"
-              class="button mt-3"
-              id="sign-in-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+<div *ngIf="btnClick">
+  <app-unit-list-modal
+    [IdName]="'#addGroupModalCenter'"
+    [isEdit]="isEditMode"
+    [doubleClickData]="doubleClickData"
+    (resetFormEvent)="resetForm()"
+    (formDataEvent)="onSubmit($event)"
+    [addBtnClick]="addbtnClickP"
+  ></app-unit-list-modal>
 </div>
-
 <button
   type="button"
   class="btn btn-primary d-none"
