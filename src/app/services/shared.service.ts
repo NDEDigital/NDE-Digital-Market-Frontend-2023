@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GoodsDataService } from './goods-data.service';
-
+import { CompanyService } from './company.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +12,7 @@ export class SharedService {
   groupName = '';
   groupCode = '';
   companyCode = '';
-
+  companyName = '';
   productType = new Map();
   products = new Map();
   sliderData = new Map();
@@ -59,7 +59,18 @@ export class SharedService {
 
   setCompanyCode(companyCode: string) {
     this.companyCode = companyCode;
+
     sessionStorage.setItem('companyCode', companyCode);
+  }
+
+  setGroupProduct(companyName: string, groupName: string) {
+    sessionStorage.setItem('companyName', companyName);
+    sessionStorage.setItem('groupName', groupName);
+  }
+
+  setCompanyName(companyName: string) {
+    sessionStorage.setItem('companyName', companyName);
+    // sessionStorage.setItem('groupName', groupName);
   }
 
   getProductType() {

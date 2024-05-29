@@ -64,14 +64,15 @@ height: 21.8rem;
 .item-1 .cards-img {
 height: 21.5rem;
  width: 100%;
-
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
 }
 
 .item-2 .cards-img,
 .item-3 .cards-img {
   height: 10.3rem;
   width: 100%;
-  border-radius: 5px;
+
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
 
@@ -80,7 +81,8 @@ height: 21.5rem;
 .item-4 .cards-img {
 height: 21.5rem;
  width: 100%;
-
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
 }
 
 .cards {

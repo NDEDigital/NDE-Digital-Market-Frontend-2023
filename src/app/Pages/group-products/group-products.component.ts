@@ -20,9 +20,10 @@ export class GroupProductsComponent {
   getTopSellerData: any;
   groupCode: string = '';
   groupCodePa: string = '';
+  groupNamePa: string = '';
   goods: any;
   groupName: string = '';
-
+  companyName: string = '';
   productId: string = '';
   companyCode: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
@@ -46,19 +47,56 @@ export class GroupProductsComponent {
     event.target.src = '/assets/default-image.jpg';
   }
   ngOnInit() {
+    console.log('ngOnInit called');
     this.route.queryParams.subscribe((params) => {
+      console.log('Query params:', params);
       if (params['groupCode']) {
         // Decoding groupCode from URL
         this.groupCode = atob(params['groupCode']);
         this.groupCodePa = this.groupCode;
         console.log('GroupCode : ', this.groupCode);
-        this.getAllProduct(this.groupCode); // Call getAllProduct with groupCode
+
+        // Call getAllProduct with groupCode
+        this.getAllProduct(this.groupCode, this.companyName);
+      }
+      if (params['companyName']) {
+        // Decoding companyName from URL
+        this.companyName = atob(params['companyName']);
+        this.groupNamePa = this.companyName;
+        console.log('GroupcompanyNameCode : ', this.companyName);
+
+        // Call getAllProductByCompany with companyName
+        this.getAllProductByCompany(this.companyName);
       }
     });
 
-    this.callApi(); // Moved outside the queryParams subscription
+    this.callApi();
   }
 
+  // ngOnInit() {
+  //   this.route.queryParams.subscribe((params) => {
+  //     if (params['groupCode'] && params['companyName']) {
+  //       // Decoding groupCode from URL
+  //       this.groupCode = atob(params['groupCode']);
+  //       this.groupCodePa = this.groupCode;
+
+  //       // Decoding companyName from URL
+  //       this.companyName = atob(params['companyName']);
+  //       this.groupNamePa = this.companyName;
+
+  //       // Logging decoded values
+  //       console.log('GroupCode : ', this.groupCode);
+  //       console.log('GroupcompanyNameCode : ', this.companyName);
+
+  //       // Call getAllProduct with groupCode and companyName
+  //       this.getAllProduct(this.groupCode, this.companyName);
+  //     }
+  //   });
+
+  //   // Call the API outside the queryParams subscription
+  //   this.callApi();
+
+  // }
   // getRecommendedProduct() {
   //   this.companyService.getTopSeller().subscribe({
   //     next: (response: any) => {
@@ -98,16 +136,15 @@ export class GroupProductsComponent {
     // //console.log(firstHalf);
     return firstHalf;
   }
-
-  getAllProduct(groupCode: any) {
+  getAllProduct(groupCode: any, companyName: any) {
+    // Clear existing products
     this.product8.clear();
+
+    // Fetch data from API and filter products by group code
     this.goodsDataObj.getCarouselData().subscribe(
       (data: any[]) => {
-        this.goods = data.filter(
-          (item) =>
-            item.productGroupName === groupCode && item.approveSalesQty !== '0'
-        );
-         this.products3.clear();
+        this.goods = data.filter((item) => item.productGroupName === groupCode);
+        this.products3.clear();
         for (let i = 0; i < this.goods.length; i++) {
           let finObj = this.products3.get(this.goods[i].productGroupName);
           if (finObj) {
@@ -155,6 +192,56 @@ export class GroupProductsComponent {
           }
           console.log(this.products3, ' ut');
         }
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Handle unauthorized error
+          //console.error('Unauthorized Error', error);
+        }
+        // You can choose to throw an error or handle it differently based on your requirements
+        throwError('Error occurred');
+      }
+    );
+  }
+  getAllProductByCompany(companyName: string) {
+    // Clear existing products
+    this.product8.clear();
+
+    // Fetch data from API and filter products by company name
+    this.goodsDataObj.getCarouselData().subscribe(
+      (data: any[]) => {
+        this.goods = data.filter((item) => item.companyName === companyName);
+
+        this.products3.clear();
+        for (let i = 0; i < this.goods.length; i++) {
+          let finObj = this.products3.get(this.goods[i].productGroupName);
+          let obj = {
+            companyCode: this.goods[i].companyCode,
+            companyName: this.goods[i].companyName,
+            groupCode: this.goods[i].productGroupID,
+            goodsId: this.goods[i].productId,
+            groupName: this.goods[i].productGroupName,
+            goodsName: this.goods[i].productName,
+            specification: this.goods[i].specification,
+            approveSalesQty: this.goods[i].availableQty,
+            sellerCode: this.goods[i].sellerId,
+            unitId: this.goods[i].unitId,
+            quantityUnit: this.goods[i].unit,
+            imagePath: this.goods[i].imagePath,
+            price: this.goods[i].price,
+            discountAmount: this.goods[i].discountAmount,
+            discountPct: this.goods[i].discountPct,
+            netPrice: this.goods[i].totalPrice,
+          };
+
+          if (finObj) {
+            finObj.push(obj);
+            this.products3.set(this.goods[i].productGroupName, finObj);
+          } else {
+            this.products3.set(this.goods[i].productGroupName, [obj]);
+          }
+        }
+        console.log(this.products3, ' bbut');
       },
       (error: HttpErrorResponse) => {
         if (error.status === 401) {

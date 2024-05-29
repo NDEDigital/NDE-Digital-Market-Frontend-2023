@@ -69,10 +69,12 @@ const routes: Routes = [
     path: 'ourTopSeller',
     component: OurTopSellerComponent,
   },
-  {
-    path: 'groupProducts',
-    component: GroupProductsComponent,
-  },
+{
+  path: 'groupProducts',
+  component: GroupProductsComponent,
+  pathMatch: 'full'
+},
+
   { path: 'searchResult', component: SearchResultComponent },
   { path: 'compare', component: CompareProductComponent },
   { path: 'cartView', component: CartAddedProductComponent },
