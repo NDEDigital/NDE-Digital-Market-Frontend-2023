@@ -31,6 +31,7 @@ import { SellerListGridViewComponent } from './components/seller-list/seller-lis
 import { CompanyTradeLicenceModalComponent } from './components/company-approval/company-trade-licence-modal/company-trade-licence-modal.component';
 import { BrandsModalComponent } from './components/brands/brands-modal/brands-modal.component';
 import { UnitListModalComponent } from './components/unit-list/unit-list-modal/unit-list-modal.component';
+import { BannerApprovalImageViewModalComponent } from './components/banner-approval/banner-approval-image-view-modal/banner-approval-image-view-modal.component';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -61,6 +62,7 @@ import { UnitListModalComponent } from './components/unit-list/unit-list-modal/u
     CompanyTradeLicenceModalComponent,
     BrandsModalComponent,
     UnitListModalComponent,
+    BannerApprovalImageViewModalComponent,
   ],
   exports: [StatusButtonComponent],
   imports: [

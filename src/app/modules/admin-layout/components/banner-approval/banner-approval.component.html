@@ -176,56 +176,11 @@
           </div>
         </div>
       </div>
-      <!-- <div class="table-grid-view">
-        <app-banner-approval-grid-view
-          [banner]="banner"
-          [isHovered]="isHovered"
-          [i]="i"
-          [btnIndex]="btnIndex"
-          (truncateDescriptionEvent)="truncateDescription($event)"
-          (showImageEvent)="showImage($event)"
-          (selectedCompanyCodeValuesChange)="
-            onSelectedCompanyCodeChange($event)
-          "
-        >
-        </app-banner-approval-grid-view>
-      </div> -->
-      <!-- Modal for tadeLicence -->
-      <div
-        class="modal fade"
-        id="showImgModal"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="showImgModalLabel"
-        aria-hidden="true"
-      >
-        <div
-          class="modal-dialog modal-xl d-flex align-items-center justify-content-center"
-        >
-          <div class="modal-content">
-            <div class="modal-header modal-heading">
-              <h1 class="modal-title text-light fs-5" id="showImgModalLabel">
-                {{ imageTitle }}
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body text-center">
-              <img
-                class="company_images"
-                [src]="imagePath"
-                alt="no image was uploaded!"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
+    <app-banner-approval-image-view-modal
+      [imageTitle]="imageTitle"
+      [imagePath]="imagePath"
+    ></app-banner-approval-image-view-modal>
   </div>
 </div>
 
