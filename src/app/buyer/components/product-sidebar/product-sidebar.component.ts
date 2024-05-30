@@ -24,6 +24,10 @@ export class ProductSidebarComponent implements OnInit {
   isGroupProductPage = false;
   activeEntry: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
+  @Output() companyNameChanged = new EventEmitter<string>();
+  selectedCompanyName: string = ''; // Add this variable to store selected company name
+
+  @Output() companySelected = new EventEmitter<string>();
   // -----------------
   products: string[] = [];
   product8 = new Map();
@@ -50,6 +54,7 @@ export class ProductSidebarComponent implements OnInit {
     private companyService: CompanyService
   ) {
     this.detectPage();
+    this.setActiveCategory();
   }
 
   ngOnInit(): void {
@@ -58,30 +63,47 @@ export class ProductSidebarComponent implements OnInit {
       this.loadBrand();
     }
     this.setActiveCategory(); // Call method to set active category
+    this.detectPage(); // Call detectPage method to handle page navigation
 
     const savedActiveEntry = localStorage.getItem('activeEntry');
     if (savedActiveEntry) {
       this.activeEntry = savedActiveEntry;
+      console.log('Active Entry from local storage:', this.activeEntry);
     }
+
+    console.log('Group Data:', this.groupData); // Add this line
   }
 
+  selectCompany(companyName: string) {
+    this.selectedCompanyName = companyName;
+    this.companySelected.emit(this.selectedCompanyName); // Emit the selected company name
+  }
   // Method to set active category based on query parameters
   setActiveCategory(): void {
+    console.log('Setting active category...');
     if (this.isGroupProductPage) {
       this.route.queryParams.subscribe((params) => {
         const groupCode = params['groupCode'];
+        console.log('Group Code:', groupCode);
         if (groupCode) {
           const decodedGroupCode = atob(groupCode);
+          console.log('Decoded Group Code:', decodedGroupCode);
           this.activeEntry = this.groupData.get(decodedGroupCode) || '';
+
+
+          console.log('Active Entry:', this.activeEntry);
         }
       });
     }
   }
+
   detectPage(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isProductPage = event.url.includes('/productsPageComponent');
         this.isGroupProductPage = event.url.includes('/groupProducts');
+        console.log('Is Product Page:', this.isProductPage);
+        console.log('Is Group Product Page:', this.isGroupProductPage); // Add this line
 
         if (this.isProductPage) {
           // Handle category filtering for product page if needed
@@ -92,11 +114,6 @@ export class ProductSidebarComponent implements OnInit {
             if (params['groupCode']) {
               groupCode = atob(params['groupCode']);
               this.activeEntry = this.groupData.get(groupCode) || '';
-            }
-
-            if (params['companyName']) {
-              companyName = atob(params['companyName']);
-              this.activeEntry = this.companyData.get(companyName) || '';
             }
 
             if (groupCode && companyName) {
@@ -153,9 +170,8 @@ export class ProductSidebarComponent implements OnInit {
 
   setSelectData(groupCode: string, groupName: string) {
     this.sharedService.setNavSelectData(groupCode, groupName);
-
     this.dataUpdated.emit();
-    this.activeEntry = groupName;
+    this.activeEntry = groupName; // Update activeEntry with the selected category or group name
     localStorage.setItem('activeEntry', this.activeEntry);
     if (this.isGroupProductPage) {
       this.filterProductsByCategory(groupName);
@@ -170,17 +186,18 @@ export class ProductSidebarComponent implements OnInit {
     }
   }
 
-  setSelectBrand(companyName: string): void {
-    this.sharedService.setCompanyCode(companyName);
+  setSelectBrand(companyName: string, groupName: string): void {
+    this.sharedService.setGroupProduct(companyName, groupName);
     this.dataUpdated.emit();
     this.activeEntry = this.companyData.get(companyName) || '';
     localStorage.setItem('activeEntry', this.activeEntry);
 
     if (this.isGroupProductPage) {
       this.filterProductsByCategoryAndBrand(this.groupCode, companyName);
-      this.router.navigate(['/groupProducts'], {
-        queryParams: { companyName: btoa(companyName) },
-      });
+      this.router.navigate(['/groupProducts']);
+
+      // Emit companyName to the parent component
+      this.companyNameChanged.emit(companyName);
     }
   }
 

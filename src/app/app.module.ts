@@ -39,6 +39,7 @@ import { OurTopSellerComponent } from './Pages/our-top-seller/our-top-seller.com
 import { BuyerModule } from './buyer/buyer.module';
 import { SharedModule } from './shared/shared.module';
 import { GroupProductsComponent } from './Pages/group-products/group-products.component';
+import { ProductFilterComponent } from './Pages/product-filter/product-filter.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +69,7 @@ import { GroupProductsComponent } from './Pages/group-products/group-products.co
     RecommendedProductListComponent,
     OurTopSellerComponent,
     GroupProductsComponent,
+    ProductFilterComponent,
   ],
   imports: [
     BrowserModule,

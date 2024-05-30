@@ -72,7 +72,7 @@ const routes: Routes = [
 {
   path: 'groupProducts',
   component: GroupProductsComponent,
-  pathMatch: 'full'
+
 },
 
   { path: 'searchResult', component: SearchResultComponent },
