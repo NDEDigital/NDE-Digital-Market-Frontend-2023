@@ -16,6 +16,7 @@ import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
 import { SellerAddBannerGridViewComponent } from './components/seller-add-banner/seller-add-banner-grid-view/seller-add-banner-grid-view.component';
 import { AddPriceDiscountsGridViewComponent } from './components/add-price-discounts/add-price-discounts-grid-view/add-price-discounts-grid-view.component';
 import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
+import { SellerInventoryGridViewComponent } from './components/seller-inventory/seller-inventory-grid-view/seller-inventory-grid-view.component';
 @NgModule({
   declarations: [
     SellerLayoutComponent,
@@ -30,6 +31,7 @@ import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic
     SellerAddBannerGridViewComponent,
     AddPriceDiscountsGridViewComponent,
     DynamicAlertModalComponent,
+    SellerInventoryGridViewComponent,
   ],
   imports: [
     CommonModule,

@@ -3,6 +3,7 @@ import { SellerOrderOverviewService } from '../../../../services/SellerOrderOver
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DestroyRef } from '@angular/core';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 @Component({
   selector: 'app-seller-inventory',
   templateUrl: './seller-inventory.component.html',
@@ -18,7 +19,10 @@ export class SellerInventoryComponent {
   goodsName: string = '';
   groupCode: string = '';
   sellerId: any;
-
+  isHovered: any | null = null;
+  headers!: any;
+  // Active group ID
+  activeGroupId: number | null = null;
   /**
    * Constructor to inject dependencies.
    * @param elementRef Reference to the component's element in the DOM
@@ -27,7 +31,8 @@ export class SellerInventoryComponent {
   constructor(
     protected destroyRef: DestroyRef,
     private elementRef: ElementRef,
-    private SellerService: SellerOrderOverviewService
+    private SellerService: SellerOrderOverviewService,
+    private tableHeaders: TableHeadersService
   ) {}
 
   /**
@@ -36,6 +41,7 @@ export class SellerInventoryComponent {
    */
   ngOnInit() {
     this.getData();
+    this.headers = this.tableHeaders.sellerInventoryTableHeaders;
   }
 
   /**

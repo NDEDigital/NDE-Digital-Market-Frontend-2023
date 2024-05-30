@@ -79,5 +79,18 @@ export class TableHeadersService {
     'Added Date',
   ];
   unitListTableHeaders: string[] = ['Index', 'Unit Name', 'Unit Symbol'];
+
+  // seller
+  sellerInventoryTableHeaders: string[] = [
+    '#',
+    'productGroupName',
+    'productName',
+    'specification',
+    'unit',
+    'Total Qty',
+    'Available Qty',
+    'Sales Qty',
+    'Price',
+  ];
   constructor() {}
 }

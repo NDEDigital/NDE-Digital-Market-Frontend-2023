@@ -1,34 +1,26 @@
+.container {
+  /* max-width: 300rem; */
+  overflow-x: auto;
+  max-width: 100%;
+}
 .table-header {
   background-color: #cce3ea;
   color: rgb(48, 48, 48);
 }
 
 .search-container {
-  justify-content: flex-end;
+  position: relative;
   display: flex;
-  flex-direction: row;
   width: 100%;
+  max-width: 18.5rem; /* Adjust the maximum width as needed */
   margin-right: 0.7rem;
-  height: 5rem;
-  margin-bottom: 1rem;
-  background-color: white;
-  padding-right: 2rem;
+  height: 2rem;
 }
-.search-container-inside {
-  border-radius: 0.3rem;
-  /* background-color: rgb(229, 241, 247) !important; */
-  /* z-index: 1; */
-  display: flex;
-  flex-direction: row;
-  /* background-color: #f1eeee; */
-}
+
 .search-input {
-  display: flex;
-  flex-direction: row;
-  margin-left: 1rem;
-  /* width: 100%; */
-  /* padding: 0.36rem; */
-  /* border-radius: 0.3rem; */
+  width: 100%;
+  padding: 0.36rem;
+  border-radius: 0.3rem;
   /* background-color: #f1eeee; */
   background-color: rgb(229, 241, 247) !important;
 }
@@ -37,13 +29,12 @@
   cursor: pointer;
 }
 .search-icon {
-  margin-left: -0.5rem;
-  padding-top: 0.6rem;
+  position: absolute;
+  right: 0.5rem;
+  padding-top: 0.45rem;
   font-size: 1rem;
-  padding-right: 2rem;
   /* color: #555; */
   color: var(--color-primary);
-  /* margin-left: ; */
 }
 .inventoryTable {
   height: 30rem;
@@ -65,13 +56,8 @@ body {
   width: 6rem;
   height: 4rem;
 }
-.dropdown-design {
-  border-radius: 0.3rem;
-  color: white;
-  padding: 0.25rem;
-  background-color: #7b9eab;
-  width: 8rem;
-}
+
+input[type="text"],
 input[type="email"],
 input[type="password"],
 textarea,
@@ -82,15 +68,7 @@ select {
   border-radius: 4px;
   height: 35px;
 }
-input[type="text"],
-select {
-  width: 100%;
-  height: 2rem;
-  padding: 1rem;
 
-  border: 1px solid #ccc;
-  border-radius: 0.3rem;
-}
 .button {
   display: block;
   width: 100%;
@@ -165,7 +143,6 @@ select {
 .headerRow,
 .tablebodyRow {
   flex-wrap: nowrap;
-  min-width: 100rem;
 }
 .scrollable-table {
   height: 35rem; /* Adjust the height as needed */
@@ -186,4 +163,10 @@ select {
   background-color: #e5f1f7;
   padding: 0.8rem;
   border-bottom: 1px solid var(--color-gray);
+}
+.table-body-data {
+  flex-direction: row;
+  display: flex;
+  background-color: white;
+  /* padding-right: 3rem; */
 }
