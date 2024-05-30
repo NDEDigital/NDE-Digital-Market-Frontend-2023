@@ -169,43 +169,20 @@
 </div>
 
 <!-- Button trigger modal -->
+<!-- Modal -->
 <button
   type="button"
   class="btn btn-primary d-none"
   data-bs-toggle="modal"
-  data-bs-target="#prodExistModal"
+  data-bs-target="#productGroupModal"
   #prdouctExistModalBTN
 >
   Launch demo modal
 </button>
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="prodExistModal"
-  tabindex="-1"
-  aria-labelledby="prodExistModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="prodExistModalLabel">product Modal</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <p
-          class="fs-5 fw-semibold"
-          [class.text-success]="!isError"
-          [class.text-danger]="isError"
-        >
-          {{ alertMsg }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+
+<!-- Dynamic Alert Modal -->
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="'Successful'"
+  [id]="'productGroupModal'"
+></app-dynamic-alert-modal>

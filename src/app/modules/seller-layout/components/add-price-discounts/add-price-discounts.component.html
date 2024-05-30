@@ -67,89 +67,12 @@
       (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
     >
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        #{{ i + 1 }}
-      </div>
-
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        {{ product.productName }}
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        <img
-          class="product_image"
-          [src]="
-            product.imagePath
-              ? '/asset' + product.imagePath.split('asset')[1]
-              : ''
-          "
-          alt="no image was uploaded!"
-        />
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        {{ product.price }}
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        {{ product.discountAmount }}
-      </div>
-
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        {{ product.discountPct }}
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        {{ product.totalPrice }}
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row':
-            product.productId === activeProductPriceId || isHovered === i
-        }"
-      >
-        {{ product.addedDate | date : "dd MMM yyyy" }},<br />
-        {{ product.addedDate | date : "hh:mm a" }}
-      </div>
+      <app-add-price-discounts-grid-view
+        [product]="product"
+        [isHovered]="isHovered"
+        [activeProductPriceId]="activeProductPriceId"
+        [i]="i"
+      ></app-add-price-discounts-grid-view>
 
       <!-- <div class="col tableBody">{{ product.productSubName }}</div>
       <div class="col tableBody">
@@ -401,43 +324,21 @@
 </div>
 
 <!-- Button trigger modal -->
+
+<!-- Modal -->
 <button
   type="button"
   class="btn btn-primary d-none"
   data-bs-toggle="modal"
-  data-bs-target="#prodExistModal"
+  data-bs-target="#productGroupModal"
   #prdouctExistModalBTN
 >
   Launch demo modal
 </button>
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="prodExistModal"
-  tabindex="-1"
-  aria-labelledby="userExistModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="userExistModalLabel">product Modal</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <p
-          class="fs-5 fw-semibold"
-          [class.text-success]="!isError"
-          [class.text-danger]="isError"
-        >
-          {{ alertMsg }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+
+<!-- Dynamic Alert Modal -->
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="'Successful'"
+  [id]="'productGroupModal'"
+></app-dynamic-alert-modal>

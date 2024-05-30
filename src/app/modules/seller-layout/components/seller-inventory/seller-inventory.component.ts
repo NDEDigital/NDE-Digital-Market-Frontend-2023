@@ -41,7 +41,6 @@ export class SellerInventoryComponent {
     // Check if the pressed key is Enter (keycode 13) or Backspace (keycode 8)
     if (event.keyCode === 13 || event.keyCode === 8) {
       this.searchInputValue = this.searchInputValue.trim(); // Trim spaces before searching
-      // console.log('searchInputValue', this.searchInputValue);
       this.Search();
     }
     if (!this.searchInputValue) {
@@ -50,8 +49,6 @@ export class SellerInventoryComponent {
   }
 
   Search() {
-    // console.log(this.SearchByname, '   this.SearchByname');
-
     // checking
     if (this.SearchByname == 'GroupCode') {
       this.groupCode = this.searchInputValue.trim();
@@ -64,8 +61,6 @@ export class SellerInventoryComponent {
         (item: any) => item.productName === this.goodsName
       );
     }
-
-    //this.GetData();
   }
 
   searchIcon() {

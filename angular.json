@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nde-digital-market",
+            "outputPath": "dist/NDE-Digital-Market/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -100,6 +100,60 @@
             "styles": ["src/styles.css"],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/NDE-Digital-Market/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "NDE-Digital-Market:build:development",
+              "serverTarget": "NDE-Digital-Market:server:development"
+            },
+            "production": {
+              "browserTarget": "NDE-Digital-Market:build:production",
+              "serverTarget": "NDE-Digital-Market:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "NDE-Digital-Market:build:production",
+              "serverTarget": "NDE-Digital-Market:server:production"
+            },
+            "development": {
+              "browserTarget": "NDE-Digital-Market:build:development",
+              "serverTarget": "NDE-Digital-Market:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
