@@ -1,7 +1,8 @@
 import { Component, ElementRef } from '@angular/core';
 import { SellerOrderOverviewService } from '../../../../services/SellerOrderOverviewService';
-import { FormsModule } from '@angular/forms';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DestroyRef } from '@angular/core';
 @Component({
   selector: 'app-seller-inventory',
   templateUrl: './seller-inventory.component.html',
@@ -17,66 +18,91 @@ export class SellerInventoryComponent {
   goodsName: string = '';
   groupCode: string = '';
   sellerId: any;
+
+  /**
+   * Constructor to inject dependencies.
+   * @param elementRef Reference to the component's element in the DOM
+   * @param SellerService Service for fetching seller order overview data
+   */
   constructor(
+    protected destroyRef: DestroyRef,
     private elementRef: ElementRef,
     private SellerService: SellerOrderOverviewService
   ) {}
+
+  /**
+   * Lifecycle hook called after component initialization.
+   * Fetches inventory data.
+   */
   ngOnInit() {
-    this.GetData();
+    this.getData();
   }
 
-  setSearchOption(text: string) {
+  /**
+   * Sets the search option and resets search inputs.
+   * @param option Search option to set
+   */
+  setSearchOption(option: string) {
     this.searchInputValue = '';
-    this.SearchByname = text;
-    // console.log(' this.SearchByname ', this.SearchByname);
-    this.searchby = text;
-    this.placeholder = ' Search by ';
-    // clearing search value and call data with out search
+    this.SearchByname = option;
+    this.searchby = option;
+    this.placeholder = 'Search by';
     this.goodsName = '';
     this.groupCode = '';
-    this.GetData();
+    this.getData();
   }
 
+  /**
+   * Handles key up events in the search input.
+   * Triggers search when Enter key is pressed or Backspace is pressed.
+   * Resets filtered data when search input is empty.
+   * @param event Keyboard event
+   */
   onKeyUp(event: KeyboardEvent) {
-    // Check if the pressed key is Enter (keycode 13) or Backspace (keycode 8)
-    if (event.keyCode === 13 || event.keyCode === 8) {
-      this.searchInputValue = this.searchInputValue.trim(); // Trim spaces before searching
-      this.Search();
+    if (event.key === 'Enter' || event.key === 'Backspace') {
+      this.searchInputValue = this.searchInputValue.trim();
+      this.search();
     }
     if (!this.searchInputValue) {
       this.filteredData = this.inventoryData;
     }
   }
 
-  Search() {
-    // checking
-    if (this.SearchByname == 'GroupCode') {
-      this.groupCode = this.searchInputValue.trim();
+  /**
+   * Performs search based on current search option and input value.
+   */
+  search() {
+    const searchValue = this.searchInputValue.trim();
+    if (this.SearchByname === 'GroupCode') {
       this.filteredData = this.inventoryData.filter(
-        (item: any) => item.productGroupName === this.groupCode
+        (item: any) => item.productGroupName === searchValue
       );
     } else {
-      this.goodsName = this.searchInputValue.trim();
       this.filteredData = this.inventoryData.filter(
-        (item: any) => item.productName === this.goodsName
+        (item: any) => item.productName === searchValue
       );
     }
   }
 
+  /**
+   * Handles click event on search icon.
+   * Triggers search.
+   */
   searchIcon() {
-    this.Search();
+    this.search();
   }
 
-  GetData() {
+  /**
+   * Fetches inventory data for the current seller.
+   * Uses sellerId stored in local storage.
+   */
+  getData() {
     this.sellerId = localStorage.getItem('code') || '';
-    //console.log(' sellerId', this.sellerId);
-
-    this.SellerService.getSellerInventory(this.sellerId).subscribe(
-      (data: any) => {
-        // console.log(' load dataaaaaa', data);
+    this.SellerService.getSellerInventory(this.sellerId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data: any) => {
         this.inventoryData = data;
         this.filteredData = this.inventoryData;
-      }
-    );
+      });
   }
 }
