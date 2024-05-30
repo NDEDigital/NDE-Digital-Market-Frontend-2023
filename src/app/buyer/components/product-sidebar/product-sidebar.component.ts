@@ -23,6 +23,7 @@ export class ProductSidebarComponent implements OnInit {
   isProductPage = false;
   isGroupProductPage = false;
   activeEntry: string = '';
+  active:string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   @Output() companyNameChanged = new EventEmitter<string>();
   selectedCompanyName: string = ''; // Add this variable to store selected company name
@@ -63,8 +64,7 @@ export class ProductSidebarComponent implements OnInit {
       this.loadBrand();
     }
     this.setActiveCategory(); // Call method to set active category
-    this.detectPage(); // Call detectPage method to handle page navigation
-
+ 
     const savedActiveEntry = localStorage.getItem('activeEntry');
     if (savedActiveEntry) {
       this.activeEntry = savedActiveEntry;
@@ -84,11 +84,11 @@ export class ProductSidebarComponent implements OnInit {
     if (this.isGroupProductPage) {
       this.route.queryParams.subscribe((params) => {
         const groupCode = params['groupCode'];
-        console.log('Group Code:', groupCode);
+        console.log('Group Codeqqq:', groupCode);
         if (groupCode) {
           const decodedGroupCode = atob(groupCode);
           console.log('Decoded Group Code:', decodedGroupCode);
-          this.activeEntry = this.groupData.get(decodedGroupCode) || '';
+          this.activeEntry = decodedGroupCode;
 
 
           console.log('Active Entry:', this.activeEntry);
@@ -111,10 +111,11 @@ export class ProductSidebarComponent implements OnInit {
           this.route.queryParams.subscribe((params) => {
             let groupCode, companyName;
 
-            if (params['groupCode']) {
-              groupCode = atob(params['groupCode']);
-              this.activeEntry = this.groupData.get(groupCode) || '';
-            }
+            // if (params['groupCode']) {
+            //   groupCode = atob(params['groupCode']);
+            //   this.activeEntry = this.groupData.get(groupCode) || '';
+       
+            // }
 
             if (groupCode && companyName) {
               this.filterProductsByCategoryAndBrand(groupCode, companyName);

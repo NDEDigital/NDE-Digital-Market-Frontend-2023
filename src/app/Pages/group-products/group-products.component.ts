@@ -24,7 +24,7 @@ export class GroupProductsComponent {
   goods: any;
   groupName: string = '';
   // companyName: string='';
-  isGroupProductPage:boolean =false;
+  isGroupProductPage: boolean = false;
   productId: string = '';
   companyCode: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
@@ -43,9 +43,8 @@ export class GroupProductsComponent {
     this.route.queryParams.subscribe((params) => {
       groupCode = atob(params['groupCode']);
       this.groupCodePa = groupCode;
-      console.log('GroupCode : ', groupCode);
+      console.log('GroupCodes : ', groupCode);
     });
-       
   }
   onImageError(event: any): void {
     // If the image is broken or doesn't load, set a fallback source
@@ -53,7 +52,6 @@ export class GroupProductsComponent {
   }
 
   ngOnInit() {
-
     console.log('ngOnInit called');
     this.route.queryParams.subscribe((params) => {
       console.log('Query params:', params);
@@ -61,10 +59,13 @@ export class GroupProductsComponent {
         // Decoding groupCode from URL
         this.groupCode = atob(params['groupCode']);
         this.groupCodePa = this.groupCode;
-        console.log('GroupCode : ', this.groupCode);
-
+        console.log('GroupCodezz : ', this.groupCode);
+        if (this.groupCode) {
+          sessionStorage.setItem('groupCode', this.groupCode);
+          console.log("DDDDDDD: ", this.groupCode)
+          this.getAllProduct(this.groupCode, this.companyName);
+        }
         // Call getAllProduct with groupCode
-        this.getAllProduct(this.groupCode, this.companyName);
       }
     });
 
@@ -241,7 +242,6 @@ export class GroupProductsComponent {
     );
   }
 
-  
   navigateToData(detail: any) {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
     // console.log(detail);
