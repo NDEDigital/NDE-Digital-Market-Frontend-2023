@@ -1,51 +1,14 @@
 <div class="inventoryBody">
   <app-dashboard-menu-header title="Inventory"></app-dashboard-menu-header>
   <!-- search_by_all -->
-  <div class="search-container bg-white mt-3 py-4">
-    <div class="search-container-inside">
-      <div>
-        <input
-          id="searchInput"
-          type="text"
-          class="search-input"
-          (keyup)="onKeyUp($event)"
-          [(ngModel)]="searchInputValue"
-          placeholder="{{ placeholder }}{{ searchby }}"
-        />
-      </div>
-      <div>
-        <i class="fa-solid fa-search search-icon" (click)="searchIcon()"></i>
-      </div>
-    </div>
-
-    <div class="dropdown">
-      <button
-        class="dropdown-toggle dropdown-design"
-        type="button"
-        id="dropdownMenuButton1"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        {{ SearchByname }}
-      </button>
-      <ul
-        style="z-index: 2000"
-        class="dropdown-menu search_Name_list"
-        aria-labelledby="dropdownMenuButton1"
-      >
-        <li>
-          <a class="dropdown-item" (click)="setSearchOption('GroupCode')">
-            Group Code</a
-          >
-        </li>
-        <li>
-          <a class="dropdown-item" (click)="setSearchOption('GoodsName')">
-            Goods Name</a
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
+  <app-seller-inventory-search
+    [placeholder]="placeholder"
+    [searchby]="searchby"
+    [SearchByname]="SearchByname"
+    [searchInputValue]="searchInputValue"
+    (setSearchOptionEvent)="setSearchOption($event.searchByname)"
+    (keyupEvent)="onKeyUp($event)"
+  ></app-seller-inventory-search>
   <!-- <div class="inventory_search_div bg-white mt-3 py-4"></div> -->
   <div class="search_by_all d-flex">
     <!-- Scrollable Table -->

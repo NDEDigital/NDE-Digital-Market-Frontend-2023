@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./seller-inventory-grid-view.component.css'],
 })
 export class SellerInventoryGridViewComponent {
-  @Input() isHovered!: any;
-  @Input() i!: any;
+  @Input() isHovered: any;
+  @Input() i!: number;
   @Input() inventory!: any;
-  @Input() activeGroupId!: any;
+  @Input() activeGroupId!: number | null;
 }
