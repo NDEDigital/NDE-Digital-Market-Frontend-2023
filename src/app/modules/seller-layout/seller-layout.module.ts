@@ -18,6 +18,7 @@ import { AddPriceDiscountsGridViewComponent } from './components/add-price-disco
 import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
 import { SellerInventoryGridViewComponent } from './components/seller-inventory/seller-inventory-grid-view/seller-inventory-grid-view.component';
 import { SellerInventorySearchComponent } from './components/seller-inventory/seller-inventory-search/seller-inventory-search.component';
+
 @NgModule({
   declarations: [
     SellerLayoutComponent,
