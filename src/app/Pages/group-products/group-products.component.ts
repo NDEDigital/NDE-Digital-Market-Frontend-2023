@@ -60,12 +60,9 @@ export class GroupProductsComponent {
         this.groupCode = atob(params['groupCode']);
         this.groupCodePa = this.groupCode;
         console.log('GroupCodezz : ', this.groupCode);
-        if (this.groupCode) {
-          sessionStorage.setItem('groupCode', this.groupCode);
-          console.log("DDDDDDD: ", this.groupCode)
-          this.getAllProduct(this.groupCode, this.companyName);
-        }
-        // Call getAllProduct with groupCode
+     
+       this.getAllProduct(this.groupCode, this.companyName); // Call getAllProduct with groupCode
+      // this.CompanyName(this.companyName);
       }
     });
 

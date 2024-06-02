@@ -3,46 +3,53 @@
   <div
     class="product_slider align-items-center bg-white border-bottom border-1"
   >
-    <h2 class="m-0 text-start px-3 py-2 text-nowrap">Our Top Seller</h2>
-    <h2
-      class="text m-0 text-start px-2 py-2 text-nowrap"
+    <span class="top_seller">Our Top Seller</span>
+    <button
+      class="text "
       (click)="setSelectData()"
     >
       View All
-    </h2>
+    </button>
   </div>
 
   <!-- Slider for the sellers -->
   <div class="container-fluid" style="--bs-gutter-x: 0">
-    <div class="slider_wrap d-flex align-items-center rounded bg-white">
+    <div class="slider_wrap d-flex align-items-center">
       <div
-        class="slider_main border-1"
+        class="slider_main text-nowrap"
         #Items
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
       >
         <!-- Adjust width with rem units for a consistent layout -->
         <div
-          class="item"
-          style="width: 12rem"
+          class="item col-md-4 col-sm-6 col-xs-12 mb-3"
+
           *ngFor="let client of getTopSellerData"
         >
-          <div class="card h-100" (click)="productCardClick(client)">
-            <div class="image-container">
+          <div
+            class="card"
+            style="width: 14rem"
+            
+            (click)="productCardClick(client)"
+          >
+            <div style="height: 9rem; position: relative">
               <!-- Consistent height -->
               <img
-                class="img-fluid"
                 [src]="
                   client.companyImage.substring(
                     client.companyImage.indexOf('assets')
                   )
                 "
+                class="card-image"
+                style="height: 10rem; width: 100%; object-fit: cover"
                 alt="{{ client.companyName }}"
-                style="height: 100%; width: 100%; object-fit: cover"
               />
             </div>
             <div class="card-body">
-              <p class="card-title">{{ client.companyName }}</p>
+              <h6 class="card-title text-wrap h-50">
+                {{ client.companyName }}
+              </h6>
               <!-- Consistent title styling -->
             </div>
           </div>

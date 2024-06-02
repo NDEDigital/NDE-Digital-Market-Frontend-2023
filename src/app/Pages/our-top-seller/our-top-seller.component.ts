@@ -14,7 +14,7 @@ export class OurTopSellerComponent {
   products: string[] = [];
   selectedProductCode: string = '';
   companyList: any;
-
+  isTopsellerpage: boolean = false;
   getTopSellerData: any;
   groupCode: string = '';
   groupCodePa: string = '';
@@ -24,6 +24,7 @@ export class OurTopSellerComponent {
   productId: string = '';
   companyCode: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
+  @Input() companyName: string = '';
   constructor(
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
@@ -80,6 +81,13 @@ export class OurTopSellerComponent {
   }
   handleDataUpdated() {
     this.callApi();
+  }
+  CompanyName(companyName: string): void {
+    // Here you can handle the emitted companyName event, if needed
+    console.log('Received companyName:', companyName);
+    this.companyName = companyName;
+    // this.getAllProductByCompany(companyName, this.groupCode);
+    // this.filterProductsByGroupCodeAndCompany(this.groupCode, companyName);
   }
 
   callApi() {

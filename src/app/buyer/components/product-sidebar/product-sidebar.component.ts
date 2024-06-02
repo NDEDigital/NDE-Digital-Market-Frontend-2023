@@ -22,8 +22,9 @@ export class ProductSidebarComponent implements OnInit {
   showAllBrand = false;
   isProductPage = false;
   isGroupProductPage = false;
+  isTopsellerpage = false;
   activeEntry: string = '';
-  active:string = '';
+  active: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   @Output() companyNameChanged = new EventEmitter<string>();
   selectedCompanyName: string = ''; // Add this variable to store selected company name
@@ -55,7 +56,7 @@ export class ProductSidebarComponent implements OnInit {
     private companyService: CompanyService
   ) {
     this.detectPage();
-    this.setActiveCategory();
+
   }
 
   ngOnInit(): void {
@@ -63,15 +64,16 @@ export class ProductSidebarComponent implements OnInit {
     if (!this.isProductPage) {
       this.loadBrand();
     }
-    this.setActiveCategory(); // Call method to set active category
- 
+    
+
     const savedActiveEntry = localStorage.getItem('activeEntry');
     if (savedActiveEntry) {
       this.activeEntry = savedActiveEntry;
       console.log('Active Entry from local storage:', this.activeEntry);
     }
+   
 
-    console.log('Group Data:', this.groupData); // Add this line
+    console.log('Group Data:', this.groupData); // Add this line-
   }
 
   selectCompany(companyName: string) {
@@ -79,61 +81,46 @@ export class ProductSidebarComponent implements OnInit {
     this.companySelected.emit(this.selectedCompanyName); // Emit the selected company name
   }
   // Method to set active category based on query parameters
-  setActiveCategory(): void {
-    console.log('Setting active category...');
-    if (this.isGroupProductPage) {
-      this.route.queryParams.subscribe((params) => {
-        const groupCode = params['groupCode'];
-        console.log('Group Codeqqq:', groupCode);
-        if (groupCode) {
-          const decodedGroupCode = atob(groupCode);
-          console.log('Decoded Group Code:', decodedGroupCode);
-          this.activeEntry = decodedGroupCode;
 
-
-          console.log('Active Entry:', this.activeEntry);
-        }
-      });
-    }
-  }
 
   detectPage(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isProductPage = event.url.includes('/productsPageComponent');
         this.isGroupProductPage = event.url.includes('/groupProducts');
+        this.isTopsellerpage = event.url.includes('/ourTopSeller');
         console.log('Is Product Page:', this.isProductPage);
         console.log('Is Group Product Page:', this.isGroupProductPage); // Add this line
 
+
         if (this.isProductPage) {
           // Handle category filtering for product page if needed
-        } else if (this.isGroupProductPage) {
+        } 
+        else if(this.isTopsellerpage){
+           
+        }
+        
+        else if (this.isGroupProductPage) {
           this.route.queryParams.subscribe((params) => {
             let groupCode, companyName;
 
-            // if (params['groupCode']) {
-            //   groupCode = atob(params['groupCode']);
-            //   this.activeEntry = this.groupData.get(groupCode) || '';
-       
-            // }
+            if (params['groupCode']) {
+              groupCode = atob(params['groupCode']);
+              this.activeEntry = this.groupData.get(groupCode) || '';
 
-            if (groupCode && companyName) {
-              this.filterProductsByCategoryAndBrand(groupCode, companyName);
-            } else if (groupCode) {
-              this.filterProductsByCategory(groupCode);
-            } else if (companyName) {
-              this.filterProductsByBrands(companyName);
             }
+
+           
           });
         }
       }
     });
   }
 
-  filterProductsByCategory(groupCode: string): void {
+  filterProductsByCategory(groupName: string): void {
     // Filter products by category
     this.filteredProducts = this.goods.filter(
-      (product: any) => product.productGroupCode === groupCode
+      (product: any) => product.productGroupCode === groupName
     );
   }
 
@@ -156,18 +143,18 @@ export class ProductSidebarComponent implements OnInit {
     );
   }
 
-  filterBrandsByCategory(groupCode: string): void {
-    // Filter brands by category
-    const categoryProducts = this.goods.filter(
-      (product: any) => product.productGroupCode === groupCode
-    );
-    const brandNames = new Set(
-      categoryProducts.map((product: any) => product.companyName)
-    );
-    this.filteredCompanyList = this.companyList.filter((company: any) =>
-      brandNames.has(company.companyName)
-    );
-  }
+  // filterBrandsByCategory(groupCode: string): void {
+  //   // Filter brands by category
+  //   const categoryProducts = this.goods.filter(
+  //     (product: any) => product.productGroupCode === groupCode
+  //   );
+  //   const brandNames = new Set(
+  //     categoryProducts.map((product: any) => product.companyName)
+  //   );
+  //   this.filteredCompanyList = this.companyList.filter((company: any) =>
+  //     brandNames.has(company.companyName)
+  //   );
+  // }
 
   setSelectData(groupCode: string, groupName: string) {
     this.sharedService.setNavSelectData(groupCode, groupName);
@@ -176,11 +163,23 @@ export class ProductSidebarComponent implements OnInit {
     localStorage.setItem('activeEntry', this.activeEntry);
     if (this.isGroupProductPage) {
       this.filterProductsByCategory(groupName);
-      this.filterBrandsByCategory(groupName);
+      // this.filterBrandsByCategory(groupName);
       this.router.navigate(['/groupProducts'], {
         queryParams: { groupCode: btoa(groupName) },
+        
       });
-    } else {
+
+    
+    } else if(this.isTopsellerpage){
+
+    this.router.navigate(['/ourTopSeller'],{
+      queryParams: {groupCode: btoa(groupCode)}
+    });
+    } 
+
+    
+    
+    else {
       this.router.navigate(['/productsPageComponent'], {
         queryParams: { groupCode: btoa(groupCode) },
       });
@@ -194,12 +193,15 @@ export class ProductSidebarComponent implements OnInit {
     localStorage.setItem('activeEntry', this.activeEntry);
 
     if (this.isGroupProductPage) {
-      this.filterProductsByCategoryAndBrand(this.groupCode, companyName);
+      // this.filterProductsByCategoryAndBrand(this.groupCode, companyName);
       this.router.navigate(['/groupProducts']);
 
       // Emit companyName to the parent component
       this.companyNameChanged.emit(companyName);
-    }
+    } else if (this.isTopsellerpage) {
+      this.router.navigate(['/ourTopSeller']);
+       this.companyNameChanged.emit(companyName);
+    } 
   }
 
   loadCategory(): void {
@@ -220,8 +222,9 @@ export class ProductSidebarComponent implements OnInit {
           const decodedGroupCode = atob(activeGroupCode);
           this.activeEntry = this.groupData.get(decodedGroupCode) || '';
           this.filterProductsByCategory(decodedGroupCode);
-          this.filterBrandsByCategory(decodedGroupCode);
+          // this.filterBrandsByCategory(decodedGroupCode);
         }
+
       },
       (error: HttpErrorResponse) => {
         console.error('Error loading navigation data:', error);

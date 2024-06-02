@@ -11,47 +11,64 @@
         ></app-product-sidebar>
       </div>
 
-    <div class="products">
-  <div class="product_slider bg-white mx-auto my-2 py-1 align-items-center">
-    <ng-container *ngFor="let product of products3 | keyvalue; let i = index">
-      <h2 class="categoryName">{{ splitProductKey(product.key) }}</h2>
-      <hr class="line" />
-      <div class="grid-container">
-        <ng-container *ngFor="let value of product.value">
-          <div class="grid-item" *ngIf="!companyName || companyName === value.companyName">
-            <div class="rounded product-responsive mt-3 mb-5 h-75">
-              <div class="card" (click)="navigateToData(value)" [ngClass]="{ 'card-out-of-stock': value.approveSalesQty === 0 }">
-                <div class="card-look">
-                  <img
-                    [src]="value.imagePath ? '/assets' + value.imagePath.split('assets')[1] : '/assets/default-image.jpg'"
-                    class="card-img-top"
-                    (error)="onImageError($event)"
-                    alt="{{ value.goodsName }}"
-                  />
+      <div class="products">
+        <div
+          class="product_slider bg-white mx-auto my-2 py-1 align-items-center"
+        >
+          <ng-container
+            *ngFor="let product of products3 | keyvalue; let i = index"
+          >
+            <h2 class="categoryName">{{ splitProductKey(product.key) }}</h2>
+            <hr class="line" />
+            <div class="grid-container">
+              <ng-container *ngFor="let value of product.value">
+                <div
+                  class="grid-item"
+                  *ngIf="!companyName || companyName === value.companyName"
+                >
+                  <div class="rounded product-responsive mt-3 mb-5 h-75">
+                    <div
+                      class="card"
+                      (click)="navigateToData(value)"
+                      [ngClass]="{
+                        'card-out-of-stock': value.approveSalesQty === 0
+                      }"
+                    >
+                      <div class="card-look">
+                        <img
+                          [src]="
+                            value.imagePath
+                              ? '/assets' + value.imagePath.split('assets')[1]
+                              : '/assets/default-image.jpg'
+                          "
+                          class="card-img-top"
+                          (error)="onImageError($event)"
+                          alt="{{ value.goodsName }}"
+                        />
+                      </div>
+                      <div class="card-body">
+                        <h6 class="card-title">{{ value.goodsName }}</h6>
+                        <p *ngIf="value.approveSalesQty !== 0" class="quantity">
+                          <span>Quantity :</span>
+                          <span
+                            [class.text-muted]="value.approveSalesQty >= 1"
+                            [class.text-danger]="value.approveSalesQty < 1"
+                          >
+                            {{ value.approveSalesQty }}
+                          </span>
+                        </p>
+                        <p class="card-text company-name">
+                          {{ value.companyName }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <h6 class="card-title">{{ value.goodsName }}</h6>
-                  <p *ngIf="value.approveSalesQty !== 0" class="quantity">
-                    <span>Quantity :</span>
-                    <span [class.text-muted]="value.approveSalesQty >= 1" [class.text-danger]="value.approveSalesQty < 1">
-                      {{ value.approveSalesQty }}
-                    </span>
-                  </p>
-                  <p class="card-text company-name">{{ value.companyName }}</p>
-                </div>
-              </div>
+              </ng-container>
             </div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
       </div>
-    </ng-container>
-  </div>
-</div>
-
-
-
-
-
     </div>
   </div>
 

@@ -6,7 +6,8 @@
     </div>
     <div class="d-flex  px-4  pp">
       <div class="product_sidebar_container">
-        <app-product-sidebar></app-product-sidebar>
+        <app-product-sidebar  (dataUpdated)="handleDataUpdated()"
+         (companySelected)="CompanyName($event)"></app-product-sidebar>
       </div>
 
       <div class="products ms-3 ps-3">

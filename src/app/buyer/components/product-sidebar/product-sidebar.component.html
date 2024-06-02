@@ -44,19 +44,14 @@
           <label
             class="form-check-label"
             for="brand-checkbox-{{ j }}"
+            style="cursor: pointer"
+            [ngClass]="{ bold: company.companyName === activeEntry }"
           >
             {{ company.companyName }}
           </label>
         </li>
       </div>
-      <h5
-        *ngIf="filteredCompanyList && filteredCompanyList.length > initialLimit"
-        (click)="showAllBrand = !showAllBrand"
-        class="text-primary"
-        style="cursor: pointer"
-      >
-        {{ showAllBrand ? "Show Less" : "Show All" }}
-      </h5>
+      
     </ul>
     <hr />
   </div>

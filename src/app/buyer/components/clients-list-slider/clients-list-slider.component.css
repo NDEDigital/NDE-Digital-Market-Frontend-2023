@@ -9,64 +9,81 @@
 .slider_wrap {
   position: relative;
   overflow: hidden;
-  padding: 1rem;
+  height: 18rem;
 }
 
 .slider_main {
-  display: flex;
-  gap: 1rem;
+  position: absolute;
+  width: 202%;
+  height: 16rem;
+
+  /* padding: 5rem; */
 }
 
 .item {
-  flex: 0 0 auto; /* Prevents flex shrinkage */
-  transition: all 0.3s; /* Smooth transitions for animations */
-}
-
-.image-container {
-  background-color: #f5f5f5; /* Default background color */
-}
-
-.image-container img {
-  background-color: white;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
-}
-
-.name-container {
+  margin-bottom: 1rem;
+  height: 16rem;
+  width: 14rem;
+  display: inline-flex;
+  position: relative;
+  /* height: 10rem; */
+  /* margin: 6.5px; */
+  padding: 5px;
+  /* border: 1px solid #2c506d; */
   text-align: center;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: white;
-  border-radius: 5px;
-  align-items: center;
-  /* padding-top: 7px; */
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.top_seller {
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 .product_slider {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-right: 1.5vw;
 }
+
+
 .text {
   color: rgb(0, 119, 255);
-  text-decoration: underline;
-  font-size: 1rem;
   cursor: pointer;
+  background-color: #ffffff;
+  font-size: 1rem;
+  text-decoration: underline;
   font-weight: bold;
-  /* padding-right: 100vw; */
 }
-.img-fluid {
-  width: 16rem;
-  height: 9rem;
+.text-head {
+  margin-left: -1.5rem;
+  border-bottom: 1px solid rgb(202, 198, 198);
+  /* padding-top: 1rem; */
+}
+
+
+.card {
+  background-color: #fefefe;
+  transition: all 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
 }
 .card-body {
   text-align: center;
   padding: 1rem;
 }
-.card:hover {
-  transform: translateY(-5px);
+
+.card-title {
+  margin-top: 2.5rem;
+}
+
+.card-image {
+  height: 11rem;
+  width: 100%;
+  object-fit: cover;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 .card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
