@@ -163,7 +163,7 @@ export class AdminOrderComponent {
     this.service.getOrderMasterData(this.status).subscribe(
       (data: any[]) => {
         // console.log('Orders:', data);
-        // this.filteredOrdersData = data;
+        this.filteredOrdersData = data;
         // console.log(
         //   'filteredOrdersData',
         //   this.filteredOrdersData
@@ -728,6 +728,7 @@ export class AdminOrderComponent {
   }
 
   onKeyUp(event: KeyboardEvent) {
+    console.log(event);
     // Check if the pressed key is Enter (keycode 13) or Backspace (keycode 8)
     if (event.keyCode === 13 || event.keyCode === 8) {
       this.searchData();
@@ -775,32 +776,56 @@ export class AdminOrderComponent {
 
   searchByDate() {
     // Check if both fromDate and toDate are provided
+    console.log('FromDate:', this.fromDate, 'ToDate:', this.toDate);
+
     if (this.fromDate && this.toDate) {
-      // console.log(this.fromDate, this.toDate);
+      // Log the initial orders data and filtered orders data
+      console.log('Initial ordersData:', this.ordersData);
+      console.log('Initial filteredOrdersData:', this.filteredOrdersData);
 
-      // Perform the search based on orderDate between the given dates
+      // Parse the fromDate and toDate
+      const fromDate = new Date(this.fromDate).getTime();
+      const toDate = new Date(this.toDate).getTime();
+      console.log('Parsed fromDate:', fromDate, 'Parsed toDate:', toDate);
 
-      // Assuming this.ordersData contains the original data
+      // Ensure that filteredOrdersData is not empty
+      if (!this.filteredOrdersData || this.filteredOrdersData.length === 0) {
+        console.error('filteredOrdersData is empty or not defined');
+        return;
+      }
+
+      // Perform the filtering
       const filteredData = this.filteredOrdersData.filter((order) => {
+        // Ensure orderDate exists and is valid
+        if (!order.orderDate) {
+          console.error('orderDate is missing in order:', order);
+          return false;
+        }
+
         const orderDate = new Date(order.orderDate.split('T')[0]).getTime();
-        const fromDate = new Date(this.fromDate).getTime();
-        const toDate = new Date(this.toDate).getTime();
-        console.log(orderDate, fromDate, toDate, 'DATES');
+        console.log(
+          'Order date:',
+          order.orderDate,
+          'Parsed orderDate:',
+          orderDate
+        );
+        console.log('Comparing:', orderDate >= fromDate, orderDate <= toDate);
+
         return orderDate >= fromDate && orderDate <= toDate;
       });
 
+      // Log the filtered data
+      console.log('Filtered data:', filteredData);
+
       // Update this.ordersData with the filtered data
       this.ordersData = filteredData;
-
-      // If needed, update other logic related to displaying the filtered data
-      // ...
+      console.log('Updated ordersData:', this.ordersData);
     } else {
-      this.ordersData = this.filteredOrdersData;
       // Handle the case where fromDate or toDate is not provided
-      // You can show a message or handle it according to your requirements
-      // console.log(
-      //   'Both fromDate and toDate are required for date-based search.'
-      // );
+      console.log(
+        'Both fromDate and toDate are required for date-based search.'
+      );
+      this.ordersData = this.filteredOrdersData;
     }
   }
 

@@ -98,6 +98,7 @@ a {
 .dashboard_container {
   /* background: var(--background-color); */
   background: rgba(44, 44, 45, 0.061);
+  height: 100%;
 }
 .sidebar {
   width: 16%;
@@ -135,6 +136,7 @@ a {
   /* background: rebeccapurple; */
   margin-left: 15%;
   /* text-align: center; */
+  height: 100%;
 }
 .admin_order_body {
   /* margin-left: 15%; */
