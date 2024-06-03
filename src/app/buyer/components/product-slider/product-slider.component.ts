@@ -159,11 +159,13 @@ export class ProductSliderComponent {
   //   // window.location.href = '/product';
   // }
 
-  viewAllProducts(groupCode: any) {
-    console.log('GROUPCODE', groupCode);
+  viewAllProducts(groupName: any) {
+    console.log('GROUPCODE::::::::::', groupName);
+    localStorage.setItem('groupCode', groupName)
     this.router.navigate(['/groupProducts'], {
-      queryParams: { groupCode: btoa(groupCode) },
+      queryParams: { groupCode: btoa(groupName) },
     });
+
   }
 
   shouldRemoveButton(product: any): boolean {

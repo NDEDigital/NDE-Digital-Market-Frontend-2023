@@ -1,24 +1,53 @@
-  <div id="content-wrap">
-<section class="slider_container mx-auto">
-  <section class="product_slider bg-white mx-auto my-3 py-1 align-items-center">
-    <div class="grid-container">
-      <div *ngFor="let banner of leftAdvertisements; let i = index" [ngClass]="getClass(i)">
-        <div class="cards bg-dark text-white">
-   
-          <img
-            [src]="
-              banner.bannerImage.substring(
-                banner.bannerImage.indexOf('assets')
-              ) || 'assets/images/banner/banner1.jpg'
-            "
-            class="cards-img"
-    
-            alt="Advertisement Image"
-          />
-      
-        </div>
+<div id="content-wrap">
+  <section class="slider_container mx-auto">
+    <section
+      class="product_slider bg-white mx-auto my-3 py-1 align-items-center"
+    >
+      <div class="grid-container">
+        <!-- Check if leftAdvertisements is empty -->
+        <ng-container
+          *ngIf="leftAdvertisements.length === 0; else bannerSection"
+        >
+          <div class="default-banner bg-light text-center item-1">
+            <img
+              src="assets/images/banner/banner3.jpg"
+              class="default-banner-img"
+              alt="Default Banner Image"
+            />
+          </div>
+        </ng-container>
+        <!-- Banner section when leftAdvertisements is not empty -->
+        <ng-template #bannerSection>
+          <div
+            *ngFor="let banner of leftAdvertisements; let i = index"
+            [ngClass]="getClass(i)"
+          >
+            <div class="cards bg-dark text-white item-{{ i + 1 }}">
+              <img
+                [src]="
+                  banner.bannerImage.substring(
+                    banner.bannerImage.indexOf('assets')
+                  ) || 'assets/images/banner/banner1.jpg'
+                "
+                class="cards-img"
+                alt="Advertisement Image"
+              />
+            </div>
+          </div>
+        </ng-template>
       </div>
-    </div>
+    </section>
   </section>
-</section>
 </div>
+
+<!-- <ng-template #defaultBanner>
+   
+          <div class="default-banner bg-light text-center">
+            <img
+              src="assets/images/banner/banner3.jpg"
+              class="default-banner-img"
+              alt="Default Banner Image"
+            />
+          </div>
+          
+        </ng-template> -->

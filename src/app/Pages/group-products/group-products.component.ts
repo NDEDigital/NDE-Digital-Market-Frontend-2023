@@ -62,7 +62,7 @@ export class GroupProductsComponent {
         console.log('GroupCodezz : ', this.groupCode);
      
        this.getAllProduct(this.groupCode, this.companyName); // Call getAllProduct with groupCode
-      // this.CompanyName(this.companyName);
+      this.CompanyName(this.companyName);
       }
     });
 
@@ -82,6 +82,75 @@ export class GroupProductsComponent {
     this.companyName = companyName;
     // this.getAllProductByCompany(companyName, this.groupCode);
     // this.filterProductsByGroupCodeAndCompany(this.groupCode, companyName);
+  }
+   getAllProduct(groupCode: any, companyName: any) {
+    // Clear existing products
+    this.product8.clear();
+
+    // Fetch data from API and filter products by group code
+    this.goodsDataObj.getCarouselData().subscribe(
+      (data: any[]) => {
+        // Filter products by group code
+        this.goods = data.filter((item) => item.productGroupName === groupCode);
+
+        this.products3.clear();
+        for (let i = 0; i < this.goods.length; i++) {
+          let finObj = this.products3.get(this.goods[i].productGroupName);
+          if (finObj) {
+            let obj = {
+              companyCode: this.goods[i].companyCode,
+              companyName: this.goods[i].companyName,
+              groupCode: this.goods[i].productGroupID,
+              goodsId: this.goods[i].productId,
+              groupName: this.goods[i].productGroupName,
+              goodsName: this.goods[i].productName,
+              specification: this.goods[i].specification,
+              approveSalesQty: this.goods[i].availableQty,
+              sellerCode: this.goods[i].sellerId,
+              unitId: this.goods[i].unitId,
+              quantityUnit: this.goods[i].unit,
+              imagePath: this.goods[i].imagePath,
+              price: this.goods[i].price,
+              discountAmount: this.goods[i].discountAmount,
+              discountPct: this.goods[i].discountPct,
+              netPrice: this.goods[i].totalPrice,
+            };
+            finObj.push(obj);
+
+            this.products3.set(this.goods[i].productGroupName, finObj);
+          } else {
+            let obj = {
+              companyCode: this.goods[i].companyCode,
+              companyName: this.goods[i].companyName,
+              groupCode: this.goods[i].productGroupID,
+              goodsId: this.goods[i].productId,
+              groupName: this.goods[i].productGroupName,
+              goodsName: this.goods[i].productName,
+              specification: this.goods[i].specification,
+              approveSalesQty: this.goods[i].availableQty,
+              sellerCode: this.goods[i].sellerId,
+              unitId: this.goods[i].unitId,
+              quantityUnit: this.goods[i].unit,
+              imagePath: this.goods[i].imagePath,
+              price: this.goods[i].price,
+              discountAmount: this.goods[i].discountAmount,
+              discountPct: this.goods[i].discountPct,
+              netPrice: this.goods[i].totalPrice,
+            };
+            this.products3.set(this.goods[i].productGroupName, [obj]);
+          }
+          console.log(this.products3, ' ut');
+        }
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Handle unauthorized error
+          //console.error('Unauthorized Error', error);
+        }
+        // You can choose to throw an error or handle it differently based on your requirements
+        throwError('Error occurred');
+      }
+    );
   }
 
   // filterProductsByGroupCodeAndCompany(
@@ -169,75 +238,7 @@ export class GroupProductsComponent {
     // //console.log(firstHalf);
     return firstHalf;
   }
-  getAllProduct(groupCode: any, companyName: any) {
-    // Clear existing products
-    this.product8.clear();
-
-    // Fetch data from API and filter products by group code
-    this.goodsDataObj.getCarouselData().subscribe(
-      (data: any[]) => {
-        // Filter products by group code
-        this.goods = data.filter((item) => item.productGroupName === groupCode);
-
-        this.products3.clear();
-        for (let i = 0; i < this.goods.length; i++) {
-          let finObj = this.products3.get(this.goods[i].productGroupName);
-          if (finObj) {
-            let obj = {
-              companyCode: this.goods[i].companyCode,
-              companyName: this.goods[i].companyName,
-              groupCode: this.goods[i].productGroupID,
-              goodsId: this.goods[i].productId,
-              groupName: this.goods[i].productGroupName,
-              goodsName: this.goods[i].productName,
-              specification: this.goods[i].specification,
-              approveSalesQty: this.goods[i].availableQty,
-              sellerCode: this.goods[i].sellerId,
-              unitId: this.goods[i].unitId,
-              quantityUnit: this.goods[i].unit,
-              imagePath: this.goods[i].imagePath,
-              price: this.goods[i].price,
-              discountAmount: this.goods[i].discountAmount,
-              discountPct: this.goods[i].discountPct,
-              netPrice: this.goods[i].totalPrice,
-            };
-            finObj.push(obj);
-
-            this.products3.set(this.goods[i].productGroupName, finObj);
-          } else {
-            let obj = {
-              companyCode: this.goods[i].companyCode,
-              companyName: this.goods[i].companyName,
-              groupCode: this.goods[i].productGroupID,
-              goodsId: this.goods[i].productId,
-              groupName: this.goods[i].productGroupName,
-              goodsName: this.goods[i].productName,
-              specification: this.goods[i].specification,
-              approveSalesQty: this.goods[i].availableQty,
-              sellerCode: this.goods[i].sellerId,
-              unitId: this.goods[i].unitId,
-              quantityUnit: this.goods[i].unit,
-              imagePath: this.goods[i].imagePath,
-              price: this.goods[i].price,
-              discountAmount: this.goods[i].discountAmount,
-              discountPct: this.goods[i].discountPct,
-              netPrice: this.goods[i].totalPrice,
-            };
-            this.products3.set(this.goods[i].productGroupName, [obj]);
-          }
-          console.log(this.products3, ' ut');
-        }
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          // Handle unauthorized error
-          //console.error('Unauthorized Error', error);
-        }
-        // You can choose to throw an error or handle it differently based on your requirements
-        throwError('Error occurred');
-      }
-    );
-  }
+ 
 
   navigateToData(detail: any) {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
