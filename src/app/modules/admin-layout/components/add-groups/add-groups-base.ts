@@ -87,8 +87,12 @@ export class AddGroupsBase {
    * @param isActive Flag indicating whether to activate or deactivate
    */
   updateProductGroupStatus(isActive: number): void {
+    console.log('just checking', this.selectedProducts1.toString());
     this.addProductService
-      .updateProductGroupStatus(this.selectedProducts1.toString(), isActive)
+      .updateProductGroupStatus(
+        encodeURIComponent(this.selectedProducts1.toString()),
+        isActive
+      )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {

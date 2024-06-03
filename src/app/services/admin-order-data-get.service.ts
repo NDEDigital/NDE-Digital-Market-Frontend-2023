@@ -27,7 +27,7 @@ export class AdminOrderDataGetService {
 
   // details data
   getOrderDetailData(
-    orderMasterId: number,
+    orderMasterId: string,
     status?: string
   ): Observable<any[]> {
     let url = `${this.baseUrl}/GetOrderDetailData`;

@@ -81,7 +81,7 @@ export class AdminOrderComponent {
   searchTerm$ = new Subject<string>();
   ngOnInit() {
     this.getMAsterData('New');
-    this.getOrderDetails(3);
+    // this.getOrderDetails(3);
     this.loadData();
     //console.log(' SearchTerm valuee on init', this.searchTerm$);
     // this.searchTerm$
@@ -105,7 +105,7 @@ export class AdminOrderComponent {
     //   });
   }
 
-  getOrderDetails(orderMasterId: number): void {
+  getOrderDetails(orderMasterId: string): void {
     this.service.getOrderDetailData(orderMasterId, status).subscribe(
       (data: any[]) => {
         //console.log('Order Details:', data);

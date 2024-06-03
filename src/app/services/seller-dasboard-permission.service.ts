@@ -27,7 +27,9 @@ export class SellerDasboardPermissionService {
   }
   getUserPermission(userId5: any, AdminStatus: any) {
     return this.http.get(
-      `${this.URL}/SellerPermissionData/${userId5}/${AdminStatus}`
+      `${this.URL}/SellerPermissionData/${encodeURIComponent(
+        userId5.toString()
+      )}/${AdminStatus}`
     );
   }
 
