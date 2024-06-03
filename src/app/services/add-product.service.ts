@@ -26,7 +26,7 @@ export class AddProductService {
 
   getBrandURL = `${this.URL}/api/Brands/GetBrandList`;
 
-  getUnitURL = `${this.URL}/api/HK_Gets/GetUnitList`;
+  getUnitURL = `${this.URL}/api/Unit/GetUnitList?isActive=true`;
 
   GetProductDataURL = `${this.URL}/GetSellerProductForAdminApproval`;
   getAllproducts = `${this.URL}/api/ProductList/GetProductList`;
@@ -93,9 +93,15 @@ export class AddProductService {
     }
   }
   GetProductListByStatus(status: any) {
+    // console.log(status.type);
     if (status === -1) {
       return this.http.get(this.GetProductListByStatusURL);
     } else {
+      if (status == 1) {
+        status = true;
+      } else {
+        status = false;
+      }
       return this.http.get(this.GetProductListByStatusURL, {
         params: { status },
       });

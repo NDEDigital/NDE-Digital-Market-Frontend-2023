@@ -21,7 +21,7 @@ export class TableHeadersService {
   productGroupsTableHeaders: string[] = [
     'Index',
     'Image',
-    'Product Group Code',
+    // 'Product Group Code',
     'Product Group Name',
     'Product Group Prefix',
     'Product Group Details',

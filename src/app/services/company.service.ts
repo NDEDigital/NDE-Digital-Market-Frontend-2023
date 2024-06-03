@@ -59,12 +59,18 @@ export class CompanyService {
       status = false;
     }
     // console.log(selectedValue);
+    if (selectedValue == null) {
+      return this.http.get(
+        `${this.URL}/getSellerActive&Inactive/${true}?IsActive=${status}`
+      );
+    } else {
+      return this.http.get(
+        `${
+          this.URL
+        }/getSellerActive&Inactive/${true}?CompanyCode=${selectedValue}&IsActive=${status}`
+      );
+    }
 
-    return this.http.get(
-      `${
-        this.URL
-      }/getSellerActive&Inactive/${true}?CompanyCode=${selectedValue}&IsActive=${status}`
-    );
     // getSellerActive&Inactive/false?CompanyCode=dfasd&IsActive=true
   }
 
