@@ -1,7 +1,10 @@
 <div class="order_body">
   <app-dashboard-menu-header title="Order Details"></app-dashboard-menu-header>
-  <div class="order_status">
-    <!-- <button
+  <div
+    class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2 d-flex justify-content-between"
+  >
+    <div class="headerbtns">
+      <!-- <button
       type="button"
       class="order_status_button"
       [ngClass]="{ selected_button: selectedButtonIndex === 'All' }"
@@ -10,28 +13,30 @@
 
       All Orders ({{ statusData["totalRowCount"] }})
     </button> -->
-    <button
-      type="button"
-      class="order_status_button"
-      [ngClass]="{ selected_button_pending: selectedButtonIndex === 'Pending' }"
-      (click)="statusChange('Pending', 'Pending')"
-    >
-      Pending
-      <!-- Pending ({{ statusData["pendingCount"] }}) -->
-    </button>
-    <button
-      type="button"
-      class="order_status_button"
-      [ngClass]="{
-        selected_button_shipped: selectedButtonIndex === 'Approved'
-      }"
-      (click)="statusChange('Approved', 'Approved')"
-    >
-      Approved
-      <!-- Approved ({{ statusData["approvedCount"] }}) -->
-    </button>
+      <button
+        type="button"
+        class="custom-btn new-btn"
+        [ngClass]="{
+          active: selectedButtonIndex === 'Pending'
+        }"
+        (click)="statusChange('Pending', 'Pending')"
+      >
+        Pending
+        <!-- Pending ({{ statusData["pendingCount"] }}) -->
+      </button>
+      <button
+        type="button"
+        class="custom-btn btn-active"
+        [ngClass]="{
+          active: selectedButtonIndex === 'Approved'
+        }"
+        (click)="statusChange('Approved', 'Approved')"
+      >
+        Approved
+        <!-- Approved ({{ statusData["approvedCount"] }}) -->
+      </button>
 
-    <!-- <button
+      <!-- <button
       type="button"
       class="order_status_button"
       [ngClass]="{
@@ -42,7 +47,7 @@
     Delivered
 
     </button> -->
-    <!-- <button
+      <!-- <button
       type="button"
       class="order_status_button"
       [ngClass]="{
@@ -64,112 +69,113 @@
 
       Returned ({{ statusData["returnedCount"] }})
     </button> -->
-    <button
-      type="button"
-      class="order_status_button"
-      [ngClass]="{
-        selected_button_cancelled: selectedButtonIndex === 'Cancelled'
-      }"
-      (click)="statusChange('Cancelled', 'Cancelled')"
-    >
-      Cancelled
-      <!-- Cancelled ({{ statusData["cancelledCount"] }}) -->
-    </button>
-  </div>
-
-  <div class="order_search_div">
-    <!-- search_by_all -->
-    <div class="search_by_all" class="d-none">
-      <div class="search-container">
-        <input
-          id="searchInput"
-          type="text"
-          class="search-input"
-          (keyup)="onKeyUp($event)"
-          placeholder="{{ placeholder }}{{ searchby }}"
-        />
-        <i class="fa-solid fa-search search-icon"></i>
-      </div>
-
-      <div class="dropdown">
-        <button
-          class="dropdown-toggle bg-white"
-          type="button"
-          id="dropdownMenuButton1"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          {{ SearchByname }}
-        </button>
-        <ul
-          style="z-index: 2000"
-          class="dropdown-menu search_Name_list"
-          aria-labelledby="dropdownMenuButton1"
-        >
-          <li *ngIf="!returnProduct">
-            <a class="dropdown-item" (click)="setSearchOption('OrderDate')"
-              >Order Date</a
-            >
-          </li>
-          <li>
-            <a class="dropdown-item" (click)="setSearchOption('OrderNo')"
-              >Order No</a
-            >
-          </li>
-          <li *ngIf="!returnProduct">
-            <a class="dropdown-item" (click)="setSearchOption('Status')">
-              Status</a
-            >
-          </li>
-          <li *ngIf="!returnProduct">
-            <a class="dropdown-item" (click)="setSearchOption('TotalPrice')">
-              Price</a
-            >
-          </li>
-          <li *ngIf="returnProduct">
-            <a class="dropdown-item" (click)="setSearchOption('GroupName')">
-              Group Name</a
-            >
-          </li>
-          <li *ngIf="returnProduct">
-            <a class="dropdown-item" (click)="setSearchOption('GoodsName')">
-              Goods Name</a
-            >
-          </li>
-          <li *ngIf="returnProduct">
-            <a class="dropdown-item" (click)="setSearchOption('ReturnType')">
-              Return Type</a
-            >
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- search_by_all end -->
-    <div class="search_by_date">
-      <label for="toDate">From: </label>
-
-      <input
-        type="date"
-        class="todate form-control"
-        [(ngModel)]="fromDate"
-        name="todate"
-      />
-      <label for="FromDate">To:</label>
-      <input
-        class="form-control"
-        type="date"
-        [(ngModel)]="toDate"
-        name="ToDate"
-      />
-
-      <i
-        class="fa-solid fa-magnifying-glass pe-3 date_order_search"
-        (click)="searchByDate()"
-      ></i>
-
-      <button type="button" class="btn btn-primary" (click)="clearDate()">
-        Clear
+      <button
+        type="button"
+        class="custom-btn btn-inactive"
+        [ngClass]="{
+          active: selectedButtonIndex === 'Cancelled'
+        }"
+        (click)="statusChange('Cancelled', 'Cancelled')"
+      >
+        Cancelled
+        <!-- Cancelled ({{ statusData["cancelledCount"] }}) -->
       </button>
+    </div>
+
+    <div class="order_search_div">
+      <!-- search_by_all -->
+      <div class="search_by_all" class="d-none">
+        <div class="search-container">
+          <input
+            id="searchInput"
+            type="text"
+            class="search-input"
+            (keyup)="onKeyUp($event)"
+            placeholder="{{ placeholder }}{{ searchby }}"
+          />
+          <i class="fa-solid fa-search search-icon"></i>
+        </div>
+
+        <div class="dropdown">
+          <button
+            class="dropdown-toggle bg-white"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ SearchByname }}
+          </button>
+          <ul
+            style="z-index: 2000"
+            class="dropdown-menu search_Name_list"
+            aria-labelledby="dropdownMenuButton1"
+          >
+            <li *ngIf="!returnProduct">
+              <a class="dropdown-item" (click)="setSearchOption('OrderDate')"
+                >Order Date</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="setSearchOption('OrderNo')"
+                >Order No</a
+              >
+            </li>
+            <li *ngIf="!returnProduct">
+              <a class="dropdown-item" (click)="setSearchOption('Status')">
+                Status</a
+              >
+            </li>
+            <li *ngIf="!returnProduct">
+              <a class="dropdown-item" (click)="setSearchOption('TotalPrice')">
+                Price</a
+              >
+            </li>
+            <li *ngIf="returnProduct">
+              <a class="dropdown-item" (click)="setSearchOption('GroupName')">
+                Group Name</a
+              >
+            </li>
+            <li *ngIf="returnProduct">
+              <a class="dropdown-item" (click)="setSearchOption('GoodsName')">
+                Goods Name</a
+              >
+            </li>
+            <li *ngIf="returnProduct">
+              <a class="dropdown-item" (click)="setSearchOption('ReturnType')">
+                Return Type</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- search_by_all end -->
+      <div class="search_by_date">
+        <label class="label" for="toDate">From: </label>
+
+        <input
+          type="date"
+          class="todate form-control"
+          [(ngModel)]="fromDate"
+          name="todate"
+        />
+        <label class="label2" for="FromDate">To:</label>
+        <input
+          class="form-control"
+          type="date"
+          [(ngModel)]="toDate"
+          name="ToDate"
+        />
+
+        <i
+          class="fa-solid fa-magnifying-glass pe-3 date_order_search"
+          (click)="searchByDate()"
+        ></i>
+
+        <!-- <button type="button" class="btn btn-danger" (click)="clearDate()">
+          Clear
+        </button> -->
+      </div>
     </div>
   </div>
   <!------------- Master table ------------->
@@ -387,23 +393,63 @@
                 selectedButtonIndex == 'ToReturn'
               "
             >
-              <img
+              <button
+                class="actionBtn"
+                *ngIf="selectedButtonIndex == 'Pending'"
+                (click)="setID(row, row.orderMasterId, 'Approved', i)"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="green"
+                  class="bi bi-check2 me-3"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                  />
+                </svg>
+              </button>
+              <button
+                class="actionBtn"
+                *ngIf="selectedButtonIndex == 'Pending'"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                (click)="setID(row, row.orderMasterId, 'Cancelled', i)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="red"
+                  class="bi bi-x-lg fw-bolder"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+                  />
+                </svg>
+              </button>
+              <!-- <img
                 *ngIf="selectedButtonIndex == 'Pending'"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
                 class=""
                 (click)="setID(row, row.orderMasterId, 'Approved', i)"
                 src="../../../../assets/images/Icons/check.png"
-              />
+              /> -->
 
-              <img
+              <!-- <img
                 *ngIf="selectedButtonIndex == 'Pending'"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
                 class=""
                 (click)="setID(row, row.orderMasterId, 'Cancelled', i)"
                 src="../../../../assets/images/Icons/close.png"
-              />
+              /> -->
 
               <!-- for to return -->
               <!-- <img
@@ -500,22 +546,22 @@
     >
       <button
         type="button"
-        class="btn btn-outline-primary p-1"
+        class="custom-btn"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         (click)="changeStatus('Approved')"
       >
-        Approve
+        Approved
       </button>
       <button
         *ngIf="isDetailsMapEmpty()"
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
-        class="btn btn-outline-danger p-1"
+        class="custom-btn"
         (click)="changeStatus('Cancelled')"
       >
-        Cancell
+        Cancelled
       </button>
     </div>
     <!-- button div end-->

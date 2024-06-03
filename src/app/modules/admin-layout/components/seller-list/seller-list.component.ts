@@ -94,6 +94,7 @@ export class SellerListComponent {
    */
   getSeller(): void {
     this.resetSelection();
+    console.log(this.selectedValue, 'ashce');
     this.companyService
       .GetSellerInAdmin(this.btnIndex, this.selectedValue)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -101,6 +102,7 @@ export class SellerListComponent {
         next: (response: any) => {
           this.sellerList = response;
           this.responseLength = response.length;
+          console.log('kire', this.sellerList);
         },
         error: this.handleError,
       });

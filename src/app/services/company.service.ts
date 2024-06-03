@@ -53,6 +53,7 @@ export class CompanyService {
   }
 
   GetSellerInAdmin(status: any, selectedValue: any) {
+    console.log(selectedValue);
     if (status == 1) {
       status = true;
     } else {
