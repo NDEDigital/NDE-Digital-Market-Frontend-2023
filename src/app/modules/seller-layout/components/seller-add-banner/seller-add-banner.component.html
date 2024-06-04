@@ -160,131 +160,29 @@
     (mouseover)="isHovered = i"
     (mouseout)="isHovered = null"
   >
-    <div
-      class="col tableBody"
-      [ngClass]="{
-        'active-row': isHovered === i
-      }"
-    >
-      #{{ i + 1 }}
-    </div>
-
-    <div
-      class="col tableBody"
-      [ngClass]="{
-        'active-row': isHovered === i
-      }"
-    >
-      <ng-container *ngIf="banner.isAds === true">
-        <span>Advertise</span>
-      </ng-container>
-
-      <ng-container *ngIf="banner.isAds === false">
-        <span>Banner</span>
-      </ng-container>
-    </div>
-
-    <div
-      class="col tableBody"
-      [ngClass]="{
-        'active-row': isHovered === i
-      }"
-    >
-      <img
-        [src]="
-          banner.bannerImage
-            ? '/asset' + banner.bannerImage?.split('asset')[1]
-            : ''
-        "
-        class="product_image"
-        alt="Banner Image"
-      />
-    </div>
-
-    <div
-      class="col tableBody"
-      [ngClass]="{
-        'active-row': isHovered === i
-      }"
-    >
-      <p class="description">{{ banner.bannerDescription }}</p>
-    </div>
-    <div
-      class="col tableBody"
-      [ngClass]="{
-        'active-row': isHovered === i
-      }"
-    >
-      {{ banner.addedDate | date : "dd MMM yyyy" }}
-    </div>
-
-    <div
-      class="col tableBody"
-      [ngClass]="{
-        'active-row': isHovered === i
-      }"
-    >
-      <ng-container *ngIf="banner.isBannerStatus === null">
-        <span [style.color]="'#0047AB'">Pending</span>
-      </ng-container>
-      <ng-container
-        *ngIf="banner.isBannerStatus === true && banner.isActive == true"
-      >
-        <span [style.color]="'green'">Approved</span>
-      </ng-container>
-      <ng-container
-        *ngIf="banner.isBannerStatus == false && banner.isActive == false"
-      >
-        <span [style.color]="'	#E49B0F'">Expired</span>
-      </ng-container>
-
-      <ng-container
-        *ngIf="banner.isBannerStatus == true && banner.isActive == false"
-      >
-        <span [style.color]="'red'">Rejected</span>
-      </ng-container>
-    </div>
+    <app-seller-add-banner-grid-view
+      [banner]="banner"
+      [isHovered]="isHovered"
+      [i]="i"
+    ></app-seller-add-banner-grid-view>
   </section>
 </div>
 
 <!-- Button trigger modal -->
+<!-- Modal -->
 <button
   type="button"
   class="btn btn-primary d-none"
   data-bs-toggle="modal"
-  data-bs-target="#prodExistModal"
+  data-bs-target="#productGroupModal"
   #prdouctExistModalBTN
 >
   Launch demo modal
 </button>
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="prodExistModal"
-  tabindex="-1"
-  aria-labelledby="prodExistModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header fs-5 fw-bold">
-        <h1 class="modal-title fs-5" id="prodExistModalLabel">product Modal</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <p
-          class="fs-5 fw-semibold"
-          [class.text-success]="!isError"
-          [class.text-danger]="isError"
-        >
-          {{ alertMsg }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+
+<!-- Dynamic Alert Modal -->
+<app-dynamic-alert-modal
+  [alertMsg]="alertMsg"
+  [alertTitle]="'Successful'"
+  [id]="'productGroupModal'"
+></app-dynamic-alert-modal>

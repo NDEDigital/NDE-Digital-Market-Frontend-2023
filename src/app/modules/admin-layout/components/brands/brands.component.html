@@ -7,11 +7,13 @@
   <app-status-button
     [btnIndex]="btnIndex"
     (getProductsEvent)="getNewBrands($event)"
+    (openAddBrandModalEvent)="openAddBrandModal()"
     [addGroupModalCenter]="'#addGroupModalCenter'"
     [NewButton]="'New'"
     [ActiveButton]="'Active'"
     [InactiveButton]="'Inactive'"
     [AddButtonName]="'Add Brand'"
+    [addBtnIndex]="addBtnIndex"
   ></app-status-button>
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
@@ -43,110 +45,20 @@
 
     <section
       class="row tablebodyRow fw-semibold"
-      *ngFor="let group of groupList; let i = index"
+      *ngFor="let brand of groupList; let i = index"
       (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
-      (dblclick)="openModalWithData(group)"
+      (dblclick)="openModalWithData(brand)"
     >
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row': isHovered === i
-        }"
-      >
-        <input
-          type="checkbox"
-          [(ngModel)]="group.isSelected"
-          (change)="checkboxSelected(group.brandId, $event)"
-        />
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row': group.unitId === activeGroupId || isHovered === i
-        }"
-      >
-        #{{ i + 1 }}
-      </div>
-      <!-- <div
-              class="col tableBody"
-              [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
-            >
-              {{ group.productGroupID }}
-            </div> -->
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row': group.brandId === activeGroupId || isHovered === i
-        }"
-      >
-        {{ group.brandName }}
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row': group.brandId === activeGroupId || isHovered === i
-        }"
-      >
-        {{ group.shortName }}
-      </div>
-      <div
-        class="col tableBody"
-        [ngClass]="{
-          'active-row': group.brandId === activeGroupId || isHovered === i
-        }"
-      >
-        {{ group.description }}
-      </div>
-
-      <div
-        class="col tableBody"
-        *ngIf="btnIndex != -1"
-        [ngClass]="{ 'active-row': isHovered === i }"
-      >
-        <div class="d-flex justify-content-center align-items-center">
-          <div>
-            <button
-              class="actionBtn"
-              *ngIf="btnIndex === 0"
-              (click)="updateIsActive(true, group.brandId)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                fill="green"
-                class="bi bi-check2 me-3"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-                />
-              </svg>
-            </button>
-          </div>
-          <div>
-            <button
-              class="actionBtn"
-              *ngIf="btnIndex === 1"
-              (click)="updateIsActive(false, group.brandId)"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="red"
-                class="bi bi-x-lg fw-bolder"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
+      <app-brands-grid-view
+        [brand]="brand"
+        [isHovered]="isHovered"
+        [i]="i"
+        [activeGroupId]="activeGroupId"
+        [btnIndex]="btnIndex"
+        (checkboxSelectedEvent)="checkboxSelected($event)"
+        (updateIsActiveEvent)="updateIsActive($event.status, $event.brandId)"
+      ></app-brands-grid-view>
     </section>
   </div>
   <div class="d-flex justify-content-end">
@@ -168,82 +80,16 @@
 </div>
 
 <!-- add Group modal   -->
-<div
-  class="modal fade"
-  id="addGroupModalCenter"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="d-flex justify-content-end align-items-center">
-          <button
-            type="button"
-            class="btn-close border border-1"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            (click)="resetForm()"
-          ></button>
-        </div>
-        <!-- add group form design  -->
-        <div>
-          <!-- <h2 class="register_title">Add Product Groups Name</h2> -->
-          <div class="d-flex justify-content-center align-items-center">
-            <!-- Back Button on the left -->
-
-            <!-- Title in the middle -->
-            <h2 class="register_title">
-              {{ isEditMode ? "Edit Brand Name" : "Add Brand Name" }}
-            </h2>
-          </div>
-          <hr />
-          <form [formGroup]="addGroupForm">
-            <div class="form-group">
-              <label for="brandName"
-                ><span class="text-danger">*</span>Brand Name</label
-              >
-              <input
-                type="text"
-                id="brandName"
-                formControlName="brandName"
-                [class.error]="isFieldInvalid('brandName')"
-              />
-              <span class="text-danger" *ngIf="isFieldInvalid('brandName')"
-                >Brand Name is required.</span
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="shortName">Brand Short Name</label>
-              <input type="text" id="shortName" formControlName="shortName" />
-            </div>
-
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea
-                id="description"
-                formControlName="description"
-              ></textarea>
-            </div>
-
-            <!-- Button trigger modal -->
-            <button
-              type="submit"
-              class="button mt-3"
-              id="sign-in-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+<div *ngIf="btnClick">
+  <app-brands-modal
+    [IdName]="'#addGroupModalCenter'"
+    [isEdit]="isEditMode"
+    [doubleClickData]="doubleClickData"
+    (resetFormEvent)="resetForm()"
+    (formDataEvent)="onSubmit($event)"
+    [addBtnClick]="addbtnClickP"
+  ></app-brands-modal>
 </div>
-
 <button
   type="button"
   class="btn btn-primary d-none"

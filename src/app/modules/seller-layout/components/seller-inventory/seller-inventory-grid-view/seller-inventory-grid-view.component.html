@@ -1,0 +1,85 @@
+<div class="table-body-data">
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    #{{ i + 1 }}
+  </div>
+
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.productGroupName }}
+  </div>
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.productName }}
+  </div>
+
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.specification }}
+  </div>
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.unit }}
+  </div>
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.totalQty }}
+  </div>
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.availableQty }}
+  </div>
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.saleQty }}
+  </div>
+  <div
+    class="col tableBody"
+    [ngClass]="{
+      'active-row':
+        inventory.productGroupID === activeGroupId || isHovered === i
+    }"
+  >
+    {{ inventory.price }}
+  </div>
+</div>

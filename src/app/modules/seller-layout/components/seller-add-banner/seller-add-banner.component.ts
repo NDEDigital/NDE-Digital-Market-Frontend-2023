@@ -39,18 +39,6 @@ export class SellerAddBannerComponent {
     private bannerService: AddBannerService
   ) {}
   ngOnInit() {
-    //   if(!this.isEditMode){
-    //      this.addBannerForm = new FormGroup({
-    //        bannerDescription: new FormControl('', Validators.required),
-    //        bannerImage: new FormControl('', Validators.required),
-    //      });
-    //   }
-    //  if(this.isEditMode){
-    //   this.addBannerForm = new FormGroup({
-    //     bannerDescription: new FormControl('', ),
-    //     bannerImage: new FormControl('', ),
-    //   });
-    //}
     this.addBannerForm = new FormGroup({
       bannerDescription: new FormControl('', Validators.required),
       bannerImage: new FormControl('', Validators.required),
@@ -78,21 +66,7 @@ export class SellerAddBannerComponent {
     // this.EditBannerModalCenterG.nativeElement.click();
     this.fetchBanners();
   }
-  // fetchBanners(): void {
-  //   let companyCode = localStorage.getItem('CompanyCode');
-  //   if (companyCode && companyCode !== 'admin') {
-  //     this.bannerService.getaAllBanner(companyCode).subscribe(
-  //       (data) => {
-  //         this.banners = data;
-  //         // console.log('Banners updated:', this.banners);
-  //       },
-  //       (error) => {
-  //         // console.error('Error fetching banners:', error);
-  //       }
-  //     );
-  //   }
 
-  // }
   fetchBanners(): void {
     let companyCode = localStorage.getItem('CompanyCode');
     let role = localStorage.getItem('role');
@@ -141,12 +115,7 @@ export class SellerAddBannerComponent {
         if (value === null) {
           value = '';
         }
-        //  This part of the code ensures that if the start date or end date
-        //   form inputs are not filled (i.e., they are null),
-        //    they are converted to empty strings ('') before being appended to the FormData object.
-        //    This is likely done to ensure consistency in the data being sent to the server.
         formData.append(key, value);
-        // console.log(key, value);
       });
       formData.append(
         'BannerImageFile',
@@ -300,7 +269,7 @@ export class SellerAddBannerComponent {
       bannerImage: banner.imagePathPreview,
     });
 
-     this.isAds = banner.isAds;
+    this.isAds = banner.isAds;
     // console.log(this.addBannerForm);
     // Open the edit banner modal without jQuery
     const modalElement = document.getElementById('editBannerModalCenter');

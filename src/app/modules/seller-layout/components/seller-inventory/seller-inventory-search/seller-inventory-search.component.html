@@ -1,0 +1,40 @@
+<div class="search-container bg-white mt-3 py-4">
+  <div class="search-container-inside">
+    <div>
+      <input
+        id="searchInput"
+        type="text"
+        class="search-input"
+        (keyup)="onKeyUp(searchInputValue)"
+        [(ngModel)]="searchInputValue"
+        placeholder="{{ placeholder }} {{ searchby }}"
+      />
+    </div>
+    <div>
+      <i class="fa-solid fa-search search-icon" (click)="searchIcon()"></i>
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <button
+      class="dropdown-toggle dropdown-design"
+      type="button"
+      id="dropdownMenuButton1"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      {{ SearchByname }}
+    </button>
+    <ul
+      style="z-index: 2000"
+      class="dropdown-menu search_Name_list"
+      aria-labelledby="dropdownMenuButton1"
+    >
+      <li>
+        <a class="dropdown-item" (click)="setSearchOption('GoodsName')">
+          Goods Name
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

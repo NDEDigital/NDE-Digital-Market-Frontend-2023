@@ -13,6 +13,12 @@ import { SellerPermissionComponent } from './components/seller-permission/seller
 import { SellerAddBannerComponent } from './components/seller-add-banner/seller-add-banner.component';
 import { SellerHeaderComponent } from './common/seller-header/seller-header.component';
 import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
+import { SellerAddBannerGridViewComponent } from './components/seller-add-banner/seller-add-banner-grid-view/seller-add-banner-grid-view.component';
+import { AddPriceDiscountsGridViewComponent } from './components/add-price-discounts/add-price-discounts-grid-view/add-price-discounts-grid-view.component';
+import { DynamicAlertModalComponent } from './common/dynamic-alert-modal/dynamic-alert-modal.component';
+import { SellerInventoryGridViewComponent } from './components/seller-inventory/seller-inventory-grid-view/seller-inventory-grid-view.component';
+import { SellerInventorySearchComponent } from './components/seller-inventory/seller-inventory-search/seller-inventory-search.component';
+
 @NgModule({
   declarations: [
     SellerLayoutComponent,
@@ -24,6 +30,11 @@ import { AdminLayoutModule } from '../admin-layout/admin-layout.module';
     SellerPermissionComponent,
     SellerAddBannerComponent,
     SellerHeaderComponent,
+    SellerAddBannerGridViewComponent,
+    AddPriceDiscountsGridViewComponent,
+    DynamicAlertModalComponent,
+    SellerInventoryGridViewComponent,
+    SellerInventorySearchComponent,
   ],
   imports: [
     CommonModule,

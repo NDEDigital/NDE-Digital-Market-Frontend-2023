@@ -23,6 +23,15 @@ import { ProductGridViewComponent } from './components/add-products/product-grid
 import { CompanyApprovalGridViewComponent } from './components/company-approval/company-approval-grid-view/company-approval-grid-view.component';
 import { BannerApprovalGridViewComponent } from './components/banner-approval/banner-approval-grid-view/banner-approval-grid-view.component';
 import { AddProductsModalComponent } from './components/add-products/add-products-modal/add-products-modal.component';
+import { ProductApprovalGridViewComponent } from './components/product-approval/product-approval-grid-view/product-approval-grid-view.component';
+import { ProductCompareModalComponent } from './components/product-approval/product-compare-modal/product-compare-modal.component';
+import { UnitListGridViewComponent } from './components/unit-list/unit-list-grid-view/unit-list-grid-view.component';
+import { BrandsGridViewComponent } from './components/brands/brands-grid-view/brands-grid-view.component';
+import { SellerListGridViewComponent } from './components/seller-list/seller-list-grid-view/seller-list-grid-view.component';
+import { CompanyTradeLicenceModalComponent } from './components/company-approval/company-trade-licence-modal/company-trade-licence-modal.component';
+import { BrandsModalComponent } from './components/brands/brands-modal/brands-modal.component';
+import { UnitListModalComponent } from './components/unit-list/unit-list-modal/unit-list-modal.component';
+import { BannerApprovalImageViewModalComponent } from './components/banner-approval/banner-approval-image-view-modal/banner-approval-image-view-modal.component';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -45,6 +54,15 @@ import { AddProductsModalComponent } from './components/add-products/add-product
     CompanyApprovalGridViewComponent,
     BannerApprovalGridViewComponent,
     AddProductsModalComponent,
+    ProductApprovalGridViewComponent,
+    ProductCompareModalComponent,
+    UnitListGridViewComponent,
+    BrandsGridViewComponent,
+    SellerListGridViewComponent,
+    CompanyTradeLicenceModalComponent,
+    BrandsModalComponent,
+    UnitListModalComponent,
+    BannerApprovalImageViewModalComponent,
   ],
   exports: [StatusButtonComponent],
   imports: [

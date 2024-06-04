@@ -13,6 +13,8 @@ export class StatusButtonComponent {
   @Input() addBtnIndex!: any;
   @Output() KeyupEvent = new EventEmitter<{ status: any }>();
   @Output() openAddGroupModalEvent = new EventEmitter<any>();
+
+  @Output() openAddBrandModalEvent = new EventEmitter<any>();
   @Output() openAddProductModalEvent = new EventEmitter<any>();
 
   @Input() addGroupModalCenter!: string;
@@ -41,6 +43,9 @@ export class StatusButtonComponent {
   }
   openAddGroupModal() {
     this.openAddGroupModalEvent.emit();
+  }
+  openAddBrandModal() {
+    this.openAddBrandModalEvent.emit();
   }
   openAddProductModal() {
     this.openAddProductModalEvent.emit();

@@ -67,14 +67,14 @@
     <button
       *ngIf="btnIndex === 0 || btnIndex === -1"
       class="custom-btn"
-      (click)="chageActiveInactive(1)"
+      (click)="chageActiveInactive(true)"
     >
       Active
     </button>
     <button
       *ngIf="btnIndex === 1 || btnIndex === -1"
       class="custom-btn"
-      (click)="chageActiveInactive(0)"
+      (click)="chageActiveInactive(false)"
     >
       Inactive
     </button>

@@ -30,9 +30,8 @@
           <div class="d-flex">
             <a
               class="d-flex menu_link"
-              [ngClass]="{ active: SidebarIndex == permission.menuId }"
-              (click)="SidebarIndex = permission.menuId"
               [routerLink]="['/admin', permission.navigateUrl]"
+              routerLinkActive="active"
             >
               <span class="title_icon text-start me-2">
                 <i class="fa-solid fa-cart-shopping"></i>

@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { UnitListRoutingModule } from './unit-list-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    UnitListRoutingModule
-  ]
+  imports: [CommonModule, UnitListRoutingModule],
 })
-export class UnitListModule { }
+export class UnitListModule {}

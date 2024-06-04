@@ -48,15 +48,10 @@ export class AddPriceDiscountsComponent {
   isHovered: any | null = null;
   onProductChange(event: any) {
     const productId = event.target.value;
-    // console.log(productId, 'productId..');
-
     const selectedProduct = this.products.find(
       (prod) => prod.productId == productId
     );
     this.selectedUnitName = selectedProduct ? selectedProduct.unitName : '';
-    // console.log(this.selectedUnitName, 'name');
-    // console.log(selectedProduct, 'product name of unit');
-    //console.log(productName, "Prod name");
   }
 
   isDiscountEntered(): boolean {

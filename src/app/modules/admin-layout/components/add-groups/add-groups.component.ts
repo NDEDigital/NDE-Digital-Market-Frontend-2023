@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, DestroyRef } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,38 +6,32 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
+import { AddGroupsBase } from './add-groups-base';
 @Component({
   selector: 'app-add-groups',
   templateUrl: './add-groups.component.html',
   styleUrls: ['./add-groups.component.css'],
 })
-export class AddGroupsComponent {
+export class AddGroupsComponent extends AddGroupsBase {
   // ViewChild references to various HTML elements
   @ViewChild('userExistModalBTN') UserExistModalBTN!: ElementRef;
   @ViewChild('productGroupImageInput') productImageInput!: ElementRef;
   @ViewChild('addGroupModalCenterG') addGroupModalCenterG!: ElementRef;
   @ViewChild('modalGroupImage') modalGroupImage!: ElementRef<HTMLImageElement>;
   @ViewChild('allselected', { static: true })
-  allSelectedCheckbox!: ElementRef<HTMLInputElement>;
 
   // Array to hold table headers
   headers!: string[];
-  // Array to hold the list of product groups
-  groupList: any[] = [];
   // Array to store selected product IDs
   selectedProductIds: any[] = [];
-  // Array to store selected products
-  selectedProducts1: any[] = [];
 
   // Form group for adding/editing product groups
   addGroupForm!: FormGroup;
-  // Currently selected group
-  currentGroup: any = null;
 
-  // Alert message and title
-  alertMsg = '';
+  // Alert  title
   alertTitle = '';
   // Paths for existing and previewed images
   existingImagePath = '';
@@ -50,15 +44,7 @@ export class AddGroupsComponent {
   addbtnClickP = false;
   // Flag for displaying product division
   showProductDiv = false;
-  // Flag for indicating error state
-  isError = false;
-  // Flag for edit mode
-  isEditMode = false;
-  // Flag for selecting all products
-  selectAll = false;
 
-  // Index for button and add button
-  btnIndex = -1;
   addBtnIndex = 5;
   // Active group ID
   activeGroupId: number | null = null;
@@ -66,9 +52,12 @@ export class AddGroupsComponent {
   doubleClickData!: any;
 
   constructor(
-    private addProductService: AddProductService,
-    private tableHeadersService: TableHeadersService
-  ) {}
+    productGroupService: AddProductService,
+    protected tableHeadersService: TableHeadersService,
+    destroyRef: DestroyRef
+  ) {
+    super(productGroupService, destroyRef);
+  }
 
   ngOnInit() {
     // Initialize component
@@ -105,71 +94,6 @@ export class AddGroupsComponent {
   }
 
   /**
-   * Creates a new product group.
-   * @param formData Form data for creating the group
-   */
-  createProductGroup(formData: any): void {
-    this.addProductService.createProductGroup(formData).subscribe({
-      next: (response: any) => {
-        this.alertMsg = response.message;
-        this.isError = false;
-        setTimeout(() => {
-          this.showModalAndResetForm();
-        }, 50);
-        this.getProductGroup(-1);
-      },
-      error: (error: any) => {
-        this.handleErrorResponse(error);
-      },
-    });
-  }
-
-  /**
-   * Updates an existing product group.
-   * @param formData Form data for updating the group
-   */
-  updateProductGroup(formData: any): void {
-    const updateByUser = localStorage.getItem('code') || 'Unknown';
-    formData.append('ProductGroupID', this.currentGroup.productGroupID);
-    formData.append('UpdatedBy', updateByUser);
-    formData.append('UpdatedPC', '0.0.0.0');
-
-    this.addProductService.updateProductGroup(formData).subscribe({
-      next: (response: any) => {
-        this.alertMsg = 'Product group updated successfully';
-        this.isEditMode = false;
-        setTimeout(() => {
-          this.showModalAndResetForm();
-        }, 50);
-        this.getProductGroup(-1);
-      },
-      error: (error: any) => {
-        this.handleErrorResponse(error);
-      },
-    });
-  }
-
-  /**
-   * Retrieves product groups based on status.
-   * @param status Status of the product groups to retrieve
-   */
-  getProductGroup(status: number): void {
-    this.btnIndex = status;
-    this.allSelectedCheckbox.nativeElement.checked = false;
-    this.selectedProducts1.length = 0;
-    this.selectAll = false;
-
-    this.addProductService.GetProductGroupsListByStatus(status).subscribe({
-      next: (response: any) => {
-        this.groupList = response;
-      },
-      error: (error: any) => {
-        this.handleErrorResponse(error);
-      },
-    });
-  }
-
-  /**
    * Opens the modal with existing data.
    * @param group Existing group data
    */
@@ -182,26 +106,6 @@ export class AddGroupsComponent {
       this.doubleClickData = group;
       this.activeGroupId = group.productGroupID;
     }
-  }
-
-  /**
-   * Updates the active status of a product group.
-   * @param event Event containing isActive flag and product group ID
-   */
-  updateIsActive(event: { isActive: any; productGroupId: number }): void {
-    this.addProductService
-      .updateProductGroupStatus(event.productGroupId.toString(), event.isActive)
-      .subscribe({
-        next: () => {
-          const newStatus = event.isActive ? 1 : 0;
-          this.getProductGroup(newStatus);
-          this.showAlertAndResetForm(newStatus);
-          this.showModalAndResetForm();
-        },
-        error: (error: any) => {
-          this.handleErrorResponse(error);
-        },
-      });
   }
 
   /**
@@ -254,28 +158,6 @@ export class AddGroupsComponent {
   }
 
   /**
-   * Updates the status of selected product groups.
-   * @param isActive Flag indicating whether to activate or deactivate
-   */
-  updateProductGroupStatus(isActive: number): void {
-    this.addProductService
-      .updateProductGroupStatus(this.selectedProducts1.toString(), isActive)
-      .subscribe({
-        next: () => {
-          const newStatus = isActive ? 1 : 0;
-          this.getProductGroup(newStatus);
-          this.showAlertAndResetForm(newStatus);
-          this.selectAll = false;
-          this.selectedProducts1.length = 0;
-          this.showModalAndResetForm();
-        },
-        error: (error: any) => {
-          this.handleErrorResponse(error);
-        },
-      });
-  }
-
-  /**
    * Handles selection of checkboxes.
    * @param event Event containing group ID and checkbox state
    */
@@ -303,7 +185,7 @@ export class AddGroupsComponent {
    * Shows alert message and resets the form.
    * @param newStatus New status of the product
    */
-  showAlertAndResetForm(newStatus: number): void {
+  override showAlertAndResetForm(newStatus: number): void {
     this.alertMsg = newStatus
       ? 'Product is Activated!'
       : 'Product is Deactivated!';
@@ -314,16 +196,16 @@ export class AddGroupsComponent {
   /**
    * Shows modal and resets the form.
    */
-  showModalAndResetForm(): void {
+  override showModalAndResetForm(): void {
     this.UserExistModalBTN.nativeElement.click();
-    this.addGroupForm.reset();
+    // this.addGroupForm.reset();
   }
 
   /**
    * Handles error responses.
    * @param error Error response
    */
-  handleErrorResponse(error: any): void {
+  override handleErrorResponse(error: any): void {
     this.alertMsg = error.error.message;
     this.isError = true;
     this.UserExistModalBTN.nativeElement.click();

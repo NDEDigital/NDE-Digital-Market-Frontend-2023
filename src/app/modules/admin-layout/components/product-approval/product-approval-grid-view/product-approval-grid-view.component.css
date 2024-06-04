@@ -1,0 +1,93 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+.product_image {
+  width: 6rem;
+  height: 4rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 35px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-primary);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+.button:hover {
+  transition: 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.allUser,
+.sellerNbothOnly {
+  flex-basis: 45%;
+}
+
+.otpInput::-webkit-inner-spin-button,
+.otpInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.otpInput:focus,
+.verify_btn:focus {
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 0 0.2rem var(--color-primary);
+}
+.error {
+  border: 1px solid red;
+  box-shadow: 0 0 0.2rem red;
+}
+
+.tableHeader,
+.tableBody {
+  min-width: 10rem;
+}
+
+.tableBody {
+  background-color: white;
+  padding: 0.7rem;
+  border-bottom: 1px solid var(--color-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.actionBtn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  /* margin-left: -30rem; */
+}
+.active-row {
+  background-color: rgb(233, 238, 243);
+}
+.table-body-data {
+  flex-direction: row;
+  display: flex;
+  background-color: white;
+  /* padding-right: 3rem; */
+}
+.tableRow {
+  display: flex;
+  flex-direction: row;
+}

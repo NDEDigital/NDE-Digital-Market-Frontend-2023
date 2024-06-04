@@ -1,87 +1,100 @@
-import { Component, ElementRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges,
+  DoCheck,
+  OnInit,
+} from '@angular/core';
 import { SellerOrderOverviewService } from '../../../../services/SellerOrderOverviewService';
-import { FormsModule } from '@angular/forms';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DestroyRef } from '@angular/core';
+import { TableHeadersService } from 'src/app/services/table-headers.service';
 
 @Component({
   selector: 'app-seller-inventory',
   templateUrl: './seller-inventory.component.html',
   styleUrls: ['./seller-inventory.component.css'],
 })
-export class SellerInventoryComponent {
+export class SellerInventoryComponent implements OnInit {
   SearchByname = 'GoodsName';
   placeholder = 'Search by';
   searchby = ' Goods Name';
   searchInputValue = '';
   inventoryData: any = [];
-  filteredData: any = [];
+  filteredData!: any;
   goodsName: string = '';
   groupCode: string = '';
   sellerId: any;
+  isHovered: any | null = null;
+  headers!: any;
+  activeGroupId: number | null = null;
+
+  /**
+   * Constructor to inject dependencies.
+   * @param elementRef Reference to the component's element in the DOM
+   * @param SellerService Service for fetching seller order overview data
+   */
   constructor(
-    private elementRef: ElementRef,
-    private SellerService: SellerOrderOverviewService
+    protected destroyRef: DestroyRef,
+    private SellerService: SellerOrderOverviewService,
+    private tableHeaders: TableHeadersService
   ) {}
+
+  /**
+   * Lifecycle hook called after component initialization.
+   * Fetches inventory data.
+   */
   ngOnInit() {
-    this.GetData();
+    this.headers = this.tableHeaders.sellerInventoryTableHeaders;
+
+    this.getData();
   }
 
-  setSearchOption(text: string) {
+  /**
+   * Sets the search option and resets search inputs.
+   * @param option Search option to set
+   */
+  setSearchOption(option: string) {
     this.searchInputValue = '';
-    this.SearchByname = text;
-    // console.log(' this.SearchByname ', this.SearchByname);
-    this.searchby = text;
-    this.placeholder = ' Search by ';
-    // clearing search value and call data with out search
+    this.SearchByname = option;
+    this.searchby = option;
+    this.placeholder = 'Search by';
     this.goodsName = '';
     this.groupCode = '';
-    this.GetData();
+    this.getData();
   }
 
-  onKeyUp(event: KeyboardEvent) {
-    // Check if the pressed key is Enter (keycode 13) or Backspace (keycode 8)
-    if (event.keyCode === 13 || event.keyCode === 8) {
-      this.searchInputValue = this.searchInputValue.trim(); // Trim spaces before searching
-      // console.log('searchInputValue', this.searchInputValue);
-      this.Search();
-    }
-    if (!this.searchInputValue) {
-      this.filteredData = this.inventoryData;
-    }
-  }
-
-  Search() {
-    // console.log(this.SearchByname, '   this.SearchByname');
-
-    // checking
-    if (this.SearchByname == 'GroupCode') {
-      this.groupCode = this.searchInputValue.trim();
-      this.filteredData = this.inventoryData.filter(
-        (item: any) => item.productGroupName === this.groupCode
-      );
-    } else {
-      this.goodsName = this.searchInputValue.trim();
-      this.filteredData = this.inventoryData.filter(
-        (item: any) => item.productName === this.goodsName
-      );
-    }
-
-    //this.GetData();
-  }
-
-  searchIcon() {
-    this.Search();
-  }
-
-  GetData() {
-    this.sellerId = localStorage.getItem('code') || '';
-    //console.log(' sellerId', this.sellerId);
-
-    this.SellerService.getSellerInventory(this.sellerId).subscribe(
-      (data: any) => {
-        // console.log(' load dataaaaaa', data);
-        this.inventoryData = data;
-        this.filteredData = this.inventoryData;
-      }
+  /**
+   * Handles key up events in the search input.
+   * Triggers search when Enter key is pressed or Backspace is pressed.
+   * Resets filtered data when search input is empty.
+   * @param event Keyboard event
+   * Performs search based on current search option and input value.
+   */
+  onKeyUp(event: any) {
+    console.log(event.event);
+    const searchValue = event.event.trim().toLowerCase();
+    console.log(event.event);
+    this.filteredData = this.inventoryData.filter((item: any) =>
+      item.productName.toLowerCase().includes(searchValue)
     );
+  }
+  /**
+   * Fetches inventory data for the current seller.
+   * Uses sellerId stored in local storage.
+   */
+  getData() {
+    this.sellerId = localStorage.getItem('code') || '';
+    this.SellerService.getSellerInventory(this.sellerId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data: any) => {
+        this.inventoryData = data;
+        this.filteredData = data;
+        // this.previousFilteredData = this.filteredData;
+        // this.cdr.detectChanges();
+      });
   }
 }

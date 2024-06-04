@@ -32,6 +32,7 @@ export class CompanyApprovalGridViewComponent {
   }
 
   updateCompany(email: any, companyCode: any, status: any, maxUser: any) {
+    console.log('ashce', email);
     this.updateCompanyEvent.emit({
       email: email,
       companyCode: companyCode,

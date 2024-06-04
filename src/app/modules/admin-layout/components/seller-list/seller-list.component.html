@@ -200,168 +200,20 @@
       (mouseover)="isHovered = i"
       (mouseout)="isHovered = null"
     >
-      <div class="d-flex">
-        <div
-          class="col tableBody"
-          [ngClass]="{
-            'active-row': isHovered === i
-          }"
-        >
-          <input
-            type="checkbox"
-            [(ngModel)]="sl.isSelected"
-            (change)="checkboxSelected(sl.userId, $event)"
-          />
-        </div>
+      <!-- <div class="d-flex"> -->
+      <app-seller-list-grid-view
+        [isHovered]="isHovered"
+        [i]="i"
+        [sl]="sl"
+        [userBtnIndex]="userBtnIndex"
+        [btnIndex]="btnIndex"
+        (checkboxSelectedEvent)="checkboxSelected($event.userId, $event.event)"
+        (updatedSellerBuyerEvent)="
+          UpdatedSellerBuyer($event.userId, $event.status)
+        "
+      ></app-seller-list-grid-view>
 
-        <!-- <div>{{UserId}}</div> -->
-        <!-- <div>{{cmp.companyAdminId}}</div> -->
-        <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          #{{ i + 1 }}
-        </div>
-        <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          {{ sl.fullName }}
-        </div>
-        <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          {{ sl.phoneNumber }}
-        </div>
-        <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          {{ sl.email.split("@")[0] }}
-
-          @{{ sl.email.split("@")[1] }}
-        </div>
-        <div
-          class="col tableBody text-break"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          {{ sl.address }}
-        </div>
-        <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          {{ sl.addedDate | date : "dd MMM yyyy" }}
-        </div>
-        <div
-          class="col tableBody text-break d-flex align-items-center"
-          [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          {{ sl.companyName }}
-        </div>
-
-        <div
-          class="col tableBody text-break"
-          *ngIf="sl.userId === sl.companyAdminId; else elseBlock"
-          [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          Manager
-        </div>
-        <ng-template #elseBlock>
-          <!-- Content to be displayed when the condition is not met -->
-          <div
-            class="col tableBody text-break d-flex align-items-center"
-            [ngClass]="{ 'active-row': isHovered === i }"
-            [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
-          >
-            Seller
-          </div>
-        </ng-template>
-
-        <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': isHovered === i }"
-        >
-          <div class="d-flex justify-content-center align-items-center">
-            <div>
-              <button *ngIf="btnIndex === 0" class="actionBtn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="30"
-                  height="30"
-                  fill="green"
-                  class="bi bi-check2 me-3"
-                  viewBox="0 0 16 16"
-                  (click)="UpdatedSellerBuyer(sl.userId, true)"
-                >
-                  <path
-                    d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div [ngClass]="{ 'active-row': isHovered === i }">
-              <button
-                class="actionBtn"
-                *ngIf="btnIndex === 1"
-                (click)="UpdatedSellerBuyer(sl.userId, false)"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="red"
-                  class="bi bi-x-lg fw-bolder"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal for tadeLicence -->
-        <div
-          class="modal fade"
-          id="showImgModal"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="showImgModalLabel"
-          aria-hidden="true"
-        >
-          <div
-            class="modal-dialog modal-xl d-flex align-items-center justify-content-center"
-          >
-            <div class="modal-content">
-              <div class="modal-header modal-heading">
-                <h1 class="modal-title text-light fs-5" id="showImgModalLabel">
-                  {{ imageTitle }}
-                </h1>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body text-center">
-                <img
-                  class="company_images"
-                  [src]="imagePath"
-                  alt="no image was uploaded!"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- </div> -->
     </section>
   </div>
 

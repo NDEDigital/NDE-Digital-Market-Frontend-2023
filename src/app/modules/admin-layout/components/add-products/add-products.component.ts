@@ -3,184 +3,222 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
-  OnDestroy,
+  DestroyRef,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AddProductService } from 'src/app/services/add-product.service';
 import { TableHeadersService } from 'src/app/services/table-headers.service';
 
+interface Product {
+  productId: number;
+  productGroupID: number;
+  isSelected?: boolean;
+  [key: string]: any; // Add more specific fields as required
+}
+
+interface ApiResponse {
+  message: string;
+}
 @Component({
   selector: 'app-add-products',
   templateUrl: './add-products.component.html',
   styleUrls: ['./add-products.component.css'],
 })
-export class AddProductsComponent implements OnInit, OnDestroy {
+export class AddProductsComponent implements OnInit {
+  // ViewChild for accessing DOM elements
   @ViewChild('ProductImageInput') ProductImageInput!: ElementRef;
   @ViewChild('prdouctExistModalBTN') PrdouctExistModalBTN!: ElementRef;
   @ViewChild('addProductModalCenterG') AddProductModalCenterG!: ElementRef;
   @ViewChild('allselected', { static: false })
   allSelectedCheckbox!: ElementRef<HTMLInputElement>;
-  addProductForm!: FormGroup;
+
+  // Table headers and various dropdown data
   headers!: string[];
   productGroups: any[] = [];
   units: any[] = [];
   brands: any[] = [];
+
+  // Alert message variables
   alertMsg: string = '';
   alertTitle: string = '';
   isError: boolean = false;
+
+  // Product list and related state variables
   showProductDiv: boolean = false;
-  productList: any;
-  btnIndex = -1;
+  productList: Product[] = [];
+  btnIndex: number = -1;
   isHovered: any | null = null;
-  btnClick = false;
-  addbtnClickP = false;
-  isEditMode = false;
+  btnClick: boolean = false;
+  addbtnClickP: boolean = false;
+  isEditMode: boolean = false;
   activeProductId: number | null = null;
-  currentProduct: any = null;
+  currentProduct: Product | null = null;
   existingImagePath: string = '';
   imagePathPreview: string = '';
-  doubleClickData!: any;
-  addBtnIndex = 1;
+  doubleClickData!: Product;
+  addBtnIndex: number = 1;
 
-  selectedProducts1: any[] = [];
-  private destroy$ = new Subject<void>();
+  selectedProducts1: number[] = [];
+  selectedProductIds: any[] = [];
 
+  selectAll = false;
+  loading = false;
   constructor(
     private productService: AddProductService,
-    private tableHeadersService: TableHeadersService
+    private tableHeadersService: TableHeadersService,
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit() {
+    // Initialize headers and fetch initial data
     this.headers = this.tableHeadersService.productTableHeaders;
+    this.fetchInitialData();
+  }
+
+  // Fetch initial data for product groups, brands, and units
+  private fetchInitialData(): void {
     this.getProductGroups();
     this.getBrands();
     this.getUnits();
     this.getProducts(-1);
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  // Generic method to fetch data using a provided function
+  private getData<T>(
+    fetchFunction: () => Observable<T>,
+    successCallback: (data: T) => void,
+    errorMsg: string
+  ) {
+    this.handleApiCall(fetchFunction(), successCallback, errorMsg);
   }
 
+  // Fetch product groups
   getProductGroups(): void {
-    this.productService
-      .getProductGroups()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: any) => {
-          this.productGroups = data;
-        },
-        (error) => {
-          console.error('Error fetching product groups:', error);
-        }
-      );
+    this.getData(
+      () => this.productService.getProductGroups(),
+      (data: any) => (this.productGroups = data),
+      'Error fetching product groups'
+    );
   }
 
-  getBrands(): void {
-    this.productService
-      .getActiveBrands()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: any) => {
-          this.brands = data;
-          console.log('Brands List:', this.brands);
-        },
-        (error) => {
-          console.error('Error fetching brands:', error);
-        }
-      );
+  // Fetch active brands
+  private getBrands(): void {
+    this.getData(
+      () => this.productService.getActiveBrands(),
+      (data: any) => {
+        this.brands = data;
+        console.log('Brands List:', this.brands);
+      },
+      'Error fetching brands'
+    );
   }
 
-  getUnits(): void {
-    this.productService
-      .getUnitGroups()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data: any) => {
-          this.units = data;
-        },
-        (error) => {
-          console.error('Error fetching units:', error);
-        }
-      );
+  // Fetch unit groups
+  private getUnits(): void {
+    this.getData(
+      () => this.productService.getUnitGroups(),
+      (data: any) => (this.units = data),
+      'Error fetching units'
+    );
   }
 
-  handleApiResponse(response: any, successMsg: string, status: number): void {
-    setTimeout(() => {
-      this.alertMsg = response.message || successMsg;
-      this.isError = false;
-      this.PrdouctExistModalBTN.nativeElement.click();
-      this.addProductForm.reset();
-    }, 50);
-
-    this.getProducts(status);
+  // Fetch products based on status
+  getProducts(status: number): void {
+    this.btnIndex = status;
+    this.selectAll = false;
+    this.getData(
+      () => this.productService.GetProductListByStatus(status),
+      (response: any) => {
+        this.productList = response;
+        this.selectedProducts1 = [];
+      },
+      'Error fetching products'
+    );
   }
 
-  handleError(error: any, errorMsg: string): void {
-    this.alertMsg = error.error.message || errorMsg;
-    this.isError = true;
-    this.PrdouctExistModalBTN.nativeElement.click();
-  }
-
+  // Submit form data  (create or update product)
   onSubmit(formData: any): void {
     this.isEditMode
       ? this.updateProduct(formData)
       : this.createProduct(formData);
   }
 
-  createProduct(formData: any): void {
-    this.productService
-      .createProductList(formData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: any) =>
-          this.handleApiResponse(
-            response,
-            'Product created successfully',
-            this.btnIndex
-          ),
-        error: (error: any) =>
-          this.handleError(error, 'Error creating product'),
-      });
+  // Create a new product
+  createProduct(formData: FormData): void {
+    this.handleApiCall(
+      this.productService.createProductList(formData),
+      (response: any) =>
+        this.handleApiResponse(
+          response,
+          'Product created successfully',
+          this.btnIndex
+        ),
+      'Error creating product'
+    );
   }
 
-  updateProduct(formData: any): void {
-    formData.append('ProductId', this.currentProduct.productId);
-    formData.append('UpdatedBy', localStorage.getItem('code') || 'Unknown');
-    formData.append('UpdatedPC', '0.0.0.0');
-
-    this.productService
-      .updateProductList(formData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: any) =>
+  // Update an existing product
+  updateProduct(formData: FormData): void {
+    if (this.currentProduct) {
+      formData.append('ProductId', this.currentProduct.productId.toString());
+      formData.append('UpdatedBy', localStorage.getItem('code') || 'Unknown');
+      formData.append('UpdatedPC', '0.0.0.0');
+      this.handleApiCall(
+        this.productService.updateProductList(formData),
+        (response: any) =>
           this.handleApiResponse(
             response,
             'Product updated successfully',
             this.btnIndex
           ),
-        error: (error: any) =>
-          this.handleError(error, 'Error updating product'),
-      });
+        'Error updating product'
+      );
+    }
   }
 
-  getProducts(status: any): void {
-    this.btnIndex = status;
-    this.selectAll = false;
-    this.productService
-      .GetProductListByStatus(status)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: any) => {
-          this.productList = response;
-          this.selectedProducts1 = [];
-        },
-        error: (error: any) =>
-          this.handleError(error, 'Error fetching products'),
-      });
+  // Update product status (active/inactive)
+  updateIsActive(event: { isActive: boolean; productGroupId: number }): void {
+    const { isActive, productGroupId } = event;
+    this.handleApiCall(
+      this.productService.updateProductStatus([productGroupId], isActive),
+      (response: any) =>
+        this.handleProductStatusUpdate(response, isActive ? 1 : 0),
+      'Error updating product status'
+    );
+  }
+
+  // Toggle selection for all checkboxes
+  toggleAllCheckboxes(): void {
+    this.productList.forEach((product: Product) => {
+      product.isSelected = this.selectAll;
+      this.updateSelectedProducts(product.productId, this.selectAll);
+    });
+  }
+
+  // Change status (active/inactive) for selected products
+  chageActiveInactive(isActive: boolean): void {
+    if (this.selectedProducts1.length > 0) {
+      this.handleApiCall(
+        this.productService.updateProductStatus(
+          this.selectedProducts1,
+          isActive
+        ),
+        (response: any) =>
+          this.handleProductStatusUpdate(response, isActive ? 1 : 0),
+        'Error updating products status'
+      );
+    } else {
+      this.showAlert('No Product is selected', 'No Selection!');
+    }
+  }
+
+  // Handle checkbox selection
+  checkboxSelected(event: { productId: number; event: Event }): void {
+    const isSelected: boolean = (event.event.target as HTMLInputElement)
+      .checked;
+    this.updateSelectedProducts(event.productId, isSelected);
+    this.allSelectedCheckbox.nativeElement.checked = false;
   }
 
   openAddProductModal(): void {
@@ -191,11 +229,13 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     this.openModalWithData(null);
   }
 
+  // Reset the form
   resetForm(): void {
     this.isEditMode = false;
     this.addbtnClickP = false;
   }
 
+  // Open modal with product data for editing
   openModalWithData(product: any): void {
     this.isEditMode = !!product;
     this.currentProduct = product;
@@ -208,55 +248,8 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateIsActive(event: any): void {
-    const { isActive, productGroupId } = event;
-    this.productService
-      .updateProductStatus([productGroupId], isActive)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: any) => {
-          this.handleProductStatusUpdate(response, isActive);
-        },
-        error: (error: any) =>
-          this.handleError(error, 'Error updating product status'),
-      });
-  }
-
-  selectedProductIds: any[] = [];
-
-  selectAll = false;
-  toggleAllCheckboxes(): void {
-    this.productList.forEach(
-      (product: { isSelected: boolean; productId: any }) => {
-        product.isSelected = this.selectAll;
-        this.updateSelectedProducts(product.productId, this.selectAll);
-      }
-    );
-  }
-
-  chageActiveInactive(isActive: any): void {
-    if (this.selectedProducts1.length > 0) {
-      this.productService
-        .updateProductStatus(this.selectedProducts1, isActive)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response: any) =>
-            this.handleProductStatusUpdate(response, isActive),
-          error: (error: any) =>
-            this.handleError(error, 'Error updating products status'),
-        });
-    } else {
-      this.showAlert('No Product is selected', 'No Selection!');
-    }
-  }
-
-  checkboxSelected(event: { productId: any; event: any }): void {
-    const isSelected: boolean = event.event.target.checked;
-    this.updateSelectedProducts(event.productId, isSelected);
-    this.allSelectedCheckbox.nativeElement.checked = false;
-  }
-
-  private updateSelectedProducts(productId: any, isSelected: boolean): void {
+  // Update selected products list based on checkbox state
+  private updateSelectedProducts(productId: number, isSelected: boolean): void {
     if (isSelected) {
       this.selectedProducts1.push(productId);
     } else {
@@ -268,13 +261,34 @@ export class AddProductsComponent implements OnInit, OnDestroy {
       this.selectedProducts1.length === this.productList.length;
   }
 
+  // Handle API call with success and error handling
+  private handleApiCall<T>(
+    observable: Observable<T>,
+    successCallback: (data: T) => void,
+    errorMsg: string
+  ): void {
+    this.loading = true;
+    observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (data: T) => {
+        this.loading = false;
+        successCallback(data);
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this.handleError(error, errorMsg);
+      },
+    });
+  }
+
+  // Show alert modal with a message and title
   showAlert(message: string, title: string): void {
     this.alertMsg = message;
     this.alertTitle = title;
     this.PrdouctExistModalBTN.nativeElement.click();
   }
 
-  handleProductStatusUpdate(response: any, isActive: number): void {
+  // Handle product status update and refresh product list
+  handleProductStatusUpdate(response: ApiResponse, isActive: number): void {
     this.getProducts(isActive);
     this.btnIndex = isActive;
     this.showAlert(
@@ -283,5 +297,27 @@ export class AddProductsComponent implements OnInit, OnDestroy {
     );
     this.selectAll = false;
     this.selectedProducts1 = [];
+  }
+
+  // Handle API response success
+  handleApiResponse(
+    response: ApiResponse,
+    successMsg: string,
+    status: number
+  ): void {
+    setTimeout(() => {
+      this.alertMsg = response.message || successMsg;
+      this.isError = false;
+      this.PrdouctExistModalBTN.nativeElement.click();
+    }, 50);
+
+    this.getProducts(status);
+  }
+
+  // Handle API response error
+  handleError(error: any, errorMsg: string): void {
+    this.alertMsg = error.error.message || errorMsg;
+    this.isError = true;
+    this.PrdouctExistModalBTN.nativeElement.click();
   }
 }
