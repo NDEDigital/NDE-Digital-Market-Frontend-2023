@@ -139,7 +139,7 @@ export class AddPriceDiscountsComponent {
 
   onGroupChange(event: any) {
     // Parse the selected group ID as an integer
-    const selectedGroupId = parseInt(event.target.value, 10);
+    const selectedGroupId = event.target.value;
 
     // // Check if a valid group ID is actually selected
     // if (!isNaN(selectedGroupId)) {
