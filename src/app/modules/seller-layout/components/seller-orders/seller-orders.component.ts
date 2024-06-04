@@ -55,6 +55,7 @@ export class SellerOrdersComponent {
   detailData: any;
   productImageSrc: string = '';
   returnType = false;
+  forError: any;
   orderDetailDescription: any = {
     Approved: 'Order is waiting for Seller Approval',
     Processing: 'Processing product',
@@ -196,9 +197,11 @@ export class SellerOrdersComponent {
         //   );
         // }, 500);
         this.loading = false;
+        this.forError = true;
       },
       error: (error: any) => {
-        //console.log(error);
+        this.forError = false;
+        // console.log(error);
       },
     });
     // console.log(status);
