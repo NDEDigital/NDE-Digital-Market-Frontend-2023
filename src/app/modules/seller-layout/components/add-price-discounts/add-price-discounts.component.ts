@@ -113,16 +113,19 @@ export class AddPriceDiscountsComponent {
    */
   getProducts(status: any) {
     let userID = localStorage.getItem('code');
-    this.productService.GetProductsByStatus(userID, status).subscribe({
-      next: (response: any) => {
-        this.productList = response;
-        console.log(response);
-      },
-      error: (error: any) => {
-        console.log(error);
-        this.alertMsg = error.error.message;
-      },
-    });
+    this.productService
+      .GetProductsByStatus(userID, status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          this.productList = response;
+          console.log(response);
+        },
+        error: (error: any) => {
+          console.log(error);
+          this.alertMsg = error.error.message;
+        },
+      });
   }
 
   showProductPriceGrid(): void {
