@@ -160,15 +160,6 @@ export class SellerOrdersComponent {
       next: (response: any) => {
         console.log(response, 'newsellerorder');
         this.sellerOrder = response;
-
-        // setTimeout(() => {
-        //   console.log(
-        //     this.sellerOrder,
-        //     'byer order array',
-        //     this.sellerOrder.length,
-        //     'this.sellerOrder.length'
-        //   );
-        // }, 500);
         this.loading = false;
       },
       error: (error: any) => {
@@ -185,40 +176,15 @@ export class SellerOrdersComponent {
 
     this.orderService.getOrdersForSeller(companyCode, status).subscribe({
       next: (response: any) => {
-        // console.log(response, 'newsellerorder');
         this.sellerOrder = response;
 
-        // setTimeout(() => {
-        //   console.log(
-        //     this.sellerOrder,
-        //     'seller order array',
-        //     this.sellerOrder.length,
-        //     'this.sellerOrder.length'
-        //   );
-        // }, 500);
         this.loading = false;
         this.forError = true;
       },
       error: (error: any) => {
         this.forError = false;
-        // console.log(error);
       },
     });
-    // console.log(status);
-
-    // let uidS = localStorage.getItem('code');
-    // let userID;
-    // if (uidS) userID = parseInt(uidS, 10);
-    // this.orderService.getOrdersForSeller(userID, status).subscribe({
-    //   next: (response: any) => {
-    //     console.log(response, 'get seller order data');
-    //     this.sellerOrder = response;
-    //     // console.log(this.productsData,"all data");
-    //   },
-    //   error: (error: any) => {
-    //     //console.log(error);
-    //   },
-    // });
   }
   handlePaginationData(data: {
     selectedPageIndex: number;
@@ -271,45 +237,7 @@ export class SellerOrdersComponent {
       status = 'Returned';
       this.alertMsg = `Order status is ${status}!`;
     }
-    // console.log(order.orderDetailsListForSeller);
 
-    //detailID = product.orderDetailId.toString();
-    // console.log(order, 'order');
-    // console.log(order.orderDetailsListForSeller, 'orderDetailsListForSeller');
-
-    // if (btnIndex === 2) {
-    //   status = 'Rejected';
-    // }
-
-    // const sellerSalesMasterDto = {
-    //   userId: uid,
-    //   totalPrice: order.netPrice,
-    //   bUserId: order.buyerUserId,
-    //   addedBy: 'user',
-    //   addedPC: '0.0.0.0',
-    //   sellerSalesDetailsList: [
-    //     // {
-    //     //   orderNo: product.orderNo,
-    //     //   productId: product.productId,
-    //     //   specification: product.specification,
-    //     //   stockQty: product.stockQty,
-    //     //   saleQty: product.saleQty,
-    //     //   unitId: product.unitId,
-    //     //   netPrice: product.netPrice,
-    //     //   address: product.address,
-    //     //   productGroupID: product.productGroupID,
-    //     //   addedBy: 'user',
-    //     //   addedPC: '0.0.0.0',
-    //     // },
-    //   ],
-    // };
-    // order.orderDetailsListForSeller.forEach((product: any, index: number) => {
-    //   detailIDs += product.orderDetailId;
-
-    //   if (index < order.orderDetailsListForSeller.length - 1) {
-    //     detailIDs += ',';
-    //   }
-    // });
     const sellerSalesMasterDto = {
       userId: uid,
       totalPrice: order.totalPrice,
@@ -349,16 +277,6 @@ export class SellerOrdersComponent {
       .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
-          // console.log(response.message);
-          // this.productsData = response;
-          // //console.log(this.productsData);
-          // if ((this.btnIndex = -1)) {
-          //   this.getData('Pending');
-          // } else if ((this.btnIndex = 1)) {
-          //   this.getData('Approved');
-          // } else {
-          //   this.getData('Rejected');
-          // }
           if (this.btnIndex === -1) {
             if (stat === 'Rejected') {
               status = 'Rejected';
