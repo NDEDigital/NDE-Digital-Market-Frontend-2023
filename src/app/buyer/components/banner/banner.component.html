@@ -57,7 +57,7 @@
     <!-- Carousel Indicators -->
     <div class="carousel-indicators">
       <button
-        *ngIf="bannerDetails.length == 0"
+        *ngIf="bannerDetails?.length == 0"
         type="button"
         data-bs-target="#carouselExampleDark"
         data-bs-slide-to="0"
@@ -65,6 +65,7 @@
         aria-current="true"
         aria-label="Slide 1"
       ></button>
+
       <!-- <button
         type="button"
         data-bs-target="#carouselExampleDark"
@@ -101,7 +102,7 @@
         />
       </div>
       <div
-        *ngIf="bannerDetails.length == 0"
+        *ngIf="bannerDetails?.length == 0"
         class="carousel-item"
         [ngClass]="{ active: 1 }"
       >

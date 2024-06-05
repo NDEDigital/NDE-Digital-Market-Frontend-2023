@@ -232,23 +232,25 @@ export class HeaderComponent {
     }
   }
   getAddTocartData() {
-    this.buyerValue = localStorage.getItem('code');
-    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
-      next: (response: any) => {
-        console.log(response.result);
-        this.cartData = response.result;
-        this.cartLength = this.cartData.length;
-        console.log('new cart Data header', response.result);
-        this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
-        console.log(
-          'new cart Data header',
-          this.cartLength ? this.cartLength : 0
-        );
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
+    if (this.isLoggedIn) {
+      this.buyerValue = localStorage.getItem('code');
+      this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+        next: (response: any) => {
+          console.log(response.result);
+          this.cartData = response.result;
+          this.cartLength = this.cartData.length;
+          console.log('new cart Data header', response.result);
+          this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
+          console.log(
+            'new cart Data header',
+            this.cartLength ? this.cartLength : 0
+          );
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
+    }
   }
 
   // Close modal bootstrap

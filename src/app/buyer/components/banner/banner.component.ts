@@ -15,6 +15,7 @@ export class BannerComponent {
       next: (response: any) => {
         console.log('Banner Details:', response);
         this.bannerDetails = response;
+
         console.log(this.bannerDetails);
       },
       error: (error: any) => {
