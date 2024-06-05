@@ -39,13 +39,12 @@ export class AddProductQuantityComponent {
   productGroupData: any;
   portaldata: any;
   NoProduct = ' No product found';
-  // ModalText = "Give some entry"
-
   constructor(
     private destroyRef: DestroyRef,
     private fb: FormBuilder,
     private addProductService: AddProductService
   ) {
+    // Initializing the main form
     this.masterForm = this.fb.group({
       portalReceivedCode: [''],
       portalReceivedDate: [''],
@@ -53,20 +52,24 @@ export class AddProductQuantityComponent {
       challanDate: ['', Validators.required],
       remarks: [''],
     });
+    // Initializing the form for rows
     this.form = this.fb.group({
       rows: this.fb.array([]),
     });
   }
 
-  ngOnInit() {
-    //   if( this.receivedCode.nativeElement.value)
-    // {
-    //   this.receiveQtyField.nativeElement.setAttribute('readonly', 'true');
-    // }
-  }
+  ngOnInit() {}
+
+  /**
+   * Retrieves the user ID from local storage
+   */
   getUserId() {
     return localStorage.getItem('code');
   }
+
+  /**
+   * Creates a new form group for a row
+   */
   createRowGroup() {
     return this.fb.group({
       productName: ['', Validators.required],
@@ -82,129 +85,101 @@ export class AddProductQuantityComponent {
       isDropdownOpen: [false],
     });
   }
+
+  /**
+   * Fetches the quantity data by user ID
+   */
   GetAddQuantityDataByUserId() {
-    if (this.searchInputRef && this.searchInputRef.nativeElement) {
-      this.searchInputRef.nativeElement.value = '';
-    }
-    const userID = this.getUserId();
+    this.clearSearchInput();
     this.addProductService
-      .GetAddQuantityDataByUserId(userID)
+      .GetAddQuantityDataByUserId(this.getUserId())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => {
-          this.allQuantyData = response;
-        },
-        error: (error) => {
-          console.error('Error:', error);
-        },
+        next: (response: any) => (this.allQuantyData = response),
+        error: (error) => console.error('Error:', error),
       });
   }
+
   get rowsFormArray(): FormArray {
     return this.form.get('rows') as FormArray;
   }
 
+  /**
+   * Adds a new row to the form
+   */
   addRow() {
-    if (this.receivedCode.nativeElement.value) {
-      this.clear();
-    }
-    const rowsArray = this.rowsFormArray;
-
-    if (rowsArray.length > 0) {
-      const lastRow = rowsArray.at(rowsArray.length - 1) as FormGroup;
-      if (!lastRow.valid) {
-        console.log('Invalid row');
-      }
-      this.invisibleProductDropDown();
-    }
-
-    const newRow = this.createRowGroup();
-    rowsArray.push(newRow);
+    if (this.receivedCode.nativeElement.value) this.clear();
+    this.checkLastRowValidity();
+    this.rowsFormArray.push(this.createRowGroup());
     this.selectedProductNames.push('Select Product');
     this.selectedProductGroup.push('Select Group');
   }
+
+  /**
+   * Fetches portal data based on the received ID
+   */
   getPortalData(PortalReceivedId: any) {
     this.addProductService
       .GetPortalData(PortalReceivedId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => {
-          this.PatchForm(response.portalAfterInsert);
-        },
-        error: (error) => {
-          console.error('Error:', error);
-        },
+        next: (response: any) => this.PatchForm(response.portalAfterInsert),
+        error: (error) => console.error('Error:', error),
       });
   }
 
+  /**
+   * Removes a row from the form at the specified index
+   */
   removeRow(index: number) {
     this.rowsFormArray.removeAt(index);
-    if (this.selectedProductNames[index]) {
-      this.selectedProductNames.splice(index, 1);
-    }
-    if (this.selectedProductGroup[index]) {
-      this.selectedProductGroup.splice(index, 1);
-    }
+    this.selectedProductNames.splice(index, 1);
+    this.selectedProductGroup.splice(index, 1);
   }
 
+  /**
+   * Logs the form value on submit
+   */
   onSubmit() {
-    const formData = this.form.value;
-    console.log(formData);
+    console.log(this.form.value);
   }
 
+  /**
+   * Checks if the form is valid
+   */
   isFormValid(): boolean {
     return this.form.valid;
   }
 
+  /**
+   * Submits the form data
+   */
   submit() {
     if (this.isFormValid() && this.rowsFormArray.length) {
-      const formData = this.form.value;
-      this.portaldata = {
-        challanNo: this.masterForm.value.challanNo,
-        remarks: this.masterForm.value.remarks,
-        userId: this.getUserId(),
-        companyCode: 'CMP-23-0009',
-        addedBy: 'string',
-        addedPC: 'string',
-        portalReceivedDetailslist: formData.rows.map((row: any) => ({
-          productGroupId: row.productId,
-          productId: row.productId,
-          specification: row.specification,
-          receivedQty: parseInt(row.receiveQty, 10),
-          unitId: parseInt(row.unitId, 10),
-          price: row.price,
-          remarks: row.remarks,
-          totalPrice: parseInt(row.receiveQty, 10) * row.price,
-          userId: this.getUserId(),
-          addedBy: 'string',
-          addedPC: 'string',
-        })),
-      };
-
-      if (this.masterForm.value.challanDate) {
-        this.portaldata.challanDate = this.masterForm.value.challanDate;
-      }
-
+      this.preparePortalData();
       this.addProductService
         .insertPortalReceived(this.portaldata)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: (response) => {
-            this.masterForm.reset();
-            this.form.reset();
-            this.selectedProductNames = [];
-            this.selectedProductGroup = [];
-            this.getPortalData(response.portalReceivedId);
-          },
-          error: (error) => {
-            console.error('Error:', error);
-          },
+          next: (response) => this.handleSuccessfulSubmit(response),
+          error: (error) => console.error('Error:', error),
         });
     } else {
       console.log('Form is invalid');
     }
   }
-  PatchForm(data: any) {
+
+  /**
+   * Sets the receive quantity field to read-only if there is a received code
+   */
+  private setIsReceiveQtyReadOnly(): void {
     this.isReceiveQtyReadOnly = !!this.receivedCode.nativeElement.value;
+  }
+
+  /**
+   * Patches the main form values with the given data
+   */
+  private patchMainFormValues(data: any): void {
     this.masterForm.patchValue({
       challanNo: data.challanNo,
       remarks: data.remarks,
@@ -214,11 +189,14 @@ export class AddProductQuantityComponent {
         : null,
       challanDate: data.challanDate ? data.challanDate.split('T')[0] : null,
     });
+  }
 
+  /**
+   * Clears and sets the form array with the given data
+   */
+  private clearAndSetFormArray(data: any): void {
     const detailsFormArray = this.rowsFormArray;
     detailsFormArray.clear();
-    this.selectedProductGroup = [];
-    this.selectedProductNames = [];
     data.portalReceivedDetailAfterInsertlList.forEach((detail: any) => {
       detailsFormArray.push(
         this.fb.group({
@@ -235,146 +213,137 @@ export class AddProductQuantityComponent {
           remarks: detail.remarks,
         })
       );
+    });
+  }
+
+  /**
+   * Handles the selected products for the given data
+   */
+  private handleSelectedProducts(data: any): void {
+    this.selectedProductGroup = [];
+    this.selectedProductNames = [];
+    data.portalReceivedDetailAfterInsertlList.forEach((detail: any) => {
       this.selectedProductNames.push(detail.productName);
       this.selectedProductGroup.push(detail.productGroupName);
     });
   }
 
+  /**
+   * Patches the form with the given data
+   */
+  PatchForm(data: any): void {
+    this.setIsReceiveQtyReadOnly();
+    this.patchMainFormValues(data);
+    this.clearAndSetFormArray(data);
+    this.handleSelectedProducts(data);
+  }
+
+  /**
+   * Checks if the dropdown is visible for the given row index
+   */
   isDropdownVisible(rowIndex: number): boolean {
     this.productdropDownIndex = rowIndex;
     const rowGroup = this.rowsFormArray.at(rowIndex) as FormGroup;
     return rowGroup.get('isDropdownOpen')?.value === true;
   }
 
+  /**
+   * Toggles the dropdown for the given row index
+   */
   toggleDropdown(rowIndex: number): void {
-    // Close all dropdowns
-    for (let i = 0; i < this.rowsFormArray.length; i++) {
-      if (i !== rowIndex) {
-        const rowGroup = this.rowsFormArray.at(i) as FormGroup;
-        rowGroup.patchValue({ isDropdownOpen: false });
-      }
-    }
-
-    // Toggle the dropdown for the clicked row
+    this.closeAllDropdownsExcept(rowIndex);
     const rowGroup = this.rowsFormArray.at(rowIndex) as FormGroup;
-    const currentValue = rowGroup.get('isDropdownOpen')?.value || false;
-    rowGroup.patchValue({ isDropdownOpen: !currentValue });
-    const groupName = this.selectedProductGroup[rowIndex];
-    if (groupName == 'Select Group') {
-      this.NoProductFound = true;
-      this.NoProduct = 'please select Product Name';
-      this.productDertailsData = [];
-    } else {
-      // if group Name is selected
-      const matchGroupName = this.productGroupData.find(
-        (group: any) => group.productGroupName === groupName
-      ); // (Find) return 1st matching element not arrray
-
-      if (matchGroupName.productGroupID) {
-        this.getDetailsData(matchGroupName.productGroupID);
-      } else {
-        //console.log(" group Id not found")
-      }
-    }
+    rowGroup.patchValue({
+      isDropdownOpen: !rowGroup.get('isDropdownOpen')?.value,
+    });
+    this.handleDropdownToggle(rowIndex);
   }
 
+  /**
+   * Fetches the details data for the given product group ID
+   */
   getDetailsData(productGroupID: number) {
-    // console.log("matchGroupName.productGroupID ",productGroupID)
-    const userID = localStorage.getItem('code');
-    console.log(userID);
-
-    if (productGroupID && userID) {
+    if (productGroupID && this.getUserId()) {
       this.addProductService
-        .GetProductDetailsData(userID, productGroupID)
+        .GetProductDetailsData(this.getUserId(), productGroupID)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: (response) => {
-            //console.log( response)
-            this.productDertailsData = response;
-            console.log('his.productDertailsData ', this.productDertailsData);
-            if (this.productDertailsData.length > 0) {
-              this.NoProductFound = false;
-            } else {
-              this.NoProductFound = true;
-            }
-          },
-          error: (error) => {
-            // console.log("error ",error)
-            this.productDertailsData = [];
-          },
+          next: (response) => this.handleProductDetailsResponse(response),
+          error: (error) => (this.productDertailsData = []),
         });
     }
   }
+
+  /**
+   * Makes the product dropdown invisible
+   */
   invisibleProductDropDown(): void {
-    const rowsArray = this.rowsFormArray;
-    rowsArray.controls.forEach((row) => {
-      const rowGroup = row as FormGroup;
-      rowGroup.patchValue({ isDropdownOpen: false });
+    this.rowsFormArray.controls.forEach((row) => {
+      (row as FormGroup).patchValue({ isDropdownOpen: false });
     });
   }
 
+  /**
+   * Closes all dropdowns except the one at the given index
+   */
   closeAllDropdownsExcept(index: number) {
     this.rowsFormArray.controls.forEach((control, i) => {
-      if (i !== index) {
-        const rowGroup = control as FormGroup;
-        rowGroup.patchValue({ isDropdownOpen: false });
-      }
+      if (i !== index)
+        (control as FormGroup).patchValue({ isDropdownOpen: false });
     });
   }
 
+  /**
+   * Fetches the group names
+   */
   getGroupName() {
     this.invisibleProductDropDown();
-    const userID = localStorage.getItem('code');
     this.addProductService
-      .getProductGroupsByUserId(userID)
+      .getProductGroupsByUserId(this.getUserId())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          // console.log( response)
-          this.productGroupData = response;
-          //console.log("his.productDertailsData ",this.productDertailsData)
-        },
-        error: (error) => {
-          //console.log("error ",error)
-        },
+        next: (response) => (this.productGroupData = response),
+        error: (error) => console.error('Error:', error),
       });
   }
 
+  /**
+   * Filters the dropdown based on the input event and class name
+   */
   filterFunction(event: Event, className: string): void {
     const input = (event.target as HTMLInputElement).value.toUpperCase();
-    const links = document.querySelectorAll(
-      className
-    ) as NodeListOf<HTMLAnchorElement>;
-
-    links.forEach((b: HTMLAnchorElement) => {
-      const txtValue = b.textContent || b.innerText || '';
-      if (txtValue.toUpperCase().indexOf(input) > -1) {
-        b.style.display = '';
-      } else {
-        b.style.display = 'none';
-      }
+    document.querySelectorAll(className).forEach((element: Element) => {
+      const anchor = element as HTMLAnchorElement;
+      anchor.style.display = anchor.textContent?.toUpperCase().includes(input)
+        ? ''
+        : 'none';
     });
   }
+
+  /**
+   * Clears the input field on blur event
+   */
   onInputBlur() {
     const searchInput = document.getElementById(
       'searchGroupName'
     ) as HTMLInputElement;
-    if (searchInput) {
-      searchInput.value = '';
-    }
+    if (searchInput) searchInput.value = '';
   }
-  SetDropDownGroupName(selectedItem: any, rowIndex: number) {
-    this.selectedProductGroup[rowIndex] = selectedItem.productGroupName; // Store selected product name for this row
 
-    // reseting the  row if group name is changed
+  /**
+   * Sets the selected group name for the dropdown
+   */
+  SetDropDownGroupName(selectedItem: any, rowIndex: number) {
+    this.selectedProductGroup[rowIndex] = selectedItem.productGroupName;
     const row = this.rowsFormArray.at(rowIndex) as FormGroup;
     row.reset();
-    // reseting the product name
     this.selectedProductNames[rowIndex] = 'Select Product';
   }
 
+  /**
+   * Sets the selected product name for the dropdown
+   */
   SetDropDownName(selectedItem: any, rowIndex: number) {
-    this.selectedProduct = selectedItem;
     const rowGroup = this.rowsFormArray.at(rowIndex) as FormGroup;
     rowGroup.patchValue({
       productName: selectedItem.productName,
@@ -388,56 +357,138 @@ export class AddProductQuantityComponent {
       availableQty: selectedItem.availableQty,
       remarks: '',
     });
-
-    this.selectedProductNames[rowIndex] = selectedItem.productName; // Store selected product name for this row
-    //console.log(" product name ",    this.selectedProductNames)
+    this.selectedProductNames[rowIndex] = selectedItem.productName;
   }
 
+  /**
+   * Retrieves empty fields from the form
+   */
   getEmptyFields(): string[] {
-    const emptyFields: string[] = [];
-    // Loop through the form controls or rows in the form array
-    const formRows = (this.form.get('rows') as FormArray).controls;
-    formRows.forEach((row, index) => {
-      const receiveQtyControl = row.get('receiveQty');
-      // Check if the receiveQty field is empty or invalid
-      if (!receiveQtyControl?.value) {
-        emptyFields.push(`Receive Qty in row ${index + 1}`);
-      }
-      // Check other fields in a similar manner
-    });
-
-    return emptyFields;
+    return (this.form.get('rows') as FormArray).controls.reduce(
+      (emptyFields: string[], row, index) => {
+        if (!row.get('receiveQty')?.value)
+          emptyFields.push(`Receive Qty in row ${index + 1}`);
+        return emptyFields;
+      },
+      []
+    );
   }
 
+  /**
+   * Clears the form and resets all fields
+   */
   clear() {
-    this.masterForm.reset(); // Reset the masterForm
-    this.form.reset(); // Reset the nested form (rows)
+    this.masterForm.reset();
+    this.form.reset();
     this.productDertailsData = [];
     this.productGroupData = [];
-    while (this.rowsFormArray.length > 0) {
-      this.removeRow(0);
-      this.selectedProductNames = []; // clearing the  product array
-      this.selectedProductGroup = [];
-      // console.log("    this.selectedProductGroup",    this.selectedProductGroup)
-    }
+    this.rowsFormArray.clear();
+    this.selectedProductNames = [];
+    this.selectedProductGroup = [];
   }
 
+  /**
+   * Handles the row click event
+   */
   rowClicked(index: any, Id: any) {
     this.portalReceivedId = Id;
-    //console.log(" i",index)
-    this.allQuantyData.forEach((row, i) => {
-      row.isSelected = i === index;
-    });
+    this.allQuantyData.forEach((row, i) => (row.isSelected = i === index));
   }
-  popUpOk() {
-    if (this.portalReceivedId) {
-      this.getPortalData(this.portalReceivedId);
-    }
 
+  /**
+   * Handles the OK button click event in the popup
+   */
+  popUpOk() {
+    if (this.portalReceivedId) this.getPortalData(this.portalReceivedId);
+    this.clearSearchInput();
+  }
+
+  /**
+   * Clears the search input field
+   */
+  private clearSearchInput() {
     if (this.searchInputRef && this.searchInputRef.nativeElement) {
       this.searchInputRef.nativeElement.value = '';
-    } else {
-      // console.log("error");
     }
+  }
+
+  /**
+   * Checks the validity of the last row in the form
+   */
+  private checkLastRowValidity() {
+    const rowsArray = this.rowsFormArray;
+    if (rowsArray.length > 0 && !rowsArray.at(rowsArray.length - 1).valid) {
+      console.log('Invalid row');
+    }
+    this.invisibleProductDropDown();
+  }
+
+  /**
+   * Prepares the portal data for submission
+   */
+  private preparePortalData() {
+    const formData = this.form.value;
+    this.portaldata = {
+      challanNo: this.masterForm.value.challanNo,
+      remarks: this.masterForm.value.remarks,
+      userId: this.getUserId(),
+      companyCode: 'CMP-23-0009',
+      addedBy: 'string',
+      addedPC: 'string',
+      portalReceivedDetailslist: formData.rows.map((row: any) => ({
+        productGroupId: row.productId,
+        productId: row.productId,
+        specification: row.specification,
+        receivedQty: parseInt(row.receiveQty, 10),
+        unitId: parseInt(row.unitId, 10),
+        price: row.price,
+        remarks: row.remarks,
+        totalPrice: parseInt(row.receiveQty, 10) * row.price,
+        userId: this.getUserId(),
+        addedBy: 'string',
+        addedPC: 'string',
+      })),
+    };
+    if (this.masterForm.value.challanDate) {
+      this.portaldata.challanDate = this.masterForm.value.challanDate;
+    }
+  }
+
+  /**
+   * Handles successful submission of the form
+   */
+  private handleSuccessfulSubmit(response: any) {
+    this.masterForm.reset();
+    this.form.reset();
+    this.selectedProductNames = [];
+    this.selectedProductGroup = [];
+    this.getPortalData(response.portalReceivedId);
+  }
+
+  /**
+   * Handles the toggle of the dropdown for the specified row index
+   */
+  private handleDropdownToggle(rowIndex: number) {
+    const groupName = this.selectedProductGroup[rowIndex];
+    if (groupName == 'Select Group') {
+      this.NoProductFound = true;
+      this.NoProduct = 'please select Product Name';
+      this.productDertailsData = [];
+    } else {
+      const matchGroupName = this.productGroupData.find(
+        (group: any) => group.productGroupName === groupName
+      );
+      if (matchGroupName.productGroupID) {
+        this.getDetailsData(matchGroupName.productGroupID);
+      }
+    }
+  }
+
+  /**
+   * Handles the response for product details
+   */
+  private handleProductDetailsResponse(response: any) {
+    this.productDertailsData = response;
+    this.NoProductFound = this.productDertailsData.length === 0;
   }
 }
