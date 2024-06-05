@@ -48,7 +48,7 @@ export class HeaderComponent {
   goods: any;
   products = new Map();
   buyerValue: any;
-  cartData: any;
+  cartData!: any;
   @ViewChild('closeButton')
   closeButton!: ElementRef;
   // @ViewChild(SearchResultComponent, { static: true })
@@ -177,15 +177,19 @@ export class HeaderComponent {
       }
     });
     this.getAddTocartData();
-    this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    if (this.cartData != undefined) {
+      this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // if (changes['cartCount'] && !changes['cartCount'].firstChange) {
     //   this.cartCountLocal = changes['cartCount'].currentValue;
     // }
-    this.cartLength = this.cartData.length ? this.cartData.length : 0;
-    console.log('cart length', this.cartLength ? this.cartLength : 0);
+    if (this.cartData != undefined) {
+      this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    }
+    // console.log('cart length', this.cartLength ? this.cartLength : 0);
     if (changes['cartLength']) {
       this.cartLength = changes['cartLength'].currentValue;
       this.cd.detectChanges(); // Trigger change detection
