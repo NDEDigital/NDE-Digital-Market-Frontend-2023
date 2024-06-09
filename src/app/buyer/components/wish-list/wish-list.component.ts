@@ -120,6 +120,10 @@ export class WishListComponent {
       sellerCode: new FormControl(''),
       deliveryDate: new FormControl(''),
     });
+    this.loadData();
+    // this.cartDataService.initializeAndLoadData();
+    this.setServiceData();
+    this.getAddTocartData();
   }
 
   ngAfterViewInit() {
