@@ -23,7 +23,7 @@ export class CartAddedProductComponent {
   showUpBtn: any;
   buyerValue: any;
   cartTotalAmount = 0;
-  cartData: any;
+  cartData!: any;
   selectAll: boolean = false;
 
   cartLength: number = 0;

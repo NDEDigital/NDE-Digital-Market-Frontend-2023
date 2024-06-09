@@ -129,7 +129,7 @@ export class ProductDetailsPageComponent {
     this.checkWishlistStatus();
     // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
     this.service
-      .UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
+      .UrlGetOfHome(this.productIdPa, this.companyCodePa)
       .subscribe((goods: any) => {
         this.detailsData = {
           companyCode: goods.companyCode,
