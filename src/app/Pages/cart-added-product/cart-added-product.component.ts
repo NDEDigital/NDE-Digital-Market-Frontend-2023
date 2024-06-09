@@ -33,7 +33,9 @@ export class CartAddedProductComponent {
     private route: Router,
     private http: HttpClient,
     private orderApiService: OrderApiService
-  ) {}
+  ) {
+    this.buyerValue = localStorage.getItem('code');
+  }
 
   ngOnInit(): void {
     // this.cartDataService.clearCartData();
@@ -56,11 +58,10 @@ export class CartAddedProductComponent {
   }
 
   getAddTocartData() {
-    this.buyerValue = localStorage.getItem('code');
     this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
-        console.log(response.result);
-        this.cartData = response.result;
+        console.log(response);
+        this.cartData = response;
         this.cartLength = this.cartData.length;
         this.cartTotalAmount = 0;
         this.totalSelectedCart = 0;
