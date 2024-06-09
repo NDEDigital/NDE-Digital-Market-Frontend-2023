@@ -237,8 +237,8 @@ export class HeaderComponent {
     if (this.isLoggedIn) {
       this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
         next: (response: any) => {
-          console.log(response.result);
-          this.cartData = response.result;
+          console.log(response);
+          this.cartData = response;
           this.cartLength = this.cartData.length;
           console.log('new cart Data header', response.result);
           this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
