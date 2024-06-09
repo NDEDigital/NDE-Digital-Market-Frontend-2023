@@ -224,6 +224,7 @@ export class ProductComponent {
     this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
         console.log(response.result);
+
         this.cartData = response.result;
         this.cartLength = this.cartData.length;
         this.cartTotalAmount = 0;
@@ -232,7 +233,7 @@ export class ProductComponent {
         });
         console.log('new cart Data', response.result);
 
-        console.log('new cart Data', this.cartData.length);
+        // console.log('new cart Data', this.cartData.length);
       },
       error: (error: any) => {
         console.log(error);

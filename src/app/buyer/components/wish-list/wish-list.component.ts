@@ -148,7 +148,7 @@ export class WishListComponent {
         });
         console.log('new cart Data', response.result);
 
-        console.log('new cart Data', this.cartData.length);
+        // console.log('new cart Data', this.cartData.length);
       },
       error: (error: any) => {
         console.log(error);
