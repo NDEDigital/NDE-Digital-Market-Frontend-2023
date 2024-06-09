@@ -180,7 +180,7 @@ export class OrderApiService {
   insertOrderData(data: any) {
     // this.setData();
     console.log(' orderdata', data);
-    return this.http.post<any>(this.orderPostUrl, data, this.httpOptions);
+    return this.http.post<any>(this.orderPostUrl, data);
   }
   // get user info for order
   getUserInfo(UserId: any) {
