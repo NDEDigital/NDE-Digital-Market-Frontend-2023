@@ -96,6 +96,8 @@ export class ProductDetailsPageComponent {
       // alert(this.companyCodePa)
       // Now you can use this.productId and this.companyCode in your component
     });
+
+    this.buyerValue = localStorage.getItem('code');
   }
 
   ngOnInit() {
@@ -397,13 +399,14 @@ export class ProductDetailsPageComponent {
     console.log(this.cartDataDetail, 'cart data');
   }
   getAddTocartData() {
-    this.buyerValue = localStorage.getItem('code');
     if (this.buyerValue) {
+      console.log(this.buyerValue);
       this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
         next: (response: any) => {
-          console.log(response.result);
-          this.cartData = response.result;
-          this.cartLength = this.cartData.length;
+          console.log(response);
+          this.cartData = response;
+          this.cartLength = this.cartData ? this.cartData.length : 0;
+
           this.cartTotalAmount = 0;
           this.cartData.forEach((element: any) => {
             this.cartTotalAmount += parseFloat(element.totalPrice);

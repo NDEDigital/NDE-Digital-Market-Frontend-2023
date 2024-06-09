@@ -90,6 +90,8 @@ export class HeaderComponent {
       this.isSeller = false;
     }
 
+    this.buyerValue = localStorage.getItem('code');
+
     // console.log(this.isBuyer, 'isBuyer');
 
     // console.log(this.sharedService.user$, ' lol');
@@ -233,7 +235,6 @@ export class HeaderComponent {
   }
   getAddTocartData() {
     if (this.isLoggedIn) {
-      this.buyerValue = localStorage.getItem('code');
       this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
         next: (response: any) => {
           console.log(response.result);
