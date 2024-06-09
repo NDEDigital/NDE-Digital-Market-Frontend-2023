@@ -129,7 +129,7 @@ export class ProductDetailsPageComponent {
     this.checkWishlistStatus();
     // console.log("product Id is",parseInt(this.productIdPa),"companyCode is",atob(this.companyCodePa));
     this.service
-      .UrlGetOfHome(parseInt(this.productIdPa), this.companyCodePa)
+      .UrlGetOfHome(this.productIdPa, this.companyCodePa)
       .subscribe((goods: any) => {
         this.detailsData = {
           companyCode: goods.companyCode,
@@ -166,19 +166,21 @@ export class ProductDetailsPageComponent {
   }
 
   checkWishlistStatus() {
-    this.WishlistService.getWishList(this.buyerCode).subscribe({
-      next: (wishlist: any) => {
-        console.log('wish are', wishlist);
-        wishlist.forEach((wish: any) => {
-          if (
-            wish.productId == this.productIdPa &&
-            wish.companyCode == this.companyCodePa
-          ) {
-            this.isRed = true; // Set isRed to true if item is in the wishlist
-          }
-        });
-      },
-    });
+    if (this.buyerCode) {
+      this.WishlistService.getWishList(this.buyerCode).subscribe({
+        next: (wishlist: any) => {
+          console.log('wish are', wishlist);
+          wishlist.forEach((wish: any) => {
+            if (
+              wish.productId == this.productIdPa &&
+              wish.companyCode == this.companyCodePa
+            ) {
+              this.isRed = true; // Set isRed to true if item is in the wishlist
+            }
+          });
+        },
+      });
+    }
   }
 
   changeRed() {
@@ -396,23 +398,25 @@ export class ProductDetailsPageComponent {
   }
   getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
-    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
-      next: (response: any) => {
-        console.log(response.result);
-        this.cartData = response.result;
-        this.cartLength = this.cartData.length;
-        this.cartTotalAmount = 0;
-        this.cartData.forEach((element: any) => {
-          this.cartTotalAmount += parseFloat(element.totalPrice);
-        });
-        console.log('new cart Data', response.result);
+    if (this.buyerValue) {
+      this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+        next: (response: any) => {
+          console.log(response.result);
+          this.cartData = response.result;
+          this.cartLength = this.cartData.length;
+          this.cartTotalAmount = 0;
+          this.cartData.forEach((element: any) => {
+            this.cartTotalAmount += parseFloat(element.totalPrice);
+          });
+          console.log('new cart Data', response.result);
 
-        console.log('new cart Data', this.cartData.length);
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
+          console.log('new cart Data', this.cartData.length);
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
+    }
   }
   setCart(entry: any, inputQt: string) {
     console.log(entry, 'approveSalesQty');

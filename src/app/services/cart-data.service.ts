@@ -23,6 +23,7 @@ export class CartDataService {
     return this.http.post(this.createAddCartDataByBuyerURL, addToCart);
   }
   getAddToCartDataByBuyer(userID: string) {
+    console.log(userID, 'getAddToCartDataByBuyer');
     return this.http.get(`${this.getAddToCartDataByBuyerURL}/${userID}`);
   }
   deleteCartDataByBuyer(productID: any) {
