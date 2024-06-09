@@ -59,13 +59,22 @@ export class CompanyService {
     } else {
       status = false;
     }
-    // console.log(selectedValue);
+    // console.log(selectedValue, ' service a achi.');
+    if (selectedValue == null) {
+      return this.http.get(
+        `${this.URL}/getSellerActive&Inactive/${true}?IsActive=${status}`
+      );
+    } else {
+      console.log(selectedValue, ' service a achi.');
+      return this.http.get(
+        `${
+          this.URL
+        }/getSellerActive&Inactive/${true}?CompanyCode=${encodeURIComponent(
+          selectedValue.toString()
+        )}&IsActive=${status}`
+      );
+    }
 
-    return this.http.get(
-      `${
-        this.URL
-      }/getSellerActive&Inactive/${true}?CompanyCode=${selectedValue}&IsActive=${status}`
-    );
     // getSellerActive&Inactive/false?CompanyCode=dfasd&IsActive=true
   }
 

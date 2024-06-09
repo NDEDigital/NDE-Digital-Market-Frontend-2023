@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class GoodsDataService implements OnInit{
+export class GoodsDataService implements OnInit {
   private navData: any[] = [];
   private allData: any[] = [];
   private companyList: any;
@@ -30,23 +30,21 @@ export class GoodsDataService implements OnInit{
   getGoodsListURL = `${this.URL}/api/Goods/GetGoodsList`;
   sellersProductListURL = `${this.URL}/GetProduct`;
   navUrl = `${this.URL}/api/Goods/GetNavData`;
-  dropDownGroupUrl= `${this.URL}/api/Goods/GetDataForDropdown`;
+  dropDownGroupUrl = `${this.URL}/api/Goods/GetDataForDropdown`;
 
   searchProuct = '';
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     // this.router.navigate(['/productsPageComponent'], { queryParams: { groupCode: this.groupCode } });
-    this.route.queryParams.subscribe(params => {
-      this.searchKey=(params['searchkey']);
-      
-   
+    this.route.queryParams.subscribe((params) => {
+      this.searchKey = params['searchkey'];
     });
-  
   }
 
-ngOnInit(): void {
-
-  
-}
+  ngOnInit(): void {}
 
   getSearchResult() {
     this.searchProuct = `${this.URL}/api/ProductSearch/GetSearchedProduct?productName=${this.searchKey}&sortDirection=${this.sortedKey}&nextCount=${this.item}&offset=${this.page}`;
@@ -63,7 +61,6 @@ ngOnInit(): void {
       })
     );
   }
-
 
   setDetailData(entry: any) {
     this.detailData = entry;
@@ -89,7 +86,7 @@ ngOnInit(): void {
       tap((response: any[]) => {
         this.carousalData = response;
         // console.log("you are in home");
-        
+
         // console.log(this.companyList,"");
       }),
 
@@ -104,31 +101,25 @@ ngOnInit(): void {
     this.groupCode = sessionStorage.getItem('groupCode') || '';
     this.groupName = sessionStorage.getItem('groupName') || '';
     // console.log(this.groupCode, 'groupCode', this.groupName, 'groupname');
-    
+
     // const encodedGroupName = encodeURIComponent(this.groupName);
     // console.log('encodedGroupName ', encodedGroupName);
     const productCompany = `${this.URL}/api/Goods/GetProductCompany/${groupCode}`;
     // console.log(productCompany, ' produ');
     // console.log("hello 1");
 
-
     return this.http.get<any[]>(productCompany).pipe(
       tap((response: any[]) => {
         this.companyList = response;
-        
-     
-   
       }),
       catchError((error: any) => {
         console.error('Error:', error);
         return throwError(() => error);
       })
-      
     );
-}
+  }
 
-
-  getProductList(companyCode: string,groupCode:string) {
+  getProductList(companyCode: string, groupCode: string) {
     // this.companyCode = companyCode;
     // console.log(companyCode," ----------");
 
@@ -154,14 +145,14 @@ ngOnInit(): void {
     });
   }
 
-  getGroupData(){
+  getGroupData() {
     return this.http.get<any[]>(this.dropDownGroupUrl).pipe(
       tap((response: any[]) => {
         this.navData = response;
       })
     );
-   }
-  
+  }
+
   // review and ratings
 
   getReviewRatingsData(productId: any) {
@@ -173,19 +164,14 @@ ngOnInit(): void {
     });
   }
 
-  UrlGetOfHome(productId: Number,companyCode:string) {
+  UrlGetOfHome(productId: Number, companyCode: string) {
     // console.log(productId, 'ProductId');
     // console.log(companyCode,'companycde');
-    
+
     const url = `${this.URL}/api/Goods/GetGoodsDetails/${companyCode}/${productId}`;
- 
+
     return this.http.get(url, {
       params: {}, // Ensure productId is a string
     });
   }
-
-
-
-
-
 }

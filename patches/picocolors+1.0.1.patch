@@ -1,0 +1,41 @@
+diff --git a/node_modules/picocolors/picocolors.js b/node_modules/picocolors/picocolors.js
+index 8b8a23e..b5434ba 100644
+--- a/node_modules/picocolors/picocolors.js
++++ b/node_modules/picocolors/picocolors.js
+@@ -8,6 +8,9 @@ let isColorSupported =
+ 		(require != null && require("tty").isatty(1) && env.TERM !== "dumb") ||
+ 		"CI" in env)
+ 
++
++
++
+ let formatter =
+ 	(open, close, replace = open) =>
+ 	input => {
+@@ -63,3 +66,26 @@ let createColors = (enabled = isColorSupported) => {
+ 
+ module.exports = createColors()
+ module.exports.createColors = createColors
++const webpack = require('webpack');
++const nodeExternals = require('webpack-node-externals');
++
++module.exports = {
++  target: 'node', // Ensure the target is set to 'node'
++  externals: [nodeExternals()], // Ignore all node_modules
++  module: {
++    rules: [
++      {
++        test: /\.js$/,
++        exclude: /node_modules/,
++        use: {
++          loader: 'babel-loader', // Or another appropriate loader
++        },
++      },
++    ],
++  },
++  plugins: [
++    new webpack.IgnorePlugin({
++      resourceRegExp: /^picocolors$/, // Ignore the specific package causing the issue
++    }),
++  ],
++};

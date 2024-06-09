@@ -180,8 +180,12 @@ export class AddProductsComponent implements OnInit {
   // Update product status (active/inactive)
   updateIsActive(event: { isActive: boolean; productGroupId: number }): void {
     const { isActive, productGroupId } = event;
+    console.log(isActive);
     this.handleApiCall(
-      this.productService.updateProductStatus([productGroupId], isActive),
+      this.productService.updateProductStatus(
+        [productGroupId],
+        isActive ? true : false
+      ),
       (response: any) =>
         this.handleProductStatusUpdate(response, isActive ? 1 : 0),
       'Error updating product status'
@@ -198,6 +202,7 @@ export class AddProductsComponent implements OnInit {
 
   // Change status (active/inactive) for selected products
   chageActiveInactive(isActive: boolean): void {
+    console.log(isActive);
     if (this.selectedProducts1.length > 0) {
       this.handleApiCall(
         this.productService.updateProductStatus(
@@ -268,6 +273,7 @@ export class AddProductsComponent implements OnInit {
     errorMsg: string
   ): void {
     this.loading = true;
+    console.log(observable);
     observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data: T) => {
         this.loading = false;

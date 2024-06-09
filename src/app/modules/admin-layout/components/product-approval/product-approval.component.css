@@ -40,10 +40,7 @@
   border-bottom: 1px solid var(--color-gray);
 }
 
-/* modal heading */
-.modal-heading {
-  background-color: var(--color-primary);
-}
+
 .headerbtns .custom-btn {
   background: #f0faff;
   color: rgb(3, 20, 43);
@@ -59,37 +56,6 @@
   border: 1px solid #a4a554;
 }
 
-.headerbtns .new-btn.active {
-  background-color: var(--color-primary-dark) !important ;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
-}
-.btn-active.active {
-  background-color: #78ac8b !important ;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
-}
-.btn-inactive.active {
-  background-color: #a4a554 !important ;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
-}
 
-.btn-trade-company {
-  width: 4rem !important;
-}
 
-.actionBtn {
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: 0.5rem;
-}
 
-.product_image {
-  height: 4rem;
-  width: 6rem;
-}
-.active-row {
-  background-color: rgb(233, 238, 243);
-}

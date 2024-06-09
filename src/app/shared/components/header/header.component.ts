@@ -48,7 +48,7 @@ export class HeaderComponent {
   goods: any;
   products = new Map();
   buyerValue: any;
-  cartData: any;
+  cartData!: any;
   @ViewChild('closeButton')
   closeButton!: ElementRef;
   // @ViewChild(SearchResultComponent, { static: true })
@@ -177,15 +177,19 @@ export class HeaderComponent {
       }
     });
     this.getAddTocartData();
-    this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    if (this.cartData != undefined) {
+      this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // if (changes['cartCount'] && !changes['cartCount'].firstChange) {
     //   this.cartCountLocal = changes['cartCount'].currentValue;
     // }
-    this.cartLength = this.cartData.length ? this.cartData.length : 0;
-    console.log('cart length', this.cartLength ? this.cartLength : 0);
+    if (this.cartData != undefined) {
+      this.cartLength = this.cartData.length ? this.cartData.length : 0;
+    }
+    // console.log('cart length', this.cartLength ? this.cartLength : 0);
     if (changes['cartLength']) {
       this.cartLength = changes['cartLength'].currentValue;
       this.cd.detectChanges(); // Trigger change detection
@@ -228,23 +232,25 @@ export class HeaderComponent {
     }
   }
   getAddTocartData() {
-    this.buyerValue = localStorage.getItem('code');
-    this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
-      next: (response: any) => {
-        console.log(response.result);
-        this.cartData = response.result;
-        this.cartLength = this.cartData.length;
-        console.log('new cart Data header', response.result);
-        this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
-        console.log(
-          'new cart Data header',
-          this.cartLength ? this.cartLength : 0
-        );
-      },
-      error: (error: any) => {
-        console.log(error);
-      },
-    });
+    if (this.isLoggedIn) {
+      this.buyerValue = localStorage.getItem('code');
+      this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
+        next: (response: any) => {
+          console.log(response.result);
+          this.cartData = response.result;
+          this.cartLength = this.cartData.length;
+          console.log('new cart Data header', response.result);
+          this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
+          console.log(
+            'new cart Data header',
+            this.cartLength ? this.cartLength : 0
+          );
+        },
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
+    }
   }
 
   // Close modal bootstrap

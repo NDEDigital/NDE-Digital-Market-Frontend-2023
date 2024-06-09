@@ -35,7 +35,6 @@ export class ProductsPageComponent {
           .getProductCompanyList(groupCode)
           .subscribe((data: any) => {
             this.companyList = data;
-            console.log('data ashce', this.companyList);
           });
       }
     });

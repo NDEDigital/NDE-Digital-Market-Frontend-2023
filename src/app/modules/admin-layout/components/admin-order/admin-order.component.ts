@@ -81,31 +81,11 @@ export class AdminOrderComponent {
   searchTerm$ = new Subject<string>();
   ngOnInit() {
     this.getMAsterData('New');
-    this.getOrderDetails(3);
+    // this.getOrderDetails(3);
     this.loadData();
-    //console.log(' SearchTerm valuee on init', this.searchTerm$);
-    // this.searchTerm$
-    //   .pipe(
-    //     debounceTime(500), // Delay for 500 milliseconds
-    //     distinctUntilChanged(), // Only emit when the search term changes
-    //     switchMap((term: string) =>
-    //       this.service.GetOrderData(
-    //         this.selectedPageIndex,
-    //         this.selectedValue,
-    //         this.status,
-    //         this.searchby,
-    //         term
-    //       )
-    //     )
-    //   )
-    //   .subscribe((results) => {
-    //     // Handle the search results here
-    //     //console.log('retrive search results', results);
-    //     this.dataDistribute(results);
-    //   });
   }
 
-  getOrderDetails(orderMasterId: number): void {
+  getOrderDetails(orderMasterId: string): void {
     this.service.getOrderDetailData(orderMasterId, status).subscribe(
       (data: any[]) => {
         //console.log('Order Details:', data);
@@ -267,31 +247,7 @@ export class AdminOrderComponent {
           this.togglingDetailsCheckbox(index, this.detailsData);
         }, 10);
       });
-    }
-
-    // else if (this.detailsData[0].orderMasterId != orderMasterId) {
-    //   // console.log(
-    //   //   'this.detailsData.orderMasterId ',
-    //   //   this.detailsData[0].orderMasterId
-    //   // );
-    //   this.detailsData = [];
-    //   console.log(' orderMasterId tytr', orderMasterId);
-    //   this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
-    //     console.log('details data else if', data); // Use a type if possible for better type checking
-    //     this.detailsData = data;
-
-    //     // Add the isChecked property with a default value of false to each object
-    //     this.detailsData = data.map((item: any) => ({
-    //       ...item,
-    //       isChecked: false,
-    //     }));
-    //     //console.log('details data dataaaaaa',    this.detailsData); // Use a type if possible for better type checking
-    //     setTimeout(() => {
-    //       this.togglingDetailsCheckbox(index, this.detailsData);
-    //     }, 10);
-    //   });
-    // }
-    else {
+    } else {
       this.detailsData.length = 0; // clearing the array for  hiding the details data div
     }
 

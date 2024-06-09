@@ -34,7 +34,7 @@ export class SellerListComponent {
 
   alertTitle: string = '';
   alertMsg: string = '';
-  selectedValue: any;
+  selectedValue: any = 'All Company';
 
   selectedProductIds: any[] = [];
   selectedProducts1: any[] = [];
@@ -87,12 +87,16 @@ export class SellerListComponent {
    */
   onCategoryChange(event: any): void {
     this.selectedValue = event.target.value;
+
     this.getSeller();
   }
   /**
    * Fetches the list of sellers for the admin role.
    */
   getSeller(): void {
+    if (this.selectedValue == 'All Company') {
+      this.selectedValue = null;
+    }
     this.resetSelection();
     console.log(this.selectedValue, 'ashce');
     this.companyService

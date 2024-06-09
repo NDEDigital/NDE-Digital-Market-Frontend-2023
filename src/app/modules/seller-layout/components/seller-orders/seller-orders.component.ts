@@ -55,6 +55,7 @@ export class SellerOrdersComponent {
   detailData: any;
   productImageSrc: string = '';
   returnType = false;
+  forError: any;
   orderDetailDescription: any = {
     Approved: 'Order is waiting for Seller Approval',
     Processing: 'Processing product',
@@ -64,6 +65,7 @@ export class SellerOrdersComponent {
     Delivered: 'Delivered product',
     Cancelled: 'Cancelled product',
   };
+  // Array of possible order statuses
   statusArray = [
     'Approved',
     'Processing',
@@ -75,7 +77,9 @@ export class SellerOrdersComponent {
     'Returned',
     'Rejected',
   ];
+
   btnIndex = -2;
+
   constructor(
     private router: Router,
     private orderService: OrderApiService,
@@ -83,16 +87,19 @@ export class SellerOrdersComponent {
     private returnService: ProductReturnServiceService,
     private sellerService: SellerOrderOverviewService
   ) {
+    // Initialize review form with validators
     this.reviewForm = new FormGroup({
       rating: new FormControl(Validators.required),
       image: new FormControl(),
       reviwField: new FormControl(),
     });
+
+    // Subscribe to form value changes to update form validation status
     this.reviewForm.valueChanges.subscribe(() => {
       this.isFormValid = this.reviewForm.valid;
-      // //console.log(this.isFormValid);
     });
 
+    // Initialize return form
     this.returnForm = new FormGroup({
       orderNo: new FormControl(''),
       groupName: new FormControl(''),
@@ -107,23 +114,34 @@ export class SellerOrdersComponent {
       deliveryDate: new FormControl(''),
     });
   }
+
+  /**
+   * Lifecycle hook that runs after the component's view has been initialized.
+   * Loads initial data and sets up form control listeners.
+   */
   ngOnInit() {
     this.loadData();
 
     this.reviewForm.get('rating')?.valueChanges.subscribe((rating) => {
-      //console.log('Rating selected:', rating);
       this.errorMsg = false;
       this.rating = rating;
-      // You can do something with the rating value here
     });
   }
+
+  /**
+   * Sets the detail data for the selected order.
+   * @param detail - The order detail data to set.
+   */
   setDetail(detail: any) {
     this.detailData = detail;
-    //console.log(' details data888888888888888888888888888888 ', this.detailData);
   }
+
+  /**
+   * Navigates to the product detail page and stores the selected item in session storage.
+   * @param detail - The detail of the product to view.
+   */
   goToDetail(detail: any) {
     this.item = detail;
-    //console.log(detail, 'detail prod');
 
     let obj = {
       approveSalesQty: this.item.quantity,
@@ -146,12 +164,13 @@ export class SellerOrdersComponent {
       weight: this.item.width,
     };
 
-    //console.log('product data ', obj);
     sessionStorage.setItem('productData', JSON.stringify(obj));
-    // this.route.navigate(['/productDetails']);
     window.open('/productDetails', '_blank');
   }
 
+  /**
+   * Loads the order data for the current seller.
+   */
   loadData() {
     const companyCode = localStorage.getItem('CompanyCode');
 
@@ -159,154 +178,69 @@ export class SellerOrdersComponent {
       next: (response: any) => {
         console.log(response, 'newsellerorder');
         this.sellerOrder = response;
-
-        // setTimeout(() => {
-        //   console.log(
-        //     this.sellerOrder,
-        //     'byer order array',
-        //     this.sellerOrder.length,
-        //     'this.sellerOrder.length'
-        //   );
-        // }, 500);
         this.loading = false;
+        this.forError = true;
       },
       error: (error: any) => {
-        //console.log(error);
+        this.forError = false;
+        console.log(error);
       },
     });
   }
 
+  /**
+   * Retrieves order data based on the specified status.
+   * @param status - The status of the orders to retrieve.
+   */
   getData(status: string) {
-    // console.log("status",status);
-
     const companyCode = localStorage.getItem('CompanyCode');
-    // console.log("user code",companyCode);
 
     this.orderService.getOrdersForSeller(companyCode, status).subscribe({
       next: (response: any) => {
-        // console.log(response, 'newsellerorder');
         this.sellerOrder = response;
-
-        // setTimeout(() => {
-        //   console.log(
-        //     this.sellerOrder,
-        //     'seller order array',
-        //     this.sellerOrder.length,
-        //     'this.sellerOrder.length'
-        //   );
-        // }, 500);
         this.loading = false;
+        this.forError = true;
       },
       error: (error: any) => {
-        //console.log(error);
+        this.forError = false;
       },
     });
-    // console.log(status);
-
-    // let uidS = localStorage.getItem('code');
-    // let userID;
-    // if (uidS) userID = parseInt(uidS, 10);
-    // this.orderService.getOrdersForSeller(userID, status).subscribe({
-    //   next: (response: any) => {
-    //     console.log(response, 'get seller order data');
-    //     this.sellerOrder = response;
-    //     // console.log(this.productsData,"all data");
-    //   },
-    //   error: (error: any) => {
-    //     //console.log(error);
-    //   },
-    // });
   }
+
+  /**
+   * Handles pagination data and reloads the order data based on the selected page and row count.
+   * @param data - The pagination data containing selected page index and row count.
+   */
   handlePaginationData(data: {
     selectedPageIndex: number;
     selectedValue: number;
   }) {
-    //console.log(data.selectedPageIndex, data.selectedValue, 'data.....');
     this.pageNum = data.selectedPageIndex;
     this.rowCount = data.selectedValue;
     this.loadData();
   }
 
+  /**
+   * Returns the description for the specified order status.
+   * @param status - The status of the order.
+   * @returns The description of the order status.
+   */
   getStatusDescription(status: string): string {
     const description = this.orderDetailDescription[status];
     return description || '';
   }
 
-  updateOrder(stat: any, order: any) {
+  /**
+   * Updates the status of an order and displays an alert message.
+   * @param status - The new status to set for the order.
+   * @param alertMessage - The alert message to display.
+   * @param order - The order to update.
+   */
+  updateOrderStatus(status: string, alertMessage: string, order: any) {
     let uidS = localStorage.getItem('code');
     let uid: any;
     if (uidS) uid = parseInt(uidS, 10);
-    let status = 'status';
-    let detailIDs = '';
-    if (this.btnIndex === -1) {
-      if (stat === 'Rejected') {
-        status = 'Rejected';
-        this.alertMsg = `Order status is ${status}!`;
-      } else {
-        status = 'Processing';
-        this.alertMsg = `Order status is ${status}!`;
-        this.productStatusModalBTN.nativeElement.click();
-      }
-    }
-    if (this.btnIndex === 3) {
-      this.productStatusModalBTN.nativeElement.click();
-      status = 'ReadyToShip';
-      this.alertMsg = `Order status is ${status}!`;
-    }
-    if (this.btnIndex === 4) {
-      this.productStatusModalBTN.nativeElement.click();
-      status = 'ToDeliver';
-      this.alertMsg = `Order status is ${status}!`;
-    }
-    if (this.btnIndex === 5) {
-      this.productStatusModalBTN.nativeElement.click();
-      status = 'Delivered';
-      this.alertMsg = `Order status is ${status}!`;
-    }
-    if (this.btnIndex === 8) {
-      this.productStatusModalBTN.nativeElement.click();
-      status = 'Returned';
-      this.alertMsg = `Order status is ${status}!`;
-    }
-    // console.log(order.orderDetailsListForSeller);
 
-    //detailID = product.orderDetailId.toString();
-    // console.log(order, 'order');
-    // console.log(order.orderDetailsListForSeller, 'orderDetailsListForSeller');
-
-    // if (btnIndex === 2) {
-    //   status = 'Rejected';
-    // }
-
-    // const sellerSalesMasterDto = {
-    //   userId: uid,
-    //   totalPrice: order.netPrice,
-    //   bUserId: order.buyerUserId,
-    //   addedBy: 'user',
-    //   addedPC: '0.0.0.0',
-    //   sellerSalesDetailsList: [
-    //     // {
-    //     //   orderNo: product.orderNo,
-    //     //   productId: product.productId,
-    //     //   specification: product.specification,
-    //     //   stockQty: product.stockQty,
-    //     //   saleQty: product.saleQty,
-    //     //   unitId: product.unitId,
-    //     //   netPrice: product.netPrice,
-    //     //   address: product.address,
-    //     //   productGroupID: product.productGroupID,
-    //     //   addedBy: 'user',
-    //     //   addedPC: '0.0.0.0',
-    //     // },
-    //   ],
-    // };
-    // order.orderDetailsListForSeller.forEach((product: any, index: number) => {
-    //   detailIDs += product.orderDetailId;
-
-    //   if (index < order.orderDetailsListForSeller.length - 1) {
-    //     detailIDs += ',';
-    //   }
-    // });
     const sellerSalesMasterDto = {
       userId: uid,
       totalPrice: order.totalPrice,
@@ -316,6 +250,8 @@ export class SellerOrdersComponent {
       sellerSalesDetailsList: [] as ProductType[],
     };
 
+    let detailIDs = '';
+
     order.orderDetailsListForSeller.forEach((product: any, index: number) => {
       detailIDs += product.orderDetailId;
 
@@ -323,7 +259,6 @@ export class SellerOrdersComponent {
         detailIDs += ',';
       }
 
-      // Creating an object based on the commented-out code
       const salesDetail: ProductType = {
         orderNo: order.orderNo,
         productId: product.productId,
@@ -338,81 +273,70 @@ export class SellerOrdersComponent {
         addedPC: '0.0.0.0',
       };
 
-      // Adding the created object to the sellerSalesDetailsList array
       sellerSalesMasterDto.sellerSalesDetailsList.push(salesDetail);
     });
-    // console.log(status, 'status');
+
     this.sellerService
       .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterDto)
       .subscribe({
         next: (response: any) => {
-          // console.log(response.message);
-          // this.productsData = response;
-          // //console.log(this.productsData);
-          // if ((this.btnIndex = -1)) {
-          //   this.getData('Pending');
-          // } else if ((this.btnIndex = 1)) {
-          //   this.getData('Approved');
-          // } else {
-          //   this.getData('Rejected');
-          // }
-          if (this.btnIndex === -1) {
-            if (stat === 'Rejected') {
-              status = 'Rejected';
-              this.alertMsg = `Order status is ${status}!`;
-            } else {
-              status = 'Processing';
-              this.alertMsg = `Order status is ${status}!`;
-              this.productStatusModalBTN.nativeElement.click();
-            }
-          }
-          if (status === 'Rejected') {
-            //this.btnIndex = -1;
-            this.getData('Approved');
-            this.productStatusModalBTN.nativeElement.click();
-          } else if (status === 'Processing') {
-            // Set btnIndex to the appropriate value for Processing
-            // this.btnIndex = 2;
-            this.getData('Approved');
-            this.productStatusModalBTN.nativeElement.click();
-          } else if (status === 'ReadyToShip') {
-            //this.btnIndex = 3;
-            this.getData('Processing');
-            this.productStatusModalBTN.nativeElement.click();
-          } else if (status === 'ToDeliver') {
-            //this.btnIndex = 4;
-            this.getData('ReadyToShip');
-            this.productStatusModalBTN.nativeElement.click();
-          } else if (status === 'Delivered') {
-            // this.btnIndex = 5;
-            this.getData('ToDeliver');
-            this.productStatusModalBTN.nativeElement.click();
-          } else if (status === 'Returned') {
-            //this.btnIndex = 6;
-            this.getData('Delivered');
-            this.productStatusModalBTN.nativeElement.click();
-          } else {
-            // Handle other status values as needed
-            // You may want to set a default value for btnIndex or handle unknown status
-            // this.btnIndex = ???;
-          }
-          // this.getData(status);
+          this.alertMsg = alertMessage;
+          this.productStatusModalBTN.nativeElement.click();
+          this.getData(status);
         },
         error: (error: any) => {
-          // console.log(error.message);
-
-          status = 'Quantity';
-          this.alertMsg = `You don't have enough ${status}!`;
+          console.log(error.message);
+          this.alertMsg = `You don't have enough Quantity!`;
           this.productStatusModalBTN.nativeElement.click();
         },
       });
   }
+
+  /**
+   * Updates the status of an order based on the current button index.
+   * @param stat - The current status of the order.
+   * @param order - The order to update.
+   */
+  updateOrder(stat: any, order: any) {
+    let status = '';
+    let alertMessage = '';
+
+    switch (this.btnIndex) {
+      case -1:
+        status = stat === 'Rejected' ? 'Rejected' : 'Processing';
+        alertMessage = `Order status is ${status}!`;
+        break;
+      case 3:
+        status = 'ReadyToShip';
+        alertMessage = `Order status is ${status}!`;
+        break;
+      case 4:
+        status = 'ToDeliver';
+        alertMessage = `Order status is ${status}!`;
+        break;
+      case 5:
+        status = 'Delivered';
+        alertMessage = `Order status is ${status}!`;
+        break;
+      case 8:
+        status = 'Returned';
+        alertMessage = `Order status is ${status}!`;
+        break;
+      default:
+        console.log('Invalid button index');
+    }
+
+    if (status) {
+      this.updateOrderStatus(status, alertMessage, order);
+    }
+  }
+
+  /**
+   * Navigates to the invoice page for the specified order.
+   * @param orderId - The ID of the order to view the invoice for.
+   */
   gotoInvoice(orderId: any) {
     sessionStorage.setItem('orderMasterID', orderId);
-
-    const urlToOpen = '/sellerInvoice'; // Replace with your desired URL
-
-    // Use window.open to open the new window/tab
-    window.open(urlToOpen, '_blank');
+    window.open('/sellerInvoice', '_blank');
   }
 }
