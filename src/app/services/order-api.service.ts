@@ -184,6 +184,7 @@ export class OrderApiService {
   }
   // get user info for order
   getUserInfo(UserId: any) {
+    console.log(UserId, 'getUserInfo');
     return this.http.get(this.getUserInfoURL, { params: { UserId } });
   }
 
