@@ -411,7 +411,7 @@ export class ProductDetailsPageComponent {
           this.cartData.forEach((element: any) => {
             this.cartTotalAmount += parseFloat(element.totalPrice);
           });
-          console.log('new cart Data', response.result);
+          console.log('new cart Data', response);
 
           console.log('new cart Data', this.cartData.length);
         },

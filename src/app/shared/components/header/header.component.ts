@@ -240,7 +240,7 @@ export class HeaderComponent {
           console.log(response);
           this.cartData = response;
           this.cartLength = this.cartData.length;
-          console.log('new cart Data header', response.result);
+          console.log('new cart Data header', response);
           this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
           console.log(
             'new cart Data header',

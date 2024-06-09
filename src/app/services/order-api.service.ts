@@ -111,14 +111,14 @@ export class OrderApiService {
   getAddTocartData() {
     this.cartDataService.getAddToCartDataByBuyer(this.buyerCode).subscribe({
       next: (response: any) => {
-        console.log(response.result);
-        this.cartData = response.result;
+        console.log(response);
+        this.cartData = response;
         this.cartLength = this.cartData.length;
         this.cartTotalAmount = 0;
         this.cartData.forEach((element: any) => {
           this.cartTotalAmount += parseFloat(element.totalPrice);
         });
-        console.log('new cart Data', response.result);
+        console.log('new cart Data', response);
 
         console.log('new cart Data', this.cartData.size);
       },
