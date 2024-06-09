@@ -220,7 +220,6 @@ export class ProductComponent {
     // }, 5000);
   }
 
-  
   getAddTocartData() {
     this.buyerValue = localStorage.getItem('code');
     this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
@@ -329,7 +328,7 @@ export class ProductComponent {
     // sessionStorage.setItem('productData', JSON.stringify(entry));
     // this.route.navigate(['/productDetails']);
     // console.log(entry.goodsId,"type o bo",typeof entry);
-
+    console.log(entry.goodsId, 'product id');
     window.open(
       '/productDetails?productId=' +
         btoa(entry.goodsId) +
