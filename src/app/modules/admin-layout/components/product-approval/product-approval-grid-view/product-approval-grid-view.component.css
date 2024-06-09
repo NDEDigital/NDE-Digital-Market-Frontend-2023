@@ -39,11 +39,6 @@ select {
   opacity: 1;
 }
 
-.allUser,
-.sellerNbothOnly {
-  flex-basis: 45%;
-}
-
 .otpInput::-webkit-inner-spin-button,
 .otpInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -52,10 +47,6 @@ select {
 .verify_btn:focus {
   border: 1px solid var(--color-primary);
   box-shadow: 0 0 0.2rem var(--color-primary);
-}
-.error {
-  border: 1px solid red;
-  box-shadow: 0 0 0.2rem red;
 }
 
 .tableHeader,
@@ -81,12 +72,7 @@ select {
 .active-row {
   background-color: rgb(233, 238, 243);
 }
-.table-body-data {
-  flex-direction: row;
-  display: flex;
-  background-color: white;
-  /* padding-right: 3rem; */
-}
+
 .tableRow {
   display: flex;
   flex-direction: row;
