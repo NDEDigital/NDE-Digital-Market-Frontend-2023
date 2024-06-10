@@ -123,7 +123,7 @@ export class AddProductQuantityComponent {
       .GetPortalData(PortalReceivedId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => this.PatchForm(response.portalAfterInsert),
+        next: (response: any) => this.PatchForm(response),
         error: (error) => console.error('Error:', error),
       });
   }

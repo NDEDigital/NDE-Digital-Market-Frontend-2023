@@ -277,7 +277,7 @@ export class BuyerOrderComponent {
       formData.append('orderDetailId', this.currentOrderDetailId.toString());
 
       formData.forEach((value, key) => {
-        // console.log(`${key}:`, value);
+        console.log(`${key}:`, value);
       });
 
       this.reviewService.addReview(formData).subscribe({
