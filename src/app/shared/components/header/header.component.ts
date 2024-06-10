@@ -277,7 +277,7 @@ export class HeaderComponent {
       // this.user.password == this.pForm.value.currentPassword
       this.pForm.value.newPassword === this.pForm.value.confirmPassword
     ) {
-      const userId: number = parseInt(localStorage.getItem('code') || '0', 10); // Use base 10
+      const userId: string = localStorage.getItem('code') || '0'; // Use base 10
       const passData = {
         userId: userId,
         oldPassword: this.pForm.value.currentPassword,
