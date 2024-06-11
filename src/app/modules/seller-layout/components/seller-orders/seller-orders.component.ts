@@ -282,6 +282,14 @@ export class SellerOrdersComponent {
         next: (response: any) => {
           this.alertMsg = alertMessage;
           this.productStatusModalBTN.nativeElement.click();
+          if (status == 'ReadyToShip') this.btnIndex = 4;
+          if (status == 'ToDeliver') this.btnIndex = 5;
+          if (status == 'Delivered') this.btnIndex = 6;
+          if (status == 'Reviewed') this.btnIndex = 7;
+          if (status == 'ToReturn') this.btnIndex = 8;
+          if (status == 'Returned') this.btnIndex = 9;
+          if (status == 'Rejected') this.btnIndex = 2;
+          if (status == 'Processing') this.btnIndex = 3;
           this.getData(status);
         },
         error: (error: any) => {
@@ -325,7 +333,7 @@ export class SellerOrdersComponent {
       default:
         console.log('Invalid button index');
     }
-
+    console.log(status, order);
     if (status) {
       this.updateOrderStatus(status, alertMessage, order);
     }
