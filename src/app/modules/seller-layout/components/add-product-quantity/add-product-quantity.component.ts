@@ -157,6 +157,7 @@ export class AddProductQuantityComponent {
   submit() {
     if (this.isFormValid() && this.rowsFormArray.length) {
       this.preparePortalData();
+      console.log(this.portaldata);
       this.addProductService
         .insertPortalReceived(this.portaldata)
         .pipe(takeUntilDestroyed(this.destroyRef))
@@ -440,7 +441,7 @@ export class AddProductQuantityComponent {
         productId: row.productId,
         specification: row.specification,
         receivedQty: parseInt(row.receiveQty, 10),
-        unitId: parseInt(row.unitId, 10),
+        unitId: row.unitId,
         price: row.price,
         remarks: row.remarks,
         totalPrice: parseInt(row.receiveQty, 10) * row.price,
@@ -458,6 +459,7 @@ export class AddProductQuantityComponent {
    * Handles successful submission of the form
    */
   private handleSuccessfulSubmit(response: any) {
+    console.log(response);
     this.masterForm.reset();
     this.form.reset();
     this.selectedProductNames = [];
@@ -488,6 +490,7 @@ export class AddProductQuantityComponent {
    * Handles the response for product details
    */
   private handleProductDetailsResponse(response: any) {
+    console.log(response);
     this.productDertailsData = response;
     this.NoProductFound = this.productDertailsData.length === 0;
   }
