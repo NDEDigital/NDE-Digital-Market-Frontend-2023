@@ -237,11 +237,11 @@ export class SellerOrdersComponent {
    * @param order - The order to update.
    */
   updateOrderStatus(status: string, alertMessage: string, order: any) {
-    let uidS = localStorage.getItem('code');
-    let uid: any;
-    if (uidS) uid = parseInt(uidS, 10);
+    let uid = localStorage.getItem('code');
+    // let uid: any;
+    // if (uidS) uid = parseInt(uidS, 10);
 
-    const sellerSalesMasterDto = {
+    const sellerSalesMasterModel = {
       userId: uid,
       totalPrice: order.totalPrice,
       bUserId: order.buyerUserId,
@@ -273,11 +273,11 @@ export class SellerOrdersComponent {
         addedPC: '0.0.0.0',
       };
 
-      sellerSalesMasterDto.sellerSalesDetailsList.push(salesDetail);
+      sellerSalesMasterModel.sellerSalesDetailsList.push(salesDetail);
     });
 
     this.sellerService
-      .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterDto)
+      .UpdateSellerOrderDetailsStatus(detailIDs, status, sellerSalesMasterModel)
       .subscribe({
         next: (response: any) => {
           this.alertMsg = alertMessage;
@@ -285,7 +285,7 @@ export class SellerOrdersComponent {
           this.getData(status);
         },
         error: (error: any) => {
-          console.log(error.message);
+          console.log(error);
           this.alertMsg = `You don't have enough Quantity!`;
           this.productStatusModalBTN.nativeElement.click();
         },

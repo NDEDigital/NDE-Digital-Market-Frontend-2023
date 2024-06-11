@@ -433,7 +433,7 @@ export class AddProductQuantityComponent {
       challanNo: this.masterForm.value.challanNo,
       remarks: this.masterForm.value.remarks,
       userId: this.getUserId(),
-      companyCode: 'CMP-23-0009',
+      // companyCode: 'CMP-23-0009',
       addedBy: 'string',
       addedPC: 'string',
       portalReceivedDetailslist: formData.rows.map((row: any) => ({
@@ -464,7 +464,8 @@ export class AddProductQuantityComponent {
     this.form.reset();
     this.selectedProductNames = [];
     this.selectedProductGroup = [];
-    this.getPortalData(response.portalReceivedId);
+    console.log(response, 'this ache na');
+    this.getPortalData(response.id);
   }
 
   /**
