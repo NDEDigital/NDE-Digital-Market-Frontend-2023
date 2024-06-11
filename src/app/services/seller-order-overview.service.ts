@@ -43,7 +43,7 @@ export class SellerOrderOverviewService {
     const updateOrder = {
       orderdetailsIds: orderdetailsIds,
       status: status,
-      sellerSalesMasterDto: sellerSalesMasterDto,
+      sellerSalesMasterModel: sellerSalesMasterDto,
     };
     // console.log(updateOrder, 'updateOrder');
 
