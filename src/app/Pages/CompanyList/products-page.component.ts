@@ -16,6 +16,7 @@ export class ProductsPageComponent {
   groupCodePa: string = '';
   isProductPage: boolean = false;
   groupName: string = '';
+  selectedGroup: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   constructor(
     private sharedService: SharedService,
@@ -47,21 +48,18 @@ export class ProductsPageComponent {
       }
     });
 
-    this.route.queryParams.subscribe((params) => {
-      this.groupCode = atob(params['groupCode'] || '');
-      this.groupCodePa = this.groupCode;
+ 
 
-      if (this.groupCode) {
-        sessionStorage.setItem('groupCode', this.groupCode);
-        this.loadCompanyList(this.groupCode);
-      }
-    });
 
     this.callApi();
   }
-  loadCompanyList(groupCode: string): void {
+  loadCompanyList(groupCode: string, companyCode: string): void {
+    console.log('ashce..........', groupCode); 
+
+    
     this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
       this.companyList = data;
+      
     });
   }
 

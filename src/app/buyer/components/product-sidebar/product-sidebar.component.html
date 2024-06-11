@@ -1,31 +1,59 @@
 <div class="side">
-  <p class="parent">Categories</p>
-  <div *ngFor="let entry of groupData | keyvalue; let i = index">
-    <div *ngIf="showAll || i < initialLimit" class="radio-container">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="category"
-        id="category-checkbox-{{ i }}"
-        style="cursor: pointer"
-        (click)="setSelectData(entry.key, entry.value)"
-        [ngClass]="{ selected: entry.value === activeEntry }"
-        [checked]="entry.value === activeEntry"
-      />
-      <label
-        for="category-checkbox-{{ i }}"
-        class="radio-label"
-        style="cursor: pointer"
-        [ngClass]="{ bold: entry.value === activeEntry }"
-      >
-        {{ entry.value }}
-      </label>
+  <div *ngIf="showCategory">
+    <p class="parent">Categories</p>
+    <div *ngFor="let entry of groupData | keyvalue; let i = index">
+      <div *ngIf="showAll || i < initialLimit" class="radio-container">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="category-checkbox-{{ i }}"
+          style="cursor: pointer"
+          (click)="setSelectData(entry.key, entry.value)"
+          [ngClass]="{ selected: entry.key === activeEntry }"
+          [checked]="entry.key === activeEntry"
+        />
+        <label
+          for="category-checkbox-{{ i }}"
+          class="radio-label"
+          style="cursor: pointer"
+          [ngClass]="{ bold: entry.key === activeEntry }"
+        >
+          {{ entry.value }}
+        </label>
+      </div>
     </div>
   </div>
 
   <hr />
+ <div *ngIf="showGroup" >
+    <p class="parent">Categories</p>
+    <div *ngFor="let entry of groupData | keyvalue; let i = index">
+      
+      <div *ngIf="showAll || i < initialLimit" class="radio-container">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="category-checkbox-{{ i }}"
+          style="cursor: pointer"
+          (click)="setGroupData(entry.key, entry.value)"
+          [ngClass]="{ selected: entry.key === activeEntry }"
+          [checked]="entry.key === activeEntry"
+        />
+        <label
+          for="category-checkbox-{{ i }}"
+          class="radio-label"
+          style="cursor: pointer"
+          [ngClass]="{ bold: entry.value === activeEntry }"
+        >
+          {{ entry.value }}
+        </label>
+      </div>
+    </div>
+  </div>
 
-  <div *ngIf="!isProductPage">
+  <div *ngIf="showCompany">
     <p class="parent">Companies</p>
     <ul class="list-unstyled mb-3">
       <div *ngFor="let company of companyList; let j = index">
@@ -36,22 +64,21 @@
             name="brand"
             id="brand-checkbox-{{ j }}"
             style="cursor: pointer"
-            (click)="setSelectBrand(company.companyName, company.groupName)"
-            (click)="selectCompany(company.companyName)"
-            [ngClass]="{ selected: company.companyName === activeEntry }"
-            [checked]="company.companyName === activeEntry"
+
+            (click)="selectCompany(company.companyName,company.companyCode)"
+            [ngClass]="{ selected: company.companyCode === activeCompany }"
+            [checked]="company.companyCode === activeCompany"
           />
           <label
             class="form-check-label"
             for="brand-checkbox-{{ j }}"
             style="cursor: pointer"
-            [ngClass]="{ bold: company.companyName === activeEntry }"
+            [ngClass]="{ bold: company.companyCode === activeCompany }"
           >
             {{ company.companyName }}
           </label>
         </li>
       </div>
-      
     </ul>
     <hr />
   </div>

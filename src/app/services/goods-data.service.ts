@@ -31,6 +31,7 @@ export class GoodsDataService implements OnInit {
   sellersProductListURL = `${this.URL}/GetProduct`;
   navUrl = `${this.URL}/api/Goods/GetNavData`;
   dropDownGroupUrl = `${this.URL}/api/Goods/GetDataForDropdown`;
+  // getList = `${this.URL}/api/Goods/GetProductList`
 
   searchProuct = '';
   constructor(
@@ -120,12 +121,6 @@ export class GoodsDataService implements OnInit {
   }
 
   getProductList(companyCode: string, groupCode: string) {
-    // this.companyCode = companyCode;
-    // console.log(companyCode," ----------");
-
-    // this.companyCode = sessionStorage.getItem('companyCode') || '';
-    // this.groupName = localStorage.getItem('activeEntry') || '';
-    // this.groupCode = sessionStorage.getItem('groupCode') || '';
 
     const productCompany = `${this.URL}/api/Goods/GetProductList?CompanyCode=${companyCode}&ProductGroupCode=${groupCode}`;
 

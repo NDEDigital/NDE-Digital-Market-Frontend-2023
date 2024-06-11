@@ -138,6 +138,16 @@ body {
   margin-top: -0.75rem;
   text-align: center;
 }
+.no-products {
+  text-align: center;
+margin-left: .5rem;
+  padding: 4rem;
+  font-size: 2rem;
+  color: #ff0000; /* Red color for emphasis */
+  background-color: #fffdfd; /* Light red background for better visibility */
+  border: 1px solid #ffcccc; /* Border to make it stand out */
+  border-radius: 1rem; /* Rounded corners */
+}
 
 @media (max-width: 746px) {
   .product_sidebar_container {

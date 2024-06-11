@@ -1,3 +1,4 @@
+import { NgModule } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -12,7 +13,7 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./group-products.component.css'],
 })
 export class GroupProductsComponent {
-  products: string[] = [];
+  products: any;
   product8 = new Map();
   selectedProductCode: string = '';
   companyList: any;
@@ -32,19 +33,13 @@ export class GroupProductsComponent {
   @Input() companyName: string = ''; // Accept companyName as input
 
   constructor(
-    private goodsDataObj: GoodsDataService,
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
     private router: Router,
     private route: ActivatedRoute,
     private companyService: CompanyService
   ) {
-    var groupCode;
-    this.route.queryParams.subscribe((params) => {
-      groupCode = atob(params['groupCode']);
-      this.groupCodePa = groupCode;
-      console.log('GroupCodes : ', groupCode);
-    });
+   
   }
   onImageError(event: any): void {
     // If the image is broken or doesn't load, set a fallback source
@@ -60,166 +55,42 @@ export class GroupProductsComponent {
         this.groupCode = atob(params['groupCode']);
         this.groupCodePa = this.groupCode;
         console.log('GroupCodezz : ', this.groupCode);
-     
-       this.getAllProduct(this.groupCode, this.companyName); // Call getAllProduct with groupCode
-      this.CompanyName(this.companyName);
+
+        this.getAllProduct(this.groupCode, this.companyCode); // Call getAllProduct with groupCode
+        this.CompanyName(this.companyName);
       }
     });
 
     this.callApi();
   }
-  // filterProductsByCompany(companyName: string): void {
-  //   // Implement the logic to filter products based on the selected company
-  //   // For example:
-  //   this.goods = this.products.filter(
-  //     (product) => product.companyName === companyName
-  //   );
-  // }
 
   CompanyName(companyName: string): void {
     // Here you can handle the emitted companyName event, if needed
     console.log('Received companyName:', companyName);
     this.companyName = companyName;
-    // this.getAllProductByCompany(companyName, this.groupCode);
-    // this.filterProductsByGroupCodeAndCompany(this.groupCode, companyName);
   }
-   getAllProduct(groupCode: any, companyName: any) {
-    // Clear existing products
-    this.product8.clear();
 
-    // Fetch data from API and filter products by group code
-    this.goodsDataObj.getCarouselData().subscribe(
-      (data: any[]) => {
-        // Filter products by group code
-        this.goods = data.filter((item) => item.productGroupName === groupCode);
+  getAllProduct(groupCode: string, companyCode: string): void {
 
-        this.products3.clear();
-        for (let i = 0; i < this.goods.length; i++) {
-          let finObj = this.products3.get(this.goods[i].productGroupName);
-          if (finObj) {
-            let obj = {
-              companyCode: this.goods[i].companyCode,
-              companyName: this.goods[i].companyName,
-              groupCode: this.goods[i].productGroupID,
-              goodsId: this.goods[i].productId,
-              groupName: this.goods[i].productGroupName,
-              goodsName: this.goods[i].productName,
-              specification: this.goods[i].specification,
-              approveSalesQty: this.goods[i].availableQty,
-              sellerCode: this.goods[i].sellerId,
-              unitId: this.goods[i].unitId,
-              quantityUnit: this.goods[i].unit,
-              imagePath: this.goods[i].imagePath,
-              price: this.goods[i].price,
-              discountAmount: this.goods[i].discountAmount,
-              discountPct: this.goods[i].discountPct,
-              netPrice: this.goods[i].totalPrice,
-            };
-            finObj.push(obj);
-
-            this.products3.set(this.goods[i].productGroupName, finObj);
-          } else {
-            let obj = {
-              companyCode: this.goods[i].companyCode,
-              companyName: this.goods[i].companyName,
-              groupCode: this.goods[i].productGroupID,
-              goodsId: this.goods[i].productId,
-              groupName: this.goods[i].productGroupName,
-              goodsName: this.goods[i].productName,
-              specification: this.goods[i].specification,
-              approveSalesQty: this.goods[i].availableQty,
-              sellerCode: this.goods[i].sellerId,
-              unitId: this.goods[i].unitId,
-              quantityUnit: this.goods[i].unit,
-              imagePath: this.goods[i].imagePath,
-              price: this.goods[i].price,
-              discountAmount: this.goods[i].discountAmount,
-              discountPct: this.goods[i].discountPct,
-              netPrice: this.goods[i].totalPrice,
-            };
-            this.products3.set(this.goods[i].productGroupName, [obj]);
-          }
-          console.log(this.products3, ' ut');
-        }
+    this.goodsData.getProductList(companyCode, groupCode).subscribe(
+      
+      (response: any[]) => {
+        console.log('Products of groupProducts:', response);
+        
+        this.products = response; // Update the products array with the response data
+        console.log(this.products);
       },
-      (error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          // Handle unauthorized error
-          //console.error('Unauthorized Error', error);
-        }
-        // You can choose to throw an error or handle it differently based on your requirements
-        throwError('Error occurred');
+      (error: any) => {
+        console.error('Error fetching products:', error);
       }
     );
   }
 
-  // filterProductsByGroupCodeAndCompany(
-  //   groupCode: string,
-  //   companyName: string
-  // ): void {
-  //   // Filter products by group code
-  //   let filteredProducts = this.goods.filter(
-  //     (item: any) => item.productGroupName === groupCode
-  //   );
-  //   console.log('filtered grp: ', groupCode);
-
-  //   // Filter the already filtered products by company name
-  //   filteredProducts = filteredProducts.filter(
-  //     (item: any) => item.companyName === companyName
-  //   );
-  //   console.log('filtered cmp', companyName);
-  //   // Update the goods array with the filtered products
-  //   this.goods = filteredProducts;
-
-  //   // Optionally, you can log the filtered products for debugging
-  //   console.log('Filtered products:', this.goods);
-  // }
-
-  // ngOnInit() {
-  //   this.route.queryParams.subscribe((params) => {
-  //     if (params['groupCode'] && params['companyName']) {
-  //       // Decoding groupCode from URL
-  //       this.groupCode = atob(params['groupCode']);
-  //       this.groupCodePa = this.groupCode;
-
-  //       // Decoding companyName from URL
-  //       this.companyName = atob(params['companyName']);
-  //       this.groupNamePa = this.companyName;
-
-  //       // Logging decoded values
-  //       console.log('GroupCode : ', this.groupCode);
-  //       console.log('GroupcompanyNameCode : ', this.companyName);
-
-  //       // Call getAllProduct with groupCode and companyName
-  //       this.getAllProduct(this.groupCode, this.companyName);
-  //     }
-  //   });
-
-  //   // Call the API outside the queryParams subscription
-  //   this.callApi();
-
-  // }
-  // getRecommendedProduct() {
-  //   this.companyService.getTopSeller().subscribe({
-  //     next: (response: any) => {
-  //       console.log(response);
-  //       this.getTopSellerData = response;
-  //       console.log('data:', this.getTopSellerData);
-  //     },
-  //     error: (error: any) => {
-  //       console.log(error);
-  //     },
-  //   });
-  // }
   handleDataUpdated() {
     this.callApi();
   }
 
   callApi() {
-    // this.groupCode = sessionStorage.getItem('groupCode') || '';
-    // this.groupName = sessionStorage.getItem('groupName') || '';
-    // console.log("group code is",this.groupCode);
-
     setTimeout(() => {
       if (this.groupCode != '') {
         this.goodsData
@@ -238,13 +109,9 @@ export class GroupProductsComponent {
     // //console.log(firstHalf);
     return firstHalf;
   }
- 
 
   navigateToData(detail: any) {
-    // sessionStorage.setItem('productData', JSON.stringify(detail));
-    // console.log(detail);
-    // alert('hh');
-    //console.log('dashboard', detail);
+
     window.open(
       '/productDetails?productId=' +
         btoa(detail.goodsId) +
