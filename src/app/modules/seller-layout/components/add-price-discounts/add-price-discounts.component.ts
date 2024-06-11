@@ -139,7 +139,6 @@ export class AddPriceDiscountsComponent {
     if (this.addPriceDiscountForm.get('productId')) {
       this.addPriceDiscountForm.get('productId')?.setValue(null);
     }
-
     this.getProductData(selectedGroupId);
   }
 
@@ -154,6 +153,7 @@ export class AddPriceDiscountsComponent {
           console.log(response);
         },
         error: (error: any) => {
+          this.products = [];
           this.alertMsg = error.error.message;
         },
       });
