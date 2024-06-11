@@ -133,7 +133,7 @@ export class AddPriceDiscountsComponent {
   }
 
   onGroupChange(event: any) {
-    const selectedGroupId = parseInt(event.target.value, 10);
+    const selectedGroupId = event.target.value;
     this.selectedProduct = null;
     this.selectedUnitName = '';
     if (this.addPriceDiscountForm.get('productId')) {
@@ -143,7 +143,7 @@ export class AddPriceDiscountsComponent {
     this.getProductData(selectedGroupId);
   }
 
-  getProductData(GroupID: number) {
+  getProductData(GroupID: string) {
     this.productService
       .GetProductByGroupName(GroupID)
       .pipe(takeUntilDestroyed(this.destroyRef))
