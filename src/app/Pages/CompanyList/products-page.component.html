@@ -1,13 +1,17 @@
 <section id="page-container">
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
-    <div class="nav-belt-container">
+    <!-- <div class="nav-belt-container">
       <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
-    </div>
+    </div> -->
 
-    <div class="d-flex  pp">
+    <div class="d-flex pp">
       <div class="product_sidebar_container">
-        <app-product-sidebar></app-product-sidebar>
+        <app-product-sidebar
+          [showCategory]="true"
+          [showCompany]="false"
+          (loadCompanyList)="loadCompanyList($event.groupCode,$event.companyCode)"
+        ></app-product-sidebar>
       </div>
 
       <div class="products">

@@ -1,13 +1,18 @@
 <section id="page-container">
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
-    <div class="nav-belt-container">
+    <!-- <div class="nav-belt-container">
       <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
-    </div>
+    </div> -->
     <div class="d-flex px-4 pp">
-      <div class="product_sidebar_container">
-        <app-product-sidebar></app-product-sidebar>
-      </div>
+      <!-- <div class="product_sidebar_container">
+        <app-product-sidebar
+          (dataUpdated)="handleDataUpdated()"
+ 
+          [showCategory]="true"
+          [showCompany]="true"
+          ></app-product-sidebar>
+      </div> -->
 
       <div class="products ms-3 ps-3">
         <div

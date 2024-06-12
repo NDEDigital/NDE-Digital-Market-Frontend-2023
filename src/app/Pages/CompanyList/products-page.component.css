@@ -16,6 +16,7 @@ body {
   min-height: 100vh;
 
 }
+
 .pp {
   /* border: 1px solid red; */
 }
@@ -28,13 +29,13 @@ body {
 }
 
 #content-wrap {
-  flex: 1;
+  /* flex: 1; */
+  display: flex;
+  flex-direction: column;
+
   background-color: #eeeeee;
 }
-.nav-belt-container {
-  background-color: white;
-  border-bottom: 1px solid #eeeeee;
-}
+
 
 .grid-container {
   display: grid;
@@ -43,20 +44,26 @@ body {
   gap: 2rem; /* Adjust the gap between cards */
   /* border: 1px solid black */
 }
-
+.grid-item {
+  /* border: 1px solid red; */
+  /* height: 22rem; */
+  margin-bottom: 1rem;
+}
 .product_slider {
   /* border: 1px solid red; */
-  margin-left: 3rem;
+  margin-left: 2rem;
+  padding-right: 1rem;
 }
 .product_sidebar_container {
   background-color: #ffffff;
-  padding-left: 2.5rem;
-  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-top: 4rem;
   padding-right: 1.5rem;
   /* margin-left: -1.5rem; */
-  margin-right: 3rem;
+  margin-right: 2rem;
   border-right: 1px solid rgb(165, 165, 165);
-  min-height: 32.5rem;
+  min-height: 42rem;
+  margin-left: 7rem;
 
   /* border: 1px solid aqua; */
 }

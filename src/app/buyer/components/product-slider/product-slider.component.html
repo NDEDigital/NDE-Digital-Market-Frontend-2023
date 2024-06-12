@@ -87,10 +87,10 @@
     <div
       class="text-head fw-bold fs-3 d-flex justify-content-between align-items-center"
     >
-      <span>{{ splitProductKey(product.key) }}</span>
+      <span>{{ product.value[0].groupName  }}</span>
       <button
         class="text m-0 text-start px-3 py-3 text-nowrap"
-        (click)="viewAllProducts(product.key)"
+        (click)="viewAllProducts(product.key )"
       >
         View All
       </button>

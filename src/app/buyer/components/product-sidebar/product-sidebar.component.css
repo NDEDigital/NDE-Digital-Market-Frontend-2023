@@ -25,3 +25,34 @@ label{
        font-size: 1rem;
        margin-left: 5px;
 }
+
+.categoryName{
+       font-weight: bold;
+}
+.radio-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-check-input {
+
+  accent-color: #007bff;
+}
+
+.radio-label {
+  cursor: pointer;
+  transition: color 0.3s, font-weight 0.3s;
+}
+
+.radio-label.bold {
+  font-weight: bold;
+}
+
+.radio-label.selected {
+  color: #007bff;
+}
+
+.radio-label:hover {
+  color: #0056b3;
+}

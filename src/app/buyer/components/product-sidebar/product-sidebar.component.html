@@ -1,211 +1,85 @@
 <div class="side">
-  <p class="parent">Categories</p>
-  <div *ngFor="let entry of groupData | keyvalue; let i = index">
-    <div *ngIf="showAll || i < initialLimit">
-      <p class="" style="cursor: pointer">{{ entry.value }}</p>
+  <div *ngIf="showCategory">
+    <p class="parent">Categories</p>
+    <div *ngFor="let entry of groupData | keyvalue; let i = index">
+      <div *ngIf="showAll || i < initialLimit" class="radio-container">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="category-checkbox-{{ i }}"
+          style="cursor: pointer"
+          (click)="setSelectData(entry.key, entry.value)"
+          [ngClass]="{ selected: entry.key === activeEntry }"
+          [checked]="entry.key === activeEntry"
+        />
+        <label
+          for="category-checkbox-{{ i }}"
+          class="radio-label"
+          style="cursor: pointer"
+          [ngClass]="{ bold: entry.key === activeEntry }"
+        >
+          {{ entry.value }}
+        </label>
+      </div>
     </div>
   </div>
-  <h5
-    *ngIf="groupData && groupData.size > initialLimit"
-    (click)="showAll = !showAll"
-    class="text-primary"
-    style="cursor: pointer"
-  >
-    {{ showAll ? "Show Less" : "Show All" }}
-  </h5>
 
   <hr />
+ <div *ngIf="showGroup" >
+    <p class="parent">Categories</p>
+    <div *ngFor="let entry of groupData | keyvalue; let i = index">
+      
+      <div *ngIf="showAll || i < initialLimit" class="radio-container">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="category"
+          id="category-checkbox-{{ i }}"
+          style="cursor: pointer"
+          (click)="setGroupData(entry.key, entry.value)"
+          [ngClass]="{ selected: entry.key === activeEntry }"
+          [checked]="entry.key === activeEntry"
+        />
+        <label
+          for="category-checkbox-{{ i }}"
+          class="radio-label"
+          style="cursor: pointer"
+          [ngClass]="{ bold: entry.value === activeEntry }"
+        >
+          {{ entry.value }}
+        </label>
+      </div>
+    </div>
+  </div>
 
-  <div>
-    <p class="parent">Brands</p>
+  <div *ngIf="showCompany">
+    <p class="parent">Companies</p>
     <ul class="list-unstyled mb-3">
-      <div *ngFor="let company of companyList; let i = index">
-        <li *ngIf="showAllBrand || i < initialLimit">
+      <div *ngFor="let company of companyList; let j = index">
+        <li *ngIf="showAllBrand || j < initialLimit">
           <input
             class="form-check-input"
             type="radio"
-            name="flexRadioDefault"
-            id="checkbox"
+            name="brand"
+            id="brand-checkbox-{{ j }}"
+            style="cursor: pointer"
+
+            (click)="selectCompany(company.companyName,company.companyCode)"
+            [ngClass]="{ selected: company.companyCode === activeCompany }"
+            [checked]="company.companyCode === activeCompany"
           />
-          <label class="form-check-label" for="flexCheckDefault">{{
-            company.companyName
-          }}</label>
+          <label
+            class="form-check-label"
+            for="brand-checkbox-{{ j }}"
+            style="cursor: pointer"
+            [ngClass]="{ bold: company.companyCode === activeCompany }"
+          >
+            {{ company.companyName }}
+          </label>
         </li>
       </div>
-      <h5
-        *ngIf="companyList && companyList.length > initialLimit"
-        (click)="showAllBrand = !showAllBrand"
-        class="text-primary"
-        style="cursor: pointer"
-      >
-        {{ showAll ? "Show Less" : "Show All" }}
-      </h5>
     </ul>
     <hr />
   </div>
-
-  <!-- Supplier feature
-  <div class="service mb-4">
-    <p class="parent">Supplier Feature</p>
-    <ul class="list-unstyled mb-3">
-      <li></li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Trade Assureance</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Verified Supplier</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >1h response time</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Free Shipping</label
-        >
-      </li>
-    </ul>
-    <hr />
-  </div> -->
-
-  <!-- Product feature -->
-
-  <!-- <div class="service mb-4">
-    <p class="parent">Product Feature</p>
-    <ul class="list-unstyled mb-3">
-      <li></li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Ready to ship</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Paid samples</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault">New</label>
-      </li>
-    </ul>
-    <hr />
-  </div> -->
-
-  <!-- Service -->
-
-  <!-- <div class="service mb-4">
-    <p class="parent">Service</p>
-    <ul class="list-unstyled mb-3">
-      <li></li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Installment</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Cash On Delivery</label
-        >
-      </li>
-
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Free Shipping</label
-        >
-      </li>
-    </ul>
-    <hr />
-  </div>
-
-  <div class="Location mb-4">
-    <p class="parent">Location</p>
-    <ul class="list-unstyled mb-3">
-      <li></li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault"
-          >Bangladesh</label
-        >
-      </li>
-      <li>
-        <input
-          class="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="checkbox"
-        />
-        <label class="form-check-label" for="flexCheckDefault">China</label>
-      </li>
-    </ul>
-  </div> -->
 </div>

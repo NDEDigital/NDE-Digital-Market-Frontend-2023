@@ -31,6 +31,7 @@ export class GoodsDataService implements OnInit {
   sellersProductListURL = `${this.URL}/GetProduct`;
   navUrl = `${this.URL}/api/Goods/GetNavData`;
   dropDownGroupUrl = `${this.URL}/api/Goods/GetDataForDropdown`;
+  // getList = `${this.URL}/api/Goods/GetProductList`
 
   searchProuct = '';
   constructor(
@@ -68,7 +69,18 @@ export class GoodsDataService implements OnInit {
   getDetaileData() {
     return this.detailData;
   }
+// getGroupData(){
+//   const GroupUrl = `${this.URL}/api/Goods/GetGoodsList`;
+//   return this.http.get<any[]>(GroupUrl).pipe(
+//     tap((response: any[]) => {
+//       this.carousalData = response;
+//     }),
 
+//     catchError((error: any) => {
+//       return throwError(error);
+//     })
+//   );
+// }
   getCarouselData() {
     const carouselURL = `${this.URL}/api/Goods/GetGoodsList`;
     return this.http.get<any[]>(carouselURL).pipe(
@@ -82,6 +94,7 @@ export class GoodsDataService implements OnInit {
       catchError((error: any) => {
         return throwError(error);
       })
+      
     );
   }
 
@@ -108,12 +121,6 @@ export class GoodsDataService implements OnInit {
   }
 
   getProductList(companyCode: string, groupCode: string) {
-    // this.companyCode = companyCode;
-    // console.log(companyCode," ----------");
-
-    // this.companyCode = sessionStorage.getItem('companyCode') || '';
-    // this.groupName = localStorage.getItem('activeEntry') || '';
-    // this.groupCode = sessionStorage.getItem('groupCode') || '';
 
     const productCompany = `${this.URL}/api/Goods/GetProductList?CompanyCode=${companyCode}&ProductGroupCode=${groupCode}`;
 

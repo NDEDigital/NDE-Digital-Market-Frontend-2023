@@ -37,6 +37,7 @@ export class ProductSliderComponent {
   productLengths: number[] = [];
   productType = new Map();
   groupCode: string = '';
+  groupCodes: string = '';
   products = new Map();
   productChildLength: any;
   isWidthGreater: boolean = false;
@@ -72,8 +73,9 @@ export class ProductSliderComponent {
     this.goodsDataObj.getCarouselData().subscribe(
       (data: any[]) => {
         this.goods = data;
+        console.log(this.goods, 'GGGEEEETTTTTT');
         for (let i = 0; i < this.goods.length; i++) {
-          let finObj = this.products3.get(this.goods[i].productGroupName);
+          let finObj = this.products3.get(this.goods[i].productGroupCode); // Use productGroupCode as the key
 
           if (this.goods[i].approveSalesQty === '0') continue;
 
@@ -83,6 +85,7 @@ export class ProductSliderComponent {
               companyName: this.goods[i].companyName,
               groupCode: this.goods[i].productGroupID,
               goodsId: this.goods[i].productId,
+              groupCodes: this.goods[i].productGroupCode,
               groupName: this.goods[i].productGroupName,
               goodsName: this.goods[i].productName,
               specification: this.goods[i].specification,
@@ -98,7 +101,7 @@ export class ProductSliderComponent {
             };
             finObj.push(obj);
 
-            this.products3.set(this.goods[i].productGroupName, finObj);
+            this.products3.set(this.goods[i].productGroupCode, finObj); // Update the map with productGroupCode as key
           } else {
             let obj = {
               companyCode: this.goods[i].companyCode,
@@ -118,16 +121,9 @@ export class ProductSliderComponent {
               discountPct: this.goods[i].discountPct,
               netPrice: this.goods[i].totalPrice,
             };
-            this.products3.set(this.goods[i].productGroupName, [obj]);
+            this.products3.set(this.goods[i].productGroupCode, [obj]); // Update the map with productGroupCode as key
           }
-          // console.log(this.products3, ' ut');
         }
-
-        // //console.log(this.products3, ' products3');
-        // this.updateQuantity();
-        // console.log(this.goods);
-
-        // Add any other code or logic you need here
       },
       (error: HttpErrorResponse) => {
         if (error.status === 401) {
@@ -139,31 +135,17 @@ export class ProductSliderComponent {
       }
     );
   }
+
   onImageError(event: any): void {
     // If the image is broken or doesn't load, set a fallback source
     event.target.src = '/assets/default-image.jpg';
   }
 
-  // productCardClick(groupCode: any) {
-  //   // alert('he')
-  //   this.sharedService.setGroupCode(groupCode.groupCode);
-  //   //console.log(company, 'companyCode');
 
-  //   this.router.navigate(['/product'], {
-  //     queryParams: {
-
-  //       groupCode: btoa(groupCode.productGroupCode),
-  //     },
-  //   });
-
-  //   // window.location.href = '/product';
-  // }
-
-  viewAllProducts(groupCode: any) {
-    console.log('GROUPCODE', groupCode);
-    this.router.navigate(['/groupProducts'], {
-      queryParams: { groupCode: btoa(groupCode) },
-    });
+  viewAllProducts(groupCodes: any) {
+    console.log('GROUPCODE::::::::::', groupCodes);
+    localStorage.setItem('groupCodes', groupCodes);
+    this.router.navigate(['/groupProducts']);
   }
 
   shouldRemoveButton(product: any): boolean {

@@ -1,7 +1,7 @@
 <section id="page-container">
   <div id="content-wrap">
     <app-header [cartCount]="cartData.length"></app-header>
-    <app-nav-belt></app-nav-belt>
+    <!-- <app-nav-belt></app-nav-belt> -->
 
     <div
       [ngClass]="{ show: cartData.length > 0 }"
@@ -151,188 +151,193 @@
 
     <div *ngIf="loading" class="text-center">Loading products...</div>
     <div *ngIf="!loading">
-      <div class="container justify-content-around">
+      <div class="d-flex pp">
         <div class="product_sidebar_container">
-          <!-- <app-product-sidebar></app-product-sidebar> -->
+          <app-product-sidebar
+            [showCategory]="true"
+            [showCompany]="true"
+          ></app-product-sidebar>
         </div>
-
-        <div class="products mx-3 mt-3 w-100">
-          <nav class="search_bar navbar rounded border border-1 sticky-top">
-            <div class="container-fluid">
-              <div class="color-primary">
-                <h3>{{ activeGroupName }}</h3>
-              </div>
-              <form class="seachbar" role="search">
-                <input
-                  class="form-control bg-light me-2"
-                  type="search"
-                  placeholder="Search by title..."
-                  aria-label="Search"
-                  (keyup)="searchProducts($event)"
-                />
-              </form>
-            </div>
-          </nav>
-          <div class="row w-100 m-0 p-0" *ngIf="!filteredProducts.length">
-            <div class="productNotFound col-12 text-center">
-              <img
-                class="productNotFound rounded mt-3"
-                src="/assets/images/productNotFound.jpg"
-                alt=""
-              />
-            </div>
-          </div>
-
-          <div class="row w-100 m-0 p-0" *ngIf="filteredProducts.length">
-            <div
-              [ngClass]="{
-                'col-xl-3 col-lg-4 col-md-6 col-sm-6':
-                  filteredProducts.length > 3,
-                'col-lg-6 col-md-6 col-sm-6': filteredProducts.length <= 3
-              }"
-              *ngFor="let entry of filteredProducts; let i = index"
-              [ngClass]="{
-                'col-lg-3 col-md-4 col-6': filteredProducts.length > 3,
-                'col-lg-4 col-md-6 col-sm-6': filteredProducts.length <= 3
-              }"
-            >
-              <section
-                class="product d-flex justify-content-center pb-3 align-items-center border rounded border-1 mt-3 mb-5 w-100"
-              >
-                <div (click)="dataClick(entry)">
-                  <img
-                    [src]="
-                      entry.imagePath.substring(
-                        entry.imagePath.indexOf('assets')
-                      )
-                    "
-                    class="cart-img"
-                    alt="{{ entry.companyName }}"
-                  />
+        <div class="container justify-content-around">
+          <div class="products mx-3 mt-3 w-100">
+            <nav class="search_bar navbar rounded border border-1 sticky-top">
+              <div class="container-fluid">
+                <div class="color-primary">
+                  <h3>{{ activeGroupName }}</h3>
                 </div>
-                <div
-                  class="mt-1 mb-1 d-flex flex-column align-items-center px-2"
+                <form class="seachbar" role="search">
+                  <input
+                    class="form-control bg-light me-2"
+                    type="search"
+                    placeholder="Search by title..."
+                    aria-label="Search"
+                    (keyup)="searchProducts($event)"
+                  />
+                </form>
+              </div>
+            </nav>
+            <div class="row w-100 m-0 p-0" *ngIf="!filteredProducts.length">
+              <div class="productNotFound col-12 text-center">
+                <img
+                  class="productNotFound rounded mt-3"
+                  src="/assets/images/productNotFound.jpg"
+                  alt=""
+                />
+              </div>
+            </div>
+
+            <div class="row w-100 m-0 p-0" *ngIf="filteredProducts.length">
+              <div
+                [ngClass]="{
+                  'col-xl-3 col-lg-4 col-md-6 col-sm-6':
+                    filteredProducts.length > 3,
+                  'col-lg-6 col-md-6 col-sm-6': filteredProducts.length <= 3
+                }"
+                *ngFor="let entry of filteredProducts; let i = index"
+                [ngClass]="{
+                  'col-lg-3 col-md-4 col-6': filteredProducts.length > 3,
+                  'col-lg-4 col-md-6 col-sm-6': filteredProducts.length <= 3
+                }"
+              >
+                <section
+                  class="product d-flex justify-content-center pb-3 align-items-center border rounded border-1 mt-3 mb-5 w-100"
                 >
-                  <div class="d-flex">
-                    <div class="activeDiv" (click)="dataClick(entry)">
-                      <div>
-                        <p class="product-title">
-                          {{
-                            entry.goodsName.length > 20
-                              ? (entry.goodsName | slice : 0 : 20) + "..."
-                              : entry.goodsName
-                          }}
-                        </p>
-                      </div>
-                      <div>
-                        <p class="fw-bold mb-1">
-                          Specifications:&nbsp;<span class="text-muted">{{
-                            entry.specification.length > 15
-                              ? (entry.specification | slice : 0 : 15) + "..."
-                              : entry.specification
-                          }}</span>
-                        </p>
-                      </div>
-                      <div class="">
-                        <p class="quantity clr mb-1">
-                          Quantity:
-                          <span class="clr">{{ entry.approveSalesQty }}</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div
-                      class="d-flex flex-column justify-content-between align-items-end"
-                    >
-                      <div>
+                  <div (click)="dataClick(entry)">
+                    <img
+                      [src]="
+                        entry.imagePath.substring(
+                          entry.imagePath.indexOf('assets')
+                        )
+                      "
+                      class="cart-img"
+                      alt="{{ entry.companyName }}"
+                    />
+                  </div>
+                  <div
+                    class="mt-1 mb-1 d-flex flex-column align-items-center px-2"
+                  >
+                    <div class="d-flex">
+                      <div class="activeDiv" (click)="dataClick(entry)">
                         <div>
-                          <button class="icon" (click)="dataClick(entry)">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              class="bi bi-info-square"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                              />
-                              <path
-                                d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-                              />
-                            </svg>
-                          </button>
+                          <p class="product-title">
+                            {{
+                              entry.goodsName.length > 20
+                                ? (entry.goodsName | slice : 0 : 20) + "..."
+                                : entry.goodsName
+                            }}
+                          </p>
                         </div>
-
                         <div>
-                          <button
-                            class="icon"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            (click)="
-                              entry.approveSalesQty !== 0 &&
-                                setCart(entry, qtyInput.value)
-                            "
-                            [disabled]="
-                              entry.approveSalesQty === 0 || this.role === null
-                            "
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              class="bi bi-cart-plus"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"
-                              />
-                              <path
-                                d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-                              />
-                            </svg>
-                          </button>
+                          <p class="fw-bold mb-1">
+                            Specifications:&nbsp;<span class="text-muted">{{
+                              entry.specification.length > 15
+                                ? (entry.specification | slice : 0 : 15) + "..."
+                                : entry.specification
+                            }}</span>
+                          </p>
+                        </div>
+                        <div class="">
+                          <p class="quantity clr mb-1">
+                            Quantity:
+                            <span class="clr">{{ entry.approveSalesQty }}</span>
+                          </p>
                         </div>
                       </div>
 
-                      <div class="d-flex align-items-center">
-                        <!-- <button class="border rounded-1   minus mx-2" [disabled]="entry.approveSalesQty==='0'">
+                      <div
+                        class="d-flex flex-column justify-content-between align-items-end"
+                      >
+                        <div>
+                          <div>
+                            <button class="icon" (click)="dataClick(entry)">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-info-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+                                />
+                                <path
+                                  d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+
+                          <div>
+                            <button
+                              class="icon"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal"
+                              (click)="
+                                entry.approveSalesQty !== 0 &&
+                                  setCart(entry, qtyInput.value)
+                              "
+                              [disabled]="
+                                entry.approveSalesQty === 0 ||
+                                this.role === null
+                              "
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                class="bi bi-cart-plus"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"
+                                />
+                                <path
+                                  d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                          <!-- <button class="border rounded-1   minus mx-2" [disabled]="entry.approveSalesQty==='0'">
                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
                           <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
                          </svg>
                         </button> -->
 
-                        <!-- <input
+                          <!-- <input
                                 type="number" [readonly] = "entry.approveSalesQty === '0'"
                                 class="txt-qt border"
                                 [ngModel]="cartDataQt.get(entry.groupCode+'&'+entry.goodsID)||0"
                                 (ngModelChange)="onInputChange(entry, $event)"
                                 > -->
 
-                        <input
-                          #qtyInput
-                          type="number"
-                          [readonly]="entry.approveSalesQty === 0"
-                          class="txt-qt border"
-                          min="1"
-                          [max]="getMaxValue(entry.approveSalesQty)"
-                          [ngModel]="entry.approveSalesQty === 0 ? 0 : 1"
-                          (input)="onInputChange($event, entry)"
-                          (blur)="isEmpty($event)"
-                        />
+                          <input
+                            #qtyInput
+                            type="number"
+                            [readonly]="entry.approveSalesQty === 0"
+                            class="txt-qt border"
+                            min="1"
+                            [max]="getMaxValue(entry.approveSalesQty)"
+                            [ngModel]="entry.approveSalesQty === 0 ? 0 : 1"
+                            (input)="onInputChange($event, entry)"
+                            (blur)="isEmpty($event)"
+                          />
 
-                        <!-- <button (click) = "setCart(entry,'c')" class="border rounded-1  plus   mx-2" [disabled]="entry.approveSalesQty==='0' ">
+                          <!-- <button (click) = "setCart(entry,'c')" class="border rounded-1  plus   mx-2" [disabled]="entry.approveSalesQty==='0' ">
                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                           </svg>
                              </button> -->
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
           </div>
         </div>

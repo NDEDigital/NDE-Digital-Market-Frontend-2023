@@ -26,6 +26,7 @@ import { SubHeaderComponent } from './components/sub-header/sub-header.component
 import { ClientsListSliderComponent } from './components/clients-list-slider/clients-list-slider.component';
 import { SharedModule } from '../shared/shared.module';
 import { CartListSideBarComponent } from './components/cart-list-side-bar/cart-list-side-bar.component';
+import { AdSliderComponent } from './components/ad-slider/ad-slider.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -58,8 +59,10 @@ import { CartListSideBarComponent } from './components/cart-list-side-bar/cart-l
     SubHeaderComponent,
     ClientsListSliderComponent,
     CartListSideBarComponent,
+    AdSliderComponent,
   ],
   exports: [
+    AdSliderComponent,
     BannerComponent,
     AutoFocusOtpFieldComponent,
     BuyerOrderComponent,

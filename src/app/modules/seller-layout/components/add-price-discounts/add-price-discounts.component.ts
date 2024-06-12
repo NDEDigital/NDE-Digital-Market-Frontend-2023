@@ -75,9 +75,11 @@ export class AddPriceDiscountsComponent {
    */
   onProductChange(event: any) {
     const productId = event.target.value;
+    console.log(productId);
     const selectedProduct = this.products.find(
       (prod) => prod.productId == productId
     );
+    console.log(selectedProduct);
     this.selectedUnitName = selectedProduct ? selectedProduct.unitName : '';
   }
   /**
@@ -137,6 +139,7 @@ export class AddPriceDiscountsComponent {
     this.selectedProduct = null;
     this.selectedUnitName = '';
     if (this.addPriceDiscountForm.get('productId')) {
+      console.log(this.addPriceDiscountForm.get('productId'));
       this.addPriceDiscountForm.get('productId')?.setValue(null);
     }
     this.getProductData(selectedGroupId);
@@ -357,12 +360,12 @@ export class AddPriceDiscountsComponent {
             : parseFloat(value).toFixed(2);
       } else if (key === 'effectivateDate' || key === 'endDate') {
         value = value || '';
-      } else if (key === 'productId' || key === 'userId') {
+      } else if (key === 'userId') {
         value = String(Math.floor(Number(value)));
       } else if (key === 'price') {
         value = parseFloat(value).toFixed(2);
       }
-
+      // console.log(key, value);
       formData.append(key, value);
     });
 
@@ -375,7 +378,9 @@ export class AddPriceDiscountsComponent {
       formData.append('userId', userID);
     }
     formData.append('companyCode', 'companyCode');
-
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
     return formData;
   }
   private createProductPrice(formData: FormData) {
