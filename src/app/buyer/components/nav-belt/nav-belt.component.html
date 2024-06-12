@@ -10,7 +10,7 @@
     <div
       *ngFor="let entry of products | keyvalue"
       class="nav_item d-flex flex-column m-1"
-      (click)="setSelectData(entry.key, entry.value)"
+      (click)="selectGroup(entry.key, entry.value)"
       [class.active]="entry.value === activeEntry"
     >
       <div class="navbelt_image mb-2">

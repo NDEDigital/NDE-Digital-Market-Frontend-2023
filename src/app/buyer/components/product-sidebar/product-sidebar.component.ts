@@ -71,9 +71,11 @@ export class ProductSidebarComponent implements OnInit {
     private goodsDataService: GoodsDataService,
     private companyService: CompanyService
   ) {
- 
     this.loadCategory();
-    this.activeEntry = localStorage.getItem('groupCodes');
+
+       this.activeEntry = localStorage.getItem('groupCodes');
+    
+  
   }
 
   ngOnInit(): void {
@@ -95,9 +97,8 @@ export class ProductSidebarComponent implements OnInit {
   setSelectData(groupCode: string, companyCode: string) {
     this.activeEntry = groupCode;
     console.log(this.activeEntry, 'ashcssssssssssssse');
-    
-      this.loadCompanyList.emit({ groupCode, companyCode });
-    
+
+    this.loadCompanyList.emit({ groupCode, companyCode });
   }
 
   setGroupData(groupCode: string, companyCode: string) {
@@ -105,13 +106,11 @@ export class ProductSidebarComponent implements OnInit {
     console.log('Assscheee pore', this.companyCode);
     this.selectedCompanyName = '';
     this.activeEntry = groupCode;
-    companyCode = this.activeCompany;
+    companyCode = '';
+    this.activeCompany = '';
     console.log(groupCode, 'GROUP DTAAAA');
     this.getAllProduct.emit({ groupCode, companyCode });
   }
-
-
-
 
   loadCategory(): void {
     this.goodsDataService.getNavData().subscribe(
@@ -142,7 +141,7 @@ export class ProductSidebarComponent implements OnInit {
               this.companyList[i].companyName
             );
           }
-          
+
           console.log('Company Dataaaaaaa:', this.companyData); // Log the company data
         },
         error: (error: any) => {

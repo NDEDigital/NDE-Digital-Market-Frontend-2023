@@ -19,7 +19,7 @@ export class GroupProductsComponent {
   companyList: any;
   products3 = new Map();
   getTopSellerData: any;
-  groupCode: string = '';
+  groupCode: any = '';
   groupCodePa: string = '';
   groupNamePa: string = '';
   goods: any;
@@ -27,7 +27,7 @@ export class GroupProductsComponent {
   // companyName: string='';
   isGroupProductPage: boolean = false;
   productId: string = '';
-  companyCode: string = '';
+  companyCode: any = '';
   @Output() dataUpdated = new EventEmitter<void>();
   filteredProducts: any[] = [];
   @Input() companyName: string = ''; // Accept companyName as input
@@ -39,6 +39,7 @@ export class GroupProductsComponent {
     private route: ActivatedRoute,
     private companyService: CompanyService
   ) {
+    this.groupCode = localStorage.getItem('groupCodes');
    
   }
   onImageError(event: any): void {
@@ -48,19 +49,8 @@ export class GroupProductsComponent {
 
   ngOnInit() {
     console.log('ngOnInit called');
-    this.route.queryParams.subscribe((params) => {
-      console.log('Query params:', params);
-      if (params['groupCode']) {
-        // Decoding groupCode from URL
-        this.groupCode = atob(params['groupCode']);
-        this.groupCodePa = this.groupCode;
-        console.log('GroupCodezz : ', this.groupCode);
-
-        this.getAllProduct(this.groupCode, this.companyCode); // Call getAllProduct with groupCode
-        this.CompanyName(this.companyName);
-      }
-    });
-
+        this.getAllProduct(this.groupCode, this.companyCode); 
+         this.CompanyName(this.companyName);
     this.callApi();
   }
 

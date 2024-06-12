@@ -12,7 +12,7 @@ export class ProductsPageComponent {
   products: string[] = [];
   selectedProductCode: string = '';
   companyList: any;
-  groupCode: string = '';
+  groupCode: any = '';
   groupCodePa: string = '';
   isProductPage: boolean = false;
   groupName: string = '';
@@ -24,21 +24,17 @@ export class ProductsPageComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    var groupCode;
-    this.route.queryParams.subscribe((params) => {
-      groupCode = atob(params['groupCode']);
-      this.groupCodePa = groupCode;
-      if (groupCode) {
-        sessionStorage.setItem('groupCode', groupCode);
+this.groupCode = localStorage.getItem("groupCodes")
+      if (this.groupCode) {
+        sessionStorage.setItem('groupCodes', this.groupCode);
 
         // console.log("got the data");
         this.goodsData
-          .getProductCompanyList(groupCode)
+          .getProductCompanyList(this.groupCode)
           .subscribe((data: any) => {
             this.companyList = data;
           });
       }
-    });
   }
 
   ngOnInit() {
@@ -83,24 +79,6 @@ export class ProductsPageComponent {
       }
     }, 10);
 
-    //================= using switchMap ==============
-    // this.goodsData
-    //   .getProductCompanyList(
-    //     this.sharedService.groupCode,
-    //     this.sharedService.groupName
-    //   )
-    //   .pipe(
-    //     switchMap(() =>
-    //       this.goodsData.getProductCompanyList(
-    //         this.sharedService.groupCode,
-    //         this.sharedService.groupName
-    //       )
-    //     )
-    //   )
-    //   .subscribe((data: any) => {
-    //     //console.log(data);
-    //     this.companyList = data;
-    //   });
   }
 
   productCardClick(companyCode: string) {

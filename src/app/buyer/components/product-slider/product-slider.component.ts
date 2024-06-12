@@ -145,11 +145,7 @@ export class ProductSliderComponent {
   viewAllProducts(groupCodes: any) {
     console.log('GROUPCODE::::::::::', groupCodes);
     localStorage.setItem('groupCodes', groupCodes);
-    this.router.navigate(['/groupProducts'], {
-      queryParams: { groupCode: btoa(groupCodes) },
-      
-      
-    });
+    this.router.navigate(['/groupProducts']);
   }
 
   shouldRemoveButton(product: any): boolean {

@@ -97,19 +97,26 @@ export class NavBeltComponent implements OnInit {
   //   return this.products.size > 7;
   // }
 
-  setSelectData(groupCode: string, groupName: string) {
-    this.sharedService.setNavSelectData(groupCode, groupName);
+  // setSelectData(groupCode: string, groupName: string) {
+  //   this.sharedService.setNavSelectData(groupCode, groupName);
 
-    this.dataUpdated.emit();
-    // Update active entry
-    this.activeEntry = groupName;
+  //   this.dataUpdated.emit();
+  //   // Update active entry
+  //   this.activeEntry = groupCode;
 
-    localStorage.setItem('activeEntry', this.activeEntry);
-    this.router.navigate(['/productsPageComponent'], {
-      queryParams: { groupCode: btoa(groupCode) },
-    });
+  //   localStorage.setItem('activeEntry', this.activeEntry);
+  //   console.log('active entryyyyyyyyy',this.activeEntry)
+  //   this.router.navigate(['/productsPageComponent'], {
+  //     queryParams: { groupCode: btoa(groupCode) },
+  //   });
 
-    // //console.log(this.activeEntry, 'activeEntry');
+  //   // //console.log(this.activeEntry, 'activeEntry');
+  // }
+
+  selectGroup(groupCode: any, groupName: any){
+    console.log('groupCodessssssssssss', groupCode);
+    localStorage.setItem('groupCodes', groupCode);
+    this.router.navigate(['/productsPageComponent']);
   }
 
   next(): void {
