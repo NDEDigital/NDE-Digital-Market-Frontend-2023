@@ -125,7 +125,7 @@ export class AddProductService {
     return this.http.get(this.getUnitURL);
   }
 
-  GetProductByGroupName(ProductGroupId: number) {
+  GetProductByGroupName(ProductGroupId: string) {
     return this.http.get(this.GetProductNameByProductGroupIdURL, {
       params: { ProductGroupId },
     });

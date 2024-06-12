@@ -133,17 +133,16 @@ export class AddPriceDiscountsComponent {
   }
 
   onGroupChange(event: any) {
-    const selectedGroupId = parseInt(event.target.value, 10);
+    const selectedGroupId = event.target.value;
     this.selectedProduct = null;
     this.selectedUnitName = '';
     if (this.addPriceDiscountForm.get('productId')) {
       this.addPriceDiscountForm.get('productId')?.setValue(null);
     }
-
     this.getProductData(selectedGroupId);
   }
 
-  getProductData(GroupID: number) {
+  getProductData(GroupID: string) {
     this.productService
       .GetProductByGroupName(GroupID)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -154,6 +153,7 @@ export class AddPriceDiscountsComponent {
           console.log(response);
         },
         error: (error: any) => {
+          this.products = [];
           this.alertMsg = error.error.message;
         },
       });

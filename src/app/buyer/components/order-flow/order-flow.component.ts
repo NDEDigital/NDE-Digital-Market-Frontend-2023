@@ -79,10 +79,10 @@ export class OrderFlowComponent {
   getData(status: string) {
     let uidS = localStorage.getItem('code');
     let userID;
-    if (uidS) userID = parseInt(uidS, 10);
+    if (uidS) userID = uidS;
     this.orderApi.getBuyerOrder(userID, status).subscribe({
       next: (response: any) => {
-        console.log(response);
+        console.log(response, 'new nrew test');
         this.productsData = response;
 
         // console.log(this.productsData,"all data");
@@ -164,22 +164,14 @@ export class OrderFlowComponent {
     }
   }
 
-
-
-
-
   gotoInvoice(orderId: any) {
     sessionStorage.setItem('orderMasterID', orderId);
 
     const urlToOpen = '/invoice'; // Replace with your desired URL
 
-
     // Use window.open to open the new window/tab
     window.open(urlToOpen, '_blank');
   }
-
-
-
 
   // ReturnProduct(formValues: any): void {
   //   // Access the form values directly
@@ -299,10 +291,16 @@ export class OrderFlowComponent {
   }
   navigateToData(detail: any) {
     // sessionStorage.setItem('productData', JSON.stringify(detail));
-  // console.log(detail);
-  // alert('hh');
-  
-    window.open('/productDetails?productId='+btoa(detail.goodsId)+'&companyCode='+btoa(detail.companyCode), '_blank');
+    // console.log(detail);
+    // alert('hh');
+
+    window.open(
+      '/productDetails?productId=' +
+        btoa(detail.goodsId) +
+        '&companyCode=' +
+        btoa(detail.companyCode),
+      '_blank'
+    );
   }
   onSubmit(): void {
     Object.values(this.reviewForm.controls).forEach((control) => {

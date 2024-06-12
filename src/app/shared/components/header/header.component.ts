@@ -90,6 +90,8 @@ export class HeaderComponent {
       this.isSeller = false;
     }
 
+    this.buyerValue = localStorage.getItem('code');
+
     // console.log(this.isBuyer, 'isBuyer');
 
     // console.log(this.sharedService.user$, ' lol');
@@ -233,13 +235,12 @@ export class HeaderComponent {
   }
   getAddTocartData() {
     if (this.isLoggedIn) {
-      this.buyerValue = localStorage.getItem('code');
       this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
         next: (response: any) => {
-          console.log(response.result);
-          this.cartData = response.result;
+          console.log(response);
+          this.cartData = response;
           this.cartLength = this.cartData.length;
-          console.log('new cart Data header', response.result);
+          console.log('new cart Data header', response);
           this.updateCartCount.emit(this.cartLength ? this.cartLength : 0);
           console.log(
             'new cart Data header',
@@ -276,7 +277,7 @@ export class HeaderComponent {
       // this.user.password == this.pForm.value.currentPassword
       this.pForm.value.newPassword === this.pForm.value.confirmPassword
     ) {
-      const userId: number = parseInt(localStorage.getItem('code') || '0', 10); // Use base 10
+      const userId: string = localStorage.getItem('code') || '0'; // Use base 10
       const passData = {
         userId: userId,
         oldPassword: this.pForm.value.currentPassword,

@@ -123,7 +123,7 @@ export class AddProductQuantityComponent {
       .GetPortalData(PortalReceivedId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => this.PatchForm(response.portalAfterInsert),
+        next: (response: any) => this.PatchForm(response),
         error: (error) => console.error('Error:', error),
       });
   }
@@ -157,6 +157,7 @@ export class AddProductQuantityComponent {
   submit() {
     if (this.isFormValid() && this.rowsFormArray.length) {
       this.preparePortalData();
+      console.log(this.portaldata);
       this.addProductService
         .insertPortalReceived(this.portaldata)
         .pipe(takeUntilDestroyed(this.destroyRef))
@@ -432,7 +433,7 @@ export class AddProductQuantityComponent {
       challanNo: this.masterForm.value.challanNo,
       remarks: this.masterForm.value.remarks,
       userId: this.getUserId(),
-      companyCode: 'CMP-23-0009',
+      // companyCode: 'CMP-23-0009',
       addedBy: 'string',
       addedPC: 'string',
       portalReceivedDetailslist: formData.rows.map((row: any) => ({
@@ -440,7 +441,7 @@ export class AddProductQuantityComponent {
         productId: row.productId,
         specification: row.specification,
         receivedQty: parseInt(row.receiveQty, 10),
-        unitId: parseInt(row.unitId, 10),
+        unitId: row.unitId,
         price: row.price,
         remarks: row.remarks,
         totalPrice: parseInt(row.receiveQty, 10) * row.price,
@@ -458,11 +459,13 @@ export class AddProductQuantityComponent {
    * Handles successful submission of the form
    */
   private handleSuccessfulSubmit(response: any) {
+    console.log(response);
     this.masterForm.reset();
     this.form.reset();
     this.selectedProductNames = [];
     this.selectedProductGroup = [];
-    this.getPortalData(response.portalReceivedId);
+    console.log(response, 'this ache na');
+    this.getPortalData(response.id);
   }
 
   /**
@@ -488,6 +491,7 @@ export class AddProductQuantityComponent {
    * Handles the response for product details
    */
   private handleProductDetailsResponse(response: any) {
+    console.log(response);
     this.productDertailsData = response;
     this.NoProductFound = this.productDertailsData.length === 0;
   }

@@ -171,6 +171,7 @@ select {
   height: 35rem; /* Adjust the height as needed */
   overflow-y: scroll;
   overflow-x: auto;
+  width: 83.5vw;
 }
 .headerRow {
   text-align: center;

@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormControl,Validators, FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 
@@ -11,8 +11,8 @@ import { UserDataService } from 'src/app/services/user-data.service';
 export class UserProfileComponent {
   user$ = this.sharedService.user$;
   user: any;
-  isCompanyAdmin:any;
- 
+  isCompanyAdmin: any;
+
   @ViewChild('editBTN')
   editBTN!: ElementRef;
   updateUserForm: FormGroup;
@@ -22,7 +22,7 @@ export class UserProfileComponent {
     private userDataService: UserDataService
   ) {
     let role = localStorage.getItem('role');
-    this.isCompanyAdmin=localStorage.getItem('isDigitalCompanyAd');
+    this.isCompanyAdmin = localStorage.getItem('isDigitalCompanyAd');
 
     if (role) {
       this.Role = role;
@@ -32,13 +32,13 @@ export class UserProfileComponent {
     // //console.log(userCode, 'code');
     this.userDataService.getSingleUser(userCode).subscribe({
       next: (response: any) => {
-        // //console.log(response);
-        const userData = response.user;
+        console.log(response.result);
+        const userData = response.result;
         this.sharedService.loggedInUserInfo(userData);
       },
       error: (error: any) => {
         // Handle the error
-        // //console.log(error);
+        console.log(error);
       },
     });
 
@@ -61,7 +61,7 @@ export class UserProfileComponent {
     //   // prefPaymentMethod: new FormControl(''),
     // });
     this.user$.subscribe((user) => {
-      // //console.log(user, 'user');
+      console.log(user, 'user');
       this.user = user; // Update the user property for use in the component
       if (this.updateUserForm) {
         this.updateUserForm.patchValue({
@@ -77,7 +77,7 @@ export class UserProfileComponent {
     });
 
     this.updateUserForm = new FormGroup({
-      email: new FormControl('',[Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       address: new FormControl('', Validators.required),
       companyName: new FormControl(''),
       website: new FormControl(''),
@@ -122,14 +122,11 @@ export class UserProfileComponent {
     // input.classList.remove('editable');
   }
 
-
   isFieldInvalid(fieldName: string): boolean {
     const field = this.updateUserForm.get(fieldName);
     // Check if the field is not null before accessing its properties
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
-
-
 
   updateUser(section: string) {
     if (this.updateUserForm.valid) {
@@ -141,7 +138,7 @@ export class UserProfileComponent {
       //this.user.website = this.updateUserForm.value.website;
       //this.user.yearsInBusiness = this.updateUserForm.value.yearsInBusiness;
       //this.user.businessRegistrationNumber =
-        //this.updateUserForm.value.businessRegNum;
+      //this.updateUserForm.value.businessRegNum;
       //this.user.taxIDNumber = this.updateUserForm.value.taxIdNum;
       const updatedUser = this.user;
       // //console.log(updatedUser, 'updatedUser');

@@ -277,7 +277,7 @@ export class BuyerOrderComponent {
       formData.append('orderDetailId', this.currentOrderDetailId.toString());
 
       formData.forEach((value, key) => {
-        // console.log(`${key}:`, value);
+        console.log(`${key}:`, value);
       });
 
       this.reviewService.addReview(formData).subscribe({
@@ -326,7 +326,7 @@ export class BuyerOrderComponent {
   getData(status: string) {
     let uidS = localStorage.getItem('code');
     let userID;
-    if (uidS) userID = parseInt(uidS, 10);
+    if (uidS) userID = uidS;
     this.orderService.getOrdersForBuyer(userID, status).subscribe({
       next: (response: any) => {
         console.log(response, 'get buyer order data');

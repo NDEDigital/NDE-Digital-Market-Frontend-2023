@@ -21,7 +21,7 @@ interface OrderDetail {
   deliveryDate: string;
   specification: string;
   productGroupId: string;
-  userId: number;
+  userId: string;
   unitId: number;
   discountAmount: number;
   netPrice: number;
@@ -65,6 +65,8 @@ export class CheckoutPageComponent implements OnInit {
     private SSLPayment: SslPaymentService,
     private activateRoute: ActivatedRoute
   ) {
+    this.buyerCode = localStorage.getItem('code');
+    this.buyerValue = localStorage.getItem('code');
     this.checkoutForm = this.fb.group({
       phone: [{ value: '01745671968', disabled: true }, [Validators.required]],
       email: [{ value: 'email@gmail.com', disabled: true }, [Validators.email]],
@@ -121,17 +123,16 @@ export class CheckoutPageComponent implements OnInit {
     console.log(this.userData);
   }
   getAddTocartData() {
-    this.buyerValue = localStorage.getItem('code');
     this.cartDataService.getAddToCartDataByBuyer(this.buyerValue).subscribe({
       next: (response: any) => {
-        console.log(response.result);
+        console.log(response);
         this.cartData = this.selectedProducts;
         this.cartLength = this.selectedProducts.length;
         this.cartTotalAmount = 0;
         this.cartData.forEach((element: any) => {
           this.cartTotalAmount += parseFloat(element.totalPrice);
         });
-        console.log('new cart Data', response.result);
+        console.log('new cart Data', response);
 
         console.log('new cart Data', this.cartData.size);
       },
@@ -142,17 +143,15 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   confirmOrder() {
-    this.buyerCode = localStorage.getItem('code');
-
     console.log(this.userData);
     this.orderdata = {
-      userId: parseInt(this.buyerCode),
+      userId: this.buyerCode.toString(),
       address: this.userData.address,
       paymentMethod: 'CashOnDelivery',
       numberOfItem: this.cartData.length,
-      totalPrice: this.cartTotalAmount + 100,
+      totalPrice: this.cartTotalAmount + 100.0,
       phoneNumber: this.userData.phoneNumber,
-      deliveryCharge: 100,
+      deliveryCharge: 100.0,
       addedBy: 'me',
       addedPC: 'me',
       orderDetailsList: [],
@@ -164,14 +163,14 @@ export class CheckoutPageComponent implements OnInit {
 
       const detailData: OrderDetail = {
         companyCode: entry.companyCode,
-        productId: parseInt(entry.productID),
+        productId: entry.productID.toString(),
         qty: entry.productCartQuantity,
         price: entry.price,
-        deliveryCharge: 100,
+        deliveryCharge: 100.0,
         deliveryDate: this.getDeliveryDateAndTime(),
         specification: entry.specification,
         productGroupId: entry.productGroupID,
-        userId: 0,
+        userId: 'test',
         unitId: entry.unitID,
         discountAmount: 0,
         discountPct: 0,
@@ -197,7 +196,7 @@ export class CheckoutPageComponent implements OnInit {
       (error) => {
         //  alert('Error try Again');
         //  this.route.navigate(['/cartView']);
-        //console.error('Error:', error);
+        console.error('Error:', error);
       }
     );
   }
@@ -277,18 +276,16 @@ export class CheckoutPageComponent implements OnInit {
     );
   }
   getUserInfo() {
-    const userId = localStorage.getItem('code');
-
-    this.orderService.getUserInfo(userId).subscribe({
+    this.orderService.getUserInfo(this.buyerValue).subscribe({
       next: (response: any) => {
-        this.userData = response.user;
+        this.userData = response;
         console.log(' user Data', this.userData);
         this.userName = this.userData.fullName;
         this.setUserInfo();
       },
       error: (error: any) => {
         // Handle the error
-        // //console.log(error);
+        console.log(error);
       },
     });
   }

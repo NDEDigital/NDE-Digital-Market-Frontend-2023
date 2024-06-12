@@ -15,11 +15,14 @@
         <p class="info_field fs-3">
           <span class="text-muted" hidden>Full Name:</span> {{ user.fullName }}
 
-          <span class="role mt-2"  *ngIf="isCompanyAdmin === 'true'; else elseBlock">(Manager)</span>
+          <span
+            class="role mt-2"
+            *ngIf="isCompanyAdmin === 'true'; else elseBlock"
+            >(Manager)</span
+          >
           <ng-template #elseBlock>
             <span class="role mt-2">({{ Role }})</span>
           </ng-template>
-          
         </p>
         <p class="info_field">
           <span class="text-muted" hidden>Country/Region:</span>
@@ -43,9 +46,9 @@
       </div>
       <div class="user_info">
         <p class="row info_field p-0 m-0">
-          <span class="col-4 text-muted text-end"><span class="col-8 email text-danger" 
-            >*</span
-          >Email:</span>
+          <span class="col-4 text-muted text-end"
+            ><span class="col-8 email text-danger">*</span>Email:</span
+          >
           <input
             formControlName="email"
             #emailInput
@@ -58,23 +61,20 @@
             (focus)="onInputFocus(emailInput)"
             (blur)="onInputBlur(emailInput)"
           />
-
         </p>
         <div class="row">
-          <div class="col-4">
-           
-          </div>
+          <div class="col-4"></div>
           <div class="col-8">
-            <p class="text-danger p-0 m-0" *ngIf="isFieldInvalid('email')"
-            >email is required.</p>
+            <p class="text-danger p-0 m-0" *ngIf="isFieldInvalid('email')">
+              email is required.
+            </p>
           </div>
         </div>
 
-
         <p class="row info_field m-0">
           <span class="col-4 text-muted text-end">
-          <span class="address text-danger">*</span
-          >Address:</span>
+            <span class="address text-danger">*</span>Address:</span
+          >
           <!-- <input
             formControlName="address"
             #address
@@ -97,18 +97,14 @@
             (focus)="onInputFocus(address)"
             (blur)="onInputBlur(address)"
           ></textarea>
-
-
-
         </p>
 
         <div class="row">
-          <div class="col-4">
-           
-          </div>
+          <div class="col-4"></div>
           <div class="col-8">
-            <p class="text-danger p-0 m-0" *ngIf="isFieldInvalid('address')"
-            >Address is required.</p>
+            <p class="text-danger p-0 m-0" *ngIf="isFieldInvalid('address')">
+              Address is required.
+            </p>
           </div>
         </div>
         <!-- <p class="row info_field">
@@ -139,7 +135,6 @@
             (blur)="onInputBlur(socialInput)"
           />
         </p> -->
-
 
         <div
           class="d-flex flex-column align-items-end mt-2"

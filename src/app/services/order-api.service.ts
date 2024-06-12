@@ -111,14 +111,14 @@ export class OrderApiService {
   getAddTocartData() {
     this.cartDataService.getAddToCartDataByBuyer(this.buyerCode).subscribe({
       next: (response: any) => {
-        console.log(response.result);
-        this.cartData = response.result;
+        console.log(response);
+        this.cartData = response;
         this.cartLength = this.cartData.length;
         this.cartTotalAmount = 0;
         this.cartData.forEach((element: any) => {
           this.cartTotalAmount += parseFloat(element.totalPrice);
         });
-        console.log('new cart Data', response.result);
+        console.log('new cart Data', response);
 
         console.log('new cart Data', this.cartData.size);
       },
@@ -180,10 +180,11 @@ export class OrderApiService {
   insertOrderData(data: any) {
     // this.setData();
     console.log(' orderdata', data);
-    return this.http.post<any>(this.orderPostUrl, data, this.httpOptions);
+    return this.http.post<any>(this.orderPostUrl, data);
   }
   // get user info for order
   getUserInfo(UserId: any) {
+    console.log(UserId, 'getUserInfo');
     return this.http.get(this.getUserInfoURL, { params: { UserId } });
   }
 
