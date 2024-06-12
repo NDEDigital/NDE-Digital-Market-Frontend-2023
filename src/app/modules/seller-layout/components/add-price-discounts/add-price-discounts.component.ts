@@ -254,12 +254,13 @@ export class AddPriceDiscountsComponent {
 
     if (this.isDiscountEntered()) {
       totalPrice = price;
+      console.log(totalPrice);
       if (!isNaN(discountAmount) && discountAmount > 0) {
         totalPrice -= discountAmount;
       }
-      if (!isNaN(discountPct) && discountPct > 0) {
-        totalPrice -= price * (discountPct / 100);
-      }
+      // if (!isNaN(discountPct) && discountPct > 0) {
+      //   totalPrice -= price * (discountPct / 100);
+      // }
     }
 
     this.addPriceDiscountForm
@@ -354,6 +355,7 @@ export class AddPriceDiscountsComponent {
       let value = this.addPriceDiscountForm.value[key];
 
       if (key === 'discountAmount' || key === 'discountPct') {
+        console.log(value);
         value =
           value === '' || isNaN(parseFloat(value)) || parseFloat(value) === 0
             ? '0.00'
@@ -365,7 +367,7 @@ export class AddPriceDiscountsComponent {
       } else if (key === 'price') {
         value = parseFloat(value).toFixed(2);
       }
-      // console.log(key, value);
+      console.log(key, value);
       formData.append(key, value);
     });
 
