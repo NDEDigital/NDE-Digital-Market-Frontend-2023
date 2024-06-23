@@ -351,14 +351,25 @@ html {
   }
 }
 @media (max-width: 576px) {
-  .col-4 {
-    width: 33.333%;
-  }
   .logo_container {
-    width: 10vw;
+    max-width: 1vw;
   }
   .header_container {
     height: fit-content;
+    max-width: 100vw;
+    /* flex-direction: row; */
+    /* display: block; */
+    /* display: block; */
+  }
+  .header_container_element {
+    background: var(--color-primary);
+    max-width: 100vw;
+    /* display: block; */
+    /* flex-direction: row; */
+  }
+  .searchbar_container {
+    max-width: 4vw;
+    /* display: block; */
   }
   .laptop-menu {
     display: none;
@@ -372,17 +383,12 @@ html {
     text-align: center;
     padding: 1rem;
   }
-  /* .mobile-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-  } */
   .mobile_bar {
     text-align: left;
   }
   .bag {
-    text-align: right;
+    text-align: center;
   }
   .mobile-menu-header i {
     font-size: 1.3rem;

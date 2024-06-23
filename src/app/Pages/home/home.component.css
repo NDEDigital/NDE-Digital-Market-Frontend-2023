@@ -36,6 +36,9 @@ body {
   background-color: #eeeeee;
 }
 #footer {
+  margin-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
   width: 100%;
 }
 #content-wrap {
