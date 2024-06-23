@@ -1,5 +1,5 @@
 body {
-  background-color: #ffffff;
+  background-color: #eeeeee;
 }
 
 #page-container {
@@ -15,14 +15,22 @@ body {
 .products {
   cursor: pointer;
 
-  width: 75%;
+  width: 78%;
   /* border: 1px solid red; */
-  padding-top: 3.5rem;
+  /* padding-top: 3.5rem; */
   /* padding-bottom: 6.8rem; */
   max-height: 100%;
 }
-
+.side-bar {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  /* padding-top: 1rem; */
+  /* width: 100%; */
+}
 #footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
   width: 100%;
 }
 #content-wrap {
@@ -31,35 +39,40 @@ body {
 
   background-color: #eeeeee;
 }
-
+.group-product-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 .grid-container {
   display: grid;
   margin-left: 1rem;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2rem; /* Adjust the gap between cards */
+  grid-template-columns: repeat(4, 1fr);
+  gap: .6rem; /* Adjust the gap between cards */
   /* border: 1px solid black */
 }
 .grid-item {
   /* border: 1px solid red; */
   /* height: 22rem; */
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .product_slider {
   /* border: 1px solid red; */
   margin-left: 2rem;
   padding-right: 1rem;
+  min-height: 65vh;
 }
 .product_sidebar_container {
-  background-color: #ffffff;
-  padding-left: 1.5rem;
-  padding-top: 4rem;
-  padding-right: 1.5rem;
+  /* background-color: #ffffff; */
+  padding-left: 1rem;
+  /* padding-top: 1rem; */
+  padding-right: 1rem;
   /* margin-left: -1.5rem; */
-  margin-right: 2rem;
-  border-right: 1px solid rgb(165, 165, 165);
-  min-height: 42rem;
-  margin-left: 7rem;
+  /* margin-right: 1rem; */
+  /* border-right: 1px solid rgb(247, 247, 247); */
+  min-height: 65vh;
+  /* margin-left: 7rem; */
 
   /* border: 1px solid aqua; */
 }
@@ -137,11 +150,11 @@ body {
   margin-bottom: -0.25rem;
   margin-top: -0.75rem;
   text-align: center;
-  font-weight: bold ;
+  font-weight: bold;
 }
 .no-products {
   text-align: center;
-margin-left: .5rem;
+  margin-left: 0.5rem;
   padding: 4rem;
   font-size: 2rem;
   color: #ff0000; /* Red color for emphasis */

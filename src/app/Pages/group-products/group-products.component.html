@@ -1,64 +1,79 @@
 <section id="page-container">
   <div id="content-wrap" class="d-flex flex-column">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
+    <div class="group-product-content">
+      <div class="d-flex side-bar">
+        <div class="product_sidebar_container">
+          <app-product-sidebar
+            (dataUpdated)="handleDataUpdated()"
+            (companyNameChanged)="CompanyName($event)"
+            (companySelected)="
+              getAllProduct($event.groupCode, $event.companyCode)
+            "
+            [showGroup]="true"
+            [showCompany]="true"
+            (getAllProduct)="
+              getAllProduct($event.groupCode, $event.companyCode)
+            "
+          ></app-product-sidebar>
+        </div>
 
-    <div class="d-flex">
-      <div class="product_sidebar_container">
-        <app-product-sidebar
-          (dataUpdated)="handleDataUpdated()"
-          (companyNameChanged)="CompanyName($event)"
-          (companySelected)="getAllProduct($event.groupCode, $event.companyCode)"
-          [showGroup]="true"
-          [showCompany]="true"
-          (getAllProduct)="getAllProduct($event.groupCode, $event.companyCode)"
-        ></app-product-sidebar>
-      </div>
-
-      <div class="products">
-        <div class="product_slider bg-white mx-auto my-2 py-1 align-items-center">
-          <h2 *ngIf="products.length > 0" class="categoryName">
-            {{ products[0].productGroupName }}
-          </h2>
-          <hr class="line" />
-          <div *ngIf="products.length === 0" class="no-products">
-            No products available.
-          </div>
-          <div *ngIf="products.length > 0" class="grid-container">
-            <ng-container *ngFor="let value of products; let i = index">
-              <div
-                class="grid-item"
-                *ngIf="!companyName || companyName === value.companyName"
-              >
-                <div class="rounded product-responsive mt-3 mb-5 h-75">
-                  <div
-                    class="card"
-                    (click)="navigateToData(value)"
-                    [ngClass]="{ 'card-out-of-stock': value.availableQty === 0 }"
-                  >
-                    <div class="card-look">
-                      <img
-                        [src]="value.imagePath ? '/assets' + value.imagePath.split('assets')[1] : '/assets/default-image.jpg'"
-                        class="card-img-top"
-                        (error)="onImageError($event)"
-                        alt="{{ value.goodsName }}"
-                      />
-                    </div>
-                    <div class="card-body">
-       
-                      <p *ngIf="value.availableQty !== 0" class="quantity">
-                        <span>Quantity :</span>
-                        <span [class.text-muted]="value.availableQty >= 1" [class.text-danger]="value.availableQty < 1">
-                          {{ value.availableQty }}
-                        </span>
-                      </p>
-                      <p class="card-text company-name">
-                        {{ value.companyName }}
-                      </p>
+        <div class="products">
+          <div
+            class="product_slider bg-white mx-auto py-1 align-items-center"
+          >
+            <h2 *ngIf="products.length > 0" class="categoryName">
+              {{ products[0].productGroupName }}
+            </h2>
+            <hr class="line" />
+            <div *ngIf="products.length === 0" class="no-products">
+              No products available.
+            </div>
+            <div *ngIf="products.length > 0" class="grid-container">
+              <ng-container *ngFor="let value of products; let i = index">
+                <div
+                  class="grid-item"
+                  *ngIf="!companyName || companyName === value.companyName"
+                >
+                  <div class="rounded product-responsive  h-75">
+                    <div
+                      class="card"
+                      (click)="navigateToData(value)"
+                      [ngClass]="{
+                        'card-out-of-stock': value.availableQty === 0
+                      }"
+                    >
+                      <div class="card-look">
+                        <img
+                          [src]="
+                            value.imagePath
+                              ? '/assets' + value.imagePath.split('assets')[1]
+                              : '/assets/default-image.jpg'
+                          "
+                          class="card-img-top"
+                          (error)="onImageError($event)"
+                          alt="{{ value.goodsName }}"
+                        />
+                      </div>
+                      <div class="card-body">
+                        <p *ngIf="value.availableQty !== 0" class="quantity">
+                          <span>Quantity :</span>
+                          <span
+                            [class.text-muted]="value.availableQty >= 1"
+                            [class.text-danger]="value.availableQty < 1"
+                          >
+                            {{ value.availableQty }}
+                          </span>
+                        </p>
+                        <p class="card-text company-name">
+                          {{ value.companyName }}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ export class ProductSidebarComponent implements OnInit {
   isProductPage = false;
   isGroupProductPage = false;
   isTopsellerpage = false;
+  showCompaniesValue = true;
   activeEntry: any = '';
   activeCompany: string = '';
   active: string = '';
@@ -51,7 +52,7 @@ export class ProductSidebarComponent implements OnInit {
   getTopSellerData: any;
   groupCode: string = '';
   groupCodePa: string = '';
-
+  showGroupValue = true;
   groupName: string = '';
 
   productId: string = '';
@@ -73,9 +74,7 @@ export class ProductSidebarComponent implements OnInit {
   ) {
     this.loadCategory();
 
-       this.activeEntry = localStorage.getItem('groupCodes');
-    
-  
+    this.activeEntry = localStorage.getItem('groupCodes');
   }
 
   ngOnInit(): void {
@@ -85,7 +84,12 @@ export class ProductSidebarComponent implements OnInit {
 
     this.loadBrand();
   }
-
+  toggleGroupVisibility() {
+    this.showGroupValue = !this.showGroupValue;
+  }
+  toggleCompaniesVisibility() {
+    this.showCompaniesValue = !this.showCompaniesValue;
+  }
   selectCompany(companyName: string, companyCode: string) {
     this.selectedCompanyName = companyCode;
     this.activeCompany = companyCode;
