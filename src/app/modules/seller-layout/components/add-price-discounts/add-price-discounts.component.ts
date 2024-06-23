@@ -75,9 +75,11 @@ export class AddPriceDiscountsComponent {
    */
   onProductChange(event: any) {
     const productId = event.target.value;
+    console.log(productId);
     const selectedProduct = this.products.find(
       (prod) => prod.productId == productId
     );
+    console.log(selectedProduct);
     this.selectedUnitName = selectedProduct ? selectedProduct.unitName : '';
   }
   /**
@@ -137,6 +139,7 @@ export class AddPriceDiscountsComponent {
     this.selectedProduct = null;
     this.selectedUnitName = '';
     if (this.addPriceDiscountForm.get('productId')) {
+      console.log(this.addPriceDiscountForm.get('productId'));
       this.addPriceDiscountForm.get('productId')?.setValue(null);
     }
     this.getProductData(selectedGroupId);
@@ -251,12 +254,13 @@ export class AddPriceDiscountsComponent {
 
     if (this.isDiscountEntered()) {
       totalPrice = price;
+      console.log(totalPrice);
       if (!isNaN(discountAmount) && discountAmount > 0) {
         totalPrice -= discountAmount;
       }
-      if (!isNaN(discountPct) && discountPct > 0) {
-        totalPrice -= price * (discountPct / 100);
-      }
+      // if (!isNaN(discountPct) && discountPct > 0) {
+      //   totalPrice -= price * (discountPct / 100);
+      // }
     }
 
     this.addPriceDiscountForm
@@ -351,18 +355,19 @@ export class AddPriceDiscountsComponent {
       let value = this.addPriceDiscountForm.value[key];
 
       if (key === 'discountAmount' || key === 'discountPct') {
+        console.log(value);
         value =
           value === '' || isNaN(parseFloat(value)) || parseFloat(value) === 0
             ? '0.00'
             : parseFloat(value).toFixed(2);
       } else if (key === 'effectivateDate' || key === 'endDate') {
         value = value || '';
-      } else if (key === 'productId' || key === 'userId') {
+      } else if (key === 'userId') {
         value = String(Math.floor(Number(value)));
       } else if (key === 'price') {
         value = parseFloat(value).toFixed(2);
       }
-
+      console.log(key, value);
       formData.append(key, value);
     });
 
@@ -375,10 +380,16 @@ export class AddPriceDiscountsComponent {
       formData.append('userId', userID);
     }
     formData.append('companyCode', 'companyCode');
-
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
     return formData;
   }
   private createProductPrice(formData: FormData) {
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
     let apiCall = this.productService.createSellerProductPrice(formData);
     this.handleApi(apiCall, 'Product price created successfully.');
   }

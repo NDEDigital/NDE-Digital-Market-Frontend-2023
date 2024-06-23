@@ -4,7 +4,9 @@
   /* box-shadow: 0 0 0.35rem var(--color-gray); */
   /* box-shadow: 0 0 0.35rem #ffffff; */
   /* border: 1px solid #d9d9d9; */
-  width: 98%;
+  max-width: 1270px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 .slider_wrap {
   position: relative;
@@ -46,7 +48,6 @@
   justify-content: space-between;
 }
 
-
 .text {
   color: rgb(0, 119, 255);
   cursor: pointer;
@@ -60,7 +61,6 @@
   border-bottom: 1px solid rgb(202, 198, 198);
   /* padding-top: 1rem; */
 }
-
 
 .card {
   background-color: #fefefe;
