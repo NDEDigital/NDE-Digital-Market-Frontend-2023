@@ -113,7 +113,7 @@ body {
 }
 
 .card-body {
-  background-color: rgb(232 241 241);
+  background-color: rgb(251, 252, 252);
 }
 .card-title {
   text-align: center;
@@ -133,10 +133,11 @@ body {
 
 .company-name {
   font-size: 1rem;
-  color: #569c9c;
+  color: #558bb4;
   margin-bottom: -0.25rem;
   margin-top: -0.75rem;
   text-align: center;
+  font-weight: bold ;
 }
 .no-products {
   text-align: center;

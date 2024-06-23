@@ -33,7 +33,7 @@
                   <div
                     class="card"
                     (click)="navigateToData(value)"
-                    [ngClass]="{ 'card-out-of-stock': value.approveSalesQty === 0 }"
+                    [ngClass]="{ 'card-out-of-stock': value.availableQty === 0 }"
                   >
                     <div class="card-look">
                       <img
@@ -44,11 +44,11 @@
                       />
                     </div>
                     <div class="card-body">
-                      <h6 class="card-title">{{ value.goodsName }}</h6>
-                      <p *ngIf="value.approveSalesQty !== 0" class="quantity">
+       
+                      <p *ngIf="value.availableQty !== 0" class="quantity">
                         <span>Quantity :</span>
-                        <span [class.text-muted]="value.approveSalesQty >= 1" [class.text-danger]="value.approveSalesQty < 1">
-                          {{ value.approveSalesQty }}
+                        <span [class.text-muted]="value.availableQty >= 1" [class.text-danger]="value.availableQty < 1">
+                          {{ value.availableQty }}
                         </span>
                       </p>
                       <p class="card-text company-name">
