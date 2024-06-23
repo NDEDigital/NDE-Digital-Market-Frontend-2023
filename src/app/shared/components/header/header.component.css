@@ -10,7 +10,14 @@ html {
 .dropdown-listDesign {
   height: 20rem;
   overflow: auto;
-  inset: 0px auto auto -16px !important;
+  position: absolute; /* Position it absolutely within the container */
+  top: 100%; /* Position it just below the button */
+  left: 0;
+  right: 0;
+  display: none; /* Hide by default */
+  z-index: 1000; /* Ensure it appears above other content */
+  background: white; /* Ensure the dropdown has a background */
+  border: 1px solid #ccc; /* Add border to the dropdown */
 }
 .companyName {
   font-size: 2.2rem;
@@ -20,7 +27,22 @@ html {
 }
 .header_container {
   background: var(--color-primary);
+
+  display: flex;
+  justify-content: center;
+}
+.dropDown-container {
+  width: 200px;
+  /* position: relative; */
+}
+.header_container_element {
+  background: var(--color-primary);
+  max-width: 1300px;
+  /* margin: 0 auto; */
+  padding: 0 1rem; /* Default padding */
   /* height: 3.7rem; */
+  display: flex;
+  flex-direction: row;
 }
 /* .cat_btn:hover {
   border: 1px solid #ffff;
@@ -58,44 +80,19 @@ html {
 /* .navbar_container {
   width: 78%;
 } */
-
+.logo_container {
+  width: 400px;
+}
 .logo_container img {
   height: 3.65rem;
   width: 15.8rem;
   /* width: 244px; */
   /* margin-right: 1rem; */
 }
-/* .categories_details {
-  font-size: 1.1rem;
-  font-weight: 600;
-} */
-/* .categories-popUp {
-  position: absolute;
-  z-index: 10;
-  top: 5.8rem;
-  box-shadow: 0 0 1rem var(--color-gray);
-  width: 14.5rem;
-  background: white;
-  display: none;
-}
-.categories-popUp::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 20px;
-  width: 20px;
-  display: block;
-  background: white;
-  left: 40px;
-  top: -7px;
-  z-index: -1;
-  transform: rotate(45deg);
-}
-.categories_details:hover + .categories-popUp {
-  display: block;
-} */
+
 .searchbar_container {
   margin-top: 0.6rem;
+  width: 800px;
 }
 #search_bar {
   box-shadow: 0px 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -138,11 +135,14 @@ html {
 }
 .nav-item:nth-child(3) i {
   font-size: 0.8rem;
+  width: 50px;
 }
 .nav-item:nth-child(4) i {
   font-size: 1rem;
+  width: 50px;
 }
 .login-title {
+  margin-left: 20px;
   border: 1px solid white;
   padding: 0.2rem 1.9rem;
 }
@@ -233,7 +233,7 @@ html {
   border-top: none;
 }
 .profile {
-  width: 5rem;
+  width: 80px;
   text-align: center;
 }
 /* logout */
@@ -268,6 +268,9 @@ html {
 .nav-item:nth-child(3):hover .more-popup {
   display: block;
 }
+.nav-bar {
+  width: 50%;
+}
 .cart_icon {
   position: relative;
 }
@@ -283,15 +286,6 @@ html {
 
 /* dropdown-list */
 
-#dropdown-listDesign {
-  /* max-height: 10rem;
-  overflow: auto;
-  inset: 0px auto auto -16px !important; */
-  max-width: 15vw !important;
-  max-height: 15rem;
-  overflow: scroll;
-}
-
 /* =============== Toggle bar and mbl menu ============== */
 .toggle_menu {
   background: var(--color-primary);
@@ -304,28 +298,64 @@ html {
 }
 
 @media (max-width: 1400px) {
-  .col-4 {
-    width: 35%;
-  }
 }
 @media (max-width: 1350px) {
   .navbar_container {
-    width: 100%;
+    width: 10vw;
   }
   .logo_container img {
-    width: 12rem;
+    width: 12vw;
+  }
+  .searchbar_container {
+    width: 40vw;
+  }
+  .logo_container {
+    width: 10vw;
+  }
+  .dropDown-container {
+    width: 12vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
   }
 }
 @media (max-width: 992px) {
   .logo_container img {
     width: 10rem;
   }
+  .logo_container {
+    width: 10vw;
+  }
+  .searchbar_container {
+    width: 40vw;
+  }
+  .dropDown-container {
+    width: 12vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
 }
 @media (max-width: 768px) {
+  .logo_container {
+    width: 10vw;
+  }
+  .searchbar_container {
+    width: 40vw;
+  }
+  .dropDown-container {
+    width: 12vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
 }
 @media (max-width: 576px) {
   .col-4 {
     width: 33.333%;
+  }
+  .logo_container {
+    width: 10vw;
   }
   .header_container {
     height: fit-content;

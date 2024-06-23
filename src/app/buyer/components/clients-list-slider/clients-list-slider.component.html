@@ -1,18 +1,10 @@
-<section
-  *ngIf="getTopSellerData"
-  class="clientList_container mx-auto px-3 py-1 border border-1"
->
+<section *ngIf="getTopSellerData" class="clientList_container border border-1">
   <!-- Heading for the top sellers section -->
   <div
     class="product_slider align-items-center bg-white border-bottom border-1"
   >
     <span class="top_seller">Our Top Seller</span>
-    <button
-      class="text "
-      (click)="setSelectData()"
-    >
-      View All
-    </button>
+    <button class="text" (click)="setSelectData()">View All</button>
   </div>
 
   <!-- Slider for the sellers -->
@@ -27,13 +19,11 @@
         <!-- Adjust width with rem units for a consistent layout -->
         <div
           class="item col-md-4 col-sm-6 col-xs-12 mb-3"
-
           *ngFor="let client of getTopSellerData"
         >
           <div
             class="card"
             style="width: 14rem"
-            
             (click)="productCardClick(client)"
           >
             <div style="height: 9rem; position: relative">
