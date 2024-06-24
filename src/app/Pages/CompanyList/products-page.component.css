@@ -14,7 +14,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
 }
 
 .pp {
@@ -22,6 +21,9 @@ body {
 }
 
 #footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
   width: 100%;
 }
 .foot {
@@ -35,7 +37,6 @@ body {
 
   background-color: #eeeeee;
 }
-
 
 .grid-container {
   display: grid;
