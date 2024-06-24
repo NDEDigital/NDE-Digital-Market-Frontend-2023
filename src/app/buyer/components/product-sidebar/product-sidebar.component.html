@@ -1,6 +1,28 @@
 <div class="side">
-  <p class="parent filter-data" >Filter</p>
-  <div *ngIf="showCategory" >
+  <div class="filter-data">
+    <div class="filter-header">
+      <p class="parent">Filter</p>
+
+      <p
+        *ngIf="clear"
+        class="filter-clear"
+        (click)="removeFilterContent('all')"
+      >
+        clear
+      </p>
+    </div>
+    <div class="filterContent">
+      <div
+        *ngFor="let item of filterContent"
+        class="filter-content-item"
+        (click)="removeFilterContent(item)"
+      >
+        <p id="content-item">{{ item }}</p>
+        <p>X</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showCategory">
     <p class="parent">Categories</p>
 
     <div *ngFor="let entry of groupData | keyvalue; let i = index">
@@ -27,7 +49,6 @@
     </div>
   </div>
 
-  
   <div *ngIf="showGroup" class="filter-data">
     <div class="side-bar-title" (click)="toggleGroupVisibility()">
       <p class="parent">Categories</p>
@@ -63,7 +84,7 @@
     </div>
   </div>
 
-  <div *ngIf="showCompany" class="filter-data" >
+  <div *ngIf="showCompany" class="filter-data">
     <div class="side-bar-title" (click)="toggleCompaniesVisibility()">
       <p class="parent">Companies</p>
       <img

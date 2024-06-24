@@ -15,7 +15,8 @@ body {
 .products {
   cursor: pointer;
 
-  width: 78%;
+  min-width: 1000px;
+  max-width: 1000px;
   /* border: 1px solid red; */
   /* padding-top: 3.5rem; */
   /* padding-bottom: 6.8rem; */
@@ -48,7 +49,7 @@ body {
   display: grid;
   margin-left: 1rem;
   grid-template-columns: repeat(4, 1fr);
-  gap: .6rem; /* Adjust the gap between cards */
+  gap: 0.6rem; /* Adjust the gap between cards */
   /* border: 1px solid black */
 }
 .grid-item {
@@ -100,12 +101,12 @@ body {
   border: 1px solid #ddd;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   /* border: 1px solid red; */
 }
 .card-look {
-  height: 11.5rem;
-  position: relative;
+  max-height: 11.5rem;
+  min-height: 11.5rem;
 }
 
 .card:hover {
@@ -161,6 +162,67 @@ body {
   background-color: #fffdfd; /* Light red background for better visibility */
   border: 1px solid #ffcccc; /* Border to make it stand out */
   border-radius: 1rem; /* Rounded corners */
+}
+
+.filter-sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  margin-bottom: .2rem;
+}
+
+.item-count {
+  font-size: 16px;
+}
+
+.search-term {
+  /* color: orange; */
+  color:#7b9eab
+}
+
+.sort-view {
+  display: flex;
+  align-items: center;
+}
+
+.sort-by {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  
+}
+
+.sort-by label {
+  margin-right: 5px;
+}
+
+#sort {
+  padding:.3rem 1rem;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid rgb(196, 195, 195);
+}
+
+.view-toggle button {
+  border: 1px solid #ddd;
+  background: none;
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.view-toggle .active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.view-toggle button:hover {
+  background-color: #f0f0f0;
 }
 
 @media (max-width: 746px) {

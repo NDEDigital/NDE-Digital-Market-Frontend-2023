@@ -19,14 +19,41 @@
         </div>
 
         <div class="products">
-          <div
-            class="product_slider bg-white mx-auto py-1 align-items-center"
-          >
-            <h2 *ngIf="products.length > 0" class="categoryName">
+          <div class="filter-sort-container">
+            <span class="item-count"
+              >{{ products.length }} items found
+              <span *ngIf="products[0]?.productGroupName && title">
+                for
+                <span class="search-term"
+                  >"{{ products[0].productGroupName }}"</span
+                ></span
+              >
+            </span>
+
+            <div class="sort-view">
+              <div class="sort-by">
+                <label for="sort">Sort By:</label>
+                <select id="sort">
+                  <option value="best-match">Best Match</option>
+                  <option value="price-low-to-high">Price: Low to High</option>
+                  <option value="price-high-to-low">Price: High to Low</option>
+                  <option value="new-arrivals">New Arrivals</option>
+                </select>
+              </div>
+              <!-- <div class="view-toggle">
+                <button class="view-grid active" title="Grid View">
+                  ⬜⬜⬜⬜
+                </button>
+                <button class="view-list" title="List View">☰</button>
+              </div> -->
+            </div>
+          </div>
+          <div class="product_slider bg-white mx-auto py-3 align-items-center">
+            <!-- <h2 *ngIf="products.length > 0" class="categoryName">
               {{ products[0].productGroupName }}
             </h2>
-            <hr class="line" />
-            <div *ngIf="products.length === 0" class="no-products">
+            <hr class="line" /> -->
+            <div *ngIf="products.length == 0" class="no-products">
               No products available.
             </div>
             <div *ngIf="products.length > 0" class="grid-container">
@@ -35,7 +62,7 @@
                   class="grid-item"
                   *ngIf="!companyName || companyName === value.companyName"
                 >
-                  <div class="rounded product-responsive  h-75">
+                  <div class="rounded product-responsive h-75">
                     <div
                       class="card"
                       (click)="navigateToData(value)"
