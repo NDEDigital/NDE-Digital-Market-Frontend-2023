@@ -23,6 +23,7 @@ export class ProductSidebarComponent implements OnInit {
   isProductPage = false;
   isGroupProductPage = false;
   isTopsellerpage = false;
+  showCompaniesValue = true;
   activeEntry: any = '';
   activeCompany: string = '';
   active: string = '';
@@ -51,7 +52,7 @@ export class ProductSidebarComponent implements OnInit {
   getTopSellerData: any;
   groupCode: string = '';
   groupCodePa: string = '';
-
+  showGroupValue = true;
   groupName: string = '';
 
   productId: string = '';
@@ -59,8 +60,10 @@ export class ProductSidebarComponent implements OnInit {
 
   filteredProducts: any[] = [];
   filteredCompanyList: any[] = [];
+  filterContent: any[] = [];
   selectedGroup: string = '';
   groupSelected: string = '';
+  clear = true;
   @Input() showCategory!: boolean;
   @Input() showCompany!: boolean;
   @Input() showGroup!: boolean;
@@ -73,9 +76,10 @@ export class ProductSidebarComponent implements OnInit {
   ) {
     this.loadCategory();
 
-       this.activeEntry = localStorage.getItem('groupCodes');
-    
-  
+    this.activeEntry = localStorage.getItem('groupCodes');
+
+    this.filterContent = [];
+    this.filterData();
   }
 
   ngOnInit(): void {
@@ -84,12 +88,54 @@ export class ProductSidebarComponent implements OnInit {
     console.log(this.activeCompany);
 
     this.loadBrand();
+    this.filterContent = [];
+    this.filterData();
   }
-
+  toggleGroupVisibility() {
+    this.showGroupValue = !this.showGroupValue;
+  }
+  toggleCompaniesVisibility() {
+    this.showCompaniesValue = !this.showCompaniesValue;
+  }
+  filterData() {
+    if (this.activeEntry) this.filterContent.push('Category');
+    if (this.activeCompany) this.filterContent.push('Company');
+    if (!this.activeEntry && !this.activeCompany) {
+      this.clear = false;
+    } else {
+      this.clear = true;
+    }
+  }
+  removeFilterContent(item: string) {
+    if (item == 'all') {
+      this.activeCompany = '';
+      this.activeEntry = '';
+      this.filterContent = [];
+      this.setGroupData(this.activeEntry, this.activeCompany);
+    }
+    if (item == 'Company') {
+      this.activeCompany = '';
+      this.setGroupData(this.activeEntry, this.activeCompany);
+    } else if (item == 'Category') {
+      this.activeEntry = '';
+      this.selectCompany(this.activeEntry, this.activeCompany);
+    }
+    const index = this.filterContent.indexOf(item);
+    if (index > -1) {
+      this.filterContent.splice(index, 1);
+    }
+    if (!this.activeEntry && !this.activeCompany) {
+      this.clear = false;
+    } else {
+      this.clear = true;
+    }
+  }
   selectCompany(companyName: string, companyCode: string) {
     this.selectedCompanyName = companyCode;
     this.activeCompany = companyCode;
     let groupCode = this.activeEntry;
+    this.filterContent = [];
+    this.filterData();
     console.log(this.activeEntry, 'Assscheee pore', this.activeCompany);
     this.companySelected.emit({ groupCode, companyCode });
   }
@@ -97,7 +143,8 @@ export class ProductSidebarComponent implements OnInit {
   setSelectData(groupCode: string, companyCode: string) {
     this.activeEntry = groupCode;
     console.log(this.activeEntry, 'ashcssssssssssssse');
-
+    this.filterContent = [];
+    this.filterData();
     this.loadCompanyList.emit({ groupCode, companyCode });
   }
 
@@ -106,8 +153,10 @@ export class ProductSidebarComponent implements OnInit {
     console.log('Assscheee pore', this.companyCode);
     this.selectedCompanyName = '';
     this.activeEntry = groupCode;
-    companyCode = '';
-    this.activeCompany = '';
+    companyCode = this.activeCompany;
+
+    this.filterContent = [];
+    this.filterData();
     console.log(groupCode, 'GROUP DTAAAA');
     this.getAllProduct.emit({ groupCode, companyCode });
   }

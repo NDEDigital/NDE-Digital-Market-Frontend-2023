@@ -3,10 +3,10 @@ body {
 }
 .products {
   cursor: pointer;
-
-  width: 75%;
+  min-width: 1040px;
+  max-width: 1040px;
   /* border: 1px solid red; */
-  padding-top: 3.5rem;
+  /* padding-top: 3.5rem; */
   /* padding-bottom: 6.8rem; */
   max-height: 100%;
 }
@@ -14,14 +14,25 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
+  flex-grow: 1;
 }
 
 .pp {
   /* border: 1px solid red; */
 }
-
+.filter-sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  margin-bottom: 0.2rem;
+}
 #footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
   width: 100%;
 }
 .foot {
@@ -36,34 +47,51 @@ body {
   background-color: #eeeeee;
 }
 
-
 .grid-container {
   display: grid;
   margin-left: 1rem;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2rem; /* Adjust the gap between cards */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem; /* Adjust the gap between cards */
   /* border: 1px solid black */
 }
 .grid-item {
   /* border: 1px solid red; */
   /* height: 22rem; */
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 .product_slider {
   /* border: 1px solid red; */
   margin-left: 2rem;
   padding-right: 1rem;
+  min-height: 65vh;
+}
+.group-product-content {
+  max-width: 1300px;
+  margin: .4rem auto;
+  padding: 0 1rem;
+}
+.no-products {
+  text-align: center;
+  margin-left: 0.5rem;
+  padding: 4rem;
+  font-size: 2rem;
+  color: #ff0000; /* Red color for emphasis */
+  background-color: #fffdfd; /* Light red background for better visibility */
+  border: 1px solid #ffcccc; /* Border to make it stand out */
+  border-radius: 1rem; /* Rounded corners */
 }
 .product_sidebar_container {
-  background-color: #ffffff;
-  padding-left: 1.5rem;
-  padding-top: 4rem;
-  padding-right: 1.5rem;
+  /* background-color: #ffffff; */
+  /* padding-left: 1rem; */
+  /* padding-top: 1rem; */
+  max-width: 210px;
+  min-width: 210px;
+  padding-right: 10px;
   /* margin-left: -1.5rem; */
-  margin-right: 2rem;
-  border-right: 1px solid rgb(165, 165, 165);
-  min-height: 42rem;
-  margin-left: 7rem;
+  /* margin-right: 1rem; */
+  /* border-right: 1px solid rgb(247, 247, 247); */
+  min-height: 65vh;
+  /* margin-left: 7rem; */
 
   /* border: 1px solid aqua; */
 }

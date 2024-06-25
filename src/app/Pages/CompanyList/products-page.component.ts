@@ -24,17 +24,17 @@ export class ProductsPageComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-this.groupCode = localStorage.getItem("groupCodes")
-      if (this.groupCode) {
-        sessionStorage.setItem('groupCodes', this.groupCode);
+    this.groupCode = localStorage.getItem('groupCodes');
+    if (this.groupCode) {
+      sessionStorage.setItem('groupCodes', this.groupCode);
 
-        // console.log("got the data");
-        this.goodsData
-          .getProductCompanyList(this.groupCode)
-          .subscribe((data: any) => {
-            this.companyList = data;
-          });
-      }
+      // console.log("got the data");
+      this.goodsData
+        .getProductCompanyList(this.groupCode)
+        .subscribe((data: any) => {
+          this.companyList = data;
+        });
+    }
   }
 
   ngOnInit() {
@@ -44,18 +44,14 @@ this.groupCode = localStorage.getItem("groupCodes")
       }
     });
 
- 
-
-
     this.callApi();
   }
   loadCompanyList(groupCode: string, companyCode: string): void {
-    console.log('ashce..........', groupCode); 
+    console.log('ashce..........', groupCode);
+    localStorage.setItem('groupCode', groupCode);
 
-    
     this.goodsData.getProductCompanyList(groupCode).subscribe((data: any) => {
       this.companyList = data;
-      
     });
   }
 
@@ -78,18 +74,18 @@ this.groupCode = localStorage.getItem("groupCodes")
           });
       }
     }, 10);
-
   }
 
   productCardClick(companyCode: string) {
     // alert('he')
     this.sharedService.setCompanyCode(companyCode);
-    // //console.log(companyCode, 'companyCode');
-
+    console.log(companyCode, 'companyCode');
+    console.log(this.groupCodePa, 'companyCode');
+    let groupCode = localStorage.getItem('groupCode') || '';
     this.router.navigate(['/product'], {
       queryParams: {
         companyCode: btoa(companyCode),
-        groupCode: btoa(this.groupCodePa),
+        groupCode: btoa(groupCode),
       },
     });
 

@@ -6,7 +6,6 @@ import { throwError } from 'rxjs';
 import { CompanyService } from 'src/app/services/company.service';
 import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
-
 @Component({
   selector: 'app-group-products',
   templateUrl: './group-products.component.html',
@@ -31,7 +30,7 @@ export class GroupProductsComponent {
   @Output() dataUpdated = new EventEmitter<void>();
   filteredProducts: any[] = [];
   @Input() companyName: string = ''; // Accept companyName as input
-
+  title = true;
   constructor(
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
@@ -40,7 +39,6 @@ export class GroupProductsComponent {
     private companyService: CompanyService
   ) {
     this.groupCode = localStorage.getItem('groupCodes');
-   
   }
   onImageError(event: any): void {
     // If the image is broken or doesn't load, set a fallback source
@@ -49,8 +47,8 @@ export class GroupProductsComponent {
 
   ngOnInit() {
     console.log('ngOnInit called');
-        this.getAllProduct(this.groupCode, this.companyCode); 
-         this.CompanyName(this.companyName);
+    this.getAllProduct(this.groupCode, this.companyCode);
+    this.CompanyName(this.companyName);
     this.callApi();
   }
 
@@ -61,19 +59,37 @@ export class GroupProductsComponent {
   }
 
   getAllProduct(groupCode: string, companyCode: string): void {
+    console.log(groupCode, companyCode);
+    if (groupCode) {
+      this.title = true;
+    } else {
+      this.title = false;
+    }
+    if (!groupCode && !companyCode) {
+      this.goodsData.getCarouselData().subscribe(
+        (response: any[]) => {
+          console.log('Products of groupProducts:', response);
 
-    this.goodsData.getProductList(companyCode, groupCode).subscribe(
-      
-      (response: any[]) => {
-        console.log('Products of groupProducts:', response);
-        
-        this.products = response; // Update the products array with the response data
-        console.log(this.products);
-      },
-      (error: any) => {
-        console.error('Error fetching products:', error);
-      }
-    );
+          this.products = response; // Update the products array with the response data
+          console.log(this.products);
+        },
+        (error: any) => {
+          console.error('Error fetching products:', error);
+        }
+      );
+    } else {
+      this.goodsData.getProductList(companyCode, groupCode).subscribe(
+        (response: any[]) => {
+          console.log('Products of groupProducts:', response);
+
+          this.products = response; // Update the products array with the response data
+          console.log(this.products);
+        },
+        (error: any) => {
+          console.error('Error fetching products:', error);
+        }
+      );
+    }
   }
 
   handleDataUpdated() {
@@ -101,10 +117,10 @@ export class GroupProductsComponent {
   }
 
   navigateToData(detail: any) {
-
+    console.log(detail);
     window.open(
       '/productDetails?productId=' +
-        btoa(detail.goodsId) +
+        btoa(detail.productId) +
         '&companyCode=' +
         btoa(detail.companyCode),
       '_blank'

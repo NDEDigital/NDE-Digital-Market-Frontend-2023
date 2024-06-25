@@ -89,6 +89,7 @@ export class SellerPermissionComponent {
     this.sellerList = response.filter(
       (u: any) => u.userId !== Number(this.UserId)
     );
+    console.log(this.sellerList);
   }
 
   /**

@@ -1,5 +1,5 @@
 body {
-  background-color: #ffffff;
+  background-color: #eeeeee;
 }
 
 #page-container {
@@ -8,21 +8,50 @@ body {
   min-height: 100vh;
   flex-grow: 1;
 }
+.link {
+  display: flex;
+  max-width: 1250px;
+  min-width: 1250px;
+  background-color: white;
+  margin: 0.3rem auto 0;
+  padding: 0.8rem 1rem;
+  align-items: center;
 
+  /* text-align: justify; */
+}
+.link-item {
+  padding: 0 0.7rem;
+  cursor: pointer;
+}
+.link-item:hover {
+  color: #7b9eab;
+}
+
+.link-item.active {
+  color: #7b9eab;
+}
 .d-flex {
   display: flex;
 }
 .products {
   cursor: pointer;
-
-  width: 75%;
+  min-width: 1040px;
+  max-width: 1040px;
   /* border: 1px solid red; */
-  padding-top: 3.5rem;
+  /* padding-top: 3.5rem; */
   /* padding-bottom: 6.8rem; */
   max-height: 100%;
 }
-
+.side-bar {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  /* padding-top: 1rem; */
+  /* width: 100%; */
+}
 #footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
   width: 100%;
 }
 #content-wrap {
@@ -31,35 +60,42 @@ body {
 
   background-color: #eeeeee;
 }
-
+.group-product-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 .grid-container {
   display: grid;
   margin-left: 1rem;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2rem; /* Adjust the gap between cards */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem; /* Adjust the gap between cards */
   /* border: 1px solid black */
 }
 .grid-item {
   /* border: 1px solid red; */
   /* height: 22rem; */
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .product_slider {
   /* border: 1px solid red; */
   margin-left: 2rem;
   padding-right: 1rem;
+  min-height: 65vh;
 }
 .product_sidebar_container {
-  background-color: #ffffff;
-  padding-left: 1.5rem;
-  padding-top: 4rem;
-  padding-right: 1.5rem;
+  /* background-color: #ffffff; */
+  /* padding-left: 1rem; */
+  /* padding-top: 1rem; */
+  max-width: 210px;
+  min-width: 210px;
+  padding-right: 10px;
   /* margin-left: -1.5rem; */
-  margin-right: 2rem;
-  border-right: 1px solid rgb(165, 165, 165);
-  min-height: 42rem;
-  margin-left: 7rem;
+  /* margin-right: 1rem; */
+  /* border-right: 1px solid rgb(247, 247, 247); */
+  min-height: 65vh;
+  /* margin-left: 7rem; */
 
   /* border: 1px solid aqua; */
 }
@@ -87,12 +123,12 @@ body {
   border: 1px solid #ddd;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   /* border: 1px solid red; */
 }
 .card-look {
-  height: 11.5rem;
-  position: relative;
+  max-height: 11.5rem;
+  min-height: 11.5rem;
 }
 
 .card:hover {
@@ -113,7 +149,7 @@ body {
 }
 
 .card-body {
-  background-color: rgb(232 241 241);
+  background-color: rgb(251, 252, 252);
 }
 .card-title {
   text-align: center;
@@ -133,20 +169,81 @@ body {
 
 .company-name {
   font-size: 1rem;
-  color: #569c9c;
+  color: #558bb4;
   margin-bottom: -0.25rem;
   margin-top: -0.75rem;
   text-align: center;
+  font-weight: bold;
 }
 .no-products {
   text-align: center;
-margin-left: .5rem;
+  margin-left: 0.5rem;
   padding: 4rem;
   font-size: 2rem;
   color: #ff0000; /* Red color for emphasis */
   background-color: #fffdfd; /* Light red background for better visibility */
   border: 1px solid #ffcccc; /* Border to make it stand out */
   border-radius: 1rem; /* Rounded corners */
+}
+
+.filter-sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+  margin-bottom: 0.2rem;
+}
+
+.item-count {
+  font-size: 16px;
+}
+
+.search-term {
+  /* color: orange; */
+  color: #7b9eab;
+}
+
+.sort-view {
+  display: flex;
+  align-items: center;
+}
+
+.sort-by {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.sort-by label {
+  margin-right: 5px;
+}
+
+#sort {
+  padding: 0.3rem 1rem;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid rgb(196, 195, 195);
+}
+
+.view-toggle button {
+  border: 1px solid #ddd;
+  background: none;
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.view-toggle .active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.view-toggle button:hover {
+  background-color: #f0f0f0;
 }
 
 @media (max-width: 746px) {

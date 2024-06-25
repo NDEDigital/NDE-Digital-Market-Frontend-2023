@@ -4,7 +4,10 @@ p {
 .slider_container {
   /* background: #eceff2a4; */
   background-color: #eeeeee;
-  width: 98%;
+  /* width: 98%; */
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1rem;
   /* margin: 3% 6%; */
 }
 .product_slider {
@@ -172,7 +175,4 @@ p {
   left: 0.2rem;
 } */
 @media (max-width: 1500px) {
-  .product_slider {
-    width: 95%;
-  }
 }
