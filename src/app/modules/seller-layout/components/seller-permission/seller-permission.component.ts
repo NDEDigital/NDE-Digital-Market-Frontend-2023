@@ -242,7 +242,7 @@ export class SellerPermissionComponent {
     }
 
     this.closeModal();
-
+    console.log(menuIds);
     this.SellerDasboardPermissionService.DeleteMenuId(
       this.selectedMenuItems[0].userId,
       menuIds
