@@ -123,6 +123,7 @@ export class ProductSliderComponent {
             };
             this.products3.set(this.goods[i].productGroupCode, [obj]); // Update the map with productGroupCode as key
           }
+          console.log(this.products3);
         }
       },
       (error: HttpErrorResponse) => {
@@ -140,7 +141,6 @@ export class ProductSliderComponent {
     // If the image is broken or doesn't load, set a fallback source
     event.target.src = '/assets/default-image.jpg';
   }
-
 
   viewAllProducts(groupCodes: any) {
     console.log('GROUPCODE::::::::::', groupCodes);
