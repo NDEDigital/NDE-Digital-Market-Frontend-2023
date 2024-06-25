@@ -386,10 +386,6 @@ export class AddPriceDiscountsComponent {
     return formData;
   }
   private createProductPrice(formData: FormData) {
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-
     let apiCall = this.productService.createSellerProductPrice(formData);
     this.handleApi(apiCall, 'Product price created successfully.');
   }

@@ -300,7 +300,7 @@ export class BuyerOrderComponent {
 
   loadData() {
     const userCode = localStorage.getItem('code');
-
+    console.log(this.activeNav);
     this.orderService.getOrdersForBuyer(userCode, '').subscribe({
       next: (response: any) => {
         // console.log(response, 'newbuyerorder');
@@ -327,6 +327,7 @@ export class BuyerOrderComponent {
     let uidS = localStorage.getItem('code');
     let userID;
     if (uidS) userID = uidS;
+    this.btnClick(status);
     this.orderService.getOrdersForBuyer(userID, status).subscribe({
       next: (response: any) => {
         console.log(response, 'get buyer order data');
@@ -352,28 +353,28 @@ export class BuyerOrderComponent {
     sessionStorage.setItem('orderNo', JSON.stringify(orderNo));
     window.open('/buyerOrderDetails', '_blank');
   }
-  // btnClick(str: string) {
-  //   if (str === '') {
-  //     this.activeNav = str;
-  //     //console.log('clicked', str);
-  //   } else if (str === 'Ready to Ship') {
-  //     this.activeNav = str;
-  //     //console.log('clicked', str);
-  //   } else if (str === 'Shipped') {
-  //     this.activeNav = str;
-  //     //console.log('clicked', str);
-  //   } else if (str === 'Delivered') {
-  //     this.activeNav = str;
-  //     //console.log('clicked', str);
-  //   } else if (str === 'to Return') {
-  //     this.activeNav = str;
-  //     //console.log('clicked', str);
-  //   } else if (str === 'Returned') {
-  //     this.activeNav = str;
-  //     //console.log('clicked', str);
-  //   }
-  //   this.loadData();
-  // }
+  btnClick(str: string) {
+    if (str === '') {
+      this.activeNav = 'All';
+      //console.log('clicked', str);
+    } else if (str === 'Ready to Ship') {
+      this.activeNav = str;
+      //console.log('clicked', str);
+    } else if (str === 'Shipped') {
+      this.activeNav = str;
+      //console.log('clicked', str);
+    } else if (str === 'Delivered') {
+      this.activeNav = str;
+      //console.log('clicked', str);
+    } else if (str === 'to Return') {
+      this.activeNav = str;
+      //console.log('clicked', str);
+    } else if (str === 'Returned') {
+      this.activeNav = str;
+      //console.log('clicked', str);
+    }
+    this.loadData();
+  }
 
   getStatusDescription(status: string): string {
     const description = this.orderDetailDescription[status];

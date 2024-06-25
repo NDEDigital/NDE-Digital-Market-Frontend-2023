@@ -69,18 +69,18 @@ export class GoodsDataService implements OnInit {
   getDetaileData() {
     return this.detailData;
   }
-// getGroupData(){
-//   const GroupUrl = `${this.URL}/api/Goods/GetGoodsList`;
-//   return this.http.get<any[]>(GroupUrl).pipe(
-//     tap((response: any[]) => {
-//       this.carousalData = response;
-//     }),
+  // getGroupData(){
+  //   const GroupUrl = `${this.URL}/api/Goods/GetGoodsList`;
+  //   return this.http.get<any[]>(GroupUrl).pipe(
+  //     tap((response: any[]) => {
+  //       this.carousalData = response;
+  //     }),
 
-//     catchError((error: any) => {
-//       return throwError(error);
-//     })
-//   );
-// }
+  //     catchError((error: any) => {
+  //       return throwError(error);
+  //     })
+  //   );
+  // }
   getCarouselData() {
     const carouselURL = `${this.URL}/api/Goods/GetGoodsList`;
     return this.http.get<any[]>(carouselURL).pipe(
@@ -94,18 +94,19 @@ export class GoodsDataService implements OnInit {
       catchError((error: any) => {
         return throwError(error);
       })
-      
     );
   }
 
   getProductCompanyList(groupCode: string) {
     this.groupCode = sessionStorage.getItem('groupCode') || '';
     this.groupName = sessionStorage.getItem('groupName') || '';
-    // console.log(this.groupCode, 'groupCode', this.groupName, 'groupname');
+    this.groupCode.toString();
+    this.groupName.toString();
+    console.log(this.groupCode, 'groupCode', this.groupName, 'groupname');
 
     // const encodedGroupName = encodeURIComponent(this.groupName);
     // console.log('encodedGroupName ', encodedGroupName);
-    const productCompany = `${this.URL}/api/Goods/GetProductCompany/${groupCode}`;
+    const productCompany = `${this.URL}/api/Goods/GetProductCompany?ProductGroupCode=${groupCode}`;
     // console.log(productCompany, ' produ');
     // console.log("hello 1");
 
@@ -121,8 +122,11 @@ export class GoodsDataService implements OnInit {
   }
 
   getProductList(companyCode: string, groupCode: string) {
-
-    const productCompany = `${this.URL}/api/Goods/GetProductList?CompanyCode=${companyCode}&ProductGroupCode=${groupCode}`;
+    const productCompany = `${
+      this.URL
+    }/api/Goods/GetProductList?CompanyCode=${encodeURIComponent(
+      companyCode
+    )}&ProductGroupCode=${encodeURIComponent(groupCode)}`;
 
     return this.http.get<any[]>(productCompany).pipe(
       tap((response: any[]) => {

@@ -23,19 +23,17 @@ export class PaginationComponent {
   dataArray: number[] = [];
   @Input() inputdata: number[] = []; //length of data]
   // @Input() inputdata: number =0; //length of data]
-
+  @Input() buyerOrder: any;
   // @Output() myData = new EventEmitter<number>();
   @Output() myData = new EventEmitter<{
     selectedPageIndex: number;
     selectedValue: number;
   }>();
   ngOnInit() {
-
     this.pagination();
   }
   ngOnChanges() {}
   reloadData() {
-
     this.selectedIconIndex = '';
     this.selectedPageIndex = 1;
     this.selectedValue = 10;
@@ -94,7 +92,6 @@ export class PaginationComponent {
   }
 
   changePageNumber(PageNumber: number) {
-
     this.selectedIconIndex = '';
     this.selectedPageIndex = PageNumber;
     this.pagination();

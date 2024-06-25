@@ -6,6 +6,12 @@
   font-weight: 500;
   color: rgb(19, 153, 60);
 }
+.container {
+  max-width: 1300px;
+  min-width: 1300px;
+  margin: 0 auto;
+  min-height: 55vh;
+}
 .background_photo {
   background-image: url(/assets/images/profile_background.jpg);
   height: 10rem;
@@ -85,6 +91,12 @@
   padding: 1rem;
   background: red;
 } */
+#footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
+  width: 100%;
+}
 @media (max-width: 998px) {
   .detail_conatiner {
     width: 85%;

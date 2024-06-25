@@ -150,14 +150,14 @@
     </div>
 
     <div *ngIf="loading" class="text-center">Loading products...</div>
-    <div *ngIf="!loading">
+    <div class="container" *ngIf="!loading">
       <div class="d-flex pp">
-        <div class="product_sidebar_container">
+        <!-- <div class="product_sidebar_container">
           <app-product-sidebar
             [showCategory]="true"
             [showCompany]="true"
           ></app-product-sidebar>
-        </div>
+        </div> -->
         <div class="container justify-content-around">
           <div class="products mx-3 mt-3 w-100">
             <nav class="search_bar navbar rounded border border-1 sticky-top">

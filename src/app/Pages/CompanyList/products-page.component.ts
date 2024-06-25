@@ -24,9 +24,9 @@ export class ProductsPageComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.groupCode = localStorage.getItem('groupCodes');
+    this.groupCode = localStorage.getItem('groupCode');
     if (this.groupCode) {
-      sessionStorage.setItem('groupCodes', this.groupCode);
+      sessionStorage.setItem('groupCode', this.groupCode);
 
       // console.log("got the data");
       this.goodsData
@@ -77,11 +77,12 @@ export class ProductsPageComponent {
   }
 
   productCardClick(companyCode: string) {
-    // alert('he')
+    // alert('he');
     this.sharedService.setCompanyCode(companyCode);
     console.log(companyCode, 'companyCode');
     console.log(this.groupCodePa, 'companyCode');
     let groupCode = localStorage.getItem('groupCode') || '';
+    console.log(groupCode);
     this.router.navigate(['/product'], {
       queryParams: {
         companyCode: btoa(companyCode),

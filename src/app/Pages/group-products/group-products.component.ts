@@ -38,7 +38,7 @@ export class GroupProductsComponent {
     private route: ActivatedRoute,
     private companyService: CompanyService
   ) {
-    this.groupCode = localStorage.getItem('groupCodes');
+    this.groupCode = localStorage.getItem('groupCode');
   }
   onImageError(event: any): void {
     // If the image is broken or doesn't load, set a fallback source
@@ -90,6 +90,7 @@ export class GroupProductsComponent {
         }
       );
     }
+    console.log('kaj hoise');
   }
 
   handleDataUpdated() {

@@ -76,7 +76,7 @@ export class ProductSidebarComponent implements OnInit {
   ) {
     this.loadCategory();
 
-    this.activeEntry = localStorage.getItem('groupCodes');
+    this.activeEntry = localStorage.getItem('groupCode');
 
     this.filterContent = [];
     this.filterData();

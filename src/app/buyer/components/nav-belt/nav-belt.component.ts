@@ -113,9 +113,9 @@ export class NavBeltComponent implements OnInit {
   //   // //console.log(this.activeEntry, 'activeEntry');
   // }
 
-  selectGroup(groupCode: any, groupName: any){
+  selectGroup(groupCode: any, groupName: any) {
     console.log('groupCodessssssssssss', groupCode);
-    localStorage.setItem('groupCodes', groupCode);
+    localStorage.setItem('groupCode', groupCode);
     this.router.navigate(['/productsPageComponent']);
   }
 
