@@ -1,3 +1,4 @@
+
 <app-header [cartLength]="cartData.length ? cartData.length : 0"></app-header>
 
 <div
@@ -67,10 +68,10 @@
 
 <div class="productDetailsBody pb-4">
   <!-- 1st section -->
-  <section class="mb-4">
-    <div class="row">
+  <section class="container mb-4">
+    <div class="bg-white row">
       <!-- product image part -->
-      <div class="col-12 col-lg-5 col-md-6 col-sm-12 py-4 px-5">
+      <div class=" col-12 col-lg-5 col-md-6 col-sm-12 py-4 px-5">
         <div>
           <div class="singleImage d-flex justify-content-center p-3">
             <img
@@ -371,11 +372,11 @@
   <!-- 1st section end -->
 
   <!-- 2nd section  -->
-  <section class="productDetails mb-4">
+  <section class="container productDetails mb-4">
     <div class="productDetailsTitle">
       Product details of {{ detailsData.goodsName }}
     </div>
-    <div class="row py-2 productDetailsData">
+    <div class="bg-white row py-2 productDetailsData">
       {{ detailsData.specification }}
     </div>
     <!-- <div class="innerTitle">Specifications of {{ detailsData.goodsName }}</div>
@@ -391,7 +392,7 @@
     </div> -->
   </section>
   <!-- Ratings & Reviews  section ,3rd -->
-  <section class="mb-4 Rating&Review">
+  <section class="container bg-white mb-4 Rating&Review">
     <div class="productDetailsTitle">
       Ratings & Reviews of {{ detailsData.goodsName }}
     </div>
@@ -714,10 +715,14 @@
       </div>
     </div>
   </section> -->
-
+<div class="container">
   <app-recommended-product></app-recommended-product>
 </div>
-<app-footer></app-footer>
+</div>
+
+<div id="footer" class="footer-responsive">
+  <app-footer></app-footer>
+</div>
 
 <!-- review Modal -->
 <section class="">

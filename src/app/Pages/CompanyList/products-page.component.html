@@ -4,40 +4,41 @@
     <!-- <div class="nav-belt-container">
       <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
     </div> -->
+    <div class="group-product-content">
+      <div class="d-flex pp">
+        <div class="product_sidebar_container">
+          <app-product-sidebar
+            [showCategory]="true"
+            [showCompany]="false"
+            (loadCompanyList)="
+              loadCompanyList($event.groupCode, $event.companyCode)
+            "
+          ></app-product-sidebar>
+        </div>
 
-    <div class="d-flex pp">
-      <div class="product_sidebar_container">
-        <app-product-sidebar
-          [showCategory]="true"
-          [showCompany]="false"
-          (loadCompanyList)="loadCompanyList($event.groupCode,$event.companyCode)"
-        ></app-product-sidebar>
-      </div>
-
-      <div class="products">
-        <div
-          class="product_slider bg-white mx-auto my-2 py-1 align-items-center"
-        >
-          <div class="companyName">
-            <h3>Company Name</h3>
-          </div>
-          <div class="line"></div>
-          <div class="grid-container">
-            <ng-container *ngFor="let company of companyList">
-              <div class="grid-item">
-                <app-card
-                  [title]="company.companyName"
-                  [img]="company.companyImage"
-                  (click)="productCardClick(company.companyCode)"
-                ></app-card>
+        <div class="products">
+          <div class="filter-sort-container">
+            <div class="product_slider bg-white my-2 py-1 align-items-center">
+              <div *ngIf="companyList.length == 0" class="no-products">
+                No company available.
               </div>
-            </ng-container>
+              <div class="grid-container">
+                <ng-container *ngFor="let company of companyList">
+                  <div class="grid-item">
+                    <app-card
+                      [title]="company.companyName"
+                      [img]="company.companyImage"
+                      (click)="productCardClick(company.companyCode)"
+                    ></app-card>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <div id="footer" class="footer-responsive">
     <app-footer></app-footer>
   </div>
