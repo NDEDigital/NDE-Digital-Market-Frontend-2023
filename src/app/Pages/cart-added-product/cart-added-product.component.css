@@ -53,9 +53,15 @@ button {
 
 #content-wrap {
   flex: 1; /* Footer height */
+  max-width: 1250px;
+  min-width: 1250px;
+  margin:0 auto;
 }
 
 #footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
   width: 100%;
 }
 .container-fluid {

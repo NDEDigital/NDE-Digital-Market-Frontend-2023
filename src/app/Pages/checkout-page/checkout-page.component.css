@@ -20,6 +20,7 @@ textarea {
 .row h6,
 .vat-info {
   font-size: 0.9rem;
+  height: 13vh;
 }
 .edit_btn {
   color: var(--color-primary);
@@ -31,4 +32,10 @@ textarea {
 .border-highlight {
   border: 1px solid var(--color-primary);
   box-shadow: 0 0 0.3rem var(--color-primary);
+}
+#footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
+  width: 100%;
 }
