@@ -1,5 +1,33 @@
 <section id="page-container">
-  <div id="content-wrap" class="d-flex flex-column">
+  <div
+  [ngClass]="{ show: filter }"
+  class="offcanvas right-sidebar offcanvas-end"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  id="offcanvasScrolling"
+  aria-labelledby="offcanvasScrollingLabel"
+>
+  <div class="offcanvas-body border">
+    <div class="cross" (click)="toggleButton()">X</div>
+    <div>
+      <app-mobile-product-sidebar
+        (dataUpdated)="handleDataUpdated()"
+        (companyNameChanged)="CompanyName($event)"
+        (companySelected)="getAllProduct($event.groupCode, $event.companyCode)"
+        [showGroup1]="true"
+        [showCompany1]="true"
+        (getAllProduct)="getAllProduct($event.groupCode, $event.companyCode)"
+      ></app-mobile-product-sidebar>
+    </div>
+  </div>
+</div>
+
+  <div
+    id="content-wrap"
+    class="d-flex flex-column"
+    [class.overlay-active]="filter"
+  >
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
     <div class="link">
       <div class="link-item">
@@ -30,9 +58,47 @@
         >
       </div>
     </div>
+    <div class="filter">
+      <div class="d-flex justify-content-between">
+        <div class="filter-button" (click)="toggleButton()">
+          <img src="assets/images/filter.png" />
+          <span>Filter</span>
+        </div>
+        <span class="item-count"
+          >{{ products?.length }} items found
+          <span
+            *ngIf="
+              products?.length > 0 && products[0]?.productGroupName && title
+            "
+          >
+            for
+            <span class="search-term"
+              >"{{ products[0].productGroupName }}"</span
+            ></span
+          >
+        </span>
+        <div class="sort-view">
+          <div class="sort-by">
+            <label for="sort">Sort By:</label>
+            <select id="sort">
+              <option value="best-match">Best Match</option>
+              <option value="price-low-to-high">Price: Low to High</option>
+              <option value="price-high-to-low">Price: High to Low</option>
+              <option value="new-arrivals">New Arrivals</option>
+            </select>
+          </div>
+          <!-- <div class="view-toggle">
+          <button class="view-grid active" title="Grid View">
+            ⬜⬜⬜⬜
+          </button>
+          <button class="view-list" title="List View">☰</button>
+        </div> -->
+        </div>
+      </div>
+    </div>
     <div class="group-product-content">
       <div class="d-flex side-bar">
-        <div class="product_sidebar_container">
+        <div class="product_sidebar_container" *ngIf="notfilter">
           <app-product-sidebar
             (dataUpdated)="handleDataUpdated()"
             (companyNameChanged)="CompanyName($event)"

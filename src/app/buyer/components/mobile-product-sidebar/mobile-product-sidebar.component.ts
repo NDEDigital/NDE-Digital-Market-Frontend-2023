@@ -7,11 +7,11 @@ import { GoodsDataService } from 'src/app/services/goods-data.service';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
-  selector: 'app-product-sidebar',
-  templateUrl: './product-sidebar.component.html',
-  styleUrls: ['./product-sidebar.component.css'],
+  selector: 'app-mobile-product-sidebar',
+  templateUrl: './mobile-product-sidebar.component.html',
+  styleUrls: ['./mobile-product-sidebar.component.css']
 })
-export class ProductSidebarComponent implements OnInit {
+export class MobileProductSidebarComponent {
   goods: any;
   groupData = new Map();
   companyData = new Map();
@@ -24,8 +24,8 @@ export class ProductSidebarComponent implements OnInit {
   isGroupProductPage = false;
   isTopsellerpage = false;
   showCompaniesValue = true;
-  activeEntry: any = '';
-  activeCompany: string = '';
+  activeEntry1: any = '';
+  activeCompany1: string = '';
   active: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   @Output() companyNameChanged = new EventEmitter<string>();
@@ -64,29 +64,23 @@ export class ProductSidebarComponent implements OnInit {
   selectedGroup: string = '';
   groupSelected: string = '';
   clear = true;
-  @Input() showCategory!: boolean;
-  @Input() showCompany!: boolean;
-  @Input() showGroup!: boolean;
-  @Input() sidebar!: boolean;
+  @Input() showCategory1!: boolean;
+  @Input() showCompany1!: boolean;
+  @Input() showGroup1!: boolean;
   constructor(
-    private sharedService: SharedService,
-    private router: Router,
-    private route: ActivatedRoute,
     private goodsDataService: GoodsDataService,
     private companyService: CompanyService
   ) {
     this.loadCategory();
-
-    this.activeEntry = localStorage.getItem('groupCode');
-
+    this.activeEntry1 = localStorage.getItem('groupCode');
     this.filterContent = [];
     this.filterData();
   }
 
   ngOnInit(): void {
     console.log(this.groupData, 'AASSAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    console.log(this.activeEntry);
-    console.log(this.activeCompany);
+    console.log(this.activeEntry1);
+    console.log(this.activeCompany1);
 
     this.loadBrand();
     this.filterContent = [];
@@ -99,9 +93,9 @@ export class ProductSidebarComponent implements OnInit {
     this.showCompaniesValue = !this.showCompaniesValue;
   }
   filterData() {
-    if (this.activeEntry) this.filterContent.push('Category');
-    if (this.activeCompany) this.filterContent.push('Company');
-    if (!this.activeEntry && !this.activeCompany) {
+    if (this.activeEntry1) this.filterContent.push('Category');
+    if (this.activeCompany1) this.filterContent.push('Company');
+    if (!this.activeEntry1 && !this.activeCompany1) {
       this.clear = false;
     } else {
       this.clear = true;
@@ -109,23 +103,23 @@ export class ProductSidebarComponent implements OnInit {
   }
   removeFilterContent(item: string) {
     if (item == 'all') {
-      this.activeCompany = '';
-      this.activeEntry = '';
+      this.activeCompany1 = '';
+      this.activeEntry1 = '';
       this.filterContent = [];
-      this.setGroupData(this.activeEntry, this.activeCompany);
+      this.setGroupData(this.activeEntry1, this.activeCompany1);
     }
     if (item == 'Company') {
-      this.activeCompany = '';
-      this.setGroupData(this.activeEntry, this.activeCompany);
+      this.activeCompany1 = '';
+      this.setGroupData(this.activeEntry1, this.activeCompany1);
     } else if (item == 'Category') {
-      this.activeEntry = '';
-      this.selectCompany(this.activeEntry, this.activeCompany);
+      this.activeEntry1 = '';
+      this.selectCompany(this.activeEntry1, this.activeCompany1);
     }
     const index = this.filterContent.indexOf(item);
     if (index > -1) {
       this.filterContent.splice(index, 1);
     }
-    if (!this.activeEntry && !this.activeCompany) {
+    if (!this.activeEntry1 && !this.activeCompany1) {
       this.clear = false;
     } else {
       this.clear = true;
@@ -133,17 +127,17 @@ export class ProductSidebarComponent implements OnInit {
   }
   selectCompany(companyName: string, companyCode: string) {
     this.selectedCompanyName = companyCode;
-    this.activeCompany = companyCode;
-    let groupCode = this.activeEntry;
+    this.activeCompany1 = companyCode;
+    let groupCode = this.activeEntry1;
     this.filterContent = [];
     this.filterData();
-    console.log(this.activeEntry, 'Assscheee pore', this.activeCompany);
+    console.log(this.activeEntry1, 'Assscheee pore', this.activeCompany1);
     this.companySelected.emit({ groupCode, companyCode });
   }
 
   setSelectData(groupCode: string, companyCode: string) {
-    this.activeEntry = groupCode;
-    console.log(this.activeEntry, 'ashcssssssssssssse');
+    this.activeEntry1 = groupCode;
+    console.log(this.activeEntry1, 'ashcssssssssssssse');
     this.filterContent = [];
     this.filterData();
     this.loadCompanyList.emit({ groupCode, companyCode });
@@ -153,8 +147,8 @@ export class ProductSidebarComponent implements OnInit {
     this.groupSelected = groupCode;
     console.log('Assscheee pore', this.companyCode);
     this.selectedCompanyName = '';
-    this.activeEntry = groupCode;
-    companyCode = this.activeCompany;
+    this.activeEntry1 = groupCode;
+    companyCode = this.activeCompany1;
 
     this.filterContent = [];
     this.filterData();

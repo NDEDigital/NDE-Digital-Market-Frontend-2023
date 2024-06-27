@@ -1,0 +1,116 @@
+.side {
+    width: 100%;
+    /* border-radius: 7px; */
+    /* padding-left: 20px; */
+  
+    /* margin-left: 100px; */
+  }
+  .side-bar-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .side-bar-title img {
+    height: 0.8rem;
+    margin-left: 0.1rem;
+    margin-top: 0.3rem;
+  }
+  .filter {
+    background-color: white;
+  }
+  .filter-clear {
+    color: #7b9eab;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .filter-data {
+    background-color: white;
+    padding: 1rem;
+    margin-bottom: 0.7rem;
+    width: 200px;
+  }
+  .filterContent {
+    display: flex;
+    flex-direction: row;
+  }
+  .filter-content-item {
+    background-color: #daf5ff;
+    padding: 0.1rem 0.3rem;
+    margin: 0 0.3rem 0 0;
+    font-size: 8px;
+    border-radius: 5px;
+    display: flex;
+  }
+  .filter-content-item p {
+    font-size: 10px;
+    padding: 0 0.2rem;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .filter-content-item #content-item {
+  
+    color:#7b9eab;
+  }
+  .parent {
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .products {
+    margin-right: 5px;
+  }
+  p {
+    font-size: 1rem;
+    margin: 0;
+    margin-bottom: 3px;
+  }
+  a {
+    text-decoration: none;
+  }
+  label {
+    font-size: 1rem;
+    margin-left: 5px;
+  }
+  
+  .categoryName {
+    font-weight: bold;
+  }
+  .radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .form-check-input {
+    accent-color: #007bff;
+  }
+  
+  .radio-label {
+    cursor: pointer;
+    transition: color 0.3s, font-weight 0.3s;
+    /* min-width: 4vw; */
+  }
+  .form-check-label {
+    /* min-width: 6vw; */
+    font-size: 14px;
+  }
+  .radio-label.bold {
+    font-weight: bold;
+  }
+  
+  .radio-label.selected {
+    color: #007bff;
+  }
+  
+  .radio-label:hover {
+    color: #0056b3;
+  }
+  @media (max-width: 1300px) {
+   .filter-data{
+    width: 100%;
+   } 
+  }

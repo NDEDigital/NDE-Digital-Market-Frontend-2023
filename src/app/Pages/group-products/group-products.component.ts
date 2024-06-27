@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  HostListener,
+} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CompanyService } from 'src/app/services/company.service';
@@ -31,6 +37,8 @@ export class GroupProductsComponent {
   filteredProducts: any[] = [];
   @Input() companyName: string = ''; // Accept companyName as input
   title = true;
+  filter = false;
+  notfilter = false;
   constructor(
     private sharedService: SharedService,
     private goodsData: GoodsDataService,
@@ -49,7 +57,8 @@ export class GroupProductsComponent {
     console.log('ngOnInit called');
     this.getAllProduct(this.groupCode, this.companyCode);
     this.CompanyName(this.companyName);
-    this.callApi();
+    // this.callApi();
+    this.checkWindowWidth();
   }
 
   CompanyName(companyName: string): void {
@@ -57,7 +66,26 @@ export class GroupProductsComponent {
     console.log('Received companyName:', companyName);
     this.companyName = companyName;
   }
+  toggleButton() {
+    this.filter = !this.filter;
+  }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkWindowWidth();
+  }
+
+  checkWindowWidth() {
+    if (window.innerWidth > 768) {
+      this.filter = false;
+    }
+    if (window.innerWidth > 768) {
+      this.notfilter = true;
+    }
+    if (window.innerWidth < 768) {
+      this.notfilter = false;
+    }
+  }
   getAllProduct(groupCode: string, companyCode: string): void {
     console.log(groupCode, companyCode);
     if (groupCode) {
@@ -94,20 +122,20 @@ export class GroupProductsComponent {
   }
 
   handleDataUpdated() {
-    this.callApi();
+    // this.callApi();
   }
 
-  callApi() {
-    setTimeout(() => {
-      if (this.groupCode != '') {
-        this.goodsData
-          .getProductCompanyList(this.groupCode)
-          .subscribe((data: any) => {
-            this.companyList = data;
-          });
-      }
-    }, 10);
-  }
+  // callApi() {
+  //   setTimeout(() => {
+  //     if (this.groupCode != '') {
+  //       this.goodsData
+  //         .getProductCompanyList(this.groupCode)
+  //         .subscribe((data: any) => {
+  //           this.companyList = data;
+  //         });
+  //     }
+  //   }, 10);
+  // }
 
   splitProductKey(key: string) {
     const trimmedKey = key.trim();

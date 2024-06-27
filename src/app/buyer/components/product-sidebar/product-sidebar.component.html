@@ -48,7 +48,7 @@
             for="category-checkbox-{{ i }}"
             class="radio-label"
             style="cursor: pointer"
-            [ngClass]="{ bold: entry.key === activeEntry }"
+            [ngClass]="{ bold: entry.key == activeEntry }"
           >
             {{ entry.value }}
           </label>
@@ -76,14 +76,14 @@
             id="category-checkbox-{{ i }}"
             style="cursor: pointer"
             (click)="setGroupData(entry.key, entry.value)"
-            [ngClass]="{ selected: entry.key === activeEntry }"
-            [checked]="entry.key === activeEntry"
+            [ngClass]="{ selected: entry.key == activeEntry }"
+            [checked]="entry.key == activeEntry"
           />
           <label
             for="category-checkbox-{{ i }}"
             class="radio-label"
             style="cursor: pointer"
-            [ngClass]="{ bold: entry.value === activeEntry }"
+            [ngClass]="{ bold: entry.value == activeEntry }"
           >
             {{ entry.value }}
           </label>

@@ -27,6 +27,7 @@ import { ClientsListSliderComponent } from './components/clients-list-slider/cli
 import { SharedModule } from '../shared/shared.module';
 import { CartListSideBarComponent } from './components/cart-list-side-bar/cart-list-side-bar.component';
 import { AdSliderComponent } from './components/ad-slider/ad-slider.component';
+import { MobileProductSidebarComponent } from './components/mobile-product-sidebar/mobile-product-sidebar.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -60,6 +61,7 @@ import { AdSliderComponent } from './components/ad-slider/ad-slider.component';
     ClientsListSliderComponent,
     CartListSideBarComponent,
     AdSliderComponent,
+    MobileProductSidebarComponent,
   ],
   exports: [
     AdSliderComponent,
@@ -85,6 +87,7 @@ import { AdSliderComponent } from './components/ad-slider/ad-slider.component';
     SubHeaderComponent,
     ClientsListSliderComponent,
     CartListSideBarComponent,
+    MobileProductSidebarComponent
   ],
 })
 export class BuyerModule {}
