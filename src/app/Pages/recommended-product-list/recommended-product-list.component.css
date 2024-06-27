@@ -17,7 +17,23 @@
   min-width: 14rem;
   margin-right: 10px;
 }
-
+#page-container {
+  background-color: #eeeeee;
+}
+.content {
+  margin: 1rem auto;
+  min-width: 40vw;
+  /* max-width: 40vw; */
+  max-height: 75vh;
+  min-height: 75vh;
+  background-color: white;
+}
+#footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
+  width: 100%;
+}
 .top-seller-heading {
   position: relative;
   z-index: 1;

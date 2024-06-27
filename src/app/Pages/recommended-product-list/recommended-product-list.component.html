@@ -1,11 +1,9 @@
 <section id="page-container">
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
-    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
-    <div class="d-flex mx-5 px-5">
-      <div class="product_sidebar_container">
-        <app-product-sidebar></app-product-sidebar>
-      </div>
+    <!-- <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt> -->
+    <div class="content d-flex mx-5 px-5">
+     
 
       <div class="products ms-5 ps-5">
         <h2 class="top-seller-heading">Recommended Product</h2>
@@ -39,7 +37,7 @@
       </div>
     </div>
   </div>
-  <div id="footer">
+  <div id="footer" class="footer-responsive">
     <app-footer></app-footer>
   </div>
 </section>
