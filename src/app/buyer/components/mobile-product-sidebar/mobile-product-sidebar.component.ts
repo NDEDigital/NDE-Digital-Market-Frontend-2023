@@ -1,5 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CompanyService } from 'src/app/services/company.service';
@@ -9,7 +16,7 @@ import { SharedService } from 'src/app/services/shared.service';
 @Component({
   selector: 'app-mobile-product-sidebar',
   templateUrl: './mobile-product-sidebar.component.html',
-  styleUrls: ['./mobile-product-sidebar.component.css']
+  styleUrls: ['./mobile-product-sidebar.component.css'],
 })
 export class MobileProductSidebarComponent {
   goods: any;
@@ -75,6 +82,7 @@ export class MobileProductSidebarComponent {
     this.activeEntry1 = localStorage.getItem('groupCode');
     this.filterContent = [];
     this.filterData();
+    this.checkWindowWidth();
   }
 
   ngOnInit(): void {
@@ -91,6 +99,16 @@ export class MobileProductSidebarComponent {
   }
   toggleCompaniesVisibility() {
     this.showCompaniesValue = !this.showCompaniesValue;
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkWindowWidth();
+  }
+
+  checkWindowWidth() {
+    if (window.innerWidth < 768) {
+      this.setGroupData('', '');
+    }
   }
   filterData() {
     if (this.activeEntry1) this.filterContent.push('Category');

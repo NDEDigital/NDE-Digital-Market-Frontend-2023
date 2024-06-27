@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component,HostListener, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CompanyService } from 'src/app/services/company.service';
@@ -91,9 +91,26 @@ export class ProductSidebarComponent implements OnInit {
     this.loadBrand();
     this.filterContent = [];
     this.filterData();
+    this.checkWindowWidth();
   }
   toggleGroupVisibility() {
     this.showGroupValue = !this.showGroupValue;
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkWindowWidth();
+  }
+
+  checkWindowWidth() {
+    if (window.innerWidth > 768) {
+      this.setGroupData('','')
+    }
+    // if (window.innerWidth > 768) {
+    //   this.notfilter = true;
+    // }
+    // if (window.innerWidth < 768) {
+    //   this.notfilter = false;
+    // }
   }
   toggleCompaniesVisibility() {
     this.showCompaniesValue = !this.showCompaniesValue;

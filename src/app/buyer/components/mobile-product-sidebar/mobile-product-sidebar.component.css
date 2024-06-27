@@ -60,6 +60,9 @@
     font-weight: 500;
     cursor: pointer;
   }
+  .label-font {
+    font-size: 1rem;
+  }
   .products {
     margin-right: 5px;
   }
@@ -82,7 +85,6 @@
   .radio-container {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
   }
   
   .form-check-input {
@@ -96,7 +98,7 @@
   }
   .form-check-label {
     /* min-width: 6vw; */
-    font-size: 14px;
+    font-size: 1rem;
   }
   .radio-label.bold {
     font-weight: bold;
