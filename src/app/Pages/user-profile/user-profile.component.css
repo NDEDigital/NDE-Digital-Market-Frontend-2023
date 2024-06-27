@@ -102,3 +102,9 @@
     width: 85%;
   }
 }
+@media (max-width: 1300px) {
+  .container {
+    max-width: 96vw;
+    min-width: 96vw;
+  }
+}

@@ -185,6 +185,9 @@ ul.special-list {
 }
 .container {
   height: 65vh;
+  overflow-y: scroll;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
 }
 .productDetailsData .list-group-item {
   list-style-type: circle;

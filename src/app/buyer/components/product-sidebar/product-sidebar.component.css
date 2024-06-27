@@ -109,3 +109,8 @@ label {
 .radio-label:hover {
   color: #0056b3;
 }
+@media (max-width: 1300px) {
+ .filter-data{
+  width: 100%;
+ } 
+}
