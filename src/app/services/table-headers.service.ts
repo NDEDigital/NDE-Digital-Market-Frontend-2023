@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class TableHeadersService {
   companyApprovalTableHeaders: string[] = [
     'Index',
-    'Company Code',
+    // 'Company Code',
     'Company Name',
     'Email',
     'Business Registration Number',
