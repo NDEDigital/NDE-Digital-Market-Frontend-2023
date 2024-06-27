@@ -18,13 +18,11 @@ body {
   /* border: 1px solid red; */
 }
 .products {
-  cursor: pointer;
   padding-top: 3.5rem;
-  border-left: 1px solid black;
-
-  width: 80%;
-
+  max-width: 1250px;
+  min-width: 1250px;
   max-height: 100%;
+  margin: 0 auto;
 }
 
 .flex-nowrap {
