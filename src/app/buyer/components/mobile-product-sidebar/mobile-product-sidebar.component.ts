@@ -109,6 +109,12 @@ export class MobileProductSidebarComponent {
     if (window.innerWidth < 768) {
       this.setGroupData('', '');
     }
+    // if (window.innerWidth > 768) {
+    //   this.notfilter = true;
+    // }
+    // if (window.innerWidth < 768) {
+    //   this.notfilter = false;
+    // }
   }
   filterData() {
     if (this.activeEntry1) this.filterContent.push('Category');
