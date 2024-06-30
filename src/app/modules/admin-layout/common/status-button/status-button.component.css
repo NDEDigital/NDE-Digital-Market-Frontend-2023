@@ -249,11 +249,21 @@ select {
   border: 1px solid var(--color-primary-dark);
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .headerbtns {
     width: 70%;
   }
 .custom-btn{
   width: 20%;
 }
+.filter-button {
+  width: 20%;
+  
+}
+.filter-button .custom-btn{
+  width: 95%;
+  /* padding-right: 10px; */
+}
+
+
 }
