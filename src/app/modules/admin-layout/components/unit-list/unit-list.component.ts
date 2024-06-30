@@ -122,6 +122,7 @@ export class UnitListComponent
   updateUnit(formData: any) {
     let updateByUser = localStorage.getItem('code');
     formData.append('unitId', encodeURIComponent(this.currentGroup.unitId));
+
     if (updateByUser !== null) {
       formData.append('updatedBy', updateByUser);
     } else {
@@ -130,7 +131,7 @@ export class UnitListComponent
     formData.append('updatedPC', '0.0.0.0');
     console.log('form value', formData);
     for (let [key, value] of (formData as any).entries()) {
-      console.log(key, value);
+      console.log(key, value, 'update unit6 values');
     }
     this.unitServices
       .updateUnitName(formData)
