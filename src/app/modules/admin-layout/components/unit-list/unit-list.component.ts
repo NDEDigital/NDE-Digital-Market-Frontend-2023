@@ -121,7 +121,7 @@ export class UnitListComponent
   }
   updateUnit(formData: any) {
     let updateByUser = localStorage.getItem('code');
-    formData.append('unitId', this.currentGroup.unitId);
+    formData.append('unitId', encodeURIComponent(this.currentGroup.unitId));
     if (updateByUser !== null) {
       formData.append('updatedBy', updateByUser);
     } else {
@@ -240,6 +240,7 @@ export class UnitListComponent
     }
   }
   updateUnitsStatus(isActive: number): void {
+    console.log(this.selectedProducts1.toString());
     this.unitServices
       .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
       .subscribe({
@@ -278,7 +279,7 @@ export class UnitListComponent
     const { unitId, event: domEvent } = event;
     const isSelected: boolean = domEvent.target.checked;
     if (isSelected && !this.selectedProducts1.includes(unitId)) {
-      this.selectedProducts1.push(unitId);
+      this.selectedProducts1.push(encodeURIComponent(unitId));
     } else if (!isSelected && this.selectedProducts1.includes(unitId)) {
       this.selectedProducts1 = this.selectedProducts1.filter(
         (id) => id !== unitId

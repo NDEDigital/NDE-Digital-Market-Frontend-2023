@@ -183,7 +183,7 @@ export class UnitListModalComponent implements AfterViewInit, OnChanges {
     // Append form values to form data
     Object.keys(this.addGroupForm.value).forEach((key) => {
       let value = this.addGroupForm.value[key];
-      if (key === 'productId' || key === 'unitId') {
+      if (key === 'productId' ) {
         value = String(Math.floor(Number(value)));
         console.log(value);
       }
