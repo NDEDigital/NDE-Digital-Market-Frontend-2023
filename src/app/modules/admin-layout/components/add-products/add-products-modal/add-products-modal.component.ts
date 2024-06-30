@@ -55,6 +55,7 @@ export class AddProductsModalComponent {
 
   ngOnInit() {
     this.initializeForm(); // Initialize the form on component initialization
+    // console.log(this.units);
   }
 
   ngAfterViewInit(): void {
@@ -98,7 +99,7 @@ export class AddProductsModalComponent {
       this.attachModalEventListeners(modalElement);
       this.handleModalDisplay();
     } else {
-      console.error('addGroupModalCenterG is not defined');
+      // console.error('addGroupModalCenterG is not defined');
     }
   }
 
@@ -112,11 +113,11 @@ export class AddProductsModalComponent {
   attachModalEventListeners(modalElement: any): void {
     // Attach event listeners to the modal for showing and hiding events
     this.renderer.listen(modalElement, 'shown.bs.modal', () => {
-      console.log('Modal is shown');
+      // console.log('Modal is shown');
     });
 
     this.renderer.listen(modalElement, 'hidden.bs.modal', () => {
-      console.log('Modal is hidden');
+      // console.log('Modal is hidden');
       this.resetFormEvent.emit(); // Emit event when the modal is hidden
     });
   }
@@ -125,8 +126,8 @@ export class AddProductsModalComponent {
     // Display the modal if the IdName is not null
     if (this.IdName != null) {
       this.modalInstance.show();
-      console.log('isEdit', this.isEdit);
-      console.log('doubleClickData', this.doubleClickData);
+      // console.log('isEdit', this.isEdit);
+      // console.log('doubleClickData', this.doubleClickData);
       if (this.isEdit) {
         this.updateFormValidators(); // Update form validators in edit mode
         this.populateForm(this.doubleClickData); // Populate the form with data
@@ -138,9 +139,9 @@ export class AddProductsModalComponent {
 
   resetForm(): void {
     // Reset the form and hide the modal
-    console.log('isEdit', this.isEdit);
+    // console.log('isEdit', this.isEdit);
     this.modalInstance.hide();
-    console.log(this.isEdit);
+    // console.log(this.isEdit);
     this.addProductForm.reset();
     this.isEdit = false;
     this.addBtnClick = false;
@@ -159,16 +160,16 @@ export class AddProductsModalComponent {
 
     this.displayImage(product.imagePath); // Display the image
     this.existingImagePath = product.imagePath;
-    console.log('ExistingImagePath :', this.existingImagePath);
+    // console.log('ExistingImagePath :', this.existingImagePath);
   }
 
   displayImage(imagePath: string): void {
     // Display the image preview
-    console.log('imagePath:', imagePath);
+    // console.log('imagePath:', imagePath);
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
       this.imagePathPreview = imageUrl;
-      console.log('imagePathPreview :', this.imagePathPreview);
+      // console.log('imagePathPreview :', this.imagePathPreview);
     } else {
       this.imagePathPreview = 'not upload yet';
     }
@@ -177,7 +178,9 @@ export class AddProductsModalComponent {
 
   isFieldInvalid(fieldName: string): boolean {
     // Check if a form field is invalid
+
     const field = this.addProductForm.get(fieldName);
+    // console.log(field);
     return field ? field.invalid && (field.dirty || field.touched) : false;
   }
 
@@ -209,7 +212,7 @@ export class AddProductsModalComponent {
 
   prepareFormData(): FormData {
     // Prepare form data for submission
-    console.log('Form Data:', this.addProductForm.value);
+    // console.log('Form Data:', this.addProductForm.value);
     const formData = new FormData();
 
     this.appendFormValues(formData); // Append form values to form data
@@ -224,7 +227,7 @@ export class AddProductsModalComponent {
     // Append form values to form data
     Object.keys(this.addProductForm.value).forEach((key) => {
       let value = this.addProductForm.value[key];
-      if (key === 'productId' || key === 'unitId') {
+      if (key === 'productId') {
         value = String(Math.floor(Number(value)));
       }
       formData.append(key, value);

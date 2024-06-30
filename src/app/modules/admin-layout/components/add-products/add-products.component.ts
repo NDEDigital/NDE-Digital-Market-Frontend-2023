@@ -146,6 +146,10 @@ export class AddProductsComponent implements OnInit {
 
   // Create a new product
   createProduct(formData: FormData): void {
+    // console.log(formData);
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
     this.handleApiCall(
       this.productService.createProductList(formData),
       (response: any) =>
