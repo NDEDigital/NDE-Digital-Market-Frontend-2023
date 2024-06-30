@@ -83,6 +83,6 @@ export class AdminLayoutComponent {
   }
 
   toggleSidebar() {
-    this.showSidebar = window.innerWidth >= 547;
+    this.showSidebar = window.innerWidth > 768;
   }
 }
