@@ -38,8 +38,10 @@ export class SubHeaderComponent {
 
     if (!this.isSeller && !this.isAdmin) {
       window.location.href = '/';
+    } else if (this.isAdmin) {
+      window.location.href = '/admin';
     } else {
-      window.location.href = '/dashboard';
+      window.location.href = '/seller';
     }
   }
 }

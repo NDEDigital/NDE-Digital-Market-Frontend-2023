@@ -1,8 +1,8 @@
 .profile_header_container {
-    padding: 0.1% 14%;
-    background: var(--color-primary);
-  }
-  .delimeter,
+  padding: 0.1% 14%;
+  background: var(--color-primary);
+}
+.delimeter,
 .header_title {
   color: white;
 }
@@ -14,5 +14,5 @@
   font-size: 2rem;
   color: white;
   text-decoration: none;
-
+  cursor: pointer;
 }
