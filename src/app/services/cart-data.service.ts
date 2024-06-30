@@ -27,7 +27,9 @@ export class CartDataService {
     return this.http.get(`${this.getAddToCartDataByBuyerURL}/${userID}`);
   }
   deleteCartDataByBuyer(productID: any) {
-    return this.http.delete(`${this.deleteCartDataByBuyerURL}/${productID}`);
+    return this.http.delete(
+      `${this.deleteCartDataByBuyerURL}?id=${encodeURIComponent(productID)}`
+    );
   }
   // initializeAndLoadData() {
   //   let localData = localStorage.getItem('cartDataDetail');
