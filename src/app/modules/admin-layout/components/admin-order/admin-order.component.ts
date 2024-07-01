@@ -667,7 +667,7 @@ export class AdminOrderComponent {
       individual_checkboxes_master[i].checked = false;
     }
     individual_checkboxes_master[index].checked = true;
-    this.ModalText = `Want to ${status} the product ?`;
+    this.ModalText = `Do you want to ${status} the order ?`;
     this.masterCheckId = '';
     this.checked = true; // showing modal button
     this.masterCheckId = id; // setting the id
