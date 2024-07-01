@@ -69,30 +69,40 @@ export class SellerAddBannerComponent {
 
   fetchBanners(): void {
     let companyCode = localStorage.getItem('CompanyCode');
-    let role = localStorage.getItem('role');
-    if (role !== 'admin') {
+    console.log('checking the company code', companyCode);
+
+    if (companyCode) {
+      let role = localStorage.getItem('role');
+      // if (role !== 'admin') {
       // Company code is present, fetch banners with matching company code
-      this.bannerService.getaAllBanner(companyCode).subscribe(
-        (data) => {
-          this.banners = data;
-          console.log('Banners updated:', this.banners);
-        },
-        (error) => {
-          // console.error('Error fetching banners:', error);
-        }
-      );
+      this.bannerService
+        .getaAllBanner(encodeURIComponent(companyCode))
+        .subscribe(
+          (data) => {
+            this.banners = data;
+            console.log('Banners updated:', this.banners);
+          },
+          (error) => {
+            // console.error('Error fetching banners:', error);
+          }
+        );
     } else {
-      let role = 'admin';
-      this.bannerService.getaAllBanner(role).subscribe(
-        (data) => {
-          this.banners = data;
-          console.log('Banners updated:', this.banners, role);
-        },
-        (error) => {
-          // console.error('Error fetching banners:', error);
-        }
-      );
+      console.error('Company code is not available in local storage.');
     }
+
+    // }
+    // else {
+    //   let role = 'admin';
+    //   this.bannerService.getaAllBanner(role).subscribe(
+    //     (data) => {
+    //       this.banners = data;
+    //       console.log('Banners updated:', this.banners, role);
+    //     },
+    //     (error) => {
+    //       // console.error('Error fetching banners:', error);
+    //     }
+    //   );
+    // }
   }
   isFieldInvalid(fieldName: string): boolean {
     const field = this.addBannerForm.get(fieldName);
