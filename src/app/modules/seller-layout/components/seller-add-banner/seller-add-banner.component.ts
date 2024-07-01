@@ -62,9 +62,10 @@ export class SellerAddBannerComponent {
     this.isEditMode = false;
     this.currentBanner = null;
     this.showCheckboxes = true;
+
+    this.fetchBanners();
     this.AddGroupModalCenterG.nativeElement.click();
     // this.EditBannerModalCenterG.nativeElement.click();
-    this.fetchBanners();
   }
 
   fetchBanners(): void {
@@ -136,10 +137,10 @@ export class SellerAddBannerComponent {
         formData.append('UserId', userID);
       }
       let companyCode = localStorage.getItem('CompanyCode');
-      let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
-      if (userRole === 'admin') {
-        companyCode = 'admin';
-      }
+      // let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+      // if (userRole === 'admin') {
+      //   companyCode = 'admin';
+      // }
       if (companyCode) {
         formData.append('CompanyCode', companyCode);
       }
@@ -156,14 +157,18 @@ export class SellerAddBannerComponent {
           next: (response: any) => {
             this.alertMsg = response.message;
             this.isError = false;
-            this.PrdouctExistModalBTN.nativeElement.click();
+            setTimeout(() => {
+              this.PrdouctExistModalBTN.nativeElement.click();
+            }, 50);
             this.resetForm();
+
+            this.fetchBanners();
             this.btnIndex = -1;
             let companyCode = localStorage.getItem('CompanyCode');
-            let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
-            if (userRole === 'admin') {
-              companyCode = 'admin';
-            }
+            // let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+            // if (userRole === 'admin') {
+            //   companyCode = 'admin';
+            // }
             if (companyCode) {
               this.bannerService.getaAllBanner(companyCode).subscribe(
                 (data) => {
@@ -265,6 +270,7 @@ export class SellerAddBannerComponent {
   openEditForm(banner: any): void {
     // Reset any add banner form related states
     // Set isEditMode to true to indicate that we are in edit mode
+    console.log('ashce');
     this.isEditMode = true;
     this.updateFormValidators();
     // Set the currentBanner to the selected banner's ID
@@ -309,7 +315,7 @@ export class SellerAddBannerComponent {
     this.updateFormValidators();
   }
   displayImage(imagePath: string): void {
-    // console.log('Received imagePath:', imagePath);
+    console.log('Received imagePath:', imagePath);
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
       // console.log('Constructed imageUrl:', imageUrl);
