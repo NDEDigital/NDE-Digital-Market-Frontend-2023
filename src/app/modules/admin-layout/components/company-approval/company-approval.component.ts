@@ -176,7 +176,7 @@ export class CompanyApprovalComponent {
       },
       error: (error: any) => {
         this.loading = false; // Reset loading state
-        this.handleError(error, errorMsg); // Handle the error
+        // this.handleError(error, errorMsg); 
       },
     });
   }
