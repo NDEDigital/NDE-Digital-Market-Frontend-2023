@@ -95,6 +95,7 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
    * @param formData Form data for creating the brand
    */
   createBrands(formData: any) {
+    console.log('Form Data Data:', formData);
     this.brandsService
       .createBrand(formData)
       .pipe(takeUntilDestroyed(this.destroyRef))
