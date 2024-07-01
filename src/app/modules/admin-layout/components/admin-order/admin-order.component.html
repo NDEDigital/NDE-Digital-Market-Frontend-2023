@@ -498,7 +498,14 @@
           <!-- ------------  details data   ------- ---->
           <div *ngFor="let row of detailsData; let i = index">
             <div class="Admin_order_container_row row details_row p-0 m-0">
-              <div class="col-1 checkbox_col">
+              <div class="col-1 checkbox_col fw-bold"></div>
+              <div
+                *ngIf="
+                  selectedButtonIndex != 'Approved' &&
+                  selectedButtonIndex != 'Cancelled'
+                "
+                class="col-1 checkbox_col"
+              >
                 <input
                   class="individual_checkbox_details"
                   type="checkbox"

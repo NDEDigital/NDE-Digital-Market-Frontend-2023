@@ -157,9 +157,10 @@ export class SellerAddBannerComponent {
           next: (response: any) => {
             this.alertMsg = response.message;
             this.isError = false;
-            setTimeout(() => {
-              this.PrdouctExistModalBTN.nativeElement.click();
-            }, 50);
+            this.isEditMode = false;
+
+            this.PrdouctExistModalBTN.nativeElement.click();
+
             this.resetForm();
 
             this.fetchBanners();
