@@ -62,9 +62,10 @@ export class SellerAddBannerComponent {
     this.isEditMode = false;
     this.currentBanner = null;
     this.showCheckboxes = true;
+
+    this.fetchBanners();
     this.AddGroupModalCenterG.nativeElement.click();
     // this.EditBannerModalCenterG.nativeElement.click();
-    this.fetchBanners();
   }
 
   fetchBanners(): void {
@@ -136,10 +137,10 @@ export class SellerAddBannerComponent {
         formData.append('UserId', userID);
       }
       let companyCode = localStorage.getItem('CompanyCode');
-      let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
-      if (userRole === 'admin') {
-        companyCode = 'admin';
-      }
+      // let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+      // if (userRole === 'admin') {
+      //   companyCode = 'admin';
+      // }
       if (companyCode) {
         formData.append('CompanyCode', companyCode);
       }
@@ -156,14 +157,18 @@ export class SellerAddBannerComponent {
           next: (response: any) => {
             this.alertMsg = response.message;
             this.isError = false;
-            this.PrdouctExistModalBTN.nativeElement.click();
+            setTimeout(() => {
+              this.PrdouctExistModalBTN.nativeElement.click();
+            }, 50);
             this.resetForm();
+
+            this.fetchBanners();
             this.btnIndex = -1;
             let companyCode = localStorage.getItem('CompanyCode');
-            let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
-            if (userRole === 'admin') {
-              companyCode = 'admin';
-            }
+            // let userRole = localStorage.getItem('role'); // Assuming you have a 'Role' in localStorage
+            // if (userRole === 'admin') {
+            //   companyCode = 'admin';
+            // }
             if (companyCode) {
               this.bannerService.getaAllBanner(companyCode).subscribe(
                 (data) => {
