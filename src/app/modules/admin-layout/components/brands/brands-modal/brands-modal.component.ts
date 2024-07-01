@@ -64,8 +64,8 @@ export class BrandsModalComponent implements AfterViewInit, OnChanges {
     // Initialize the form group with controls and validators
     this.addGroupForm = new FormGroup({
       brandName: new FormControl('', Validators.required),
-      description: new FormControl(),
-      shortName: new FormControl(),
+      description: new FormControl(null),
+      shortName: new FormControl(null),
       //name: new FormControl('', Validators.required),
     });
   }
@@ -127,12 +127,12 @@ export class BrandsModalComponent implements AfterViewInit, OnChanges {
   }
 
   populateForm(group: any): void {
-    // Populate the form with the provided data
     this.addGroupForm.patchValue({
       brandName: group.brandName,
-      description: group.description,
-      shortName: group.shortName,
-      productGroupDetails: group.productGroupDetails,
+      shortName: group.shortName !== 'null' ? group.shortName : null,
+      description: group.description !== 'null' ? group.description : null,
+      addedBy: group.addedBy,
+      addedPC: group.addedPC,
     });
 
     this.addGroupModalCenterG.nativeElement.click();
