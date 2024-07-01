@@ -121,7 +121,9 @@ export class UnitListComponent
   }
   updateUnit(formData: any) {
     let updateByUser = localStorage.getItem('code');
-    formData.append('unitId', encodeURIComponent(this.currentGroup.unitId));
+    // console.log('new new new new', this.currentGroup.unitId);
+    // console.log('ne ne ne ne', encodeURIComponent(this.currentGroup.unitId));
+    formData.append('unitId', this.currentGroup.unitId);
 
     if (updateByUser !== null) {
       formData.append('updatedBy', updateByUser);
