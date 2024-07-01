@@ -1,6 +1,7 @@
 <div class="table-body-data">
   <div
     class="col tableBody"
+    *ngIf="btnIndex != -1"
     [ngClass]="{
       'active-row': isHovered === i
     }"
