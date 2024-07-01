@@ -36,23 +36,28 @@
               <label for="productGroupID"
                 ><span class="text-danger">*</span>Product Group Name</label
               >
-              <select
-                id="productGroupID"
-                formControlName="productGroupID"
-                [class.error]="isFieldInvalid('productGroupID')"
-              >
-                <option value="" disabled>Select Product Group</option>
-                <option
-                  *ngFor="let group of productGroups"
-                  [value]="group.productGroupID"
+              
+                <select
+                  id="productGroupID"
+                  formControlName="productGroupID"
+                  [class.error]="isFieldInvalid('productGroupID')"
+              
                 >
-                  {{ group.productGroupName }}
-                </option>
-              </select>
-              <span class="text-danger" *ngIf="isFieldInvalid('productGroupID')"
-                >Product Group Name is required.</span
-              >
-            </div>
+                  <option value="" disabled>Select Product Group</option>
+                  <option
+                    *ngFor="let group of productGroups"
+                    [value]="group.productGroupID"
+                  >
+                    {{ group.productGroupName }}
+                  </option>
+                </select>
+                <span
+                  class="text-danger"
+                  *ngIf="isFieldInvalid('productGroupID')"
+                  >Product Group Name is required.</span
+                >
+              </div>
+       
 
             <div class="form-group">
               <label for="productName"
