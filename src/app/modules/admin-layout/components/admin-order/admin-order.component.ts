@@ -608,7 +608,7 @@ export class AdminOrderComponent {
           this.checkedStatus = 'Return Cancelled';
         }
       } else {
-        this.ModalText = `want to ${statusText} the product ?`;
+        this.ModalText = `Do you want to ${statusText} the order ?`;
       }
     }
   }
@@ -802,7 +802,9 @@ export class AdminOrderComponent {
     for (let i = 0; i < individual_check_details.length; i++) {
       this.detailsData[i].isChecked = false;
     }
-
+    const check_boxAll =
+      this.elementRef.nativeElement.querySelector('.check_all_Master');
+    check_boxAll.checked = false;
     //cleaing the data
     this.detailsCancelledArray = [];
     this.masterId = '';
