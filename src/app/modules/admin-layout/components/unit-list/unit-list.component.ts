@@ -121,7 +121,9 @@ export class UnitListComponent
   }
   updateUnit(formData: any) {
     let updateByUser = localStorage.getItem('code');
-    formData.append('unitId', encodeURIComponent(this.currentGroup.unitId));
+    // console.log('new new new new', this.currentGroup.unitId);
+    // console.log('ne ne ne ne', encodeURIComponent(this.currentGroup.unitId));
+    formData.append('unitId', this.currentGroup.unitId);
 
     if (updateByUser !== null) {
       formData.append('updatedBy', updateByUser);
@@ -194,7 +196,7 @@ export class UnitListComponent
   }
 
   updateIsActive(status: Boolean, unitIds: any) {
-    console.log(status, 'status new new', unitIds, 'unitIds');
+    // console.log(status, 'status new new', unitIds, 'unitIds');
     this.unitServices
       .updateUnitActiveStatus(encodeURIComponent(unitIds.toString()), status)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -202,7 +204,7 @@ export class UnitListComponent
         next: (response: any) => {
           const newStatus = status ? 1 : 0;
           this.getProductGroup(newStatus);
-          this.showAlertAndResetForm(newStatus);
+          this.showUnitAlertAndResetForm(newStatus);
           this.showModalAndResetForm();
         },
         error: (error: any) => {
@@ -248,7 +250,7 @@ export class UnitListComponent
         next: (response: any) => {
           const newStatus = isActive ? 1 : 0;
           this.getProductGroup(newStatus);
-          this.showAlertAndResetForm(newStatus);
+          this.showUnitAlertAndResetForm(newStatus);
           this.selectAll = false;
           this.selectedProducts1.length = 0;
           this.showModalAndResetForm();
