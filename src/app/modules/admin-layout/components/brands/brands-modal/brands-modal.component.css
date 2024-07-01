@@ -79,3 +79,14 @@ select {
   box-shadow: 0 0 0.2rem red;
 }
 
+@media (max-width: 580px) {
+  .modal-dialog {
+    max-width: 75%;
+    margin: 10px auto; /* Centering the modal horizontally */
+    display: flex;
+    justify-content: center; /* Centering the modal horizontally */
+    align-items: center;
+  }
+
+ 
+}
