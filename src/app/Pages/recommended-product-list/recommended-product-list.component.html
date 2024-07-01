@@ -2,37 +2,37 @@
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
     <!-- <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt> -->
-    <div class="content d-flex mx-5 px-5">
-     
 
-      <div class="products ms-5 ps-5">
+    <div class="products ps-3">
+      <div class="product_slider bg-white mx-auto my-2 py-1 align-items-center">
         <h2 class="top-seller-heading">Recommended Product</h2>
         <div class="line"></div>
-        <div class="d-flex col flex-nowrap overflow-auto">
-          <div class="item" *ngFor="let client of getTopSellerData">
-            <div class="card" (click)="productCardClick(client)">
-              <div class="card-image">
-                <img
-                  [src]="
-                    client.imagePath.substring(
-                      client.imagePath.indexOf('assets')
-                    )
-                  "
-                  class="card-img-top"
-                  alt="{{ client.productName }}"
-                />
-              </div>
-              <div class="card-body">
-                <span> <strong>Brand: </strong>{{ client.companyName }} </span>
-                <br />
-                <span>
-                  <strong>Product: </strong>{{ client.productName }}
-                </span>
-                <br />
-                <span> <strong>Price: </strong>৳{{ client.totalPrice }} </span>
+        <div class="grid-container">
+          <ng-container *ngFor="let client of getTopSellerData">
+            <div class="grid-item">
+              <div class="rounded product-responsive mt-3 mb-5 h-75">
+                <div class="card" (click)="productCardClick(client)">
+                  <div class="card-look">
+                    <img
+                      [src]="
+                        client.imagePath.substring(
+                          client.imagePath.indexOf('assets')
+                        )
+                      "
+                      class="card-img-top"
+                      alt="{{ client.productName }}"
+                    />
+                  </div>
+
+                  <h5 class="card-title"> {{ client.companyName }}</h5>
+
+                  <h5 class="card-title"> {{ client.productName }}</h5>
+
+                  <h5 class="card-title"> ৳{{ client.totalPrice }}</h5>
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
