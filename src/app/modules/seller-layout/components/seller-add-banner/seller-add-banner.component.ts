@@ -265,6 +265,7 @@ export class SellerAddBannerComponent {
   openEditForm(banner: any): void {
     // Reset any add banner form related states
     // Set isEditMode to true to indicate that we are in edit mode
+    console.log('ashce');
     this.isEditMode = true;
     this.updateFormValidators();
     // Set the currentBanner to the selected banner's ID
@@ -309,7 +310,7 @@ export class SellerAddBannerComponent {
     this.updateFormValidators();
   }
   displayImage(imagePath: string): void {
-    // console.log('Received imagePath:', imagePath);
+    console.log('Received imagePath:', imagePath);
     if (imagePath) {
       const imageUrl = '/asset' + imagePath.split('asset')[1];
       // console.log('Constructed imageUrl:', imageUrl);
