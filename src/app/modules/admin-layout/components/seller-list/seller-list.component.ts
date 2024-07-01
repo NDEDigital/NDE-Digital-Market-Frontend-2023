@@ -215,13 +215,13 @@ export class SellerListComponent {
    */
   updateSelectedProducts(product: { isSelected: boolean; userId: any }) {
     if (this.selectAll && !this.selectedProducts1.includes(product.userId)) {
-      this.selectedProducts1.push(product.userId);
+      this.selectedProducts1.push(encodeURIComponent(product.userId));
     } else if (
       !this.selectAll &&
-      this.selectedProducts1.includes(product.userId)
+      this.selectedProducts1.includes(encodeURIComponent(product.userId))
     ) {
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== product.userId
+        (id) => id !== encodeURIComponent(product.userId)
       );
       this.selectAll = false;
     }
