@@ -38,7 +38,7 @@
     {{ sl.addedDate | date : "dd MMM yyyy" }}
   </div>
   <div
-    class="col tableBody text-break d-flex align-items-center"
+    class="col tableBody text-break "
     [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
     [ngClass]="{ 'active-row': isHovered === i }"
   >
@@ -47,7 +47,7 @@
 
   <div
     class="col tableBody text-break"
-    *ngIf="sl.userId === sl.companyAdminId; else elseBlock"
+
     [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
     [ngClass]="{ 'active-row': isHovered === i }"
   >
