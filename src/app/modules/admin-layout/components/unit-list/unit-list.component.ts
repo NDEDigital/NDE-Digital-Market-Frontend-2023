@@ -145,7 +145,7 @@ export class UnitListComponent
           setTimeout(() => {
             this.showModalAndResetForm();
           }, 50);
-          this.getProductGroup(-1);
+          this.getProductGroup(this.btnIndex);
         },
         error: (error: any) => {
           this.handleErrorResponse(error);
@@ -164,7 +164,8 @@ export class UnitListComponent
     } else if (status == 0) {
       status = false;
     }
-    this.allSelectedCheckbox.nativeElement.checked = false;
+    // if(this.btnIndex!=-1)
+    // this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;
     if (status != -1) {
@@ -294,7 +295,7 @@ export class UnitListComponent
    * Updates the state of the select-all checkbox.
    */
   updateSelectAllCheckbox(): void {
-    this.allSelectedCheckbox.nativeElement.checked = false;
+    //this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProductIds = this.selectedProducts1.slice();
     if (this.selectedProducts1.length === this.groupList.length) {
       this.allSelectedCheckbox.nativeElement.checked = true;

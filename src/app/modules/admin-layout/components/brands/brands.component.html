@@ -18,7 +18,7 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
-      <div class="col tableHeader">
+      <div *ngIf="btnIndex!=-1" class="col tableHeader">
         <input
           type="checkbox"
           [(ngModel)]="selectAll"
@@ -63,14 +63,14 @@
   </div>
   <div class="d-flex justify-content-end">
     <button
-      *ngIf="btnIndex === 0 || btnIndex === -1"
+      *ngIf="btnIndex === 0 "
       class="custom-btn"
       (click)="chageActiveInactive(true)"
     >
       Active
     </button>
     <button
-      *ngIf="btnIndex === 1 || btnIndex === -1"
+      *ngIf="btnIndex === 1 "
       class="custom-btn"
       (click)="chageActiveInactive(false)"
     >

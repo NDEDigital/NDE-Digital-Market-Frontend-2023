@@ -159,7 +159,7 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
     } else if (status == 1) {
       status = true;
     }
-    this.allSelectedCheckbox.nativeElement.checked = false;
+   // this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProducts1.length = 0;
     this.selectAll = false;
     if (status != -1) {
@@ -296,7 +296,7 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
    * Updates the state of the select-all checkbox.
    */
   updateSelectAllCheckbox(): void {
-    this.allSelectedCheckbox.nativeElement.checked = false;
+   // this.allSelectedCheckbox.nativeElement.checked = false;
     this.selectedProductIds = this.selectedProducts1.slice();
     if (this.selectedProducts1.length === this.groupList.length) {
       this.allSelectedCheckbox.nativeElement.checked = true;
