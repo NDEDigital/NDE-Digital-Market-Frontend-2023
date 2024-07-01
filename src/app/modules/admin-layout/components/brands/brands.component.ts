@@ -251,7 +251,7 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
         next: () => {
           const newStatus = isActive ? 1 : 0;
           this.getNewBrands(newStatus);
-          this.showAlertAndResetForm(newStatus);
+          this.showBrandsAlertAndResetForm(newStatus);
           this.selectAll = false;
           this.selectedProducts1.length = 0;
           this.showModalAndResetForm();

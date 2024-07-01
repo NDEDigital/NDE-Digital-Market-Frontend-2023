@@ -15,7 +15,17 @@ export class AlertHandleBase {
     this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
     this.showModalAndResetForm();
   }
-
+  /**
+   * Shows alert message and resets the form.
+   * @param newStatus New status of the product
+   */
+  showBrandsAlertAndResetForm(newStatus: number): void {
+    this.alertMsg = newStatus
+      ? 'Brands is Activated!'
+      : 'Brands is Deactivated!';
+    this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
+    this.showModalAndResetForm();
+  }
   /**
    * Shows modal and resets the form.
    */
