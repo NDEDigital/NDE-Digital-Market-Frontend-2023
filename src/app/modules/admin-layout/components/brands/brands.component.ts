@@ -191,9 +191,9 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
   }
 
   updateIsActive(status: any, brandId: any) {
-    console.log(status, 'isActive', brandId, 'groupId');
+    // console.log(status, 'isActive', brandId, 'groupId');
     this.brandsService
-      .updateUnitsActiveStatus(brandId.toString(), status)
+      .updateUnitsActiveStatus(encodeURIComponent(brandId.toString()), status)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
@@ -227,14 +227,14 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
   updateSelectedProducts(brand: { isSelected: boolean; brandId: any }): void {
     // Update the selectedProducts array based on the state of each checkbox
     if (this.selectAll && !this.selectedProducts1.includes(brand.brandId)) {
-      this.selectedProducts1.push(brand.brandId);
+      this.selectedProducts1.push(encodeURIComponent(brand.brandId));
     } else if (
       !this.selectAll &&
-      this.selectedProducts1.includes(brand.brandId)
+      this.selectedProducts1.includes(encodeURIComponent(brand.brandId))
     ) {
       // Remove the deselected product from the list
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== brand.brandId
+        (id) => id !== encodeURIComponent(brand.brandId)
       );
       this.selectAll = false;
     }
@@ -284,7 +284,7 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
     const isSelected: boolean = domEvent.target.checked;
 
     if (isSelected && !this.selectedProducts1.includes(brandId)) {
-      this.selectedProducts1.push(brandId);
+      this.selectedProducts1.push(encodeURIComponent(brandId));
     } else if (!isSelected && this.selectedProducts1.includes(brandId)) {
       this.selectedProducts1 = this.selectedProducts1.filter(
         (id) => id !== brandId

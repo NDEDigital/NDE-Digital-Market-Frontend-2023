@@ -194,7 +194,7 @@ export class UnitListComponent
   }
 
   updateIsActive(status: Boolean, unitIds: any) {
-    console.log(status, 'status new new', unitIds, 'unitIds');
+    // console.log(status, 'status new new', unitIds, 'unitIds');
     this.unitServices
       .updateUnitActiveStatus(encodeURIComponent(unitIds.toString()), status)
       .pipe(takeUntilDestroyed(this.destroyRef))
