@@ -191,6 +191,17 @@ export class BannerApprovalComponent implements OnInit {
     IsActive: any,
     IsBannerStatus: any
   ) {
+    function formatDate(date: any) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    const today = new Date();
+    const formattedToday = formatDate(today);
+    console.log("Today's Date:", formattedToday > StartDate);
+
     const cmp = this.createCompanyUpdateObject(
       BannerID,
       StartDate,
@@ -207,6 +218,14 @@ export class BannerApprovalComponent implements OnInit {
     );
     if (!IsActive && this.btnIndex === -1 && (!StartDate || !EndDate)) {
       this.handleRejection(cmp);
+    } else if (formattedToday > StartDate && IsActive) {
+      this.showAlert({
+        alertTitle: 'Reminder',
+        alertMsg: 'StartDate must be greater than  Today',
+        isApproved: false,
+        isRejected: true,
+        btnIndex: this.btnIndex,
+      });
     } else if (StartDate > EndDate && IsActive) {
       this.showAlert({
         alertTitle: 'Reminder',
