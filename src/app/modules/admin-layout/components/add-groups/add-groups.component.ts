@@ -187,8 +187,8 @@ export class AddGroupsComponent extends AddGroupsBase {
    */
   override showAlertAndResetForm(newStatus: number): void {
     this.alertMsg = newStatus
-      ? 'Product is Activated!'
-      : 'Product is Deactivated!';
+      ? 'Product Group is Activated!'
+      : 'Product Group is Deactivated!';
     this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
     this.showModalAndResetForm();
   }
