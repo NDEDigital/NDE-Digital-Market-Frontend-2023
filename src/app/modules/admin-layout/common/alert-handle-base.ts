@@ -15,7 +15,15 @@ export class AlertHandleBase {
     this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
     this.showModalAndResetForm();
   }
-
+  /**
+   * Shows alert message and resets the form.
+   * @param newStatus New status of the unit
+   */
+  showUnitAlertAndResetForm(newStatus: number): void {
+    this.alertMsg = newStatus ? 'Unit is Activated!' : 'Unit is Deactivated!';
+    this.alertTitle = newStatus ? 'Activated!' : 'Deactivated!';
+    this.showModalAndResetForm();
+  }
   /**
    * Shows modal and resets the form.
    */

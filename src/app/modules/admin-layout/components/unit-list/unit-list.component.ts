@@ -196,7 +196,7 @@ export class UnitListComponent
   }
 
   updateIsActive(status: Boolean, unitIds: any) {
-    console.log(status, 'status new new', unitIds, 'unitIds');
+    // console.log(status, 'status new new', unitIds, 'unitIds');
     this.unitServices
       .updateUnitActiveStatus(encodeURIComponent(unitIds.toString()), status)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -204,7 +204,7 @@ export class UnitListComponent
         next: (response: any) => {
           const newStatus = status ? 1 : 0;
           this.getProductGroup(newStatus);
-          this.showAlertAndResetForm(newStatus);
+          this.showUnitAlertAndResetForm(newStatus);
           this.showModalAndResetForm();
         },
         error: (error: any) => {
@@ -250,7 +250,7 @@ export class UnitListComponent
         next: (response: any) => {
           const newStatus = isActive ? 1 : 0;
           this.getProductGroup(newStatus);
-          this.showAlertAndResetForm(newStatus);
+          this.showUnitAlertAndResetForm(newStatus);
           this.selectAll = false;
           this.selectedProducts1.length = 0;
           this.showModalAndResetForm();
