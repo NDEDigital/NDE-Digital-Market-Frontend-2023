@@ -61,7 +61,7 @@ export class UnitListComponent
    * Opens the modal for adding a new product group.
    */
   openAddGroupModal(): void {
-    console.log('ashce');
+    // console.log('ashce');
     this.isEditMode = false;
     this.currentGroup = null;
     this.btnClick = true;
@@ -122,6 +122,7 @@ export class UnitListComponent
   updateUnit(formData: any) {
     let updateByUser = localStorage.getItem('code');
     formData.append('unitId', encodeURIComponent(this.currentGroup.unitId));
+
     if (updateByUser !== null) {
       formData.append('updatedBy', updateByUser);
     } else {
@@ -130,7 +131,7 @@ export class UnitListComponent
     formData.append('updatedPC', '0.0.0.0');
     console.log('form value', formData);
     for (let [key, value] of (formData as any).entries()) {
-      console.log(key, value);
+      console.log(key, value, 'update unit6 values');
     }
     this.unitServices
       .updateUnitName(formData)
@@ -193,9 +194,9 @@ export class UnitListComponent
   }
 
   updateIsActive(status: Boolean, unitIds: any) {
-    console.log(status, 'status', unitIds, 'unitIds');
+    console.log(status, 'status new new', unitIds, 'unitIds');
     this.unitServices
-      .updateUnitActiveStatus(unitIds.toString(), status)
+      .updateUnitActiveStatus(encodeURIComponent(unitIds.toString()), status)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
@@ -228,19 +229,19 @@ export class UnitListComponent
    */
   updateSelectedProducts(unit: { isSelected: boolean; unitId: any }) {
     if (this.selectAll && !this.selectedProducts1.includes(unit.unitId)) {
-      this.selectedProducts1.push(unit.unitId);
+      this.selectedProducts1.push(encodeURIComponent(unit.unitId));
     } else if (
       !this.selectAll &&
-      this.selectedProducts1.includes(unit.unitId)
+      this.selectedProducts1.includes(encodeURIComponent(unit.unitId))
     ) {
       this.selectedProducts1 = this.selectedProducts1.filter(
-        (id) => id !== unit.unitId
+        (id) => id !== encodeURIComponent(unit.unitId)
       );
       this.selectAll = false;
     }
   }
   updateUnitsStatus(isActive: number): void {
-    console.log(this.selectedProducts1.toString());
+    console.log(this.selectedProducts1.toString(), 'thik nai thik nai');
     this.unitServices
       .updateUnitsActiveStatus(this.selectedProducts1.toString(), isActive)
       .subscribe({
