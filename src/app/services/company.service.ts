@@ -46,9 +46,9 @@ export class CompanyService {
     }
     // console.log("the status",status);
     return this.http.get(
-      `${this.URL}/CompanySellerDetails/${localStorage.getItem(
+      `${this.URL}/CompanySellerDetails?userId=${localStorage.getItem(
         'code'
-      )}/${status}`
+      )}&IsActive=${status}`
     );
   }
 

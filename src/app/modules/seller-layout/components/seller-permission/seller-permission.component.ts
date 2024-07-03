@@ -141,7 +141,7 @@ export class SellerPermissionComponent {
   handlePermissionSuccess(response: any, MenuId: any) {
     this.getPermission();
     this.menuSelected.nativeElement.value = null;
-    MenuId = parseInt(MenuId);
+    MenuId = MenuId;
     this.dropdownValues = this.dropdownValues.filter(
       (user) => MenuId !== user.menuId
     );
