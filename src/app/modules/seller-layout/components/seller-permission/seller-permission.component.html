@@ -54,7 +54,7 @@
     <div class="row headerRow sticky-top fw-bolder text-start px-0">
       <!-- <div class="col tableHeader">#</div> -->
       <div class="col tableHeader col-2 px-5">Name</div>
-      <div class="col tableHeader col-10 px-5">Action</div>
+      <div class="col tableHeader col-10  px-5">Action</div>
     </div>
 
     <!-- TABLE body -->
@@ -62,11 +62,12 @@
       class="tablebodyRow fw-semibold col-12 text-start ps-2"
       *ngFor="let user of tableData | keyvalue"
     >
-      <div class="d-flex align-items-center border-bottom row p-0">
-        <div class="col-2">
+      <div class="d-flex align-items-center border-bottom row p-0 ">
+        <div class="col-2 px-5
+        ">
           <label>{{ user.value[0].fullName }}</label>
         </div>
-        <div class="col-10 d-flex">
+        <div class="col-10 d-flex px-4">
           <div *ngFor="let menuItem of user.value; let i = index">
             <div
               class="d-flex align-items-center tableBody"

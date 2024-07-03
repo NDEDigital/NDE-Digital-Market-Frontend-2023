@@ -16,7 +16,6 @@
 
 <div
   class="modal fade"
-  *ngFor="let banner of banners; let i = index"
   id="addGroupModalCenter"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -31,7 +30,6 @@
             class="btn-close border border-1"
             data-bs-dismiss="modal"
             aria-label="Close"
-            (click)="closeEditFormWithoutUpdate()"
           ></button>
         </div>
         <!-- Title -->
@@ -48,23 +46,23 @@
 
         <div class="checkbox-container">
           <input
-            type="checkbox"
-            id="bannerCheckbox"
-            name="bannerCheckbox"
-            (change)="adsFalse()"
+            type="radio"
+            id="bannerRadio"
+            name="typeRadio"
+            (change)="toggleType('banner')"
             [checked]="!isAds"
             class="checkbox-input"
           />
-          <label for="bannerCheckbox" class="checkbox-label">Banner</label>
+          <label for="bannerRadio" class="checkbox-label">Banner</label>
           <input
-            type="checkbox"
-            id="adsCheckbox"
-            name="adsCheckbox"
-            (change)="adsTrue()"
+            type="radio"
+            id="adsRadio"
+            name="typeRadio"
+            (change)="toggleType('ads')"
             [checked]="isAds"
             class="checkbox-input"
           />
-          <label for="adsCheckbox" class="checkbox-label">Ads</label>
+          <label for="adsRadio" class="checkbox-label">Ads</label>
         </div>
 
         <!-- Banner Form -->
@@ -116,8 +114,6 @@
           >
             {{ isEditMode ? "Update" : "Submit" }}
           </button>
-
-
         </form>
       </div>
     </div>
