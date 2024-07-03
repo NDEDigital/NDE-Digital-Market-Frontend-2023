@@ -625,7 +625,7 @@ export class SellerLayoutComponent {
   }
 
   toggleSidebar() {
-    this.showSidebar = window.innerWidth >= 547;
+    this.showSidebar = window.innerWidth >= 768;
   }
 
   setActiveButton(buttonName: string) {

@@ -5,10 +5,9 @@
   <div class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2">
     <div class="headerbtns">
       <select
-        class="p-2 border border-1 rounded"
+        class="dropdown-container"
         id="allcategory"
         name="Category"
-        style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1)"
         #sellerSelected
         (change)="onUserChange(sellerSelected.value)"
       >
@@ -26,10 +25,9 @@
       </select>
 
       <select
-        class="p-2 border border-1 rounded"
+        class="dropdown-container"
         id="allcategory"
         name="Category"
-        style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1); margin-left: 5%"
         #menuSelected
       >
         <option [value]="null" disabled selected>Select Menu Name</option>
@@ -44,7 +42,7 @@
 
       <button
         (click)="PermissionBtn(sellerSelected.value, menuSelected.value)"
-        class="btn btn-primary mx-4 py-2"
+        class="dropdown-button"
       >
         Add Permission
       </button>
@@ -53,10 +51,10 @@
 
   <div class="scrollable-table border border-1 bg-white">
     <!-- TABLE header -->
-    <div class="row headerRow sticky-top fw-bolder text-start p-0">
+    <div class="row headerRow sticky-top fw-bolder text-start px-0">
       <!-- <div class="col tableHeader">#</div> -->
-      <div class="col tableHeader col-2">Name</div>
-      <div class="col tableHeader col-10">Action</div>
+      <div class="col tableHeader col-2 px-5">Name</div>
+      <div class="col tableHeader col-10  px-5">Action</div>
     </div>
 
     <!-- TABLE body -->
@@ -64,11 +62,12 @@
       class="tablebodyRow fw-semibold col-12 text-start ps-2"
       *ngFor="let user of tableData | keyvalue"
     >
-      <div class="d-flex align-items-center border-bottom row p-0">
-        <div class="col-2">
+      <div class="d-flex align-items-center border-bottom row p-0 ">
+        <div class="col-2 px-5
+        ">
           <label>{{ user.value[0].fullName }}</label>
         </div>
-        <div class="col-10 d-flex">
+        <div class="col-10 d-flex px-4">
           <div *ngFor="let menuItem of user.value; let i = index">
             <div
               class="d-flex align-items-center tableBody"
@@ -95,8 +94,8 @@
       </div>
     </div>
   </div>
-  <div class="d-flex justify-content-end my-4">
-    <button class="btn btn-danger" (click)="openModal()">Delete</button>
+  <div class="d-flex justify-content-end my-2">
+    <button class="btn btn-danger px-4" (click)="openModal()">Delete</button>
     <!-- <button class="btn btn-danger mx-4">Delete</button> -->
   </div>
 </div>
