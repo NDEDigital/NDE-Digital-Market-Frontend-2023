@@ -25,6 +25,25 @@
 .tablebodyRow {
   flex-wrap: nowrap;
 }
+.headerbtns {
+  display: flex; /* Add this line to activate flexbox layout */
+  width: 100%;
+  align-items: center; /* Adjust this to center elements vertically; use 'flex-end' if you want them at the bottom */
+  justify-content: flex-end; /* Align items to the right side */
+}
+
+.dropdown-container {
+  margin: 0 1vw 0 0;
+  padding: 0.6rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #7b9eab;
+}
+.dropdown-button{
+  background-color: #7b9eab;
+  color:white;
+  padding: .5rem .7rem;
+  border-radius: 5px;
+}
 .scrollable-table {
   height: 35rem; /* Adjust the height as needed */
   overflow-y: scroll;
@@ -60,25 +79,7 @@
 .modal-heading {
   background-color: var(--color-primary);
 }
-.headerbtns .custom-btn {
-  background: #f0faff;
-  color: rgb(3, 20, 43);
-  font-weight: 500;
-  border: 1px solid var(--color-primary-dark);
-}
 
-.headerbtns .btn-active {
-  border: 1px solid #78ac8b;
-}
-.headerbtns .btn-inactive {
-  border: 1px solid #a4a554;
-}
-
-.headerbtns .new-btn.active {
-  background-color: var(--color-primary-dark) !important ;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #ebf8ff !important;
-}
 .btn-active.active {
   background-color: #78ac8b !important ;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
