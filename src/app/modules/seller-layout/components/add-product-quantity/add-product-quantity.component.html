@@ -396,3 +396,65 @@
     </div>
   </div>
 </div>
+
+<button
+  type="button"
+  data-bs-toggle="modal"
+  data-bs-target="#addRowBtn"
+  class="d-none"
+  #modalTrigger
+>
+  ok
+</button>
+
+<!-- data for add row -->
+
+<div class="modal fade" id="addRowBtn" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Massage</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <span *ngIf="!isFormValid()">
+          <span *ngIf="!this.productGroupData">Please select group name</span>
+          <span *ngIf="!this.productDertailsData && this.productGroupData"
+            >Please select product name</span
+          >
+          <span *ngIf="!isFormValid() && this.productDertailsData"
+            >Please fill in all required fields.</span
+          >
+          <div *ngIf="productDertailsData">
+            <ul *ngFor="let field of getEmptyFields()">
+              <li>{{ field }}</li>
+            </ul>
+          </div>
+        </span>
+        <span *ngIf="isFormValid() && rowsFormArray.length > 0">
+          Want to submit?
+        </span>
+        <span *ngIf="rowsFormArray.length == 0"> Give an entry </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-Approved"
+          data-bs-dismiss="modal"
+          (click)="submit()"
+        >
+          Save changes
+        </button>
+      </div>
+      <!-- <p>kasd</p> -->
+    </div>
+  </div>
+</div>
