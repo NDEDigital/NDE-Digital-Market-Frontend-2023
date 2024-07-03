@@ -1,4 +1,10 @@
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder,
+  FormArray,
+  AbstractControl,
+} from '@angular/forms';
 import {
   Component,
   ElementRef,
@@ -9,6 +15,7 @@ import {
 import { AddProductService } from 'src/app/services/add-product.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+
 @Component({
   selector: 'app-add-product-quantity',
   templateUrl: './add-product-quantity.component.html',
@@ -17,6 +24,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class AddProductQuantityComponent {
   @ViewChild('searchInputRef') searchInputRef!: ElementRef;
   @ViewChild('receivedCode') receivedCode!: ElementRef;
+  @ViewChild('modalTrigger') modalTrigger!: ElementRef;
+
   @ViewChild('receiveQtyField') receiveQtyFieldRefList!: QueryList<
     ElementRef<HTMLInputElement>
   >;
@@ -107,12 +116,60 @@ export class AddProductQuantityComponent {
   /**
    * Adds a new row to the form
    */
+  // addRow() {
+  //   if (this.receivedCode.nativeElement.value) this.clear();
+  //   this.checkLastRowValidity();
+  //   this.rowsFormArray.push(this.createRowGroup());
+  //   this.selectedProductNames.push('Select Product');
+  //   this.selectedProductGroup.push('Select Group');
+  // }
+
   addRow() {
     if (this.receivedCode.nativeElement.value) this.clear();
-    this.checkLastRowValidity();
-    this.rowsFormArray.push(this.createRowGroup());
-    this.selectedProductNames.push('Select Product');
-    this.selectedProductGroup.push('Select Group');
+
+    if (this.checkAllRowsValidity()) {
+      // if(this.rowsFormArray.length ==0 )
+      //   console.log(this.rowsFormArray.length)
+      this.rowsFormArray.push(this.createRowGroup());
+      this.selectedProductNames.push('Select Product');
+      this.selectedProductGroup.push('Select Group');
+    } else {
+      // this.rowsFormArray.length
+      // console.log(this.rowsFormArray.length)
+      // if(this.rowsFormArray.length !=0 )
+      // this.modalTrigger.nativeElement.click();
+      this.modalTrigger.nativeElement.click();
+      //  this.triggerModal();
+    }
+  }
+
+  // triggerModal() {
+  //   const modalElement = this.modalTrigger.nativeElement;
+  //   const modal = new Modal(modalElement);
+  //   modal.show();
+  // }
+
+
+  checkAllRowsValidity(): boolean {
+    let isValid = true;
+    this.rowsFormArray.controls.forEach(
+      (control: AbstractControl, index: number) => {
+        const rowGroup = control as FormGroup;
+        const receiveQtyControl = rowGroup.get('receiveQty');
+        const priceControl = rowGroup.get('price');
+
+        if (!priceControl || priceControl.invalid) {
+          priceControl?.markAsTouched();
+          isValid = false;
+        }
+
+        if (!receiveQtyControl || receiveQtyControl.invalid) {
+          receiveQtyControl?.markAsTouched();
+          isValid = false;
+        }
+      }
+    );
+    return isValid;
   }
 
   /**
@@ -252,6 +309,7 @@ export class AddProductQuantityComponent {
    * Toggles the dropdown for the given row index
    */
   toggleDropdown(rowIndex: number): void {
+    console.log('ashce');
     this.closeAllDropdownsExcept(rowIndex);
     const rowGroup = this.rowsFormArray.at(rowIndex) as FormGroup;
     rowGroup.patchValue({
