@@ -13,7 +13,7 @@ import html2canvas from 'html2canvas';
 })
 export class SellerInvoiceComponent {
   @ViewChild('content', { static: false }) content: ElementRef | undefined;
-  orderID = 0;
+  orderID: any;
   userId: any = 0;
   invoice: any = [];
   test = 0;
@@ -22,8 +22,9 @@ export class SellerInvoiceComponent {
     const orderIDString = sessionStorage.getItem('orderMasterID');
     this.userId = localStorage.getItem('code');
     this.invoice = {};
+    console.log(orderIDString);
     if (orderIDString !== null) {
-      this.orderID = parseInt(orderIDString, 10);
+      this.orderID = orderIDString;
       // Now, orderID contains the parsed value if it was not null
     } else {
       alert('No order found')!;
@@ -31,12 +32,13 @@ export class SellerInvoiceComponent {
     console.log(' orderId', this.orderID);
     this.InvoiceService.getBuyerInvoice(this.orderID).subscribe({
       next: (response: any) => {
-        console.log(' invoice data ', response);
+       
+        this.invoice = response;
+        console.log(this.userId,' invoice data ', this.invoice.orderInvoiceDetailList);
 
-        this.invoice = response.invoice;
       },
       error: (error: any) => {
-        //console.log(error);
+        console.log(error);
       },
     });
   }
@@ -69,17 +71,19 @@ export class SellerInvoiceComponent {
       : 0;
   }
 
-
   calculateTotal(): number {
     if (!this.invoice.orderInvoiceDetailList) {
       return 0;
     }
 
-    return this.invoice.orderInvoiceDetailList.reduce((acc: any, product : any) => {
-      if (product.status !== 'Rejected') {
-        return acc + (product.quantity * product.price);
-      }
-      return acc;
-    }, 0);
+    return this.invoice.orderInvoiceDetailList.reduce(
+      (acc: any, product: any) => {
+        if (product.status !== 'Rejected') {
+          return acc + product.quantity * product.price;
+        }
+        return acc;
+      },
+      0
+    );
   }
 }
