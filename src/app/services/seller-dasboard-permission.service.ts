@@ -12,24 +12,30 @@ export class SellerDasboardPermissionService {
   constructor(private http: HttpClient) {}
 
   GetSellerDashboardPermission(UserId: any) {
-    return this.http.get(`${this.URL}/sellerDashboard/${UserId}`);
+    return this.http.get(
+      `${this.URL}/sellerDashboard?UserId=${encodeURIComponent(UserId)}`
+    );
   }
 
   GivePermissionToDash(UserId: any, MenuId: any) {
     // console.log(UserId,MenuId);
     return this.http.post(
-      `${this.URL}/GiveAcessDashboard/${UserId}/${MenuId}`,
+      `${this.URL}/GiveAcessDashboard?UserId=${encodeURIComponent(
+        UserId
+      )}&MenuId=${encodeURIComponent(MenuId)}`,
       {}
     );
   }
   GetPermissionData(userId4: any) {
-    return this.http.get(`${this.URL}/GetPermissionData/${userId4}`);
+    return this.http.get(
+      `${this.URL}/GetPermissionData?UserId=${encodeURIComponent(userId4)}`
+    );
   }
   getUserPermission(userId5: any, AdminStatus: any) {
     return this.http.get(
-      `${this.URL}/SellerPermissionData/${encodeURIComponent(
+      `${this.URL}/SellerPermissionData?UserId=${encodeURIComponent(
         userId5.toString()
-      )}/${AdminStatus}`
+      )}&Status1=${AdminStatus}`
     );
   }
 
@@ -37,8 +43,11 @@ export class SellerDasboardPermissionService {
     // console.log("userId is +",userId6);
     // console.log("menuIdss is +",menuIds);
 
-    return this.http.delete(`${this.URL}/deleteMenuItems/${userId6}`, {
-      body: menuIds,
-    });
+    return this.http.delete(
+      `${this.URL}/deleteMenuItems?UserId=${encodeURIComponent(userId6)}`,
+      {
+        body: menuIds,
+      }
+    );
   }
 }

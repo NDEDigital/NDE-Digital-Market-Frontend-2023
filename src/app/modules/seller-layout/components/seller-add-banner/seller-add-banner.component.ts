@@ -51,11 +51,12 @@ export class SellerAddBannerComponent {
   isExpired(banner: any): boolean {
     return banner.isBannerStatus === false && banner.isActive === false;
   }
-  adsTrue(): void {
-    this.isAds = true;
-  }
-  adsFalse(): void {
-    this.isAds = false;
+  toggleType(type: string): void {
+    if (type === 'banner' && this.isAds) {
+      this.isAds = false;
+    } else if (type === 'ads' && !this.isAds) {
+      this.isAds = true;
+    }
   }
   openAddGroupModal(): void {
     this.resetForm();

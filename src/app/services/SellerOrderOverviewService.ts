@@ -15,7 +15,7 @@ export class SellerOrderOverviewService {
   updateOrderStatusURL = `${this.URL}/api/Order/updateSellerOrderStatus`;
   updateDetaiilsOrderStatusURL = `${this.URL}/api/Order/updateDetailsOrderStatus`;
   getUsersDataURL = `${this.URL}/api/Order/getBuyerInfo`;
-  SellerInventory = `${this.URL}/GetSellerInventoryDataBySellerId/`;
+  SellerInventory = `${this.URL}/GetSellerInventoryDataBySellerId`;
   // getBuyerDataURL = `${this.URL}/api/Order/GetBuyerOrderData?`;
   // getOrderInfo(sellerId: any) {
   //   // const ordersInfos = of(OrdersInfos);
@@ -163,6 +163,8 @@ export class SellerOrderOverviewService {
   }
 
   getSellerInventory(userId: any) {
-    return this.http.get<any>(this.SellerInventory + userId, {});
+    return this.http.get<any>(
+      `${this.SellerInventory}?UserId=${encodeURIComponent(userId)}`
+    );
   }
 }
