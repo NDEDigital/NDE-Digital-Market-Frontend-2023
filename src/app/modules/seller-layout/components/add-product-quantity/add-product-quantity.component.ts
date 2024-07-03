@@ -1,4 +1,4 @@
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import {
   Component,
   ElementRef,
@@ -107,13 +107,50 @@ export class AddProductQuantityComponent {
   /**
    * Adds a new row to the form
    */
+  // addRow() {
+  //   if (this.receivedCode.nativeElement.value) this.clear();
+  //   this.checkLastRowValidity();
+  //   this.rowsFormArray.push(this.createRowGroup());
+  //   this.selectedProductNames.push('Select Product');
+  //   this.selectedProductGroup.push('Select Group');
+  // }
+
+
   addRow() {
+
     if (this.receivedCode.nativeElement.value) this.clear();
-    this.checkLastRowValidity();
-    this.rowsFormArray.push(this.createRowGroup());
-    this.selectedProductNames.push('Select Product');
-    this.selectedProductGroup.push('Select Group');
+
+    if (this.checkAllRowsValidity()) {
+      this.rowsFormArray.push(this.createRowGroup());
+      this.selectedProductNames.push('Select Product');
+      this.selectedProductGroup.push('Select Group');
+    } else {
+      alert('Please enter  valid inputs');
+    }
+
   }
+
+
+  checkAllRowsValidity(): boolean {
+    let isValid = true;
+    this.rowsFormArray.controls.forEach((control: AbstractControl, index: number) => {
+      const rowGroup = control as FormGroup;
+      const receiveQtyControl = rowGroup.get('receiveQty');
+      const priceControl = rowGroup.get('price');
+
+      if (!priceControl || priceControl.invalid) {
+        priceControl?.markAsTouched();
+        isValid = false;
+      }
+
+      if (!receiveQtyControl || receiveQtyControl.invalid) {
+        receiveQtyControl?.markAsTouched();
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+
 
   /**
    * Fetches portal data based on the received ID
