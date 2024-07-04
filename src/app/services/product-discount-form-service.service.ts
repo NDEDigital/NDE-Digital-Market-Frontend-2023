@@ -38,7 +38,8 @@ export class ProductFormService {
           this.maxDiscountPctValidator(),
         ],
       ],
-      effectivateDate: [''],
+      // effectivateDate: [''],
+      effectivateDate: [null, Validators.required],
       endDate: [''],
       productImage: ['', Validators.required],
       totalPrice: [''],
@@ -71,16 +72,40 @@ export class ProductFormService {
       const selectedDate = new Date(control.value);
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
+      console.log(selectedDate, "date selected");
 
       return selectedDate >= currentDate ? null : { invalidDate: true };
     };
   }
 
+
   futureDateValidator(effectiveDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const endDate = new Date(control.value);
-
       return endDate > effectiveDate ? null : { invalidEndDate: true };
     };
   }
+
+  abc(endDate: Date): ValidatorFn {
+    alert("dfjf")
+    return (control: AbstractControl): ValidationErrors | null => {
+      const currentDate = new Date(control.value);
+
+      console.log(currentDate, endDate, "nottttt");
+
+      return endDate < currentDate ? null : { invalidEndDate: true };
+    };
+  }
+
+
+
+
+  // endDateValidator(effectiveDate: Date): ValidatorFn {
+  //   console.log(effectiveDate, "date");
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const endDate = new Date(control.value);
+  //     return endDate <= effectiveDate ? null : { invalidEndDate: true };
+  //   };
+  // }
+
 }

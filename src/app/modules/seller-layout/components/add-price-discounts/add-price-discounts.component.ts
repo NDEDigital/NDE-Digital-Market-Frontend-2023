@@ -99,6 +99,20 @@ export class AddPriceDiscountsComponent {
       (!isNaN(discountPct) && discountPct > 0)
     );
   }
+
+  isEffetciveDateEntered(): boolean {
+    console.log("sjdf");
+
+    const effectiveDateControl =
+      this.addPriceDiscountForm.get('effectivateDate');
+      console.log(effectiveDateControl?.value);
+
+
+    return (
+      effectiveDateControl?.value !== null && effectiveDateControl?.value !== ''
+    );
+  }
+
   /**
    * Toggles the visibility of the add product price section.
    */
@@ -209,6 +223,8 @@ export class AddPriceDiscountsComponent {
     const priceControl = form.get('price');
     const discountAmountControl = form.get('discountAmount');
     const discountPctControl = form.get('discountPct');
+    const effectivateDateControl = form.get('effectivateDate');
+
 
     discountAmountControl?.valueChanges.subscribe((value) => {
       this.calculateDiscountPct(value);
@@ -231,9 +247,11 @@ export class AddPriceDiscountsComponent {
     discountAmountControl?.valueChanges.subscribe(() => {
       this.updateDateFieldValidators();
     });
-
-    discountPctControl?.valueChanges.subscribe(() => {
+    discountAmountControl?.valueChanges.subscribe(() => {
       this.updateDateFieldValidators();
+    });
+    effectivateDateControl?.valueChanges.subscribe(() => {
+      this.updateeffectivateDateControlFieldValidators();
     });
 
     priceControl?.valueChanges.subscribe(() => {
@@ -294,21 +312,25 @@ export class AddPriceDiscountsComponent {
     const endDateControl = this.addPriceDiscountForm.get('endDate');
     const discountEntered = this.isDiscountEntered();
 
+    const EffetciveDateEntered = this.isEffetciveDateEntered();
+
     if (discountEntered) {
+
+      // console.log("date value: ", effectiveDateControl?.value);
+
       effectiveDateControl?.setValidators([
         Validators.required,
         this.productFormService.presentOrFutureDateValidator(),
       ]);
-      if (effectiveDateControl?.value) {
-        const effectiveDate = new Date(effectiveDateControl.value);
-        endDateControl?.setValidators([
-          Validators.required,
-          this.productFormService.futureDateValidator(effectiveDate),
-        ]);
-      }
+      console.log(this.productFormService.presentOrFutureDateValidator());
+
     } else {
       effectiveDateControl?.clearValidators();
       endDateControl?.clearValidators();
+    }
+
+    if (EffetciveDateEntered) {
+      console.log("edfd enter");
     }
 
     effectiveDateControl?.updateValueAndValidity();
@@ -432,6 +454,39 @@ export class AddPriceDiscountsComponent {
       productGroupImageControl.updateValueAndValidity();
     }
   }
+
+  updateeffectivateDateControlFieldValidators(): void{
+    const EffetciveDateEntered = this.isEffetciveDateEntered();
+
+    const effectiveDateControl =
+    this.addPriceDiscountForm.get('effectivateDate');
+    const endDateControl = this.addPriceDiscountForm.get('endDate');
+
+
+
+    if (EffetciveDateEntered) {
+      console.log(effectiveDateControl?.value, 'value...');
+
+      const effectiveDate = new Date(effectiveDateControl?.value);
+      const endDate = new Date(endDateControl?.value);
+      console.log(effectiveDate, endDate, "dates");
+
+      endDateControl?.setValidators([
+        Validators.required,
+        this.productFormService.futureDateValidator(effectiveDate),
+      ]);
+
+      if (effectiveDate > endDate) {
+        // alert("bhul")
+        effectiveDateControl?.setValidators([
+          Validators.required,
+          this.productFormService.abc(endDate),
+        ]);
+      }
+
+  }
+
+}
 
   openModalWithData(product: any): void {
     this.isEditMode = true;
