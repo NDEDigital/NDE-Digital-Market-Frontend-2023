@@ -120,7 +120,7 @@ export class SharedService {
     // //console.log(this.loginStatus$);
   }
   loggedInUserInfo(user: any) {
-    // //console.log(this.user$, '$user');
+    console.log(this.user$, '$user');
     this.userSubject.next(user);
     // //console.log(this.userSubject.getValue(), 'this.userSubject.getValue()'); // Print the _value of user$
   }
