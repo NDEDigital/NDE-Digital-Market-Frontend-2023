@@ -116,13 +116,6 @@ export class AddProductQuantityComponent {
   /**
    * Adds a new row to the form
    */
-  // addRow() {
-  //   if (this.receivedCode.nativeElement.value) this.clear();
-  //   this.checkLastRowValidity();
-  //   this.rowsFormArray.push(this.createRowGroup());
-  //   this.selectedProductNames.push('Select Product');
-  //   this.selectedProductGroup.push('Select Group');
-  // }
 
   addRow() {
     if (this.receivedCode.nativeElement.value) this.clear();
@@ -134,22 +127,13 @@ export class AddProductQuantityComponent {
       this.selectedProductNames.push('Select Product');
       this.selectedProductGroup.push('Select Group');
     } else {
-      // this.rowsFormArray.length
-      // console.log(this.rowsFormArray.length)
-      // if(this.rowsFormArray.length !=0 )
-      // this.modalTrigger.nativeElement.click();
       this.modalTrigger.nativeElement.click();
-      //  this.triggerModal();
     }
   }
 
-  // triggerModal() {
-  //   const modalElement = this.modalTrigger.nativeElement;
-  //   const modal = new Modal(modalElement);
-  //   modal.show();
-  // }
-
-
+/**
+ * checking allRows validation
+*/
   checkAllRowsValidity(): boolean {
     let isValid = true;
     this.rowsFormArray.controls.forEach(
