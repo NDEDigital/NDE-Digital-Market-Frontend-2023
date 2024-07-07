@@ -459,43 +459,42 @@ export class AddPriceDiscountsComponent {
     }
   }
 
-  updateeffectivateDateControlFieldValidators(): void{
-    const EffetciveDateEntered = this.isEffetciveDateEntered();
 
-    const effectiveDateControl =
-    this.addPriceDiscountForm.get('effectivateDate');
-    const endDateControl = this.addPriceDiscountForm.get('endDate');
+updateeffectivateDateControlFieldValidators(): void {
+  const EffetciveDateEntered = this.isEffetciveDateEntered();
 
+  const effectiveDateControl = this.addPriceDiscountForm.get('effectivateDate');
+  const endDateControl = this.addPriceDiscountForm.get('endDate');
 
+  if (EffetciveDateEntered) {
+    const effectiveDate = new Date(effectiveDateControl?.value);
+    const endDate = new Date(endDateControl?.value);
 
-    if (EffetciveDateEntered) {
-      console.log(effectiveDateControl?.value, 'value...');
+    endDateControl?.setValidators([
+      Validators.required,
+      this.productFormService.futureDateValidator(effectiveDate),
+    ]);
 
-      const effectiveDate = new Date(effectiveDateControl?.value);
-      const endDate = new Date(endDateControl?.value);
-      console.log(effectiveDate, endDate, "dates");
-
-      endDateControl?.setValidators([
+    // Check and apply the abc validator if conditions are met
+    if (effectiveDateControl?.value && endDateControl?.value && effectiveDate > endDate) {
+      effectiveDateControl?.setValidators([
         Validators.required,
-        this.productFormService.futureDateValidator(effectiveDate),
+        this.productFormService.abc(endDate),
       ]);
+    } else {
+      // Reset validators if the condition is not met
+      effectiveDateControl?.setValidators([
+        Validators.required,
+        this.productFormService.presentOrFutureDateValidator(),
+      ]);
+    }
 
-
-        // alert("bhul")
-        effectiveDateControl?.setValidators([
-          Validators.required,
-          this.productFormService.abc( endDate),
-        ]);
-
-        // effectiveDateControl?.setValidators([
-        //   Validators.required,
-        //   this.productFormService.abc(effectiveDate, endDate),
-        // ]);
-
-
+    // Update the value and validity of the controls
+    effectiveDateControl?.updateValueAndValidity();
+    endDateControl?.updateValueAndValidity();
   }
-
 }
+
 
   openModalWithData(product: any): void {
     this.isEditMode = true;

@@ -86,7 +86,7 @@ export class ProductFormService {
   }
 
   abc(endDate: Date): ValidatorFn {
-    // alert(endDate);
+
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value);
       console.log(selectedDate, endDate, 'dates are here');
@@ -95,22 +95,4 @@ export class ProductFormService {
     };
   }
 
-  // dateRangeValidator(effectiveDateControl: Date, endDateControl: Date): ValidatorFn {
-  //   return (control: AbstractControl): ValidationErrors | null => {
-  //     const effectiveDate = new Date(effectiveDateControl.value);
-  //     const endDate = new Date(endDateControl.value);
-  //     if (endDateControl.value && effectiveDate > endDate) {
-  //       return { invalidDateRange: true };
-  //     }
-  //     return null;
-  //   };
-  // }
-
-  // endDateValidator(effectiveDate: Date): ValidatorFn {
-  //   console.log(effectiveDate, "date");
-  //   return (control: AbstractControl): ValidationErrors | null => {
-  //     const endDate = new Date(control.value);
-  //     return endDate <= effectiveDate ? null : { invalidEndDate: true };
-  //   };
-  // }
 }
