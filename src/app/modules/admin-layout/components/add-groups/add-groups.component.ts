@@ -31,8 +31,6 @@ export class AddGroupsComponent extends AddGroupsBase {
   // Form group for adding/editing product groups
   addGroupForm!: FormGroup;
 
-  // Alert  title
-  alertTitle = '';
   // Paths for existing and previewed images
   existingImagePath = '';
   imagePathPreview = '';

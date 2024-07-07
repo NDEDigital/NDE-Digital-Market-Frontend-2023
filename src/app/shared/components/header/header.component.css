@@ -25,12 +25,18 @@ html {
   text-decoration: none;
   /* margin: .4rem 0; */
 }
+.save-button {
+  width: 100%;
+  border-radius: 5px;
+  background-color: #7b9eab;
+  padding: 0.7rem 2rem;
+  color: white;
+}
 .header_container {
   background: var(--color-primary);
-  margin:0 auto;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
- 
 }
 .dropDown-container {
   width: 220px;
@@ -125,7 +131,7 @@ html {
 }
 .nav-title {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 300;
   position: relative;
   padding: 0 0.4rem;
 }
@@ -339,7 +345,8 @@ html {
     width: 30vw;
   }
   .nav-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 100;
   }
   .nav-become {
     width: 8rem;
@@ -388,7 +395,7 @@ html {
     display: none;
   }
   .nav-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .nav-become {
     width: 8rem;
@@ -426,5 +433,24 @@ html {
   }
   .dropdown-container {
     /* margin-top: -3rem; */
+  }
+}
+
+@media (max-width: 424px) and (min-width: 375px) {
+  .dropDown-container {
+    width: 60px;
+
+    margin-left: -1rem;
+  }
+  dropdown-toggle .catergoriesButton {
+    width: 20px;
+  }
+}
+
+@media (max-width: 374px) and (min-width: 100px) {
+  .dropDown-container {
+    width: 56px;
+
+    margin-left: -0.7rem;
   }
 }
