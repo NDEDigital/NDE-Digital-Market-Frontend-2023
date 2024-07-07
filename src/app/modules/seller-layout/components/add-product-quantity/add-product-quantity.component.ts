@@ -15,7 +15,6 @@ import {
 import { AddProductService } from 'src/app/services/add-product.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-
 @Component({
   selector: 'app-add-product-quantity',
   templateUrl: './add-product-quantity.component.html',
@@ -73,7 +72,7 @@ export class AddProductQuantityComponent {
    * Retrieves the user ID from local storage
    */
   getUserId() {
-    return localStorage.getItem('code');
+    return localStorage.getItem('code')?.toString();
   }
 
   /**
@@ -131,9 +130,9 @@ export class AddProductQuantityComponent {
     }
   }
 
-/**
- * checking allRows validation
-*/
+  /**
+   * checking allRows validation
+   */
   checkAllRowsValidity(): boolean {
     let isValid = true;
     this.rowsFormArray.controls.forEach(
