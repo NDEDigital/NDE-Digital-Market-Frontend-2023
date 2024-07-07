@@ -41,9 +41,17 @@
         [class.border-highlight]="editMode1 === 'contact'"
       >
         <div class="details_title d-flex justify-content-between ms-5 me-3">
-          <h5 class="">Contact Information</h5>
-          <div #editBTN class="edit_btn" (click)="toggleEditMode('contact')">
-            <i class="fa-solid fa-pen-to-square fs-5"></i>
+          <h5>Contact Information</h5>
+          <div class="edit_btn" (click)="toggleEditMode('contact')">
+            <i
+              class="fa-solid"
+              [ngClass]="{
+                'fa-pen-to-square': editMode1 !== 'contact',
+                'fa-times': editMode1 === 'contact'
+              }"
+              [class.fs-5]="true"
+              [class.text-danger]="editMode1 === 'contact'"
+            ></i>
           </div>
         </div>
         <div class="user_info">
