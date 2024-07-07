@@ -316,6 +316,10 @@ export class AddPriceDiscountsComponent {
 
     if (discountEntered) {
 
+      //reset value of dates if discount reEntered.
+      effectiveDateControl?.reset();
+      endDateControl?.reset();
+
       // console.log("date value: ", effectiveDateControl?.value);
 
       effectiveDateControl?.setValidators([
@@ -476,13 +480,18 @@ export class AddPriceDiscountsComponent {
         this.productFormService.futureDateValidator(effectiveDate),
       ]);
 
-      if (effectiveDate > endDate) {
+
         // alert("bhul")
         effectiveDateControl?.setValidators([
           Validators.required,
-          this.productFormService.abc(endDate),
+          this.productFormService.abc( endDate),
         ]);
-      }
+
+        // effectiveDateControl?.setValidators([
+        //   Validators.required,
+        //   this.productFormService.abc(effectiveDate, endDate),
+        // ]);
+
 
   }
 
@@ -491,7 +500,7 @@ export class AddPriceDiscountsComponent {
   openModalWithData(product: any): void {
     this.isEditMode = true;
     this.updateFormValidators();
-    console.log('product', product);
+    // console.log('product', product);
 
     this.getProductData(product.productGroupID);
 

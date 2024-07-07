@@ -72,12 +72,11 @@ export class ProductFormService {
       const selectedDate = new Date(control.value);
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
-      console.log(selectedDate, "date selected");
+      // console.log(selectedDate, "date selected");
 
       return selectedDate >= currentDate ? null : { invalidDate: true };
     };
   }
-
 
   futureDateValidator(effectiveDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -87,18 +86,25 @@ export class ProductFormService {
   }
 
   abc(endDate: Date): ValidatorFn {
-    alert("dfjf")
+    // alert(endDate);
     return (control: AbstractControl): ValidationErrors | null => {
-      const currentDate = new Date(control.value);
-
-      console.log(currentDate, endDate, "nottttt");
-
-      return endDate < currentDate ? null : { invalidEndDate: true };
+      const selectedDate = new Date(control.value);
+      console.log(selectedDate, endDate, 'dates are here');
+      // alert('wqe');
+      return selectedDate > endDate ? { invalidDateRange: true } : null;
     };
   }
 
-
-
+  // dateRangeValidator(effectiveDateControl: Date, endDateControl: Date): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const effectiveDate = new Date(effectiveDateControl.value);
+  //     const endDate = new Date(endDateControl.value);
+  //     if (endDateControl.value && effectiveDate > endDate) {
+  //       return { invalidDateRange: true };
+  //     }
+  //     return null;
+  //   };
+  // }
 
   // endDateValidator(effectiveDate: Date): ValidatorFn {
   //   console.log(effectiveDate, "date");
@@ -107,5 +113,4 @@ export class ProductFormService {
   //     return endDate <= effectiveDate ? null : { invalidEndDate: true };
   //   };
   // }
-
 }
