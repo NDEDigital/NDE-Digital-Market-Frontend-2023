@@ -9,10 +9,9 @@
 .slider_wrap {
   position: relative;
   overflow: hidden;
-  height: 25vh;
+  height: 20rem;
 }
 .product_slider {
-
   border: 1px solid #d9d9d9;
   justify-content: space-between;
 }
@@ -30,43 +29,56 @@
   padding-top: 1vh;
   padding-left: 1vw;
   position: absolute;
-  width: 202%;
+
   display: flex;
   flex-direction: row;
+  gap: 2rem;
+}
+.image-container {
+  transition: all 0.3s;
+
+  /* border: 1px solid rgb(184, 184, 184); */
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
-.item {
+.image-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 3px 3px 3px rgb(145, 160, 160);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+/* .item {
   width: 10vw;
   background: #eceff2a4;
   cursor: pointer;
-  /* flex-shrink: 0; */
+
   border: 1px solid rgb(184, 184, 184);
   border-radius: 5px;
   margin: 15px;
-}
-
-.image-container {
-  width: 10vw;
-  border-bottom: 1px solid #e1f6ff;
-  border-radius: 5px;
-  background-color: #eceff2a4;
-  align-items: center;
+} */
+.item {
+  margin-bottom: 1rem;
+  height: 14.7rem;
+  width: 14rem;
+  display: inline-flex;
+  position: relative;
+  /* height: 10rem; */
+  /* margin: 6.5px; */
+  border: 1px solid rgb(184, 184, 184);
+  /* border: 1px solid #2c506d; */
+  text-align: center;
   justify-content: center;
-  padding-left: 1vw;
-  min-height: 15vh;
-  max-height: 15vh;
-  padding-top: 5%;
+  cursor: pointer;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
-
-.image-container img {
-  max-width: 8vw;
-  min-width: 8vw;
-  min-height: 13vh;
-  max-height: 13vh;
-  background-color: white;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
+.card-image {
+  height: 9rem;
+  width: 100%;
+  object-fit: cover;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .name-container {
@@ -75,14 +87,14 @@
   align-items: center;
   background-color: white;
   border-radius: 5px;
-  padding-top: 1.5vh;
+  padding-top: 2.5vh;
   padding-left: 0.5vw;
-  height: 2vh;
+  height: 2rem;
 }
 .details-cintainer {
-  padding-bottom: 1vh;
   background-color: white;
   border-radius: 5px;
+  margin: 1rem;
 }
 
 .slider_container {
@@ -110,27 +122,39 @@
   font-weight: bold;
   /* padding-right: 100vw; */
 }
-@media (max-width: 600px) {
+
+.company-name {
+  color: #558bb4;
+}
+.PC {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: -1rem;
+}
+.price {
+  color: #5b5a5a;
+  font-weight: 600;
+}
+@media (max-width: 600px) and (min-width: 300px) {
   .item {
-    width: 20vw;
-    height: 15vh;
-    margin: 0.5em;
+    width: 12rem;
+    height: 12rem;
   }
   .slider_wrap {
-    height: 18vh;
+    height: 20vh;
   }
 
   .image-container {
-    width: 10vw;
-    min-height: 9vh;
-    max-height: 9vh;
+    width: 12rem;
+    min-height: 10rem;
+    max-height: 12rem;
   }
 
   .image-container img {
-    max-width: 17.5vw;
-    min-width: 17.5vw;
-    min-height: 8vh;
-    max-height: 8vh;
+    max-width: 12rem;
+    min-width: 12rem;
+    min-height: 6rem;
+    max-height: 6rem;
   }
   .name-container {
     height: 1vh;
@@ -138,25 +162,24 @@
 }
 @media only screen and (min-width: 601px) and (max-width: 900px) {
   .item {
-    width: 16vw;
-    height: 15vh;
-    margin: 0.5em;
+    width: 14rem;
+    height: 12rem;
   }
   .slider_wrap {
-    height: 18vh;
+    height: 25vh;
   }
 
   .image-container {
-    width: 8vw;
-    min-height: 9vh;
-    max-height: 9vh;
+    width: 14rem;
+    min-height: 12rem;
+    max-height: 12rem;
   }
 
   .image-container img {
-    max-width: 14vw;
-    min-width: 14vw;
-    min-height: 8vh;
-    max-height: 8vh;
+    max-width: 14rem;
+    min-width: 14rem;
+    min-height: 6rem;
+    max-height: 6rem;
   }
   .name-container {
     height: 1vh;
@@ -164,25 +187,24 @@
 }
 @media only screen and (min-width: 901px) and (max-width: 1200px) {
   .item {
-    width: 12vw;
-    height: 17vh;
-    margin: 0.5em;
+    height: 12rem;
+    width: 14rem;
   }
   .slider_wrap {
-    height: 20vh;
+    height: 30vh;
   }
 
   .image-container {
-    width: 6vw;
-    min-height: 9.5vh;
-    max-height: 9.5vh;
+    width: 14rem;
+    min-height: 7rem;
+    max-height: 7rem;
   }
 
   .image-container img {
-    max-width: 10vw;
-    min-width: 10vw;
-    min-height: 8vh;
-    max-height: 8vh;
+    max-width: 14rem;
+    min-width: 14rem;
+    min-height: 7rem;
+    max-height: 7rem;
   }
   .name-container {
     height: 2vh;
