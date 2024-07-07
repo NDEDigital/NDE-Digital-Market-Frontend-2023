@@ -244,6 +244,7 @@ export class OrderApiService {
   }
 
   getSingleOrderForBuyer(orderNo: string) {
+    console.log(orderNo)
     return this.http.get(this.getSingleOrderForBuyerURL, {
       params: { orderNo },
     });

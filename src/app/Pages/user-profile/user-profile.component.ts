@@ -18,6 +18,7 @@ export class UserProfileComponent {
   editBTN!: ElementRef;
   updateUserForm: FormGroup;
   Role = '';
+  userCode: any;
   constructor(
     private sharedService: SharedService,
     private userDataService: UserDataService
@@ -28,20 +29,10 @@ export class UserProfileComponent {
     if (role) {
       this.Role = role;
     }
-    const userCode = localStorage.getItem('code');
+    this.userCode = localStorage.getItem('code');
 
     // //console.log(userCode, 'code');
-    this.userDataService.getSingleUser(userCode).subscribe({
-      next: (response: any) => {
-        console.log(response.result);
-        const userData = response.result;
-        this.sharedService.loggedInUserInfo(userData);
-      },
-      error: (error: any) => {
-        // Handle the error
-        console.log(error);
-      },
-    });
+    this.getData();
 
     // this.user$.subscribe((user) => {
     //   //console.log(user, 'user');
@@ -122,31 +113,42 @@ export class UserProfileComponent {
   //   this.editMode2 = 'companyInfo';
   // }
 
-
-
-toggleEditMode(section: string) {
-  if (section === 'contact') {
-    if (this.editMode1 === 'contact') {
-      // Exiting edit mode
-      this.updateUserForm.patchValue(this.initialContactValues);
-      this.editMode1 = '';
-    } else {
-      // Entering edit mode
-      this.initialContactValues = this.updateUserForm.value;
-      this.editMode1 = 'contact';
-    }
-  } else if (section === 'companyInfo') {
-    if (this.editMode2 === 'companyInfo') {
-      // Exiting edit mode
-      this.updateUserForm.patchValue(this.initialCompanyValues);
-      this.editMode2 = '';
-    } else {
-      // Entering edit mode
-      this.initialCompanyValues = this.updateUserForm.value;
-      this.editMode2 = 'companyInfo';
+  getData() {
+    this.userDataService.getSingleUser(this.userCode).subscribe({
+      next: (response: any) => {
+        console.log(response.result);
+        const userData = response.result;
+        this.sharedService.loggedInUserInfo(userData);
+      },
+      error: (error: any) => {
+        // Handle the error
+        console.log(error);
+      },
+    });
+  }
+  toggleEditMode(section: string) {
+    if (section === 'contact') {
+      if (this.editMode1 === 'contact') {
+        // Exiting edit mode
+        this.updateUserForm.patchValue(this.initialContactValues);
+        this.editMode1 = '';
+      } else {
+        // Entering edit mode
+        this.initialContactValues = this.updateUserForm.value;
+        this.editMode1 = 'contact';
+      }
+    } else if (section === 'companyInfo') {
+      if (this.editMode2 === 'companyInfo') {
+        // Exiting edit mode
+        this.updateUserForm.patchValue(this.initialCompanyValues);
+        this.editMode2 = '';
+      } else {
+        // Entering edit mode
+        this.initialCompanyValues = this.updateUserForm.value;
+        this.editMode2 = 'companyInfo';
+      }
     }
   }
-}
   onInputFocus(input: HTMLInputElement | HTMLTextAreaElement) {
     if (this.editMode === 'contact') {
       input.classList.add('editable');
@@ -179,12 +181,12 @@ toggleEditMode(section: string) {
       // //console.log(updatedUser, 'updatedUser');
       this.userDataService.updateUser(updatedUser).subscribe({
         next: (response: any) => {
-          location.reload();
+          // location.reload();
           console.log(response);
           //console.log(updatedUser, 'userData');
           // Clear the form
           // this.userForm.reset();
-          alert(response.message);
+          this.getData();
 
           //
           this.sharedService.loggedInUserInfo(response.user);

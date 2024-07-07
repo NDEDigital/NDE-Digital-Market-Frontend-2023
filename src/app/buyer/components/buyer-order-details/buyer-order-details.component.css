@@ -28,7 +28,12 @@ body {
   align-items: center;
   width: 100%;
 }
-
+#footer {
+  padding-top: 2vh;
+  background-color: #222831;
+  padding-top: 1rem;
+  width: 100%;
+}
 .horizontal.timeline:before {
   content: "";
   display: block;
