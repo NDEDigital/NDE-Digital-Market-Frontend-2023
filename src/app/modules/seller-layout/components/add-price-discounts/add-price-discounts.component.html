@@ -57,7 +57,15 @@
       <div class="col tableHeader">Product totalPrice</div>
       <div class="col tableHeader">Added Date</div>
     </div>
-
+    <div>
+      <h1
+        *ngIf="productList?.length == 0"
+        class="text-center"
+        style="color: red; margin-top: 15%"
+      >
+        Product Not Found
+      </h1>
+    </div>
     <!-- table body -->
 
     <section

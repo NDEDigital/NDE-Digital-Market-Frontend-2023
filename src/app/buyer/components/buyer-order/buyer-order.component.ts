@@ -318,7 +318,7 @@ export class BuyerOrderComponent {
         this.loading = false;
       },
       error: (error: any) => {
-        //console.log(error);
+        console.log(error);
       },
     });
   }
@@ -330,9 +330,9 @@ export class BuyerOrderComponent {
     this.btnClick(status);
     this.orderService.getOrdersForBuyer(userID, status).subscribe({
       next: (response: any) => {
-        console.log(response, 'get buyer order data');
+        console.log(response, 'get buyer order data',status);
         this.buyerOrder = response;
-        // console.log(this.productsData,"all data");
+        console.log(this.buyerOrder ,"all data");
       },
       error: (error: any) => {
         //console.log(error);
@@ -373,7 +373,7 @@ export class BuyerOrderComponent {
       this.activeNav = str;
       //console.log('clicked', str);
     }
-    this.loadData();
+    // this.loadData();
   }
 
   getStatusDescription(status: string): string {
