@@ -145,6 +145,8 @@ export class ProductSliderComponent {
   viewAllProducts(groupCodes: any) {
     console.log('GROUPCODE::::::::::', groupCodes);
     localStorage.setItem('groupCode', groupCodes);
+    localStorage.setItem('companyCodeFilter', '');
+
     this.router.navigate(['/groupProducts']);
   }
 
