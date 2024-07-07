@@ -61,7 +61,7 @@ export class AdminOrderComponent {
   detailsData: DetailsModel[] = []; // pending details data
   toReturnCount = 0;
   ReturnedCount = 0;
-
+  prev: any;
   detailsMap: { [key: number]: any } = {};
   masterId = '';
 
@@ -196,16 +196,18 @@ export class AdminOrderComponent {
         //this.status = 'Pending';
       }
     });
-    // console.log(" after making false  ",this.isIconRotatedMap)
+    console.log(' after making false  ', orderMasterId);
 
     this.isIconRotatedMap[orderMasterId] =
       !this.isIconRotatedMap[orderMasterId];
 
-    // console.log(" after making  toggle  ",this.isIconRotatedMap)
-
+    console.log(' after making  toggle  ', this.isIconRotatedMap);
+    console.log(this.detailsData.length, 'sds');
     if (this.detailsData.length === 0) {
       this.service.getOrderDetailData(orderMasterId).subscribe((data: any) => {
         // this.detailsData = [];
+        this.prev = orderMasterId;
+        console.log('prothom', this.prev, orderMasterId);
         if (this.selectedButtonIndex === 'Cancelled') {
           // console.log(data, 'all data');
 
@@ -249,6 +251,55 @@ export class AdminOrderComponent {
       });
     } else {
       this.detailsData.length = 0; // clearing the array for  hiding the details data div
+      if (this.prev != orderMasterId) {
+        console.log('ashce', this.prev, orderMasterId);
+        this.prev = orderMasterId;
+        this.service
+          .getOrderDetailData(orderMasterId)
+          .subscribe((data: any) => {
+            // this.detailsData = [];
+            if (this.selectedButtonIndex === 'Cancelled') {
+              // console.log(data, 'all data');
+
+              this.detailsData = data.filter(
+                (cancelData: any) => cancelData.status !== 'Approved'
+              );
+
+              // console.log(this.detailsData, 'data after filter');
+
+              this.detailsData = this.detailsData.map((item: any) => ({
+                ...item,
+                isChecked: false,
+              }));
+            } else if (this.selectedButtonIndex === 'Approved') {
+              // console.log('dsagashd');
+
+              this.detailsData = data;
+
+              this.detailsData = this.detailsData.filter(
+                (approvedData: any) => approvedData.status === 'Approved'
+              );
+
+              this.detailsData = this.detailsData.map((item: any) => ({
+                ...item,
+                isChecked: false,
+              }));
+            } else if (this.selectedButtonIndex === 'Pending') {
+              this.detailsData = data;
+              this.detailsData = this.detailsData.map((item: any) => ({
+                ...item,
+                isChecked: false,
+              }));
+            }
+
+            //  this.togglingDetailsCheckbox(index);
+            // console.log('details data dataaaaaa', this.detailsData);
+
+            setTimeout(() => {
+              this.togglingDetailsCheckbox(index, this.detailsData);
+            }, 10);
+          });
+      }
     }
 
     //console.log(' isIconRotatedMap', this.isIconRotatedMap);

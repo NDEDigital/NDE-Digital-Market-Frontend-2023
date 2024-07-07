@@ -155,7 +155,7 @@
 }
 
 .rotate {
-  transform: rotate(180deg); /* Rotate by 180 degrees (or the desired amount) */
+  transform: rotate(180deg); 
 }
 .Admin_order_container_row .col-1 {
   display: flex;
