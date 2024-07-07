@@ -350,7 +350,7 @@ export class BuyerOrderComponent {
   }
   orderDetails(orderNo: any) {
     //console.log(order, 'order');
-    sessionStorage.setItem('orderNo', JSON.stringify(orderNo));
+    sessionStorage.setItem('orderNo',orderNo);
     window.open('/buyerOrderDetails', '_blank');
   }
   btnClick(str: string) {
