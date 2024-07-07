@@ -8,16 +8,18 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <!-- Modal header -->
-      <div class="modal-header">
+      <div class="modal-header justify-content-between">
         <h5 class="modal-title" id="changePasswordModalLabel">
           Change Password
         </h5>
-        <button
+        <!-- <button
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
-        ></button>
+        ></button> -->
+        <h5 style="cursor:pointer" data-bs-dismiss="modal" (click)="closeModal()" #closeButton>X</h5>
+     
       </div>
       <!-- Modal body -->
       <div class="modal-body">
@@ -92,7 +94,7 @@
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="formSubmit()">
+        <button type="button" class="save-button " (click)="formSubmit()">
           Save Changes
         </button>
         <!-- <button
