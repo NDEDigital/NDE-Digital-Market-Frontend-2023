@@ -295,6 +295,7 @@ export class SellerLayoutComponent {
           //  log.password=
         },
         error: (error: any) => {
+          console.log(error)
           // //console.log(error, ' ------error');
           this.errorMessage = error.error.message;
           // alert(error.error.message);
