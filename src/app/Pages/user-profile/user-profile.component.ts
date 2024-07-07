@@ -12,7 +12,8 @@ export class UserProfileComponent {
   user$ = this.sharedService.user$;
   user: any;
   isCompanyAdmin: any;
-
+  initialContactValues: any = {};
+  initialCompanyValues: any = {};
   @ViewChild('editBTN')
   editBTN!: ElementRef;
   updateUserForm: FormGroup;
@@ -92,17 +93,25 @@ export class UserProfileComponent {
   editMode1: string = '';
   editMode2: string = '';
 
-  toggleEditMode(section: string) {
-    // //console.log('aise');
+  // toggleEditMode(section: string) {
+  //   if (section === 'contact') {
+  //     this.editMode1 = this.editMode1 === 'contact' ? '' : 'contact';
+  //   } else if (section === 'companyInfo') {
+  //     this.editMode2 = this.editMode2 === 'companyInfo' ? '' : 'companyInfo';
+  //   }
+  // }
 
-    if ('contact' === section) {
-      this.editMode1 = 'contact';
-    } else {
-      if ('companyInfo' === section) {
-        this.editMode2 = 'companyInfo';
-      }
-    }
-  }
+  // toggleEditMode(section: string) {
+  //   // //console.log('aise');
+
+  //   if ('contact' === section) {
+  //     this.editMode1 = 'contact';
+  //   } else {
+  //     if ('companyInfo' === section) {
+  //       this.editMode2 = 'companyInfo';
+  //     }
+  //   }
+  // }
   // toggleEditMode1(section: string) {
   //   //console.log('aise');
 
@@ -112,6 +121,32 @@ export class UserProfileComponent {
   //   //console.log('aise');
   //   this.editMode2 = 'companyInfo';
   // }
+
+
+
+toggleEditMode(section: string) {
+  if (section === 'contact') {
+    if (this.editMode1 === 'contact') {
+      // Exiting edit mode
+      this.updateUserForm.patchValue(this.initialContactValues);
+      this.editMode1 = '';
+    } else {
+      // Entering edit mode
+      this.initialContactValues = this.updateUserForm.value;
+      this.editMode1 = 'contact';
+    }
+  } else if (section === 'companyInfo') {
+    if (this.editMode2 === 'companyInfo') {
+      // Exiting edit mode
+      this.updateUserForm.patchValue(this.initialCompanyValues);
+      this.editMode2 = '';
+    } else {
+      // Entering edit mode
+      this.initialCompanyValues = this.updateUserForm.value;
+      this.editMode2 = 'companyInfo';
+    }
+  }
+}
   onInputFocus(input: HTMLInputElement | HTMLTextAreaElement) {
     if (this.editMode === 'contact') {
       input.classList.add('editable');

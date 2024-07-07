@@ -1,5 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component,HostListener, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CompanyService } from 'src/app/services/company.service';
@@ -25,7 +32,7 @@ export class ProductSidebarComponent implements OnInit {
   isTopsellerpage = false;
   showCompaniesValue = true;
   activeEntry: any = '';
-  activeCompany: string = '';
+  activeCompany: any = '';
   active: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   @Output() companyNameChanged = new EventEmitter<string>();
@@ -78,6 +85,7 @@ export class ProductSidebarComponent implements OnInit {
     this.loadCategory();
 
     this.activeEntry = localStorage.getItem('groupCode');
+    this.activeCompany = localStorage.getItem('companyCodeFilter');
 
     this.filterContent = [];
     this.filterData();
@@ -91,7 +99,9 @@ export class ProductSidebarComponent implements OnInit {
     this.loadBrand();
     this.filterContent = [];
     this.filterData();
-    this.checkWindowWidth();
+
+    this.setGroupData(this.activeEntry, this.activeCompany);
+    // this.checkWindowWidth();
   }
   toggleGroupVisibility() {
     this.showGroupValue = !this.showGroupValue;
@@ -103,7 +113,7 @@ export class ProductSidebarComponent implements OnInit {
 
   checkWindowWidth() {
     if (window.innerWidth > 768) {
-      this.setGroupData('','')
+      this.setGroupData(this.activeEntry, this.activeCompany);
     }
     // if (window.innerWidth > 768) {
     //   this.notfilter = true;
@@ -171,7 +181,7 @@ export class ProductSidebarComponent implements OnInit {
     console.log('Assscheee pore', this.companyCode);
     this.selectedCompanyName = '';
     this.activeEntry = groupCode;
-    companyCode = this.activeCompany;
+    if (!companyCode) companyCode = this.activeCompany;
 
     this.filterContent = [];
     this.filterData();
