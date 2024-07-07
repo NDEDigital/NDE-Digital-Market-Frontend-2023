@@ -268,7 +268,7 @@ export class SellerLayoutComponent {
       // this.user.password == this.pForm.value.currentPassword
       this.pForm.value.newPassword === this.pForm.value.confirmPassword
     ) {
-      const userId: number = parseInt(localStorage.getItem('code') || '0', 10); // Use base 10
+      const userId = localStorage.getItem('code'); // Use base 10
       const passData = {
         userId: userId,
         oldPassword: this.pForm.value.currentPassword,
