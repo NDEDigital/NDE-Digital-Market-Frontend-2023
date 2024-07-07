@@ -250,6 +250,7 @@ export class SellerLayoutComponent {
   }
 
   closebtn() {
+    console.log('ashce');
     this.pForm.reset();
   }
   formSubmit() {
@@ -507,6 +508,8 @@ export class SellerLayoutComponent {
             if (response.cancelEdited === true) {
               const users = response.users;
               this.toUserList = [...users];
+            }else{
+              this.closeModal();
             }
             for (let user of this.toUserList) {
               const email = user.email.toString();
@@ -617,6 +620,7 @@ export class SellerLayoutComponent {
   }
   // Close modal bootstrap
   closeModal() {
+    console.log('ashce');
     this.closeButton.nativeElement.click();
   }
   @HostListener('window:resize', ['$event'])
