@@ -1,22 +1,21 @@
-<section
-  
-  *ngIf="getTopSellerData?.length"
->
+<section *ngIf="getTopSellerData?.length">
   <!-- Heading for the top sellers section -->
-  
-    <div  class="text-head fw-bold fs-3 d-flex justify-content-between align-items-center">
-      <span>Recommended Product</span>
-      
+
+  <div
+    class="text-head fw-bold fs-3 d-flex justify-content-between align-items-center"
+  >
+    <span>Recommended Product</span>
+
     <button
       class="text m-0 text-start px-3 py-4 text-nowrap"
       (click)="setSelectData()"
     >
       View All
     </button>
-</div>
+  </div>
 
   <!-- Slider for the sellers -->
-  <div class="container-fluid" style="--bs-gutter-x: 0">
+  <div class="container-fluid">
     <div class="slider_wrap d-flex align-items-center rounded bg-white">
       <div
         class="slider_main border-1"
@@ -24,26 +23,32 @@
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
       >
-        <div class="item" *ngFor="let client of getTopSellerData">
+        <div class="item col-md-4 col-sm-6 col-xs-12 mb-3" *ngFor="let client of getTopSellerData">
           <div (click)="productCardClick(client)">
             <div class="image-container">
               <img
-                class=""
+                class="card-image"
                 [src]="
                   client.imagePath.substring(client.imagePath.indexOf('assets'))
                 "
                 alt="{{ client.productName }}"
               />
-            </div>
-            <div class="details-cintainer">
-              <div class="name-container">
-                <p><strong>Brand: </strong>{{ client.companyName }}</p>
-              </div>
-              <div class="name-container">
-                <p><strong>Product: </strong>{{ client.productName }}</p>
-              </div>
-              <div class="name-container">
-                <p><strong>Price: </strong>৳{{ client.totalPrice }}</p>
+
+              <div class="details-cintainer">
+                <div class="name-container">
+                  <p>
+                    {{ client.productName }}
+                    <span class="company-name">
+                      (
+                      {{ client.companyName }}
+                      )
+                    </span>
+                  </p>
+                </div>
+
+                <div class="PC">
+                  <p class="price">Price:৳{{ client.totalPrice }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -51,5 +56,4 @@
       </div>
     </div>
   </div>
-    
 </section>
