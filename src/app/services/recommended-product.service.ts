@@ -13,7 +13,9 @@ export class RecommendedProductService {
   constructor(private http: HttpClient) {}
   GetRecommendedProductDetailsData(CompanyCode: any, productId: any) {
     return this.http.get(
-      `${this.getRecommendedProduct}/${CompanyCode}/${productId}`
+      `${
+        this.getRecommendedProduct
+      }?CompanyCode=${CompanyCode}&ProductId=${encodeURIComponent(productId)}`
     );
   }
 }
