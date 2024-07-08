@@ -66,8 +66,8 @@
   </div>
   <div class="col tableBody" [ngClass]="{ 'active-row': isHovered === i }">
     <div class="d-flex justify-content-center align-items-center">
-      <div>
-        <button class="actionBtn" *ngIf="btnIndex != 1">
+      <div *ngIf="btnIndex == 0 || btnIndex == -1">
+        <button class="actionBtn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -83,8 +83,26 @@
           </svg>
         </button>
       </div>
-      <div>
-        <button class="actionBtn" *ngIf="btnIndex != 0">
+      <div *ngIf="btnIndex == 1 || btnIndex == -1">
+        <button class="actionBtn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="red"
+            class="bi bi-x-lg fw-bolder"
+            viewBox="0 0 16 16"
+            (click)="updateCompany(cmp.email, cmp.companyCode, 0, cmp.maxUser)"
+          >
+            <path
+              d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- <div *ngIf="btnIndex == -1">
+        <button class="actionBtn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -113,7 +131,7 @@
             />
           </svg>
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
