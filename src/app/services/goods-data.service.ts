@@ -122,13 +122,30 @@ export class GoodsDataService implements OnInit {
   }
 
   getProductList(companyCode: string, groupCode: string) {
-    const productCompany = `${
-      this.URL
-    }/api/Goods/GetProductList?CompanyCode=${encodeURIComponent(
-      companyCode
-    )}&ProductGroupCode=${encodeURIComponent(groupCode)}`;
+    let productCompany;
+    if (companyCode && groupCode) {
+      productCompany = `${
+        this.URL
+      }/api/Goods/GetProductList?CompanyCode=${encodeURIComponent(
+        companyCode
+      )}&ProductGroupCode=${encodeURIComponent(groupCode)}`;
+    } else if (companyCode) {
+      productCompany = `${
+        this.URL
+      }/api/Goods/GetProductList?CompanyCode=${encodeURIComponent(
+        companyCode
+      )}`;
+    } else if (groupCode) {
+      productCompany = `${
+        this.URL
+      }/api/Goods/GetProductList?ProductGroupCode=${encodeURIComponent(
+        groupCode
+      )}`;
+    } else {
+      productCompany = `${this.URL}/api/Goods/GetProductList`;
+    }
 
-    return this.http.get<any[]>(productCompany).pipe(
+    return this.http.get<any[]>(productCompany ? productCompany : '').pipe(
       tap((response: any[]) => {
         this.productType = response;
       }),
