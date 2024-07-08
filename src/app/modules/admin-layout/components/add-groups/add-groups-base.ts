@@ -8,6 +8,7 @@ export class AddGroupsBase {
   selectedProducts1: any[] = [];
   // Alert message
   alertMsg = '';
+  alertTitle = '';
   // Flag for indicating error state
   isError = false;
   // Currently selected group
@@ -69,6 +70,7 @@ export class AddGroupsBase {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
+          this.alertTitle = 'Successful'
           this.alertMsg = 'Product group updated successfully';
           this.isEditMode = false;
           setTimeout(() => {

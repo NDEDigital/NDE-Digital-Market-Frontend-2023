@@ -75,7 +75,7 @@
             name="category"
             id="category-checkbox-{{ i }}"
             style="cursor: pointer"
-            (click)="setGroupData(entry.key, entry.value)"
+            (click)="setGroupData(entry.key,'')"
             [ngClass]="{ selected: entry.key == activeEntry }"
             [checked]="entry.key == activeEntry"
           />

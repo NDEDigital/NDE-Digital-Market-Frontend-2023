@@ -38,7 +38,8 @@ export class ProductFormService {
           this.maxDiscountPctValidator(),
         ],
       ],
-      effectivateDate: [''],
+      // effectivateDate: [''],
+      effectivateDate: [null, Validators.required],
       endDate: [''],
       productImage: ['', Validators.required],
       totalPrice: [''],
@@ -66,21 +67,36 @@ export class ProductFormService {
     };
   }
 
+/**
+ * It check that Efffected Date will be selected form today to future date only.
+*/
   presentOrFutureDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value);
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
-
       return selectedDate >= currentDate ? null : { invalidDate: true };
     };
   }
-
+/**
+ * It check alawys end Date should be bigger than Effective Date
+ *
+*/
   futureDateValidator(effectiveDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const endDate = new Date(control.value);
-
       return endDate > effectiveDate ? null : { invalidEndDate: true };
     };
   }
+  /**
+   *  after any change in Effective Date:
+   *It check alawys end Date should be bigger than Effective Date
+  */
+  validationForSmallEndDate(endDate: Date): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const selectedDate = new Date(control.value);
+      return selectedDate > endDate ? { invalidDateRange: true } : null;
+    };
+  }
+
 }

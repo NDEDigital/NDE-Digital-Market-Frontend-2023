@@ -140,6 +140,7 @@ export class UnitListComponent
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
+          this.alertTitle = 'Successful!';
           this.alertMsg = 'Unit updated successfully';
           this.isEditMode = false;
           setTimeout(() => {

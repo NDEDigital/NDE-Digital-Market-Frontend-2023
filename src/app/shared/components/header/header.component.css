@@ -25,6 +25,13 @@ html {
   text-decoration: none;
   /* margin: .4rem 0; */
 }
+.save-button {
+  width: 100%;
+  border-radius: 5px;
+  background-color: #7b9eab;
+  padding: 0.7rem 2rem;
+  color: white;
+}
 .header_container {
   background: var(--color-primary);
   margin: 0 auto;

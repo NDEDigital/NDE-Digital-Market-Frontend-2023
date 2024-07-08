@@ -17,10 +17,12 @@ export class SellerInvoiceComponent {
   userId: any = 0;
   invoice: any = [];
   test = 0;
+  companyCode: any;
 
   constructor(private InvoiceService: InvoiceService) {
     const orderIDString = sessionStorage.getItem('orderMasterID');
     this.userId = localStorage.getItem('code');
+    this.companyCode = localStorage.getItem('CompanyCode');
     this.invoice = {};
     console.log(orderIDString);
     if (orderIDString !== null) {
@@ -32,10 +34,12 @@ export class SellerInvoiceComponent {
     console.log(' orderId', this.orderID);
     this.InvoiceService.getBuyerInvoice(this.orderID).subscribe({
       next: (response: any) => {
-       
         this.invoice = response;
-        console.log(this.userId,' invoice data ', this.invoice.orderInvoiceDetailList);
-
+        console.log(
+          this.userId,
+          ' invoice data ',
+          this.invoice.orderInvoiceDetailList
+        );
       },
       error: (error: any) => {
         console.log(error);

@@ -88,39 +88,36 @@ export class GroupProductsComponent {
   }
   getAllProduct(groupCode: string, companyCode: string): void {
     console.log(groupCode, companyCode);
+    localStorage.setItem('groupCode', groupCode);
+    localStorage.setItem('companyCodeFilter', companyCode);
     if (groupCode) {
       this.title = true;
     } else {
       this.title = false;
     }
-    if (!groupCode && !companyCode) {
-      this.goodsData.getCarouselData().subscribe(
-        (response: any[]) => {
-          console.log('Products of groupProducts:', response);
+    console.log(groupCode, companyCode);
 
-          this.products = response; // Update the products array with the response data
-          console.log(this.products);
-        },
-        (error: any) => {
-          console.error('Error fetching products:', error);
-        }
-      );
-    } else {
-      this.goodsData.getProductList(companyCode, groupCode).subscribe(
-        (response: any[]) => {
-          console.log('Products of groupProducts:', response);
+    this.goodsData.getProductList(companyCode, groupCode).subscribe(
+      (response: any[]) => {
+        console.log('Products of groupProducts:', response);
 
-          this.products = response; // Update the products array with the response data
-          console.log(this.products);
-        },
-        (error: any) => {
-          console.error('Error fetching products:', error);
-        }
-      );
-    }
+        this.products = response; // Update the products array with the response data
+        console.log(this.products);
+      },
+      (error: any) => {
+        console.error('Error fetching products:', error);
+      }
+    );
+
     console.log('kaj hoise');
   }
-
+  truncateString(str: any, maxLength: any) {
+    if (str.length > maxLength) {
+      return str.substring(0, maxLength) + '...';
+    } else {
+      return str;
+    }
+  }
   handleDataUpdated() {
     // this.callApi();
   }

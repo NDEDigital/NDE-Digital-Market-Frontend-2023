@@ -250,6 +250,7 @@ export class SellerLayoutComponent {
   }
 
   closebtn() {
+    console.log('ashce');
     this.pForm.reset();
   }
   formSubmit() {
@@ -268,7 +269,7 @@ export class SellerLayoutComponent {
       // this.user.password == this.pForm.value.currentPassword
       this.pForm.value.newPassword === this.pForm.value.confirmPassword
     ) {
-      const userId: number = parseInt(localStorage.getItem('code') || '0', 10); // Use base 10
+      const userId = localStorage.getItem('code'); // Use base 10
       const passData = {
         userId: userId,
         oldPassword: this.pForm.value.currentPassword,
@@ -294,6 +295,7 @@ export class SellerLayoutComponent {
           //  log.password=
         },
         error: (error: any) => {
+          console.log(error)
           // //console.log(error, ' ------error');
           this.errorMessage = error.error.message;
           // alert(error.error.message);
@@ -507,6 +509,8 @@ export class SellerLayoutComponent {
             if (response.cancelEdited === true) {
               const users = response.users;
               this.toUserList = [...users];
+            }else{
+              this.closeModal();
             }
             for (let user of this.toUserList) {
               const email = user.email.toString();
@@ -617,6 +621,7 @@ export class SellerLayoutComponent {
   }
   // Close modal bootstrap
   closeModal() {
+    console.log('ashce');
     this.closeButton.nativeElement.click();
   }
   @HostListener('window:resize', ['$event'])
