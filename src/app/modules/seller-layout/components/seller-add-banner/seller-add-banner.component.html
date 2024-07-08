@@ -11,11 +11,13 @@
     [AddButtonName]="'Add Banner'"
     [addGroupModalCenter]="'#addGroupModalCenter'"
     [btnIndex]="'2'"
+    (openAddGroupModalEvent)="openAddGroupModal()"
   ></app-status-button>
 </div>
 
 <div
   class="modal fade"
+  
   id="addGroupModalCenter"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -30,6 +32,7 @@
             class="btn-close border border-1"
             data-bs-dismiss="modal"
             aria-label="Close"
+            (click)="closeEditFormWithoutUpdate()"
           ></button>
         </div>
         <!-- Title -->
