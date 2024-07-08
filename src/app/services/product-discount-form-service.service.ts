@@ -67,30 +67,34 @@ export class ProductFormService {
     };
   }
 
+/**
+ * It check that Efffected Date will be selected form today to future date only.
+*/
   presentOrFutureDateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value);
       const currentDate = new Date();
       currentDate.setHours(0, 0, 0, 0);
-      // console.log(selectedDate, "date selected");
-
       return selectedDate >= currentDate ? null : { invalidDate: true };
     };
   }
-
+/**
+ * It check alawys end Date should be bigger than Effective Date
+ *
+*/
   futureDateValidator(effectiveDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const endDate = new Date(control.value);
       return endDate > effectiveDate ? null : { invalidEndDate: true };
     };
   }
-
-  abc(endDate: Date): ValidatorFn {
-
+  /**
+   *  after any change in Effective Date:
+   *It check alawys end Date should be bigger than Effective Date
+  */
+  validationForSmallEndDate(endDate: Date): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const selectedDate = new Date(control.value);
-      console.log(selectedDate, endDate, 'dates are here');
-      // alert('wqe');
       return selectedDate > endDate ? { invalidDateRange: true } : null;
     };
   }
