@@ -83,7 +83,14 @@ export class BuyerOrderDetailsComponent implements OnInit {
     };
     sessionStorage.setItem('productData', JSON.stringify(obj));
     // this.route.navigate(['/productDetails']);
-    window.open('/productDetails', '_blank');
+    console.log(obj)
+    // window.open(
+    //   '/productDetails?productId=' +
+    //     btoa(detail.productId) +
+    //     '&companyCode=' +
+    //     btoa(detail.companyCode),
+    //   '_blank'
+    // );
   }
   // Adjust the percentage as needed
   getLineWidth(status: string): number {
