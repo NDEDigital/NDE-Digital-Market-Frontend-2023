@@ -1,4 +1,4 @@
-.container{
+.container {
   /* max-width: 300rem; */
   overflow-x: auto;
   max-width: 100%;
@@ -35,7 +35,6 @@ h2 {
   color: var(--color-primary);
   text-shadow: 2px 2px 2px rgb(34, 77, 85);
 }
-
 
 label {
   display: block;
@@ -170,8 +169,6 @@ select {
 }
 .tablebodyRow {
   text-align: center;
-
-
 }
 /* .tablebodyRow:hover{
   background-color: #78ac8b;
@@ -205,20 +202,18 @@ select {
   background: #608897;
   color: rgb(3, 20, 43);
   font-weight: 500;
-   transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
   border: 1px solid var(--color-primary-dark);
   margin-left: auto; /* Align the button to the end of its container */
 }
-.bn{
+.bn {
   color: white;
-  background-color: #608897 ;
- transition: background-color 0.3s ease;
+  background-color: #608897;
+  transition: background-color 0.3s ease;
 }
 .custom-btn:hover button {
   opacity: 0.75;
-
 }
-
 
 .headerbtns .btn-active {
   border: 1px solid #78ac8b;
@@ -268,9 +263,8 @@ select {
 }
 
 .active-row {
-  background-color:rgb(233, 238, 243);
+  background-color: rgb(233, 238, 243);
 }
-
 
 .img-preview {
   width: 8rem;
@@ -281,7 +275,6 @@ select {
   background-color: red;
   color: white;
 }
-
 
 .description {
   font-size: 16px; /* Adjust the font size as needed */
@@ -295,28 +288,19 @@ select {
   height: 80px; /* Adjust the height as needed */
 }
 
-
 /* ---------checkboxes---------- */
 
 .checkbox-container {
   display: flex;
   align-items: center;
-  margin-top: 10px; /* Adjust as needed */
+
 }
 
 .checkbox-input {
-  appearance: none; /* Remove default checkbox appearance */
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ccc; /* Border color */
-  border-radius: 5px; /* Rounded corners */
-  margin-right: .5rem; /* Spacing between checkboxes and labels */
-  cursor: pointer; /* Show pointer cursor on hover */
-  margin-left: 1rem;
-}
+  margin-top: -0.2rem;
+  margin-right: 0.5rem; /* Spacing between checkboxes and labels */
 
-.checkbox-input:checked {
-  background-color: #007bff; /* Background color when checkbox is checked */
+  margin-left: 0.5rem;
 }
 
 .checkbox-label {
@@ -325,17 +309,3 @@ select {
 }
 
 /* Hide default checkbox indicator */
-.checkbox-input::before {
-  content: '';
-  display: block;
-  width: 12px;
-  height: 12px;
-  background-color: #fff; /* Background color of default checkbox indicator */
-  border-radius: 3px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition */
-}
-
-/* Show custom checkbox indicator when checked */
-.checkbox-input:checked::before {
-  background-color: #fff; /* Change background color when checked */
-}
