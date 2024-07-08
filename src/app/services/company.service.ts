@@ -44,10 +44,11 @@ export class CompanyService {
       status = false;
       // alert(status);
     }
+    const userId = localStorage.getItem('code');
     // console.log("the status",status);
     return this.http.get(
-      `${this.URL}/CompanySellerDetails?userId=${localStorage.getItem(
-        'code'
+      `${this.URL}/CompanySellerDetails?userId=${encodeURIComponent(
+        userId ? userId : ''
       )}&IsActive=${status}`
     );
   }

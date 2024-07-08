@@ -88,11 +88,14 @@ export class GroupProductsComponent {
   }
   getAllProduct(groupCode: string, companyCode: string): void {
     console.log(groupCode, companyCode);
+    localStorage.setItem('groupCode', groupCode);
+    localStorage.setItem('companyCodeFilter', companyCode);
     if (groupCode) {
       this.title = true;
     } else {
       this.title = false;
     }
+    console.log(groupCode,companyCode)
     if (!groupCode && !companyCode) {
       this.goodsData.getCarouselData().subscribe(
         (response: any[]) => {

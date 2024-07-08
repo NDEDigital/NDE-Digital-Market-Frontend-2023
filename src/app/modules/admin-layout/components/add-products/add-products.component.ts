@@ -155,6 +155,7 @@ export class AddProductsComponent implements OnInit {
       (response: any) =>
         this.handleApiResponse(
           response,
+          'Success!',
           'Product created successfully',
           this.btnIndex
         ),
@@ -173,6 +174,7 @@ export class AddProductsComponent implements OnInit {
         (response: any) =>
           this.handleApiResponse(
             response,
+            'Success!',
             'Product updated successfully',
             this.btnIndex
           ),
@@ -312,11 +314,14 @@ export class AddProductsComponent implements OnInit {
   // Handle API response success
   handleApiResponse(
     response: ApiResponse,
+    
+    successTitle: string,
     successMsg: string,
     status: number
   ): void {
     setTimeout(() => {
       this.alertMsg = response.message || successMsg;
+      this.alertTitle = successTitle;
       this.isError = false;
       this.PrdouctExistModalBTN.nativeElement.click();
     }, 50);

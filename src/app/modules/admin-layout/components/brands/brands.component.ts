@@ -135,6 +135,7 @@ export class BrandsComponent extends AlertHandleBase implements AfterViewInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
+          this.alertTitle = 'Succesful!'
           this.alertMsg = 'Brand updated successfully';
           this.isEditMode = false;
 

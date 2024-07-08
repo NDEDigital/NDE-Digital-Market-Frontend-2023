@@ -32,7 +32,7 @@ export class MobileProductSidebarComponent {
   isTopsellerpage = false;
   showCompaniesValue = true;
   activeEntry1: any = '';
-  activeCompany1: string = '';
+  activeCompany1: any = '';
   active: string = '';
   @Output() dataUpdated = new EventEmitter<void>();
   @Output() companyNameChanged = new EventEmitter<string>();
@@ -74,15 +74,21 @@ export class MobileProductSidebarComponent {
   @Input() showCategory1!: boolean;
   @Input() showCompany1!: boolean;
   @Input() showGroup1!: boolean;
+  @Input() sidebar!: boolean;
   constructor(
+    private sharedService: SharedService,
+    private router: Router,
+    private route: ActivatedRoute,
     private goodsDataService: GoodsDataService,
     private companyService: CompanyService
   ) {
     this.loadCategory();
+
     this.activeEntry1 = localStorage.getItem('groupCode');
+    this.activeCompany1 = localStorage.getItem('companyCodeFilter');
+
     this.filterContent = [];
     this.filterData();
-    this.checkWindowWidth();
   }
 
   ngOnInit(): void {
@@ -93,12 +99,12 @@ export class MobileProductSidebarComponent {
     this.loadBrand();
     this.filterContent = [];
     this.filterData();
+
+    this.setGroupData(this.activeEntry1, this.activeCompany1);
+    // this.checkWindowWidth();
   }
   toggleGroupVisibility() {
     this.showGroupValue = !this.showGroupValue;
-  }
-  toggleCompaniesVisibility() {
-    this.showCompaniesValue = !this.showCompaniesValue;
   }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -107,7 +113,7 @@ export class MobileProductSidebarComponent {
 
   checkWindowWidth() {
     if (window.innerWidth < 768) {
-      this.setGroupData('', '');
+      this.setGroupData(this.activeEntry1, this.activeCompany1);
     }
     // if (window.innerWidth > 768) {
     //   this.notfilter = true;
@@ -115,6 +121,9 @@ export class MobileProductSidebarComponent {
     // if (window.innerWidth < 768) {
     //   this.notfilter = false;
     // }
+  }
+  toggleCompaniesVisibility() {
+    this.showCompaniesValue = !this.showCompaniesValue;
   }
   filterData() {
     if (this.activeEntry1) this.filterContent.push('Category');
@@ -172,7 +181,7 @@ export class MobileProductSidebarComponent {
     console.log('Assscheee pore', this.companyCode);
     this.selectedCompanyName = '';
     this.activeEntry1 = groupCode;
-    companyCode = this.activeCompany1;
+    if (!companyCode) companyCode = this.activeCompany1;
 
     this.filterContent = [];
     this.filterData();

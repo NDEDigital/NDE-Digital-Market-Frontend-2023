@@ -63,13 +63,17 @@ export class AddProductService {
   }
 
   getProductGroupsByUserId(userID: any) {
-    return this.http.get(`${this.getProductGroupByUserIdURL}/${userID}`);
+    return this.http.get(
+      `${this.getProductGroupByUserIdURL}?userID=${encodeURIComponent(userID)}`
+    );
   }
 
   // get dfetails data
   GetProductDetailsData(CompanyCode: any, productGroupId: any) {
     return this.http.get(
-      `${this.getdetailsData}/${CompanyCode}/${productGroupId}`
+      `${this.getdetailsData}?UserId=${encodeURIComponent(
+        CompanyCode
+      )}&productGroupId=${encodeURIComponent(productGroupId)}`
     );
   }
 

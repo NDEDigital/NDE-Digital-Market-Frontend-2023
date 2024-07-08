@@ -19,7 +19,7 @@ export class BuyerOrderDetailsComponent implements OnInit {
   ngOnInit() {
     const orderNOString = sessionStorage.getItem('orderNo');
     if (orderNOString !== null) {
-      this.orderNo = JSON.parse(orderNOString);
+      this.orderNo = orderNOString;
     }
     this.orderApi.getSingleOrderForBuyer(this.orderNo).subscribe({
       next: (response: any) => {
