@@ -163,11 +163,15 @@ export class GoodsDataService implements OnInit {
     });
   }
 
-  UrlGetOfHome(productId: Number, companyCode: string) {
+  UrlGetOfHome(productId: string, companyCode: string) {
     // console.log(productId, 'ProductId');
     // console.log(companyCode,'companycde');
 
-    const url = `${this.URL}/api/Goods/GetGoodsDetails/${companyCode}/${productId}`;
+    const url = `${
+      this.URL
+    }/api/Goods/GetGoodsDetails?CompanyCode=${companyCode}&ProductId=${encodeURIComponent(
+      productId ? productId : ''
+    )}`;
 
     return this.http.get(url, {
       params: {}, // Ensure productId is a string
