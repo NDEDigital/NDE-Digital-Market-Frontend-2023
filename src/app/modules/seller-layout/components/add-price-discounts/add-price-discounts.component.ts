@@ -479,7 +479,7 @@ updateeffectivateDateControlFieldValidators(): void {
     if (effectiveDateControl?.value && endDateControl?.value && effectiveDate > endDate) {
       effectiveDateControl?.setValidators([
         Validators.required,
-        this.productFormService.abc(endDate),
+        this.productFormService.validationForSmallEndDate(endDate),
       ]);
     } else {
       // Reset validators if the condition is not met
