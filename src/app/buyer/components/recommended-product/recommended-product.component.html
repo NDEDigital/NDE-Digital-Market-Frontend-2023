@@ -23,7 +23,7 @@
         (mouseenter)="onMouseEnter()"
         (mouseleave)="onMouseLeave()"
       >
-        <div class="item" *ngFor="let client of getTopSellerData">
+        <div class="item col-md-4 col-sm-6 col-xs-12 mb-3" *ngFor="let client of getTopSellerData">
           <div (click)="productCardClick(client)">
             <div class="image-container">
               <img
