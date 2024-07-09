@@ -97,6 +97,13 @@ label {
   /* min-width: 6vw; */
   font-size: 1rem;
 }
+.label-input{
+  display: flex;
+  flex-direction: row;
+}
+.label-input input{
+  /* width: 10%; */
+}
 .radio-label.bold {
   font-weight: bold;
 }
