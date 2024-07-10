@@ -70,7 +70,7 @@ export class ProductSliderComponent {
 
   getAllProduct() {
     this.products.clear();
-    this.goodsDataObj.getCarouselData().subscribe(
+    this.goodsDataObj.getProductList('','').subscribe(
       (data: any[]) => {
         this.goods = data;
         console.log(this.goods, 'GGGEEEETTTTTT');

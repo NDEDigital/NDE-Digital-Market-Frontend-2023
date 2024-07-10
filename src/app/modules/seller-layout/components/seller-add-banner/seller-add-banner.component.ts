@@ -213,7 +213,7 @@ export class SellerAddBannerComponent {
         this.bannerService.updateBanner(formData).subscribe({
           next: (response: any) => {
             // Handle successful response here
-            // console.log('Update successful:', response);
+            console.log('Update successful:', response);
             this.alertMsg = 'Banner updated successfully';
             this.isEditMode = false;
             // Reset the form only for editing mode
@@ -224,7 +224,7 @@ export class SellerAddBannerComponent {
           },
           error: (error: any) => {
             // Handle error response here
-            // console.error('Error updating Banner:', error);
+            console.error('Error updating Banner:', error);
             this.alertMsg = error.error.message || 'Error updating Banner';
             this.isError = true;
             this.isEditMode = false;
