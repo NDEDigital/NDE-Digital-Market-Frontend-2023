@@ -5,44 +5,46 @@
     id="carouselExampleDark"
     class="carousel carousel-dark slide"
     data-bs-ride="carousel"
-  >
+    >
     <!-- Carousel Indicators -->
     <div class="carousel-indicators">
-      <button
-        *ngIf="bannerDetails?.length == 0"
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide-to="0"
-        class="active"
-        aria-current="true"
-        aria-label="Slide 1"
-      ></button>
+      @if (bannerDetails?.length == 0) {
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+      }
 
       <!-- <button
-        type="button"
-        data-bs-target="#carouselExampleDark"
-        data-bs-slide-to="0"
-        class="active"
-        aria-current="true"
-        aria-label="Slide 2"
-      ></button> -->
+      type="button"
+      data-bs-target="#carouselExampleDark"
+      data-bs-slide-to="0"
+      class="active"
+      aria-current="true"
+      aria-label="Slide 2"
+    ></button> -->
+    @for (detail of bannerDetails; track detail; let i = $index) {
       <button
-        *ngFor="let detail of bannerDetails; let i = index"
         type="button"
         [ngClass]="{ active: i === 0 }"
         data-bs-target="#carouselExampleDark"
         [attr.data-bs-slide-to]="i"
         [attr.aria-label]="'Slide ' + (i + 1)"
       ></button>
-    </div>
+    }
+  </div>
 
-    <!-- Carousel Content -->
-    <div class="carousel-inner for_img">
+  <!-- Carousel Content -->
+  <div class="carousel-inner for_img">
+    @for (banner of bannerDetails; track banner; let i = $index) {
       <div
-        *ngFor="let banner of bannerDetails; let i = index"
         class="carousel-item"
         [ngClass]="{ active: i === 0 }"
-      >
+        >
         <img
           [src]="
             banner.bannerImage.substring(
@@ -51,50 +53,52 @@
           "
           class="d-block img-fluid"
           alt="Banner Image"
-        />
-      </div>
-      <div
-        *ngIf="bannerDetails?.length == 0"
-        class="carousel-item"
-        [ngClass]="{ active: 1 }"
-      >
-        <img
-          [src]="'assets/images/banner/banner1.jpg'"
-          class="d-block img-fluid"
-          alt="Banner Image"
-        />
-      </div>
-      <!-- <div
+          />
+        </div>
+      }
+      @if (bannerDetails?.length == 0) {
+        <div
+          class="carousel-item"
+          [ngClass]="{ active: 1 }"
+          >
+          <img
+            [src]="'assets/images/banner/banner1.jpg'"
+            class="d-block img-fluid"
+            alt="Banner Image"
+            />
+          </div>
+        }
+        <!-- <div
         *ngIf="bannerDetails.length == 0"
         class="carousel-item"
         [ngClass]="{ active: 2 }"
-      >
+        >
         <img
           [src]="'assets/images/banner/banner1.jpg'"
           class="d-block img-fluid"
           alt="Banner Image"
-        />
-      </div> -->
-    </div>
+          />
+        </div> -->
+      </div>
 
-    <!-- Carousel Controls -->
-    <button
-      class="carousel-control-prev carousel-button"
-      type="button"
-      data-bs-target="#carouselExampleDark"
-      data-bs-slide="prev"
-    >
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button
-      class="carousel-control-next carousel-button"
-      type="button"
-      data-bs-target="#carouselExampleDark"
-      data-bs-slide="next"
-    >
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</section>
+      <!-- Carousel Controls -->
+      <button
+        class="carousel-control-prev carousel-button"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="prev"
+        >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next carousel-button"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="next"
+        >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>

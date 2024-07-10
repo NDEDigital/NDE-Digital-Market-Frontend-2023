@@ -2,8 +2,8 @@
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
     <!-- <div class="nav-belt-container">
-      <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
-    </div> -->
+    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
+  </div> -->
     <div class="group-product-content">
       <div class="d-flex pp">
         <div class="product_sidebar_container">
@@ -19,19 +19,19 @@
         <div class="products">
           <div class="filter-sort-container">
             <div class="product_slider bg-white my-2 py-1 align-items-center">
-              <div *ngIf="companyList?.length == 0" class="no-products">
-                No company available.
-              </div>
+              @if (companyList?.length == 0) {
+              <div class="no-products">No company available.</div>
+              }
               <div class="grid-container">
-                <ng-container *ngFor="let company of companyList">
-                  <div class="grid-item">
-                    <app-card
-                      [title]="company.companyName"
-                      [img]="company.companyImage"
-                      (click)="productCardClick(company.companyCode)"
-                    ></app-card>
-                  </div>
-                </ng-container>
+                @for (company of companyList; track company) {
+                <div class="grid-item">
+                  <app-card
+                    [title]="company.companyName"
+                    [img]="company.companyImage"
+                    (click)="productCardClick(company.companyCode)"
+                  ></app-card>
+                </div>
+                }
               </div>
             </div>
           </div>

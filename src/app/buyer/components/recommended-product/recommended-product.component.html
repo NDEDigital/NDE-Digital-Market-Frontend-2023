@@ -1,59 +1,58 @@
-<section *ngIf="getTopSellerData?.length">
-  <!-- Heading for the top sellers section -->
-
-  <div
-    class="text-head fw-bold fs-3 d-flex justify-content-between align-items-center"
-  >
-    <span>Recommended Product</span>
-
-    <button
-      class="text m-0 text-start px-3 py-4 text-nowrap"
-      (click)="setSelectData()"
-    >
-      View All
-    </button>
-  </div>
-
-  <!-- Slider for the sellers -->
-  <div class="container-fluid">
-    <div class="slider_wrap d-flex align-items-center rounded bg-white">
-      <div
-        class="slider_main border-1"
-        #Items
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
+@if (getTopSellerData?.length) {
+  <section>
+    <!-- Heading for the top sellers section -->
+    <div
+      class="text-head fw-bold fs-3 d-flex justify-content-between align-items-center"
       >
-        <div class="item col-md-4 col-sm-6 col-xs-12 mb-3" *ngFor="let client of getTopSellerData">
-          <div (click)="productCardClick(client)">
-            <div class="image-container">
-              <img
-                class="card-image"
+      <span>Recommended Product</span>
+      <button
+        class="text m-0 text-start px-3 py-4 text-nowrap"
+        (click)="setSelectData()"
+        >
+        View All
+      </button>
+    </div>
+    <!-- Slider for the sellers -->
+    <div class="container-fluid">
+      <div class="slider_wrap d-flex align-items-center rounded bg-white">
+        <div
+          class="slider_main border-1"
+          #Items
+          (mouseenter)="onMouseEnter()"
+          (mouseleave)="onMouseLeave()"
+          >
+          @for (client of getTopSellerData; track client) {
+            <div class="item col-md-4 col-sm-6 col-xs-12 mb-3">
+              <div (click)="productCardClick(client)">
+                <div class="image-container">
+                  <img
+                    class="card-image"
                 [src]="
                   client.imagePath.substring(client.imagePath.indexOf('assets'))
                 "
-                alt="{{ client.productName }}"
-              />
-
-              <div class="details-cintainer">
-                <div class="name-container">
-                  <p>
-                    {{ client.productName }}
-                    <span class="company-name">
-                      (
-                      {{ client.companyName }}
-                      )
-                    </span>
-                  </p>
-                </div>
-
-                <div class="PC">
-                  <p class="price">Price:৳{{ client.totalPrice }}</p>
+                    alt="{{ client.productName }}"
+                    />
+                    <div class="details-cintainer">
+                      <div class="name-container">
+                        <p>
+                          {{ client.productName }}
+                          <span class="company-name">
+                            (
+                            {{ client.companyName }}
+                            )
+                          </span>
+                        </p>
+                      </div>
+                      <div class="PC">
+                        <p class="price">Price:৳{{ client.totalPrice }}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  }

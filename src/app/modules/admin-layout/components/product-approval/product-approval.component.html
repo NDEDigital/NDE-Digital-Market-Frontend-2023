@@ -23,109 +23,112 @@
           [(ngModel)]="selectAll"
           (ngModelChange)="toggleAllCheckboxes()"
           #allselected
-        />
-        Select All
-      </div>
-      <ng-container *ngFor="let header of headers">
-        <div class="col tableHeader">{{ header }}</div>
-      </ng-container>
-    </div>
-    <div>
-      <h1
-        *ngIf="productsData?.length == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Product Not Found
-      </h1>
-    </div>
-    <!-- table body -->
-
-    <section
-      class="row tablebodyRow fw-semibold"
-      *ngFor="let row of filteredProductsData; let i = index"
-      (mouseover)="isHovered = i"
-      (mouseout)="isHovered = null"
-    >
-      <app-product-approval-grid-view
-        [i]="i"
-        [isHovered]="isHovered"
-        [row]="row"
-        (checkboxSelectedEvent)="checkboxSelected($event)"
-        (showDetailsEvent)="showDetails(row)"
-        [btnIndex]="btnIndex"
-        (updateProductEvent)="updateProduct($event)"
-      ></app-product-approval-grid-view>
-
-      <!-- Modal for tadeLicence -->
-    </section>
-  </div>
-</div>
-
-<!-- Details Modal -->
-<app-product-compare-modal
-  [selectedProduct]="selectedProduct"
-></app-product-compare-modal>
-<div class="d-flex justify-content-end">
-  <button
-    *ngIf="btnIndex === 0 || btnIndex === -1"
-    class="custom-btn"
-    (click)="changeStatus('Approved')"
-  >
-    Approve
-  </button>
-  <button
-    *ngIf="btnIndex === 1 || btnIndex === -1"
-    class="custom-btn"
-    (click)="changeStatus('Rejected')"
-  >
-    Reject
-  </button>
-</div>
-
-<!-- modal for success or rejected product -->
-
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#msgModal"
-  #msgModalBTN
->
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<app-dynamic-alert-modal
-  [alertMsg]="alertMsg"
-  [alertTitle]="alertTitle"
-  [id]="'msgModal'"
-></app-dynamic-alert-modal>
-<!-- <div
-        class="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header modal-heading">
-              <h1 class="modal-title text-light fs-5" id="staticBackdropLabel">
-                {{ imageTitle }}
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <img [src]="imagePath" alt="no image was uploaded!" />
-            </div>
-          </div>
+          />
+          Select All
         </div>
-      </div> -->
+        @for (header of headers; track header) {
+          <div class="col tableHeader">{{ header }}</div>
+        }
+      </div>
+      <div>
+        @if (productsData?.length == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Product Not Found
+          </h1>
+        }
+      </div>
+      <!-- table body -->
+
+      @for (row of filteredProductsData; track row; let i = $index) {
+        <section
+          class="row tablebodyRow fw-semibold"
+          (mouseover)="isHovered = i"
+          (mouseout)="isHovered = null"
+          >
+          <app-product-approval-grid-view
+            [i]="i"
+            [isHovered]="isHovered"
+            [row]="row"
+            (checkboxSelectedEvent)="checkboxSelected($event)"
+            (showDetailsEvent)="showDetails(row)"
+            [btnIndex]="btnIndex"
+            (updateProductEvent)="updateProduct($event)"
+          ></app-product-approval-grid-view>
+          <!-- Modal for tadeLicence -->
+        </section>
+      }
+    </div>
+  </div>
+
+  <!-- Details Modal -->
+  <app-product-compare-modal
+    [selectedProduct]="selectedProduct"
+  ></app-product-compare-modal>
+  <div class="d-flex justify-content-end">
+    @if (btnIndex === 0 || btnIndex === -1) {
+      <button
+        class="custom-btn"
+        (click)="changeStatus('Approved')"
+        >
+        Approve
+      </button>
+    }
+    @if (btnIndex === 1 || btnIndex === -1) {
+      <button
+        class="custom-btn"
+        (click)="changeStatus('Rejected')"
+        >
+        Reject
+      </button>
+    }
+  </div>
+
+  <!-- modal for success or rejected product -->
+
+  <button
+    type="button"
+    class="btn btn-primary d-none"
+    data-bs-toggle="modal"
+    data-bs-target="#msgModal"
+    #msgModalBTN
+    >
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <app-dynamic-alert-modal
+    [alertMsg]="alertMsg"
+    [alertTitle]="alertTitle"
+    [id]="'msgModal'"
+  ></app-dynamic-alert-modal>
+  <!-- <div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+  >
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header modal-heading">
+        <h1 class="modal-title text-light fs-5" id="staticBackdropLabel">
+          {{ imageTitle }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <img [src]="imagePath" alt="no image was uploaded!" />
+      </div>
+    </div>
+  </div>
+</div> -->

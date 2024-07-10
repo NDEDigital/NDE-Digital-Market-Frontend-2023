@@ -3,140 +3,165 @@
     <div class="filter-header">
       <p class="parent">Filter</p>
 
-      <p
-        *ngIf="clear"
-        class="filter-clear"
-        (click)="removeFilterContent('all')"
-      >
-        clear
-      </p>
+      @if (clear) {
+        <p
+          class="filter-clear"
+          (click)="removeFilterContent('all')"
+          >
+          clear
+        </p>
+      }
     </div>
     <div class="filterContent">
-      <div
-        *ngFor="let item of filterContent"
-        class="filter-content-item"
-        (click)="removeFilterContent(item)"
-      >
-        <p id="content-item">{{ item }}</p>
-        <p>X</p>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="showCategory" class="filter-data">
-    <div class="side-bar-title" (click)="toggleGroupVisibility()">
-      <p class="parent">Categories</p>
-      <img
-        src="assets/images/down-arrow.svg"
-        [style.transform]="showGroupValue ? 'rotate(0deg)' : 'rotate(180deg)'"
-        [style.transition]="'transform 0.3s'"
-      />
-    </div>
-    <div *ngIf="showGroupValue">
-      <div *ngFor="let entry of groupData | keyvalue; let i = index">
-        <div *ngIf="showAll || i < initialLimit" class="radio-container">
-          <div class="label-input">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="category"
-              id="category-checkbox-{{ i }}"
-              style="cursor: pointer"
-              (click)="setSelectData(entry.key, entry.value)"
-              [ngClass]="{ selected: entry.key === activeEntry }"
-              [checked]="entry.key === activeEntry"
-            />
-            <label
-              for="category-checkbox-{{ i }}"
-              class="radio-label"
-              style="cursor: pointer"
-              [ngClass]="{ bold: entry.key == activeEntry }"
-            >
-              {{ entry.value }}
-            </label>
-          </div>
+      @for (item of filterContent; track item) {
+        <div
+          class="filter-content-item"
+          (click)="removeFilterContent(item)"
+          >
+          <p id="content-item">{{ item }}</p>
+          <p>X</p>
         </div>
-      </div>
+      }
     </div>
   </div>
-
-  <div *ngIf="showGroup" class="filter-data">
-    <div class="side-bar-title" (click)="toggleGroupVisibility()">
-      <p class="parent">Categories</p>
-      <img
-        src="assets/images/down-arrow.svg"
-        [style.transform]="showGroupValue ? 'rotate(0deg)' : 'rotate(180deg)'"
-        [style.transition]="'transform 0.3s'"
-      />
-    </div>
-    <div *ngIf="showGroupValue">
-      <div *ngFor="let entry of groupData | keyvalue; let i = index">
-        <div *ngIf="showAll || i < initialLimit" class="radio-container">
-          <div class="label-input">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="category"
-              id="category-checkbox-{{ i }}"
-              style="cursor: pointer"
-              (click)="setGroupData(entry.key, '')"
-              [ngClass]="{ selected: entry.key == activeEntry }"
-              [checked]="entry.key == activeEntry"
-            />
-            <label
-              for="category-checkbox-{{ i }}"
-              class="radio-label"
-              style="cursor: pointer"
-              [ngClass]="{ bold: entry.value == activeEntry }"
-            >
-              {{ entry.value }}
-            </label>
-          </div>
+  @if (showCategory) {
+    <div class="filter-data">
+      <div class="side-bar-title" (click)="toggleGroupVisibility()">
+        <p class="parent">Categories</p>
+        <img
+          src="assets/images/down-arrow.svg"
+          [style.transform]="showGroupValue ? 'rotate(0deg)' : 'rotate(180deg)'"
+          [style.transition]="'transform 0.3s'"
+          />
         </div>
-      </div>
-    </div>
-  </div>
+        @if (showGroupValue) {
+          <div>
+            @for (entry of groupData | keyvalue; track entry; let i = $index) {
+              <div>
+                @if (showAll || i < initialLimit) {
+                  <div class="radio-container">
+                    <div class="label-input">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="category"
+                        id="category-checkbox-{{ i }}"
+                        style="cursor: pointer"
+                        (click)="setSelectData(entry.key, entry.value)"
+                        [ngClass]="{ selected: entry.key === activeEntry }"
+                        [checked]="entry.key === activeEntry"
+                        />
+                        <label
+                          for="category-checkbox-{{ i }}"
+                          class="radio-label"
+                          style="cursor: pointer"
+                          [ngClass]="{ bold: entry.key == activeEntry }"
+                          >
+                          {{ entry.value }}
+                        </label>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
 
-  <div *ngIf="showCompany" class="filter-data">
-    <div class="side-bar-title" (click)="toggleCompaniesVisibility()">
-      <p class="parent">Companies</p>
-      <img
-        src="assets/images/down-arrow.svg"
+      @if (showGroup) {
+        <div class="filter-data">
+          <div class="side-bar-title" (click)="toggleGroupVisibility()">
+            <p class="parent">Categories</p>
+            <img
+              src="assets/images/down-arrow.svg"
+              [style.transform]="showGroupValue ? 'rotate(0deg)' : 'rotate(180deg)'"
+              [style.transition]="'transform 0.3s'"
+              />
+            </div>
+            @if (showGroupValue) {
+              <div>
+                @for (entry of groupData | keyvalue; track entry; let i = $index) {
+                  <div>
+                    @if (showAll || i < initialLimit) {
+                      <div class="radio-container">
+                        <div class="label-input">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="category"
+                            id="category-checkbox-{{ i }}"
+                            style="cursor: pointer"
+                            (click)="setGroupData(entry.key, '')"
+                            [ngClass]="{ selected: entry.key == activeEntry }"
+                            [checked]="entry.key == activeEntry"
+                            />
+                            <label
+                              for="category-checkbox-{{ i }}"
+                              class="radio-label"
+                              style="cursor: pointer"
+                              [ngClass]="{ bold: entry.value == activeEntry }"
+                              >
+                              {{ entry.value }}
+                            </label>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @if (showCompany) {
+            <div class="filter-data">
+              <div class="side-bar-title" (click)="toggleCompaniesVisibility()">
+                <p class="parent">Companies</p>
+                <img
+                  src="assets/images/down-arrow.svg"
         [style.transform]="
           showCompaniesValue ? 'rotate(0deg)' : 'rotate(180deg)'
         "
-        [style.transition]="'transform 0.3s'"
-      />
-    </div>
-    <div *ngIf="showCompaniesValue">
-      <ul class="list-unstyled mb-3">
-        <div *ngFor="let company of companyList; let j = index">
-          <li *ngIf="showAllBrand || j < initialLimit">
-            <div class="label-input">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="brand"
-                id="brand-checkbox-{{ j }}"
-                style="cursor: pointer"
+                  [style.transition]="'transform 0.3s'"
+                  />
+                </div>
+                @if (showCompaniesValue) {
+                  <div>
+                    <ul class="list-unstyled mb-3">
+                      @for (company of companyList; track company; let j = $index) {
+                        <div>
+                          @if (showAllBrand || j < initialLimit) {
+                            <li>
+                              <div class="label-input">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="brand"
+                                  id="brand-checkbox-{{ j }}"
+                                  style="cursor: pointer"
                 (click)="
                   selectCompany(company.companyName, company.companyCode)
                 "
-                [ngClass]="{ selected: company.companyCode === activeCompany }"
-                [checked]="company.companyCode === activeCompany"
-              />
-
-              <label
-                class="form-check-label"
-                for="brand-checkbox-{{ j }}"
-                style="cursor: pointer"
-                [ngClass]="{ bold: company.companyCode === activeCompany }"
-              >
-                {{ company.companyName }}
-              </label>
+                                  [ngClass]="{ selected: company.companyCode === activeCompany }"
+                                  [checked]="company.companyCode === activeCompany"
+                                  />
+                                  <label
+                                    class="form-check-label"
+                                    for="brand-checkbox-{{ j }}"
+                                    style="cursor: pointer"
+                                    [ngClass]="{ bold: company.companyCode === activeCompany }"
+                                    >
+                                    {{ company.companyName }}
+                                  </label>
+                                </div>
+                              </li>
+                            }
+                          </div>
+                        }
+                      </ul>
+                    </div>
+                  }
+                </div>
+              }
             </div>
-          </li>
-        </div>
-      </ul>
-    </div>
-  </div>
-</div>

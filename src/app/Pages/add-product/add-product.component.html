@@ -55,9 +55,11 @@
             required
             [class.border-danger]="imageSizeExceeded"
           />
-          <div class="text-danger mt-1" *ngIf="imageSizeExceeded">
+          @if (imageSizeExceeded) {
+          <div class="text-danger mt-1">
             File size exceeds the maximum limit of 4MB.
           </div>
+          }
           <div class="" id="image-preview">
             <img
               [src]="imagePreview"
@@ -80,14 +82,15 @@
             formControlName="material"
             required
           >
+            @for (entry of products | keyvalue; track entry) {
             <option
-              *ngFor="let entry of products | keyvalue"
               [ngValue]="entry.key"
               [value]="entry.value + '%' + entry.key"
               [selected]="entry.value === selectedMaterial"
             >
               {{ entry.key }}
             </option>
+            }
           </select>
         </div>
 

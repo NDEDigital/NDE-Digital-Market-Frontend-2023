@@ -22,107 +22,117 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- Table Header Row -->
     <div class="row headerRow sticky-top fw-bolder">
-      <div *ngIf="btnIndex!=-1" class="col tableHeader">
-        <!-- Checkbox to select all -->
-        <input
-          type="checkbox"
-          [(ngModel)]="selectAll"
-          (ngModelChange)="toggleAllCheckboxes()"
-          #allselected
-        />
-        Select All
+      @if (btnIndex!=-1) {
+        <div class="col tableHeader">
+          <!-- Checkbox to select all -->
+          <input
+            type="checkbox"
+            [(ngModel)]="selectAll"
+            (ngModelChange)="toggleAllCheckboxes()"
+            #allselected
+            />
+            Select All
+          </div>
+        }
+        <!-- Display table headers -->
+        @for (header of headers; track header) {
+          <div class="col tableHeader">{{ header }}</div>
+        }
+        <!-- Display Actions column if applicable -->
+        @if (btnIndex != -1) {
+          <div class="col tableHeader">Actions</div>
+        }
       </div>
-      <!-- Display table headers -->
-      <ng-container *ngFor="let header of headers">
-        <div class="col tableHeader">{{ header }}</div>
-      </ng-container>
-      <!-- Display Actions column if applicable -->
-      <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
+      <!-- Display message if no groups found -->
+      <div>
+        @if (groupList && groupList.length == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Group Not Found
+          </h1>
+        }
+      </div>
+
+      <!-- Table Body -->
+      @for (group of groupList; track group; let i = $index) {
+        <section
+          class="row tablebodyRow fw-semibold"
+          (mouseover)="isHovered = i"
+          (mouseout)="isHovered = null"
+          (dblclick)="openModalWithData(group)"
+          >
+          <!-- Render Grid View for each group -->
+          <app-grid-view
+            [group]="group"
+            [i]="i"
+            [btnIndex]="btnIndex"
+            (checkboxSelectedEvent)="checkboxSelected($event)"
+            (updateIsActiveEvent)="updateIsActive($event)"
+          ></app-grid-view>
+        </section>
+      }
     </div>
-    <!-- Display message if no groups found -->
+
+    <!-- Buttons for Active and Inactive states -->
+    <div class="d-flex justify-content-end">
+      @if (btnIndex === 0 ) {
+        <button
+          class="custom-btn"
+          (click)="chageActiveInactive(true)"
+          >
+          Active
+        </button>
+      }
+      @if (btnIndex === 1 ) {
+        <button
+          class="custom-btn"
+          (click)="chageActiveInactive(false)"
+          >
+          Inactive
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Add Groups Modal -->
+  @if (btnClick) {
     <div>
-      <h1
-        *ngIf="groupList && groupList.length == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Group Not Found
-      </h1>
+      <app-add-groups-modal
+        [IdName]="'#addGroupModalCenter'"
+        [isEdit]="isEditMode"
+        [doubleClickData]="doubleClickData"
+        (resetFormEvent)="resetForm()"
+        (formDataEvent)="onSubmit($event)"
+        [addBtnClick]="addbtnClickP"
+      ></app-add-groups-modal>
     </div>
+  }
 
-    <!-- Table Body -->
-    <section
-      class="row tablebodyRow fw-semibold"
-      *ngFor="let group of groupList; let i = index"
-      (mouseover)="isHovered = i"
-      (mouseout)="isHovered = null"
-      (dblclick)="openModalWithData(group)"
+  <!-- Hidden buttons for modals -->
+  <button
+    type="button"
+    class="btn btn-primary d-none"
+    data-bs-toggle="modal"
+    data-bs-target="#productGroupModal"
+    #userExistModalBTN
     >
-      <!-- Render Grid View for each group -->
-      <app-grid-view
-        [group]="group"
-        [i]="i"
-        [btnIndex]="btnIndex"
-        (checkboxSelectedEvent)="checkboxSelected($event)"
-        (updateIsActiveEvent)="updateIsActive($event)"
-      ></app-grid-view>
-    </section>
-  </div>
-
-  <!-- Buttons for Active and Inactive states -->
-  <div class="d-flex justify-content-end">
-    <button
-      *ngIf="btnIndex === 0 "
-      class="custom-btn"
-      (click)="chageActiveInactive(true)"
+    Launch demo modal
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary d-none"
+    data-bs-toggle="modal"
+    data-bs-target="#addGroupModalCenter"
+    #addGroupModalCenterG
     >
-      Active
-    </button>
-    <button
-      *ngIf="btnIndex === 1 "
-      class="custom-btn"
-      (click)="chageActiveInactive(false)"
-    >
-      Inactive
-    </button>
-  </div>
-</div>
+    Launch demo modal
+  </button>
 
-<!-- Add Groups Modal -->
-<div *ngIf="btnClick">
-  <app-add-groups-modal
-    [IdName]="'#addGroupModalCenter'"
-    [isEdit]="isEditMode"
-    [doubleClickData]="doubleClickData"
-    (resetFormEvent)="resetForm()"
-    (formDataEvent)="onSubmit($event)"
-    [addBtnClick]="addbtnClickP"
-  ></app-add-groups-modal>
-</div>
-
-<!-- Hidden buttons for modals -->
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#productGroupModal"
-  #userExistModalBTN
->
-  Launch demo modal
-</button>
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#addGroupModalCenter"
-  #addGroupModalCenterG
->
-  Launch demo modal
-</button>
-
-<!-- Dynamic Alert Modal -->
-<app-dynamic-alert-modal
-  [alertMsg]="alertMsg"
-  [alertTitle]="alertTitle"
-  [id]="'productGroupModal'"
-></app-dynamic-alert-modal>
+  <!-- Dynamic Alert Modal -->
+  <app-dynamic-alert-modal
+    [alertMsg]="alertMsg"
+    [alertTitle]="alertTitle"
+    [id]="'productGroupModal'"
+  ></app-dynamic-alert-modal>

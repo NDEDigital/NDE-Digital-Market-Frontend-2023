@@ -1,33 +1,37 @@
 <div class="container-responsive">
   <div
     class="bg-white d-flex justify-content-center p-2 border border-1 rounded"
-  >
-    <h1 class="companyApproval_header_text" *ngIf="this.whoUser === 'seller'">
-      Seller List
-    </h1>
-    <h1 class="companyApproval_header_text" *ngIf="this.whoUser === 'admin'">
-      User List
-    </h1>
+    >
+    @if (this.whoUser === 'seller') {
+      <h1 class="companyApproval_header_text">
+        Seller List
+      </h1>
+    }
+    @if (this.whoUser === 'admin') {
+      <h1 class="companyApproval_header_text">
+        User List
+      </h1>
+    }
   </div>
-  <div
-    class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2"
-    *ngIf="this.whoUser === 'seller'"
-  >
-    <div class="headerbtns">
-      <!-- <button
-          class="custom-btn new-btn active"
-          [ngClass]="{ active: btnIndex === -1 }"
-          (click)="btnIndex = -1"
-          (click)="getData()"
+  @if (this.whoUser === 'seller') {
+    <div
+      class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2"
+      >
+      <div class="headerbtns">
+        <!-- <button
+        class="custom-btn new-btn active"
+        [ngClass]="{ active: btnIndex === -1 }"
+        (click)="btnIndex = -1"
+        (click)="getData()"
         >
-          New
-        </button> -->
+        New
+      </button> -->
       <button
         class="custom-btn btn-active active"
         [ngClass]="{ active: btnIndex === 1 }"
         (click)="btnIndex = 1"
         (click)="getData()"
-      >
+        >
         Active
       </button>
       <button
@@ -35,120 +39,118 @@
         [ngClass]="{ active: btnIndex === 0 }"
         (click)="btnIndex = 0"
         (click)="getData()"
-      >
+        >
         Inactive
       </button>
     </div>
   </div>
+}
 
+@if (this.whoUser === 'admin') {
   <div
     class="mt-2 bg-light border d-flex justify-content-between border-1 px-3 py-2 rounded my-2"
-    *ngIf="this.whoUser === 'admin'"
-  >
+    >
     <div class="headerbtns">
       <!-- <button
-          class="custom-btn new-btn active"
-          [ngClass]="{ active: btnIndex === -1 }"
-          (click)="btnIndex = -1"
-          (click)="getData()"
-        >
-          New
-        </button> -->
-      <button
-        class="custom-btn btn-active active"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-        (click)="getUser()"
+      class="custom-btn new-btn active"
+      [ngClass]="{ active: btnIndex === -1 }"
+      (click)="btnIndex = -1"
+      (click)="getData()"
       >
-        Active
-      </button>
-      <button
-        class="custom-btn btn-inactive"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-        (click)="getUser()"
+      New
+    </button> -->
+    <button
+      class="custom-btn btn-active active"
+      [ngClass]="{ active: btnIndex === 1 }"
+      (click)="btnIndex = 1"
+      (click)="getUser()"
       >
-        Inactive
-      </button>
-    </div>
-
-    <div [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }">
-      <!-- <p *ngFor="let sl of dropdownValues; let i = index;"> paragraph{{sl}}</p> -->
-
-      <!-- <label for="allcategory " class="font-weight-bold">Select Company Name:</label> -->
-      <select
-        class="p-2 border border-1 rounded"
-        id="allcategory"
-        name="Category"
-        (change)="onCategoryChange($event)"
-        style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1)"
+      Active
+    </button>
+    <button
+      class="custom-btn btn-inactive"
+      [ngClass]="{ active: btnIndex === 0 }"
+      (click)="btnIndex = 0"
+      (click)="getUser()"
       >
-        <option (click)="getUser()">All Company</option>
+      Inactive
+    </button>
+  </div>
+  <div [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }">
+    <!-- <p *ngFor="let sl of dropdownValues; let i = index;"> paragraph{{sl}}</p> -->
+    <!-- <label for="allcategory " class="font-weight-bold">Select Company Name:</label> -->
+    <select
+      class="p-2 border border-1 rounded"
+      id="allcategory"
+      name="Category"
+      (change)="onCategoryChange($event)"
+      style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1)"
+      >
+      <option (click)="getUser()">All Company</option>
+      @for (sl of dropdownValues; track sl; let i = $index) {
         <option
-          *ngFor="let sl of dropdownValues; let i = index"
           [value]="sl.companyCode"
-        >
+          >
           {{ sl.companyName }}
         </option>
-
-        <!-- Add more options as needed -->
-      </select>
-    </div>
-
-    <div class="headerbtns">
-      <!-- <button
-            class="custom-btn new-btn active"
-            [ngClass]="{ active: btnIndex === -1 }"
-            (click)="btnIndex = -1"
-            (click)="getData()"
-          >
-            New
-          </button> -->
-      <button
-        class="custom-btn btn-active active"
-        [ngClass]="{ active: userBtnIndex === 1 }"
-        (click)="userBtnIndex = 1"
-        (click)="getBuyerIn()"
-      >
-        Buyer
-      </button>
-
-      <button
-        class="custom-btn btn-active"
-        [ngClass]="{ active: userBtnIndex === 0 }"
-        (click)="userBtnIndex = 0"
-        (click)="getSellerIn()"
-      >
-        Seller
-      </button>
-    </div>
+      }
+      <!-- Add more options as needed -->
+    </select>
   </div>
+  <div class="headerbtns">
+    <!-- <button
+    class="custom-btn new-btn active"
+    [ngClass]="{ active: btnIndex === -1 }"
+    (click)="btnIndex = -1"
+    (click)="getData()"
+    >
+    New
+  </button> -->
+  <button
+    class="custom-btn btn-active active"
+    [ngClass]="{ active: userBtnIndex === 1 }"
+    (click)="userBtnIndex = 1"
+    (click)="getBuyerIn()"
+    >
+    Buyer
+  </button>
+  <button
+    class="custom-btn btn-active"
+    [ngClass]="{ active: userBtnIndex === 0 }"
+    (click)="userBtnIndex = 0"
+    (click)="getSellerIn()"
+    >
+    Seller
+  </button>
+</div>
+</div>
+}
 
-  <div class="scrollable-table border border-1 bg-light">
-    <!-- TABLE header -->
-    <div class="row headerRow sticky-top fw-bolder m-0 p-0">
-      <div class="col tableHeader">
-        <input
-          type="checkbox"
-          [(ngModel)]="selectAll"
-          (ngModelChange)="toggleAllCheckboxes()"
-          #allselected
+<div class="scrollable-table border border-1 bg-light">
+  <!-- TABLE header -->
+  <div class="row headerRow sticky-top fw-bolder m-0 p-0">
+    <div class="col tableHeader">
+      <input
+        type="checkbox"
+        [(ngModel)]="selectAll"
+        (ngModelChange)="toggleAllCheckboxes()"
+        #allselected
         />
         Select All
       </div>
-      <ng-container *ngFor="let header of headers">
+      @for (header of headers; track header) {
         <div class="col tableHeader">{{ header }}</div>
-      </ng-container>
+      }
       <div
         class="col tableHeader"
         [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
-      >
+        >
         Company
       </div>
       <div
         class="col tableHeader"
         [ngStyle]="{ display: userBtnIndex === 1 ? 'none' : 'block' }"
-      >
+        >
         Role
       </div>
 
@@ -156,83 +158,97 @@
     </div>
 
     <!-- table body -->
-    <div *ngIf="userBtnIndex == 0 && whoUser === 'admin'">
-      <h1
-        *ngIf="responseLength == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Seller Not Found
-      </h1>
-    </div>
-    <div *ngIf="btnIndex == 1 && whoUser == 'seller'">
-      <h1
-        *ngIf="responseLength == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Seller Not Found
-      </h1>
-    </div>
+    @if (userBtnIndex == 0 && whoUser === 'admin') {
+      <div>
+        @if (responseLength == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Seller Not Found
+          </h1>
+        }
+      </div>
+    }
+    @if (btnIndex == 1 && whoUser == 'seller') {
+      <div>
+        @if (responseLength == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Seller Not Found
+          </h1>
+        }
+      </div>
+    }
 
-    <div *ngIf="btnIndex == 0 && whoUser == 'seller'">
-      <h1
-        *ngIf="responseLength == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Seller Not Found
-      </h1>
-    </div>
+    @if (btnIndex == 0 && whoUser == 'seller') {
+      <div>
+        @if (responseLength == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Seller Not Found
+          </h1>
+        }
+      </div>
+    }
 
-    <div *ngIf="userBtnIndex == 1">
-      <h1
-        *ngIf="buyerResponse == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Buyer Not Found
-      </h1>
-    </div>
-    <section
-      class="row tablebodyRow fw-semibold"
-      *ngFor="let sl of sellerList; let i = index"
-      (mouseover)="isHovered = i"
-      (mouseout)="isHovered = null"
-    >
-      <!-- <div class="d-flex"> -->
-      <app-seller-list-grid-view
-        [isHovered]="isHovered"
-        [i]="i"
-        [sl]="sl"
-        [userBtnIndex]="userBtnIndex"
-        [btnIndex]="btnIndex"
-        (checkboxSelectedEvent)="checkboxSelected($event.userId, $event.event)"
+    @if (userBtnIndex == 1) {
+      <div>
+        @if (buyerResponse == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Buyer Not Found
+          </h1>
+        }
+      </div>
+    }
+    @for (sl of sellerList; track sl; let i = $index) {
+      <section
+        class="row tablebodyRow fw-semibold"
+        (mouseover)="isHovered = i"
+        (mouseout)="isHovered = null"
+        >
+        <!-- <div class="d-flex"> -->
+        <app-seller-list-grid-view
+          [isHovered]="isHovered"
+          [i]="i"
+          [sl]="sl"
+          [userBtnIndex]="userBtnIndex"
+          [btnIndex]="btnIndex"
+          (checkboxSelectedEvent)="checkboxSelected($event.userId, $event.event)"
         (updatedSellerBuyerEvent)="
           UpdatedSellerBuyer($event.userId, $event.status)
         "
-      ></app-seller-list-grid-view>
-
+        ></app-seller-list-grid-view>
       <!-- </div> -->
     </section>
-  </div>
+  }
+</div>
 
-  <div class="d-flex justify-content-end">
+<div class="d-flex justify-content-end">
+  @if (btnIndex === 0 || btnIndex === -1) {
     <button
-      *ngIf="btnIndex === 0 || btnIndex === -1"
       class="custom-btn"
       (click)="chageActiveInactive(true)"
-    >
+      >
       Active
     </button>
+  }
+  @if (btnIndex === 1 || btnIndex === -1) {
     <button
-      *ngIf="btnIndex === 1 || btnIndex === -1"
       class="custom-btn"
       (click)="chageActiveInactive(false)"
-    >
+      >
       Inactive
     </button>
-  </div>
+  }
+</div>
 </div>
 <button
   type="button"
@@ -240,7 +256,7 @@
   data-bs-toggle="modal"
   data-bs-target="#msgModal"
   #msgModalBTN
->
+  >
   Launch demo modal
 </button>
 <!-- Modal -->

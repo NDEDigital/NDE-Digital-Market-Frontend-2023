@@ -4,7 +4,7 @@
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
->
+  >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-body">
@@ -33,43 +33,45 @@
             <div class="form-group">
               <label for="brandName"
                 ><span class="text-danger">*</span>Brand Name</label
-              >
-              <input
-                type="text"
-                id="brandName"
-                formControlName="brandName"
-                [class.error]="isFieldInvalid('brandName')"
-              />
-              <span class="text-danger" *ngIf="isFieldInvalid('brandName')"
-                >Brand Name is required.</span
-              >
-            </div>
+                >
+                <input
+                  type="text"
+                  id="brandName"
+                  formControlName="brandName"
+                  [class.error]="isFieldInvalid('brandName')"
+                  />
+                  @if (isFieldInvalid('brandName')) {
+                    <span class="text-danger"
+                      >Brand Name is required.</span
+                      >
+                  }
+                </div>
 
-            <div class="form-group">
-              <label for="shortName">Brand Short Name</label>
-              <input type="text" id="shortName" formControlName="shortName" />
-            </div>
+                <div class="form-group">
+                  <label for="shortName">Brand Short Name</label>
+                  <input type="text" id="shortName" formControlName="shortName" />
+                </div>
 
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea
-                id="description"
-                formControlName="description"
-              ></textarea>
-            </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea
+                    id="description"
+                    formControlName="description"
+                  ></textarea>
+                </div>
 
-            <!-- Button trigger modal -->
-            <button
-              type="submit"
-              class="button mt-3"
-              id="sign-in-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </form>
+                <!-- Button trigger modal -->
+                <button
+                  type="submit"
+                  class="button mt-3"
+                  id="sign-in-button"
+                  (click)="onSubmit()"
+                  >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>

@@ -8,7 +8,7 @@
         [ngClass]="{ active: btnIndex === -2 }"
         (click)="btnIndex = -2"
         (click)="getData('')"
-      >
+        >
         All
       </button>
       <button
@@ -16,218 +16,223 @@
         [ngClass]="{ active: btnIndex === -1 }"
         (click)="btnIndex = -1"
         (click)="getData('Approved')"
-      >
+        >
         NEW
       </button>
       <!-- <button
-          class="custom-btn"
-          [ngClass]="{ active: btnIndex === 1 }"
-          (click)="btnIndex = 1"
-          (click)="getData('Approved')"
-        >
-          Approved
-        </button>
-        <button
-          class="custom-btn"
-          [ngClass]="{ active: btnIndex === 0 }"
-          (click)="btnIndex = 0"
-          (click)="getData('Cancelled')"
-        >
-          Cancelled
-        </button> -->
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 1 }"
+      (click)="btnIndex = 1"
+      (click)="getData('Approved')"
+      >
+      Approved
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 0 }"
+      (click)="btnIndex = 0"
+      (click)="getData('Cancelled')"
+      >
+      Cancelled
+    </button> -->
 
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 3 }"
-        (click)="btnIndex = 3"
-        (click)="getData('Processing')"
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 3 }"
+      (click)="btnIndex = 3"
+      (click)="getData('Processing')"
       >
-        Processing
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 4 }"
-        (click)="btnIndex = 4"
-        (click)="getData('ReadyToShip')"
+      Processing
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 4 }"
+      (click)="btnIndex = 4"
+      (click)="getData('ReadyToShip')"
       >
-        Ready To Ship
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 5 }"
-        (click)="btnIndex = 5"
-        (click)="getData('ToDeliver')"
+      Ready To Ship
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 5 }"
+      (click)="btnIndex = 5"
+      (click)="getData('ToDeliver')"
       >
-        To Deliver
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 6 }"
-        (click)="btnIndex = 6"
-        (click)="getData('Delivered')"
+      To Deliver
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 6 }"
+      (click)="btnIndex = 6"
+      (click)="getData('Delivered')"
       >
-        Delivered
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 7 }"
-        (click)="btnIndex = 7"
-        (click)="getData('Reviewed')"
+      Delivered
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 7 }"
+      (click)="btnIndex = 7"
+      (click)="getData('Reviewed')"
       >
-        Reviewed
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 8 }"
-        (click)="btnIndex = 8"
-        (click)="getData('ToReturn')"
+      Reviewed
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 8 }"
+      (click)="btnIndex = 8"
+      (click)="getData('ToReturn')"
       >
-        To Return
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 9 }"
-        (click)="btnIndex = 9"
-        (click)="getData('Returned')"
+      To Return
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 9 }"
+      (click)="btnIndex = 9"
+      (click)="getData('Returned')"
       >
-        Returned
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 2 }"
-        (click)="btnIndex = 2"
-        (click)="getData('Rejected')"
+      Returned
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 2 }"
+      (click)="btnIndex = 2"
+      (click)="getData('Rejected')"
       >
-        Rejected
-      </button>
-    </div>
+      Rejected
+    </button>
   </div>
+</div>
 
-  <div *ngIf="loading" class="text-center mt-5">
+@if (loading) {
+  <div class="text-center mt-5">
     <h5>Loading products...</h5>
   </div>
-  <div *ngIf="!forError">
+}
+@if (!forError) {
+  <div>
     <h3 class="text-danger text-center mt-5">No Product Found</h3>
   </div>
-  <div *ngIf="!loading && sellerOrder.length > 0 && forError" class="mt-5">
-    <div *ngFor="let order of sellerOrder">
-      <div
-        class="border-none bg-white order-card mt-2 border border-1"
-        *ngIf="order.orderDetailsListForSeller.length > 0"
-      >
-        <div class="d-flex justify-content-between p-3 border-bottom bg-light">
-          <div class="">
-            <p class="fs-6 m-0 p-0">
-              Order:
-              <span class="fs-6 fw-semibold order-number">
-                <a class="invoice" (click)="gotoInvoice(order.orderMasterId)">
-                  # {{ order.orderNo }}</a
-                >
-              </span>
-            </p>
-            <p class="m-0 p-0">
-              Placed on <span class="fw-semibold">{{ order.orderDate }}</span>
-            </p>
-          </div>
-          <div class="d-flex fst-italic fw-semibold text-end">
-            <!-- <Button class="pay-now-btn fst-italic">Manage</Button> -->
-            <!-- <div>
-                SubTotal: <span>{{ order.totalPrice }}</span>
-              </div>
-              <div>
-                Total Delivery Charge:
-                <span>{{ order.totalDeliveryCharge }}</span>
-              </div>
-              <div>
-                Total Amount: : <span>{{ order.totalAmount }}</span>
-              </div> -->
-
-            <div>
-              <button
-                class="actionBtn"
-                *ngIf="
-                  btnIndex != -2 &&
-                  btnIndex != 2 &&
-                  btnIndex != 6 &&
-                  btnIndex != 7 &&
-                  btnIndex != 9
-                "
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="green"
-                  class="bi bi-check2 me-3"
-                  viewBox="0 0 16 16"
-                  (click)="updateOrder('', order)"
-                >
-                  <path
-                    d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div>
-              <button
-                class="actionBtn"
-                *ngIf="btnIndex == -1"
-                (click)="updateOrder('Rejected', order)"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-x-lg fw-bolder"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="row mt-3"
-          *ngFor="let detail of order.orderDetailsListForSeller"
-        >
+}
+@if (!loading && sellerOrder.length > 0 && forError) {
+  <div class="mt-5">
+    @for (order of sellerOrder; track order) {
+      <div>
+        @if (order.orderDetailsListForSeller.length > 0) {
           <div
-            class="col-2 d-flex justify-content-center"
-            
-          >
-            <img
+            class="border-none bg-white order-card mt-2 border border-1"
+            >
+            <div class="d-flex justify-content-between p-3 border-bottom bg-light">
+              <div class="">
+                <p class="fs-6 m-0 p-0">
+                  Order:
+                  <span class="fs-6 fw-semibold order-number">
+                    <a class="invoice" (click)="gotoInvoice(order.orderMasterId)">
+                      # {{ order.orderNo }}</a
+                      >
+                    </span>
+                  </p>
+                  <p class="m-0 p-0">
+                    Placed on <span class="fw-semibold">{{ order.orderDate }}</span>
+                  </p>
+                </div>
+                <div class="d-flex fst-italic fw-semibold text-end">
+                  <!-- <Button class="pay-now-btn fst-italic">Manage</Button> -->
+                  <!-- <div>
+                  SubTotal: <span>{{ order.totalPrice }}</span>
+                </div>
+                <div>
+                  Total Delivery Charge:
+                  <span>{{ order.totalDeliveryCharge }}</span>
+                </div>
+                <div>
+                  Total Amount: : <span>{{ order.totalAmount }}</span>
+                </div> -->
+                <div>
+                  @if (
+                    btnIndex != -2 &&
+                    btnIndex != 2 &&
+                    btnIndex != 6 &&
+                    btnIndex != 7 &&
+                    btnIndex != 9
+                    ) {
+                    <button
+                      class="actionBtn"
+                      >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        fill="green"
+                        class="bi bi-check2 me-3"
+                        viewBox="0 0 16 16"
+                        (click)="updateOrder('', order)"
+                        >
+                        <path
+                          d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                          />
+                        </svg>
+                      </button>
+                    }
+                  </div>
+                  <div>
+                    @if (btnIndex == -1) {
+                      <button
+                        class="actionBtn"
+                        (click)="updateOrder('Rejected', order)"
+                        >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="red"
+                          class="bi bi-x-lg fw-bolder"
+                          viewBox="0 0 16 16"
+                          >
+                          <path
+                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+                            />
+                          </svg>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                </div>
+                @for (detail of order.orderDetailsListForSeller; track detail) {
+                  <div
+                    class="row mt-3"
+                    >
+                    <div
+                      class="col-2 d-flex justify-content-center"
+                      >
+                      <img
               [src]="
                 detail.imagePath
                   ? '/asset' + detail.imagePath?.split('asset')[1]
                   : ''
               "
-              class="w-50 h-75"
-              alt=""
-            />
-          </div>
-          <div class="col-2">
-            {{ detail.productName }}
-          </div>
-          <div class="col-3 col-lg-2 col-sm-2">
-            <span class="qty-design">Qty: {{ detail.qty }}</span>
-          </div>
-          <div class="col-3 col-lg-2 col-sm-2">
-            <span
-              >Price:
-              <img
-                src="../../../assets/images/takaIcon.png"
-                class="taKa_icon"
-              />
-              <span class="color-primary">{{ detail.price }}</span></span
-            >
-          </div>
-          <div class="col-2">
-            <button
-              class="p-2 p-lg-1 p-sm-1 process-btn"
+                        class="w-50 h-75"
+                        alt=""
+                        />
+                      </div>
+                      <div class="col-2">
+                        {{ detail.productName }}
+                      </div>
+                      <div class="col-3 col-lg-2 col-sm-2">
+                        <span class="qty-design">Qty: {{ detail.qty }}</span>
+                      </div>
+                      <div class="col-3 col-lg-2 col-sm-2">
+                        <span
+                          >Price:
+                          <img
+                            src="../../../assets/images/takaIcon.png"
+                            class="taKa_icon"
+                            />
+                            <span class="color-primary">{{ detail.price }}</span></span
+                            >
+                          </div>
+                          <div class="col-2">
+                            <button
+                              class="p-2 p-lg-1 p-sm-1 process-btn"
               [ngClass]="{
                 'gray-bg':
                   detail.status === 'Pending' || detail.status === 'Processing',
@@ -238,21 +243,23 @@
                   detail.status === 'Delivered' || detail.status === 'Shipped',
                 'red-bg': detail.status === 'Cancelled'
               }"
-            >
-              <!-- {{ detail.status }} -->
-              {{ btnIndex === -1 ? "New Order" : detail.status }}
-            </button>
-          </div>
-          <div class="col-2 col-lg-2">
-            <span class="" *ngIf="btnIndex === 8">
-              Return Type:
-              <span class="color-primary fw-bold">{{
-                detail.returnTypeName
-              }}</span>
-            </span>
-          </div>
-          <div class="col-2 text-success fw-semibold">
-            <p
+                              >
+                              <!-- {{ detail.status }} -->
+                              {{ btnIndex === -1 ? "New Order" : detail.status }}
+                            </button>
+                          </div>
+                          <div class="col-2 col-lg-2">
+                            @if (btnIndex === 8) {
+                              <span class="">
+                                Return Type:
+                                <span class="color-primary fw-bold">{{
+                                  detail.returnTypeName
+                                }}</span>
+                              </span>
+                            }
+                          </div>
+                          <div class="col-2 text-success fw-semibold">
+                            <p
               [ngClass]="{
                 'gray-p':
                   detail.status === 'Pending' || detail.status === 'Processing',
@@ -261,129 +268,137 @@
                   detail.status === 'Delivered' || detail.status === 'Shipped',
                 'red-p': detail.status === 'Cancelled'
               }"
+                              >
+                              @if (activeNav == 'Delivered') {
+                                <span>
+                                  {{ getStatusDescription(detail.status) }}</span
+                                  >
+                              }
+                              @if (btnIndex === 6) {
+                                <span class="color-primary">
+                                  <!-- <button
+                                  class="p-2 p-lg-1 p-sm-1 process-btn review-bg"
+                                  #reviewBTN
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#staticBackdrop"
+                                  (click)="setDetail(detail)"
+                                  >
+                                  Add a review
+                                </button>
+                                <button
+                                  type="button"
+                                  class="p-2 p-lg-1 p-sm-1 process-btn return-button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  (click)="toReturn(detail, order.orderNo)"
+                                  >
+                                  To return
+                                </button> -->
+                              </span>
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    }
+                    <div class="d-flex justify-content-end p-3 border-top bg-light">
+                      <div class="fst-italic text-muted text-end">
+                        <!-- <Button class="pay-now-btn fst-italic">Manage</Button> -->
+                        <div>
+                          SubTotal:
+                          <img
+                            src="../../../assets/images/takaIcon.png"
+                            class="taKa_icon"
+                            /><span class="text-dark">{{ order.totalPrice }}</span>
+                          </div>
+                          <div>
+                            Total Delivery Charge:
+                            <img
+                              src="../../../assets/images/takaIcon.png"
+                              class="taKa_icon"
+                              />
+                              <span class="text-dark">{{ order.totalDeliveryCharge }}</span>
+                            </div>
+                            <div>
+                              Total Amount:
+                              <img
+                                src="../../../assets/images/takaIcon.png"
+                                class="taKa_icon"
+                                /><span class="text-dark">{{
+                                order.totalPrice + order.totalDeliveryCharge
+                              }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+                @if (sellerOrder.length == 0) {
+                  <div class="text-danger text-center">
+                    <h3>No Order are made yet!</h3>
+                  </div>
+                }
+                <!-- pag -->
+                @if (activeNav === 'All' && sellerOrder.length > 0) {
+                  <app-pagination
+                    [inputdata]="data"
+                    (myData)="handlePaginationData($event)"
+                    >
+                  </app-pagination>
+                }
+              </div>
+            }
+          </section>
+
+          <button
+            type="button"
+            class="btn btn-primary d-none"
+            data-bs-toggle="modal"
+            data-bs-target="#productGroupModal"
+            #productStatusModalBTN
             >
-              <span *ngIf="activeNav == 'Delivered'">
-                {{ getStatusDescription(detail.status) }}</span
-              >
-              <span class="color-primary" *ngIf="btnIndex === 6">
-                <!-- <button
-                    class="p-2 p-lg-1 p-sm-1 process-btn review-bg"
-                    #reviewBTN
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
-                    (click)="setDetail(detail)"
-                  >
-                    Add a review
-                  </button>
+            Launch demo modal
+          </button>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="productGroupModal"
+            tabindex="-1"
+            aria-labelledby="productGroupModalLabel"
+            aria-hidden="true"
+            >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header modal-heading">
+                  <h1 class="modal-title fs-5 text-light" id="productGroupModalLabel">
+                    Order Status
+                  </h1>
                   <button
                     type="button"
-                    class="p-2 p-lg-1 p-sm-1 process-btn return-button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    (click)="toReturn(detail, order.orderNo)"
-                  >
-                    To return
-                  </button> -->
-              </span>
-            </p>
-          </div>
-        </div>
-        <div class="d-flex justify-content-end p-3 border-top bg-light">
-          <div class="fst-italic text-muted text-end">
-            <!-- <Button class="pay-now-btn fst-italic">Manage</Button> -->
-            <div>
-              SubTotal:
-              <img
-                src="../../../assets/images/takaIcon.png"
-                class="taKa_icon"
-              /><span class="text-dark">{{ order.totalPrice }}</span>
-            </div>
-            <div>
-              Total Delivery Charge:
-              <img
-                src="../../../assets/images/takaIcon.png"
-                class="taKa_icon"
-              />
-              <span class="text-dark">{{ order.totalDeliveryCharge }}</span>
-            </div>
-            <div>
-              Total Amount:
-              <img
-                src="../../../assets/images/takaIcon.png"
-                class="taKa_icon"
-              /><span class="text-dark">{{
-                order.totalPrice + order.totalDeliveryCharge
-              }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="sellerOrder.length == 0" class="text-danger text-center">
-      <h3>No Order are made yet!</h3>
-    </div>
-
-    <!-- pag -->
-
-    <app-pagination
-      *ngIf="activeNav === 'All' && sellerOrder.length > 0"
-      [inputdata]="data"
-      (myData)="handlePaginationData($event)"
-    >
-    </app-pagination>
-  </div>
-</section>
-
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#productGroupModal"
-  #productStatusModalBTN
->
-  Launch demo modal
-</button>
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="productGroupModal"
-  tabindex="-1"
-  aria-labelledby="productGroupModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header modal-heading">
-        <h1 class="modal-title fs-5 text-light" id="productGroupModalLabel">
-          Order Status
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <!-- <p>{{ alertMsg }}</p> -->
-        <p
-          class="fs-5 fw-bolder"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <!-- <p>{{ alertMsg }}</p> -->
+                  <p
+                    class="fs-5 fw-bolder"
           [ngStyle]="{
             color:
               alertMsg.includes('Rejected') || alertMsg.includes('Quantity')
                 ? 'red'
                 : 'green'
           }"
-        >
-          {{ alertMsg }}
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-          OK
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+                    >
+                    {{ alertMsg }}
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>

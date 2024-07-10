@@ -13,54 +13,54 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
-      <ng-container *ngFor="let header of headers">
+      @for (header of headers; track header) {
         <div class="col tableHeader">{{ header }}</div>
-      </ng-container>
+      }
     </div>
     <div>
-      <h1
-        *ngIf="companies?.length == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Company Not Found
-      </h1>
+      @if (companies?.length == 0) {
+        <h1
+          class="text-center"
+          style="color: red; margin-top: 15%"
+          >
+          Company Not Found
+        </h1>
+      }
     </div>
     <!-- table body -->
 
-    <section
-      class="row tablebodyRow fw-semibold"
-      *ngFor="let cmp of companies; let i = index"
-      (mouseover)="isHovered = i"
-      (mouseout)="isHovered = null"
-    >
-      <app-company-approval-grid-view
-        [cmp]="cmp"
-        [isHovered]="isHovered"
-        [i]="i"
-        (showImageEvent)="showImage($event)"
-        (updateCompanyEvent)="updateCompany($event)"
-        [btnIndex]="btnIndex"
-        (selectedCompanyCodeValuesChange)="onSelectedCompanyCodeChange($event)"
-      ></app-company-approval-grid-view>
-
-      <!-- Modal for tadeLicence -->
-
-      <div
-        class="modal fade"
-        id="showImgModal"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="showImgModalLabel"
-        aria-hidden="true"
-      >
-        <app-company-trade-licence-modal
-          [imageTitle]="imageTitle"
-          [imagePath]="imagePath"
-        ></app-company-trade-licence-modal>
-      </div>
-    </section>
+    @for (cmp of companies; track cmp; let i = $index) {
+      <section
+        class="row tablebodyRow fw-semibold"
+        (mouseover)="isHovered = i"
+        (mouseout)="isHovered = null"
+        >
+        <app-company-approval-grid-view
+          [cmp]="cmp"
+          [isHovered]="isHovered"
+          [i]="i"
+          (showImageEvent)="showImage($event)"
+          (updateCompanyEvent)="updateCompany($event)"
+          [btnIndex]="btnIndex"
+          (selectedCompanyCodeValuesChange)="onSelectedCompanyCodeChange($event)"
+        ></app-company-approval-grid-view>
+        <!-- Modal for tadeLicence -->
+        <div
+          class="modal fade"
+          id="showImgModal"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="showImgModalLabel"
+          aria-hidden="true"
+          >
+          <app-company-trade-licence-modal
+            [imageTitle]="imageTitle"
+            [imagePath]="imagePath"
+          ></app-company-trade-licence-modal>
+        </div>
+      </section>
+    }
   </div>
 </div>
 
@@ -70,7 +70,7 @@
   data-bs-toggle="modal"
   data-bs-target="#msgModal"
   #msgModalBTN
->
+  >
   Launch demo modal
 </button>
 

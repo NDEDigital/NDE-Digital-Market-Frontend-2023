@@ -2,56 +2,56 @@
   <div id="content-wrap">
     <app-header (dataUpdated)="handleDataUpdated()"></app-header>
     <!-- <div class="nav-belt-container">
-      <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
-    </div> -->
+    <app-nav-belt (dataUpdated)="handleDataUpdated()"></app-nav-belt>
+  </div> -->
 
-    <!-- <div class="product_sidebar_container">
-        <app-product-sidebar
-          (dataUpdated)="handleDataUpdated()"
-          [showCategory]="true"
-        ></app-product-sidebar>
-      </div> -->
+  <!-- <div class="product_sidebar_container">
+  <app-product-sidebar
+    (dataUpdated)="handleDataUpdated()"
+    [showCategory]="true"
+  ></app-product-sidebar>
+</div> -->
 
-    <div class="products ps-3">
-      <div class="product_slider bg-white mx-auto my-2 py-1 align-items-center">
-        <h2 class="top-seller-heading">Our Top Seller</h2>
-        <div class="line"></div>
+<div class="products ps-3">
+  <div class="product_slider bg-white mx-auto my-2 py-1 align-items-center">
+    <h2 class="top-seller-heading">Our Top Seller</h2>
+    <div class="line"></div>
 
-        <div class="grid-container">
-          <ng-container *ngFor="let topSeller of getTopSellerData">
-            <div class="grid-item">
-              <div class="rounded product-responsive mt-3 mb-5 h-75">
-                <div
-                  class="card"
+    <div class="grid-container">
+      @for (topSeller of getTopSellerData; track topSeller) {
+        <div class="grid-item">
+          <div class="rounded product-responsive mt-3 mb-5 h-75">
+            <div
+              class="card"
                   (click)="
                     productCardClick(
                       topSeller.companyCode,
                       topSeller.productGroupCode
                     )
                   "
-                >
-                  <div class="card-look">
-                    <img
+              >
+              <div class="card-look">
+                <img
                       [src]="
                         topSeller.companyImage.substring(
                           topSeller.companyImage.indexOf('assets')
                         )
                       "
-                      class="card-img-top"
-                      alt="{{ topSeller.companyName }}"
-                    />
-                  </div>
-                  <h5 class="card-title">{{ topSeller.companyName }}</h5>
+                  class="card-img-top"
+                  alt="{{ topSeller.companyName }}"
+                  />
                 </div>
+                <h5 class="card-title">{{ topSeller.companyName }}</h5>
               </div>
             </div>
-          </ng-container>
-        </div>
+          </div>
+        }
       </div>
     </div>
   </div>
+</div>
 
-  <div id="footer" class="footer">
-    <app-footer></app-footer>
-  </div>
+<div id="footer" class="footer">
+  <app-footer></app-footer>
+</div>
 </section>

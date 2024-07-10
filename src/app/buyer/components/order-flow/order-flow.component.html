@@ -1,7 +1,7 @@
 <div class="">
   <div
     class="bg-white d-flex justify-content-center p-2 border border-1 rounded"
-  >
+    >
     <h1 class="companyApproval_header_text">Orders Overview buyer</h1>
   </div>
   <div class="mt-2 bg-light border border-1 px-3 py-2 rounded my-2">
@@ -11,113 +11,115 @@
         [ngClass]="{ active: btnIndex === -1 }"
         (click)="btnIndex = -1"
         (click)="getData('Pending')"
-      >
+        >
         Pending
       </button>
       <!-- <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-        (click)="getData('Approved')"
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 1 }"
+      (click)="btnIndex = 1"
+      (click)="getData('Approved')"
       >
-        Approved
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-        (click)="getData('Cancelled')"
+      Approved
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 0 }"
+      (click)="btnIndex = 0"
+      (click)="getData('Cancelled')"
       >
-        Cancelled
-      </button> -->
+      Cancelled
+    </button> -->
 
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 3 }"
-        (click)="btnIndex = 3"
-        (click)="getData('Processing')"
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 3 }"
+      (click)="btnIndex = 3"
+      (click)="getData('Processing')"
       >
-        Processing
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 4 }"
-        (click)="btnIndex = 4"
-        (click)="getData('ReadyToShip')"
+      Processing
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 4 }"
+      (click)="btnIndex = 4"
+      (click)="getData('ReadyToShip')"
       >
-        Ready To Ship
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 5 }"
-        (click)="btnIndex = 5"
-        (click)="getData('ToDeliver')"
+      Ready To Ship
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 5 }"
+      (click)="btnIndex = 5"
+      (click)="getData('ToDeliver')"
       >
-        To Deliver
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 6 }"
-        (click)="btnIndex = 6"
-        (click)="getData('Delivered')"
+      To Deliver
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 6 }"
+      (click)="btnIndex = 6"
+      (click)="getData('Delivered')"
       >
-        Delivered
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 7 }"
-        (click)="btnIndex = 7"
-        (click)="getData('Reviewed')"
+      Delivered
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 7 }"
+      (click)="btnIndex = 7"
+      (click)="getData('Reviewed')"
       >
-        Reviewed
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 8 }"
-        (click)="btnIndex = 8"
-        (click)="getData('ToReturn')"
+      Reviewed
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 8 }"
+      (click)="btnIndex = 8"
+      (click)="getData('ToReturn')"
       >
-        To Return
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 9 }"
-        (click)="btnIndex = 9"
-        (click)="getData('Returned')"
+      To Return
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 9 }"
+      (click)="btnIndex = 9"
+      (click)="getData('Returned')"
       >
-        Returned
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 2 }"
-        (click)="btnIndex = 2"
-        (click)="getData('Rejected')"
+      Returned
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 2 }"
+      (click)="btnIndex = 2"
+      (click)="getData('Rejected')"
       >
-        Rejected
-      </button>
-    </div>
+      Rejected
+    </button>
   </div>
-  <div class="scrollable-table border border-1 bg-light">
-    <!-- TABLE header -->
-    <div class="row headerRow sticky-top fw-bolder">
-      <div class="col tableHeader">Index</div>
-      <div class="col tableHeader">Order No</div>
-      <div class="col tableHeader">Product Name</div>
-      <div class="col tableHeader">Buyer Name</div>
-      <div class="col tableHeader">Order Date</div>
-      <div class="col tableHeader">Address</div>
-      <div class="col tableHeader">Status</div>
-      <div class="col tableHeader" *ngIf="btnIndex === 6">Action</div>
+</div>
+<div class="scrollable-table border border-1 bg-light">
+  <!-- TABLE header -->
+  <div class="row headerRow sticky-top fw-bolder">
+    <div class="col tableHeader">Index</div>
+    <div class="col tableHeader">Order No</div>
+    <div class="col tableHeader">Product Name</div>
+    <div class="col tableHeader">Buyer Name</div>
+    <div class="col tableHeader">Order Date</div>
+    <div class="col tableHeader">Address</div>
+    <div class="col tableHeader">Status</div>
+    @if (btnIndex === 6) {
+      <div class="col tableHeader">Action</div>
+    }
 
-      <!-- <div class="col tableHeader">Action</div> -->
-    </div>
+    <!-- <div class="col tableHeader">Action</div> -->
+  </div>
 
-    <!-- table body -->
+  <!-- table body -->
 
+  @for (row of productsData; track row; let i = $index) {
     <section
       class="row tablebodyRow fw-semibold"
-      *ngFor="let row of productsData; let i = index"
-    >
+      >
       <div class="col tableBody">#{{ i + 1 }}</div>
       <div class="col tableBody">
         <a class="invoice" (click)="gotoInvoice(row.orderMasterId)">{{
@@ -130,51 +132,50 @@
       <div class="col tableBody">
         {{ row.buyerName }}
       </div>
-
       <div class="col tableBody">
         {{ row.orderDate | date : "dd MMM yyyy" }},<br />
         {{ row.orderDate | date : "hh:mm a" }}
       </div>
-
       <div class="col tableBody">
         {{ row.address }}
       </div>
       <div class="col tableBody">
         {{ row.sellerStatus }}
       </div>
-      <div class="col tableBody" *ngIf="btnIndex === 6">
-        <button
-          id="{{ i }}"
-          class="custom-btn returnbutton"
-          (click)="setreturnDataArrayIndex(i)"
-          type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#ReturnformModal"
-        >
-          Return
-        </button>
-
-        <button
-          class="custom-btn"
-          type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#reviewModal"
-          (click)="openReviewModal(row)"
-        >
-          Review
-        </button>
-      </div>
+      @if (btnIndex === 6) {
+        <div class="col tableBody">
+          <button
+            id="{{ i }}"
+            class="custom-btn returnbutton"
+            (click)="setreturnDataArrayIndex(i)"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#ReturnformModal"
+            >
+            Return
+          </button>
+          <button
+            class="custom-btn"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#reviewModal"
+            (click)="openReviewModal(row)"
+            >
+            Review
+          </button>
+        </div>
+      }
       <!-- <div class="col tableBody">
-        <div class="d-flex justify-content-center align-items-center">
-          <div>
-            <button class="actionBtn" *ngIf="btnIndex != 1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="green"
-                class="bi bi-check2 me-3"
-                viewBox="0 0 16 16"
+      <div class="d-flex justify-content-center align-items-center">
+        <div>
+          <button class="actionBtn" *ngIf="btnIndex != 1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="green"
+              class="bi bi-check2 me-3"
+              viewBox="0 0 16 16"
                 (click)="
                   updateProduct(
                     row.userId,
@@ -184,8 +185,8 @@
                   )
                 "
               >
-                <path
-                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+              <path
+                d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
                 />
               </svg>
             </button>
@@ -202,7 +203,7 @@
                   'Rejected'
                 )
               "
-            >
+              >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -210,70 +211,72 @@
                 fill="red"
                 class="bi bi-x-lg fw-bolder"
                 viewBox="0 0 16 16"
-              >
+                >
                 <path
                   d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
-                />
-              </svg>
-            </button>
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </div> -->
-    </section>
+        </div> -->
+      </section>
+    }
   </div>
 
   <section id="ReturnFormModalSection">
     <!-- Button trigger modal -->
     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      Launch static backdrop modal
-    </button> -->
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="ReturnformModal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="ReturnformModalLabel"
-      aria-hidden="true"
+    Launch static backdrop modal
+  </button> -->
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="ReturnformModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="ReturnformModalLabel"
+    aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="ReturnformModalLabel">
-              Return Form
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="returnForm">
-              <div>
-                <label class="p-2 fw-bold" for="returntype">Return Type:</label>
-                <select
-                  class="border border-1 rounded"
-                  formControlName="returntype"
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="ReturnformModalLabel">
+            Return Form
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="returnForm">
+            <div>
+              <label class="p-2 fw-bold" for="returntype">Return Type:</label>
+              <select
+                class="border border-1 rounded"
+                formControlName="returntype"
                 >
-                  <option value="" disabled>Select Return Type</option>
+                <option value="" disabled>Select Return Type</option>
+                @for (entry of returntype; track entry) {
                   <option
-                    *ngFor="let entry of returntype"
                     [ngValue]="entry.returnTypeId"
-                  >
+                    >
                     {{ entry.returnTypeName }}
                   </option>
-                </select>
-              </div>
-              <div>
-                <label class="p-2 fw-bold" for="remarks">Remarks:</label>
-                <input
-                  type="text"
-                  placeholder=" Remarks"
-                  formControlName="remarks"
-                  class="border border-1 rounded"
+                }
+              </select>
+            </div>
+            <div>
+              <label class="p-2 fw-bold" for="remarks">Remarks:</label>
+              <input
+                type="text"
+                placeholder=" Remarks"
+                formControlName="remarks"
+                class="border border-1 rounded"
                 />
               </div>
             </form>
@@ -284,14 +287,14 @@
               #CloseReturnFormModal
               class="btn btn-secondary"
               data-bs-dismiss="modal"
-            >
+              >
               Close
             </button>
             <button
               type="button"
               class="custom-btn"
               (click)="ProductReturnFunction()"
-            >
+              >
               Return
             </button>
           </div>
@@ -303,107 +306,108 @@
   <section id="ReviewFormModalSection">
     <!-- Button trigger modal -->
     <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      Launch static backdrop modal
-    </button> -->
+    Launch static backdrop modal
+  </button> -->
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="reviewModal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="reviewModalLabel"
-      aria-hidden="true"
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="reviewModal"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="reviewModalLabel"
+    aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="reviewModalLabel">Review Form</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              (click)="resetFormAndStars()"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="reviewForm">
-              <div
-                class="star-inputs form-group border border-1 d-flex justify-content-center"
-                (click)="resetRating($event)"
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="reviewModalLabel">Review Form</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="resetFormAndStars()"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="reviewForm">
+            <div
+              class="star-inputs form-group border border-1 d-flex justify-content-center"
+              (click)="resetRating($event)"
                 [class.error]="
                   reviewForm.get('ratingValue')?.invalid &&
                   reviewForm.get('ratingValue')?.touched
                 "
-                #starContainer
+              #starContainer
               >
-                <i
-                  #star
-                  class="bi bi-star-fill starDesign"
-                  (mouseover)="updateRating(1)"
-                  (click)="setRating(1)"
-                ></i>
-                <i
-                  #star
-                  class="bi bi-star-fill starDesign"
-                  (mouseover)="updateRating(2)"
-                  (click)="setRating(2)"
-                ></i>
-                <i
-                  #star
-                  class="bi bi-star-fill starDesign"
-                  (mouseover)="updateRating(3)"
-                  (click)="setRating(3)"
-                ></i>
-                <i
-                  #star
-                  class="bi bi-star-fill starDesign"
-                  (mouseover)="updateRating(4)"
-                  (click)="setRating(4)"
-                ></i>
-                <i
-                  #star
-                  class="bi bi-star-fill starDesign"
-                  (mouseover)="updateRating(5)"
-                  (click)="setRating(5)"
-                ></i>
+              <i
+                #star
+                class="bi bi-star-fill starDesign"
+                (mouseover)="updateRating(1)"
+                (click)="setRating(1)"
+              ></i>
+              <i
+                #star
+                class="bi bi-star-fill starDesign"
+                (mouseover)="updateRating(2)"
+                (click)="setRating(2)"
+              ></i>
+              <i
+                #star
+                class="bi bi-star-fill starDesign"
+                (mouseover)="updateRating(3)"
+                (click)="setRating(3)"
+              ></i>
+              <i
+                #star
+                class="bi bi-star-fill starDesign"
+                (mouseover)="updateRating(4)"
+                (click)="setRating(4)"
+              ></i>
+              <i
+                #star
+                class="bi bi-star-fill starDesign"
+                (mouseover)="updateRating(5)"
+                (click)="setRating(5)"
+              ></i>
 
+              @if (
+                reviewForm.get('ratingValue')?.invalid &&
+                reviewForm.get('ratingValue')?.touched
+                ) {
                 <span
                   class="text-danger"
-                  *ngIf="
-                    reviewForm.get('ratingValue')?.invalid &&
-                    reviewForm.get('ratingValue')?.touched
-                  "
-                >
+                  >
                   *Rating is required.
                 </span>
-              </div>
+              }
+            </div>
 
-              <div class="review-text d-flex flex-column m-1 form-group">
-                <label class="fs-6 fw-semibold" for="">Review Text: </label>
-                <textarea
-                  name="reviewText"
-                  id="ReviewText"
-                  cols="20"
-                  rows="10"
-                  class="border border-1"
-                  formControlName="reviewText"
-                ></textarea>
-              </div>
-              <div class="image-upload form-group">
-                <label for="productImage"
-                  ><span class=""></span>Upload Product Image
-                </label>
-                <input
-                  type="file"
-                  class="form-control"
-                  name="imageFile"
-                  id="imageFile"
-                  formControlName="imageFile"
-                  #ProductImageInput
-                  accept="image/jpeg, image/jpg, image/png, image/webp"
+            <div class="review-text d-flex flex-column m-1 form-group">
+              <label class="fs-6 fw-semibold" for="">Review Text: </label>
+              <textarea
+                name="reviewText"
+                id="ReviewText"
+                cols="20"
+                rows="10"
+                class="border border-1"
+                formControlName="reviewText"
+              ></textarea>
+            </div>
+            <div class="image-upload form-group">
+              <label for="productImage"
+                ><span class=""></span>Upload Product Image
+              </label>
+              <input
+                type="file"
+                class="form-control"
+                name="imageFile"
+                id="imageFile"
+                formControlName="imageFile"
+                #ProductImageInput
+                accept="image/jpeg, image/jpg, image/png, image/webp"
                 />
               </div>
 
@@ -413,7 +417,7 @@
                   #CloseReviewFormModal
                   class="btn btn-secondary d-none"
                   data-bs-dismiss="modal"
-                >
+                  >
                   Close
                 </button>
 
@@ -422,7 +426,7 @@
                   class="custom-btn"
                   (click)="onSubmit()"
                   (click)="btnIndex = -1"
-                >
+                  >
                   submit
                 </button>
               </div>

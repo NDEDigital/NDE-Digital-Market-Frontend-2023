@@ -1,38 +1,39 @@
 <div class="table-body-data">
-  <div
-    class="col tableBody"
-    *ngIf="btnIndex!=-1"
+  @if (btnIndex!=-1) {
+    <div
+      class="col tableBody"
     [ngClass]="{
       'active-row': isHovered === i
     }"
-  >
-    <input
-      type="checkbox"
-      [(ngModel)]="unit.isSelected"
-      (change)="checkboxSelected(unit.unitId, $event)"
-    />
-  </div>
-  <div
-    class="col tableBody"
+      >
+      <input
+        type="checkbox"
+        [(ngModel)]="unit.isSelected"
+        (change)="checkboxSelected(unit.unitId, $event)"
+        />
+      </div>
+    }
+    <div
+      class="col tableBody"
     [ngClass]="{
       'active-row': unit.unitId === activeGroupId || isHovered === i
     }"
-  >
-    #{{ i + 1 }}
-  </div>
-  <!-- <div
-          class="col tableBody"
-          [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
-        >
-          {{ group.productGroupID }}
-        </div> -->
+      >
+      #{{ i + 1 }}
+    </div>
+    <!-- <div
+    class="col tableBody"
+    [ngClass]="{ 'active-row': group.productGroupID === activeGroupId }"
+    >
+    {{ group.productGroupID }}
+  </div> -->
 
   <div
     class="col tableBody"
     [ngClass]="{
       'active-row': unit.unitId === activeGroupId || isHovered === i
     }"
-  >
+    >
     {{ unit.description }}
   </div>
   <div
@@ -40,56 +41,59 @@
     [ngClass]="{
       'active-row': unit.unitId === activeGroupId || isHovered === i
     }"
-  >
+    >
     {{ unit.name }}
   </div>
 
-  <div
-    class="col tableBody"
-    *ngIf="btnIndex != -1"
-    [ngClass]="{ 'active-row': isHovered === i }"
-  >
-    <div class="d-flex justify-content-center align-items-center">
-      <div>
-        <button
-          class="actionBtn"
-          *ngIf="btnIndex === 0"
-          (click)="updateIsActive(true, unit.unitId)"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            fill="green"
-            class="bi bi-check2 me-3"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div>
-        <button
-          class="actionBtn"
-          *ngIf="btnIndex === 1"
-          (click)="updateIsActive(false, unit.unitId)"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="red"
-            class="bi bi-x-lg fw-bolder"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
-            />
-          </svg>
-        </button>
-      </div>
+  @if (btnIndex != -1) {
+    <div
+      class="col tableBody"
+      [ngClass]="{ 'active-row': isHovered === i }"
+      >
+      <div class="d-flex justify-content-center align-items-center">
+        <div>
+          @if (btnIndex === 0) {
+            <button
+              class="actionBtn"
+              (click)="updateIsActive(true, unit.unitId)"
+              >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="green"
+                class="bi bi-check2 me-3"
+                viewBox="0 0 16 16"
+                >
+                <path
+                  d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
+                  />
+                </svg>
+              </button>
+            }
+          </div>
+          <div>
+            @if (btnIndex === 1) {
+              <button
+                class="actionBtn"
+                (click)="updateIsActive(false, unit.unitId)"
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="red"
+                  class="bi bi-x-lg fw-bolder"
+                  viewBox="0 0 16 16"
+                  >
+                  <path
+                    d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+                    />
+                  </svg>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
     </div>
-  </div>
-</div>

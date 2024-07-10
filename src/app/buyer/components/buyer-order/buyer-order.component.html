@@ -9,7 +9,7 @@
         [ngClass]="{ active: btnIndex === -2 }"
         (click)="btnIndex = -2"
         (click)="getData('')"
-      >
+        >
         All
       </button>
       <button
@@ -17,225 +17,230 @@
         [ngClass]="{ active: btnIndex === -1 }"
         (click)="btnIndex = -1"
         (click)="getData('Pending')"
-      >
+        >
         Pending
       </button>
       <!-- <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 1 }"
-        (click)="btnIndex = 1"
-        (click)="getData('Approved')"
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 1 }"
+      (click)="btnIndex = 1"
+      (click)="getData('Approved')"
       >
-        Approved
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 0 }"
-        (click)="btnIndex = 0"
-        (click)="getData('Cancelled')"
+      Approved
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 0 }"
+      (click)="btnIndex = 0"
+      (click)="getData('Cancelled')"
       >
-        Cancelled
-      </button> -->
+      Cancelled
+    </button> -->
 
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 3 }"
-        (click)="btnIndex = 3"
-        (click)="getData('Processing')"
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 3 }"
+      (click)="btnIndex = 3"
+      (click)="getData('Processing')"
       >
-        Processing
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 4 }"
-        (click)="btnIndex = 4"
-        (click)="getData('ReadyToShip')"
+      Processing
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 4 }"
+      (click)="btnIndex = 4"
+      (click)="getData('ReadyToShip')"
       >
-        Ready To Ship
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 5 }"
-        (click)="btnIndex = 5"
-        (click)="getData('ToDeliver')"
+      Ready To Ship
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 5 }"
+      (click)="btnIndex = 5"
+      (click)="getData('ToDeliver')"
       >
-        To Deliver
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 6 }"
-        (click)="btnIndex = 6"
-        (click)="getData('Delivered')"
+      To Deliver
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 6 }"
+      (click)="btnIndex = 6"
+      (click)="getData('Delivered')"
       >
-        Delivered
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 7 }"
-        (click)="btnIndex = 7"
-        (click)="getData('Reviewed')"
+      Delivered
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 7 }"
+      (click)="btnIndex = 7"
+      (click)="getData('Reviewed')"
       >
-        Reviewed
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 8 }"
-        (click)="btnIndex = 8"
-        (click)="getData('ToReturn')"
+      Reviewed
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 8 }"
+      (click)="btnIndex = 8"
+      (click)="getData('ToReturn')"
       >
-        To Return
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 9 }"
-        (click)="btnIndex = 9"
-        (click)="getData('Returned')"
+      To Return
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 9 }"
+      (click)="btnIndex = 9"
+      (click)="getData('Returned')"
       >
-        Returned
-      </button>
-      <button
-        class="custom-btn"
-        [ngClass]="{ active: btnIndex === 2 }"
-        (click)="btnIndex = 2"
-        (click)="getData('Rejected')"
+      Returned
+    </button>
+    <button
+      class="custom-btn"
+      [ngClass]="{ active: btnIndex === 2 }"
+      (click)="btnIndex = 2"
+      (click)="getData('Rejected')"
       >
-        Rejected
-      </button>
-    </div>
+      Rejected
+    </button>
   </div>
-  <!-- <div class="d-flex flex-row fs-5 header-nav mt-5">
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === ''"
-        (click)="btnClick('')"
-      >
-        All
-      </button>
-    </div>
+</div>
+<!-- <div class="d-flex flex-row fs-5 header-nav mt-5">
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === ''"
+    (click)="btnClick('')"
+    >
+    All
+  </button>
+</div>
 
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Ready to Ship'"
-        (click)="btnClick('Ready to Ship')"
-      >
-        To Ship
-        <span *ngIf="toShipCount">({{ toShipCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Shipped'"
-        (click)="btnClick('Shipped')"
-      >
-        To Deliver
-        <span *ngIf="toDeliverCount">({{ toDeliverCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Delivered'"
-        (click)="btnClick('Delivered')"
-      >
-        To Review
-        <span *ngIf="toReviewCount">({{ toReviewCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'to Return'"
-        (click)="btnClick('to Return')"
-      >
-        To Return
-        <span *ngIf="ToReturnCount">({{ ToReturnCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Returned'"
-        (click)="btnClick('Returned')"
-      >
-        Returned
-        <span *ngIf="ReturnedCount">({{ ReturnedCount }})</span>
-      </button>
-    </div>
-  </div> -->
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Ready to Ship'"
+    (click)="btnClick('Ready to Ship')"
+    >
+    To Ship
+    <span *ngIf="toShipCount">({{ toShipCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Shipped'"
+    (click)="btnClick('Shipped')"
+    >
+    To Deliver
+    <span *ngIf="toDeliverCount">({{ toDeliverCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Delivered'"
+    (click)="btnClick('Delivered')"
+    >
+    To Review
+    <span *ngIf="toReviewCount">({{ toReviewCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'to Return'"
+    (click)="btnClick('to Return')"
+    >
+    To Return
+    <span *ngIf="ToReturnCount">({{ ToReturnCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Returned'"
+    (click)="btnClick('Returned')"
+    >
+    Returned
+    <span *ngIf="ReturnedCount">({{ ReturnedCount }})</span>
+  </button>
+</div>
+</div> -->
 
-  <!-- <div class="w-auto nav-line"></div> -->
+<!-- <div class="w-auto nav-line"></div> -->
 
-  <div *ngIf="loading" class="text-center mt-5">
+@if (loading) {
+  <div class="text-center mt-5">
     <h5>Loading products...</h5>
   </div>
-  <div *ngIf="!loading && buyerOrder.length < 1">
+}
+@if (!loading && buyerOrder.length < 1) {
+  <div>
     <h3 class="text-danger text-center mt-5">No Product Found</h3>
   </div>
-  <div *ngIf="!loading && buyerOrder.length > 0" class="mt-5">
-    <div *ngFor="let order of buyerOrder">
-      <div
-        class="border-none bg-white order-card mt-2 border border-1"
-        *ngIf="order.orderDetailsListForBuyer.length > 0"
-      >
-        <div class="d-flex justify-content-between p-3 border-bottom bg-light">
-          <div class="">
-            <p class="fs-6 m-0 p-0">
-              Order:
-              <span class="fs-6 fw-semibold order-number"
-                ><a class="invoice" (click)="orderDetails(order.orderNo)"
-                  ># {{ order.orderNo }}</a
-                ></span
-              >
-            </p>
-            <p class="m-0 p-0">
-              Placed on <span class="fw-semibold">{{ order.orderDate }}</span>
-            </p>
-            <p class="m-0 p-0">
-              TotalPrice:
-              <span class="fw-semibold">
-                <img
-                  src="../../../assets/images/takaIcon.png"
-                  class="taKa_icon"
-                />{{ order.totalPrice }}</span
-              >
-            </p>
-          </div>
-          <!-- <div><Button class="pay-now-btn fst-italic">Manage</Button></div> -->
-        </div>
-
-        <div
-          class="row mt-3"
-          *ngFor="let detail of order.orderDetailsListForBuyer"
-        >
+}
+@if (!loading && buyerOrder.length > 0) {
+  <div class="mt-5">
+    @for (order of buyerOrder; track order) {
+      <div>
+        @if (order.orderDetailsListForBuyer.length > 0) {
           <div
-            class="col-2 d-flex justify-content-center"
-            (click)="goToDetail(detail)"
-          >
-            <img
+            class="border-none bg-white order-card mt-2 border border-1"
+            >
+            <div class="d-flex justify-content-between p-3 border-bottom bg-light">
+              <div class="">
+                <p class="fs-6 m-0 p-0">
+                  Order:
+                  <span class="fs-6 fw-semibold order-number"
+                    ><a class="invoice" (click)="orderDetails(order.orderNo)"
+                    ># {{ order.orderNo }}</a
+                    ></span
+                    >
+                  </p>
+                  <p class="m-0 p-0">
+                    Placed on <span class="fw-semibold">{{ order.orderDate }}</span>
+                  </p>
+                  <p class="m-0 p-0">
+                    TotalPrice:
+                    <span class="fw-semibold">
+                      <img
+                        src="../../../assets/images/takaIcon.png"
+                        class="taKa_icon"
+                        />{{ order.totalPrice }}</span
+                        >
+                      </p>
+                    </div>
+                    <!-- <div><Button class="pay-now-btn fst-italic">Manage</Button></div> -->
+                  </div>
+                  @for (detail of order.orderDetailsListForBuyer; track detail) {
+                    <div
+                      class="row mt-3"
+                      >
+                      <div
+                        class="col-2 d-flex justify-content-center"
+                        (click)="goToDetail(detail)"
+                        >
+                        <img
               [src]="
                 detail.imagePath
                   ? '/asset' + detail.imagePath?.split('asset')[1]
                   : ''
               "
-              class="w-50 h-75"
-              alt=""
-            />
-          </div>
-          <div class="col-1" (click)="goToDetail(detail)">
-            {{ detail.productName }}
-          </div>
-          <div class="col-1 col-sm-2">
-            <span class="qty-design">Qty: {{ detail.qty }}</span>
-          </div>
-          <div class="col-1 col-sm-2">
-            <span class="color-primary">Price: {{ detail.price }}</span>
-          </div>
-          <div class="col-1 col-sm-3">
-            <button
-              class="p-2 p-lg-1 p-sm-1 process-btn"
+                          class="w-50 h-75"
+                          alt=""
+                          />
+                        </div>
+                        <div class="col-1" (click)="goToDetail(detail)">
+                          {{ detail.productName }}
+                        </div>
+                        <div class="col-1 col-sm-2">
+                          <span class="qty-design">Qty: {{ detail.qty }}</span>
+                        </div>
+                        <div class="col-1 col-sm-2">
+                          <span class="color-primary">Price: {{ detail.price }}</span>
+                        </div>
+                        <div class="col-1 col-sm-3">
+                          <button
+                            class="p-2 p-lg-1 p-sm-1 process-btn"
               [ngClass]="{
                 'gray-bg':
                   detail.status === 'Pending' || detail.status === 'Processing',
@@ -244,12 +249,12 @@
                   detail.status === 'Delivered' || detail.status === 'Shipped',
                 'red-bg': detail.status === 'Cancelled'
               }"
-            >
-              {{ detail.status }}
-            </button>
-          </div>
-          <div class="col-2 text-success fw-semibold">
-            <p
+                            >
+                            {{ detail.status }}
+                          </button>
+                        </div>
+                        <div class="col-2 text-success fw-semibold">
+                          <p
               [ngClass]="{
                 'gray-p':
                   detail.status === 'Pending' || detail.status === 'Processing',
@@ -258,323 +263,332 @@
                   detail.status === 'Delivered' || detail.status === 'Shipped',
                 'red-p': detail.status === 'Cancelled'
               }"
+                            >
+                            <!-- <span *ngIf="activeNav == 'Delivered'">
+                            {{ getStatusDescription(detail.status) }}</span
+                            > -->
+                            @if (btnIndex === 6) {
+                              <span class="color-primary">
+                                <button
+                                  class="p-2 p-lg-1 p-sm-1 process-btn review-bg"
+                                  #reviewBTN
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#reviewModal"
+                                  (click)="openReviewModal(detail)"
+                                  >
+                                  Add a review
+                                </button>
+                                <button
+                                  type="button"
+                                  class="p-2 p-lg-1 p-sm-1 process-btn return-button"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                  (click)="toReturn(detail, order.orderNo)"
+                                  >
+                                  To return
+                                </button>
+                              </span>
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+            @if (buyerOrder.length == 0) {
+              <div class="text-danger text-center">
+                <h3>No Order are made yet!</h3>
+              </div>
+            }
+            <!-- pag -->
+            <!-- <app-pagination
+            *ngIf="activeNav === 'All' && buyerOrder.length > 0"
+            [inputdata]="data"
+            (myData)="handlePaginationData($event)"
+            [buyerOrder]="this.buyerOrder"
             >
-              <!-- <span *ngIf="activeNav == 'Delivered'">
-                {{ getStatusDescription(detail.status) }}</span
-              > -->
-              <span class="color-primary" *ngIf="btnIndex === 6">
-                <button
-                  class="p-2 p-lg-1 p-sm-1 process-btn review-bg"
-                  #reviewBTN
-                  data-bs-toggle="modal"
-                  data-bs-target="#reviewModal"
-                  (click)="openReviewModal(detail)"
-                >
-                  Add a review
-                </button>
-                <button
-                  type="button"
-                  class="p-2 p-lg-1 p-sm-1 process-btn return-button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  (click)="toReturn(detail, order.orderNo)"
-                >
-                  To return
-                </button>
-              </span>
-            </p>
-          </div>
+          </app-pagination> -->
         </div>
-      </div>
-    </div>
+      }
+    </section>
 
-    <div *ngIf="buyerOrder.length == 0" class="text-danger text-center">
-      <h3>No Order are made yet!</h3>
-    </div>
-
-    <!-- pag -->
-
-    <!-- <app-pagination
-      *ngIf="activeNav === 'All' && buyerOrder.length > 0"
-      [inputdata]="data"
-      (myData)="handlePaginationData($event)"
-      [buyerOrder]="this.buyerOrder"
-    >
-    </app-pagination> -->
-  </div>
-</section>
-
-<!-- return modal -->
-<section>
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header returnModalHeader">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">To return</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="returnForm">
-            <div class="orderNo mb-2">
-              <label class="returnLabel m-0"> Order </label>
-              <label class="orderNoInput ms-1"> #</label>
-              <input
-                id="orderNo"
-                type="text"
-                class="orderNoInput"
-                name="orderNo"
-                value="ioyefe"
-                formControlName="orderNo"
-                readonly
-              />
-            </div>
-            <!-- product part -->
-            <div class="product d-flex">
-              <div class="productImage">
-                <img class="returnProductImage" [src]="productImageSrc" />
-              </div>
-              <div class="productDetails">
-                <div class="productName">
-                  <input
-                    id="productName"
-                    type="text"
-                    class="productNameInput"
-                    name="productImage"
-                    value="0.7mm"
-                    formControlName="groupName"
-                    readonly
-                  />
-                </div>
-                <div class="goodsName">
-                  <input
-                    id="goodsName"
-                    type="text"
-                    class="productCodeInput"
-                    name="productCode"
-                    value=" "
-                    formControlName="goodsName"
-                    readonly
-                  />
-                </div>
-                <div class="productIPrice">
-                  <img
-                    class="taKa_icon"
-                    src="../../../assets/images/takaIcon.png"
-                  />
-                  <input
-                    id="productId"
-                    type="text"
-                    class="productIdInput returnPrice"
-                    name="productId"
-                    value=" "
-                    formControlName="price"
-                    readonly
-                  />
-                </div>
-              </div>
-            </div>
-
-            <!-- product Return part -->
-
-            <div class="returnPart mt-5">
-              <label class="returnLabel">Select return Type</label>
-              <select
-                class="form-select"
-                aria-label="Default select example"
-                formControlName="typeId"
-              >
-                <option [value]="null" disabled selected>
-                  Select Return Type
-                </option>
-                <option
-                  *ngFor="let option of returnTypeData"
-                  [value]="option.returnTypeId"
-                >
-                  {{ option.returnTypeName }}
-                </option>
-              </select>
-
-              <!-- alert -->
-
-              <div class="danger" *ngIf="returnType">
-                <p class="m-0"><strong>give</strong> a return type</p>
-              </div>
-
-              <!-- remarks -->
-              <div class="mt-2">
-                <label class="returnLabel"> Add Remark </label>
-                <textarea
-                  type="text"
-                  class="w-100 rounded p-1 returnRemarks"
-                  formControlName="remarks"
-                ></textarea>
-              </div>
-            </div>
-            <div class="modal-footer">
+    <!-- return modal -->
+    <section>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header returnModalHeader">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">To return</h1>
               <button
-                #closeModalButton
                 type="button"
-                class="btn btn-secondary"
+                class="btn-close"
                 data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="SaveReturnData()"
-              >
-                Return
-              </button>
+                aria-label="Close"
+              ></button>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            <div class="modal-body">
+              <form [formGroup]="returnForm">
+                <div class="orderNo mb-2">
+                  <label class="returnLabel m-0"> Order </label>
+                  <label class="orderNoInput ms-1"> #</label>
+                  <input
+                    id="orderNo"
+                    type="text"
+                    class="orderNoInput"
+                    name="orderNo"
+                    value="ioyefe"
+                    formControlName="orderNo"
+                    readonly
+                    />
+                  </div>
+                  <!-- product part -->
+                  <div class="product d-flex">
+                    <div class="productImage">
+                      <img class="returnProductImage" [src]="productImageSrc" />
+                    </div>
+                    <div class="productDetails">
+                      <div class="productName">
+                        <input
+                          id="productName"
+                          type="text"
+                          class="productNameInput"
+                          name="productImage"
+                          value="0.7mm"
+                          formControlName="groupName"
+                          readonly
+                          />
+                        </div>
+                        <div class="goodsName">
+                          <input
+                            id="goodsName"
+                            type="text"
+                            class="productCodeInput"
+                            name="productCode"
+                            value=" "
+                            formControlName="goodsName"
+                            readonly
+                            />
+                          </div>
+                          <div class="productIPrice">
+                            <img
+                              class="taKa_icon"
+                              src="../../../assets/images/takaIcon.png"
+                              />
+                              <input
+                                id="productId"
+                                type="text"
+                                class="productIdInput returnPrice"
+                                name="productId"
+                                value=" "
+                                formControlName="price"
+                                readonly
+                                />
+                              </div>
+                            </div>
+                          </div>
 
-<section id="ReviewFormModalSection">
-  <!-- Button trigger modal -->
-  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Launch static backdrop modal
-  </button> -->
+                          <!-- product Return part -->
 
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="reviewModal"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="reviewModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="reviewModalLabel">Review Form</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            (click)="resetFormAndStars()"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="reviewForm">
-            <div
-              class="star-inputs form-group border border-1 d-flex justify-content-center"
-              (click)="resetRating($event)"
+                          <div class="returnPart mt-5">
+                            <label class="returnLabel">Select return Type</label>
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              formControlName="typeId"
+                              >
+                              <option [value]="null" disabled selected>
+                                Select Return Type
+                              </option>
+                              @for (option of returnTypeData; track option) {
+                                <option
+                                  [value]="option.returnTypeId"
+                                  >
+                                  {{ option.returnTypeName }}
+                                </option>
+                              }
+                            </select>
+
+                            <!-- alert -->
+
+                            @if (returnType) {
+                              <div class="danger">
+                                <p class="m-0"><strong>give</strong> a return type</p>
+                              </div>
+                            }
+
+                            <!-- remarks -->
+                            <div class="mt-2">
+                              <label class="returnLabel"> Add Remark </label>
+                              <textarea
+                                type="text"
+                                class="w-100 rounded p-1 returnRemarks"
+                                formControlName="remarks"
+                              ></textarea>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              #closeModalButton
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                              >
+                              Close
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              (click)="SaveReturnData()"
+                              >
+                              Return
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section id="ReviewFormModalSection">
+                <!-- Button trigger modal -->
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Launch static backdrop modal
+              </button> -->
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="reviewModal"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="reviewModalLabel"
+                aria-hidden="true"
+                >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="reviewModalLabel">Review Form</h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        (click)="resetFormAndStars()"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <form [formGroup]="reviewForm">
+                        <div
+                          class="star-inputs form-group border border-1 d-flex justify-content-center"
+                          (click)="resetRating($event)"
               [class.error]="
                 reviewForm.get('ratingValue')?.invalid &&
                 reviewForm.get('ratingValue')?.touched
               "
-              #starContainer
-            >
-              <i
-                #star
-                class="bi bi-star-fill starDesign"
-                (mouseover)="updateRating(1)"
-                (click)="setRating(1)"
-              ></i>
-              <i
-                #star
-                class="bi bi-star-fill starDesign"
-                (mouseover)="updateRating(2)"
-                (click)="setRating(2)"
-              ></i>
-              <i
-                #star
-                class="bi bi-star-fill starDesign"
-                (mouseover)="updateRating(3)"
-                (click)="setRating(3)"
-              ></i>
-              <i
-                #star
-                class="bi bi-star-fill starDesign"
-                (mouseover)="updateRating(4)"
-                (click)="setRating(4)"
-              ></i>
-              <i
-                #star
-                class="bi bi-star-fill starDesign"
-                (mouseover)="updateRating(5)"
-                (click)="setRating(5)"
-              ></i>
+                          #starContainer
+                          >
+                          <i
+                            #star
+                            class="bi bi-star-fill starDesign"
+                            (mouseover)="updateRating(1)"
+                            (click)="setRating(1)"
+                          ></i>
+                          <i
+                            #star
+                            class="bi bi-star-fill starDesign"
+                            (mouseover)="updateRating(2)"
+                            (click)="setRating(2)"
+                          ></i>
+                          <i
+                            #star
+                            class="bi bi-star-fill starDesign"
+                            (mouseover)="updateRating(3)"
+                            (click)="setRating(3)"
+                          ></i>
+                          <i
+                            #star
+                            class="bi bi-star-fill starDesign"
+                            (mouseover)="updateRating(4)"
+                            (click)="setRating(4)"
+                          ></i>
+                          <i
+                            #star
+                            class="bi bi-star-fill starDesign"
+                            (mouseover)="updateRating(5)"
+                            (click)="setRating(5)"
+                          ></i>
 
-              <span
-                class="text-danger"
-                *ngIf="
-                  reviewForm.get('ratingValue')?.invalid &&
-                  reviewForm.get('ratingValue')?.touched
-                "
-              >
-                *Rating is required.
-              </span>
-            </div>
+                          @if (
+                            reviewForm.get('ratingValue')?.invalid &&
+                            reviewForm.get('ratingValue')?.touched
+                            ) {
+                            <span
+                              class="text-danger"
+                              >
+                              *Rating is required.
+                            </span>
+                          }
+                        </div>
 
-            <div class="review-text d-flex flex-column m-1 form-group">
-              <label class="fs-6 fw-semibold" for="">Review Text: </label>
-              <textarea
-                name="reviewText"
-                id="ReviewText"
-                cols="20"
-                rows="10"
-                class="border border-1"
-                formControlName="reviewText"
-              ></textarea>
-            </div>
-            <div class="image-upload form-group">
-              <label for="productImage"
-                ><span class=""></span>Upload Product Image
-              </label>
-              <input
-                type="file"
-                class="form-control"
-                name="imageFile"
-                id="imageFile"
-                formControlName="imageFile"
-                #ProductImageInput
-                accept="image/jpeg, image/jpg, image/png,image/webp"
-              />
-            </div>
+                        <div class="review-text d-flex flex-column m-1 form-group">
+                          <label class="fs-6 fw-semibold" for="">Review Text: </label>
+                          <textarea
+                            name="reviewText"
+                            id="ReviewText"
+                            cols="20"
+                            rows="10"
+                            class="border border-1"
+                            formControlName="reviewText"
+                          ></textarea>
+                        </div>
+                        <div class="image-upload form-group">
+                          <label for="productImage"
+                            ><span class=""></span>Upload Product Image
+                          </label>
+                          <input
+                            type="file"
+                            class="form-control"
+                            name="imageFile"
+                            id="imageFile"
+                            formControlName="imageFile"
+                            #ProductImageInput
+                            accept="image/jpeg, image/jpg, image/png,image/webp"
+                            />
+                          </div>
 
-            <div class="form-group d-flex justify-content-end">
-              <button
-                type="button"
-                #CloseReviewFormModal
-                class="btn btn-secondary d-none"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+                          <div class="form-group d-flex justify-content-end">
+                            <button
+                              type="button"
+                              #CloseReviewFormModal
+                              class="btn btn-secondary d-none"
+                              data-bs-dismiss="modal"
+                              >
+                              Close
+                            </button>
 
-              <button
-                type="button"
-                class="custom-btn"
-                (click)="onSubmit()"
-                (click)="btnIndex = -7"
-              >
-                submit
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                            <button
+                              type="button"
+                              class="custom-btn"
+                              (click)="onSubmit()"
+                              (click)="btnIndex = -7"
+                              >
+                              submit
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>

@@ -8,130 +8,140 @@
     tabindex="-1"
     id="offcanvasScrolling"
     aria-labelledby="offcanvasScrollingLabel"
-  >
+    >
     <!-- <div class="offcanvas-header">
     <div></div>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div> -->
 
-    <div class="offcanvas-body border" *ngIf="cartData && cartData.length > 0">
+  @if (cartData && cartData.length > 0) {
+    <div class="offcanvas-body border">
       <app-cart-list-side-bar
         [cartData]="cartData"
         [cartTotalAmount]="cartTotalAmount"
         (cartUpdated)="handleCartUpdate()"
       ></app-cart-list-side-bar>
     </div>
-  </div>
-  <!-- <div class="fs-2 mb-3">My Orders</div> -->
+  }
+</div>
+<!-- <div class="fs-2 mb-3">My Orders</div> -->
 
-  <!-- <div class="d-flex flex-row fs-5 header-nav mt-5">
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === ''"
-        (click)="btnClick('')"
-      >
-        All
-      </button>
-    </div>
+<!-- <div class="d-flex flex-row fs-5 header-nav mt-5">
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === ''"
+    (click)="btnClick('')"
+    >
+    All
+  </button>
+</div>
 
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Ready to Ship'"
-        (click)="btnClick('Ready to Ship')"
-      >
-        To Ship
-        <span *ngIf="toShipCount">({{ toShipCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Shipped'"
-        (click)="btnClick('Shipped')"
-      >
-        To Deliver
-        <span *ngIf="toDeliverCount">({{ toDeliverCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Delivered'"
-        (click)="btnClick('Delivered')"
-      >
-        To Review
-        <span *ngIf="toReviewCount">({{ toReviewCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'to Return'"
-        (click)="btnClick('to Return')"
-      >
-        To Return
-        <span *ngIf="ToReturnCount">({{ ToReturnCount }})</span>
-      </button>
-    </div>
-    <div class="px-4">
-      <button
-        class="px-3"
-        [class.active-button]="activeNav === 'Returned'"
-        (click)="btnClick('Returned')"
-      >
-        Returned
-        <span *ngIf="ReturnedCount">({{ ReturnedCount }})</span>
-      </button>
-    </div>
-  </div> -->
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Ready to Ship'"
+    (click)="btnClick('Ready to Ship')"
+    >
+    To Ship
+    <span *ngIf="toShipCount">({{ toShipCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Shipped'"
+    (click)="btnClick('Shipped')"
+    >
+    To Deliver
+    <span *ngIf="toDeliverCount">({{ toDeliverCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Delivered'"
+    (click)="btnClick('Delivered')"
+    >
+    To Review
+    <span *ngIf="toReviewCount">({{ toReviewCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'to Return'"
+    (click)="btnClick('to Return')"
+    >
+    To Return
+    <span *ngIf="ToReturnCount">({{ ToReturnCount }})</span>
+  </button>
+</div>
+<div class="px-4">
+  <button
+    class="px-3"
+    [class.active-button]="activeNav === 'Returned'"
+    (click)="btnClick('Returned')"
+    >
+    Returned
+    <span *ngIf="ReturnedCount">({{ ReturnedCount }})</span>
+  </button>
+</div>
+</div> -->
 
-  <!-- <div class="w-auto nav-line"></div> -->
+<!-- <div class="w-auto nav-line"></div> -->
 
-  <div *ngIf="loading" class="text-center mt-5">
+@if (loading) {
+  <div class="text-center mt-5">
     <h5>Loading products...</h5>
   </div>
-  <div *ngIf="!loading && wishList.length < 1">
+}
+@if (!loading && wishList.length < 1) {
+  <div>
     <h3 class="text-danger text-center mt-5">No Product Found</h3>
   </div>
+}
 
-  <div *ngFor="let wish of wishList" class="border mt-4">
+@for (wish of wishList; track wish) {
+  <div class="border mt-4">
     <div class="row mt-4" id="wishDiv">
       <div
         class="col-2 d-flex justify-content-center"
         (click)="goToDetail(wish)"
-      >
+        >
         <img
           [src]="
             wish.imagePath ? '/asset' + wish.imagePath?.split('asset')[1] : ''
           "
           class="w-50 h-75"
           alt=""
-        />
-      </div>
-      <div class="col-1" (click)="goToDetail(wish)">
-        {{ wish.goodsName }}
-      </div>
-      <div class="col-1 col-sm-2">
-        <span class="qty-design">Qty: {{ wish.approveSalesQty }}</span>
-      </div>
-      <div class="col-1 col-sm-2 ml-2">
-        <span class="color-primary">Price: {{ wish.price }}</span>
-      </div>
-      <div *ngIf="wish.approveSalesQty > 0" class="col-1 col-sm-2 ml-2">
-        <button
-          class="btn btn-success"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-          (click)="setCart(wish, '1')"
-        >
-          {{ CartButtonText }}
-        </button>
+          />
+        </div>
+        <div class="col-1" (click)="goToDetail(wish)">
+          {{ wish.goodsName }}
+        </div>
+        <div class="col-1 col-sm-2">
+          <span class="qty-design">Qty: {{ wish.approveSalesQty }}</span>
+        </div>
+        <div class="col-1 col-sm-2 ml-2">
+          <span class="color-primary">Price: {{ wish.price }}</span>
+        </div>
+        @if (wish.approveSalesQty > 0) {
+          <div class="col-1 col-sm-2 ml-2">
+            <button
+              class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              (click)="setCart(wish, '1')"
+              >
+              {{ CartButtonText }}
+            </button>
+          </div>
+        }
       </div>
     </div>
-  </div>
-  
+  }
+
   <!-- Modal for cart-->
   <div
     #exampleModal
@@ -140,7 +150,7 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-  >
+    >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -164,14 +174,14 @@
             type="button"
             data-bs-dismiss="modal"
             class="btn btn-warning"
-          >
+            >
             GO TO CART
           </button>
         </div>
       </div>
     </div>
   </div>
-  
+
 </section>
 <div id="footer" class="footer-responsive">
   <app-footer></app-footer>

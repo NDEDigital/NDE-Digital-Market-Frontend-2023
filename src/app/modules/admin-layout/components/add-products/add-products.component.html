@@ -19,108 +19,118 @@
   <div class="scrollable-table border border-1 bg-light">
     <!-- TABLE header -->
     <div class="row headerRow sticky-top fw-bolder">
-      <div *ngIf="btnIndex!=-1" class="col tableHeader">
-        <input
-          type="checkbox"
-          [(ngModel)]="selectAll"
-          (ngModelChange)="toggleAllCheckboxes()"
-          #allselected
-        />
-        Select All
+      @if (btnIndex!=-1) {
+        <div class="col tableHeader">
+          <input
+            type="checkbox"
+            [(ngModel)]="selectAll"
+            (ngModelChange)="toggleAllCheckboxes()"
+            #allselected
+            />
+            Select All
+          </div>
+        }
+
+        @for (header of headers; track header) {
+          <div class="col tableHeader">{{ header }}</div>
+        }
+        @if (btnIndex != -1) {
+          <div class="col tableHeader">Actions</div>
+        }
       </div>
+      <div>
+        @if (productList.length == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Product Not Found
+          </h1>
+        }
+      </div>
+      <!-- table body -->
 
-      <ng-container *ngFor="let header of headers">
-        <div class="col tableHeader">{{ header }}</div>
-      </ng-container>
-      <div class="col tableHeader" *ngIf="btnIndex != -1">Actions</div>
+      @for (product of productList; track product; let i = $index) {
+        <section
+          class="row tablebodyRow fw-semibold"
+          (mouseover)="isHovered = i"
+          (mouseout)="isHovered = null"
+          (dblclick)="openModalWithData(product)"
+          >
+          <app-product-grid-view
+            [product]="product"
+            [activeProductId]="activeProductId"
+            [isHovered]="isHovered"
+            [i]="i"
+            [btnIndex]="btnIndex"
+            (checkboxSelectedEvent)="checkboxSelected($event)"
+            (updateIsActiveEvent)="updateIsActive($event)"
+          ></app-product-grid-view>
+        </section>
+      }
     </div>
+    <div class="d-flex justify-content-end">
+      @if (btnIndex === 0 ) {
+        <button
+          class="custom-btn"
+          (click)="chageActiveInactive(true)"
+          >
+          Active
+        </button>
+      }
+      @if (btnIndex === 1 ) {
+        <button
+          class="custom-btn"
+          (click)="chageActiveInactive(false)"
+          >
+          Inactive
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- add Product modal   -->
+  @if (btnClick) {
     <div>
-      <h1
-        *ngIf="productList?.length == 0"
-        class="text-center"
-        style="color: red; margin-top: 15%"
-      >
-        Product Not Found
-      </h1>
+      <app-add-products-modal
+        [IdName]="'#addProductModalCenter'"
+        [isEdit]="isEditMode"
+        [doubleClickData]="doubleClickData"
+        (resetFormEvent)="resetForm()"
+        (formDataEvent)="onSubmit($event)"
+        [addBtnClick]="addbtnClickP"
+        [productGroups]="productGroups"
+        [brands]="brands"
+        [units]="units"
+      ></app-add-products-modal>
     </div>
-    <!-- table body -->
+  }
 
-    <section
-      class="row tablebodyRow fw-semibold"
-      *ngFor="let product of productList; let i = index"
-      (mouseover)="isHovered = i"
-      (mouseout)="isHovered = null"
-      (dblclick)="openModalWithData(product)"
+  <!-- Button trigger modal -->
+  <button
+    type="button"
+    class="btn btn-primary d-none"
+    data-bs-toggle="modal"
+    data-bs-target="#prodExistModal"
+    #prdouctExistModalBTN
     >
-      <app-product-grid-view
-        [product]="product"
-        [activeProductId]="activeProductId"
-        [isHovered]="isHovered"
-        [i]="i"
-        [btnIndex]="btnIndex"
-        (checkboxSelectedEvent)="checkboxSelected($event)"
-        (updateIsActiveEvent)="updateIsActive($event)"
-      ></app-product-grid-view>
-    </section>
-  </div>
-  <div class="d-flex justify-content-end">
-    <button
-      *ngIf="btnIndex === 0 "
-      class="custom-btn"
-      (click)="chageActiveInactive(true)"
+    Launch demo modal
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-primary d-none"
+    data-bs-toggle="modal"
+    data-bs-target="#addProductModalCenter"
+    #addProductModalCenterG
     >
-      Active
-    </button>
-    <button
-      *ngIf="btnIndex === 1 "
-      class="custom-btn"
-      (click)="chageActiveInactive(false)"
-    >
-      Inactive
-    </button>
-  </div>
-</div>
+    Launch demo modal
+  </button>
+  <!-- Modal -->
 
-<!-- add Product modal   -->
-<div *ngIf="btnClick">
-  <app-add-products-modal
-    [IdName]="'#addProductModalCenter'"
-    [isEdit]="isEditMode"
-    [doubleClickData]="doubleClickData"
-    (resetFormEvent)="resetForm()"
-    (formDataEvent)="onSubmit($event)"
-    [addBtnClick]="addbtnClickP"
-    [productGroups]="productGroups"
-    [brands]="brands"
-    [units]="units"
-  ></app-add-products-modal>
-</div>
+  <app-dynamic-alert-modal
+    [alertMsg]="alertMsg"
+    [alertTitle]="alertTitle"
+    [id]="'prodExistModal'"
 
-<!-- Button trigger modal -->
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#prodExistModal"
-  #prdouctExistModalBTN
->
-  Launch demo modal
-</button>
-
-<button
-  type="button"
-  class="btn btn-primary d-none"
-  data-bs-toggle="modal"
-  data-bs-target="#addProductModalCenter"
-  #addProductModalCenterG
->
-  Launch demo modal
-</button>
-<!-- Modal -->
-
-<app-dynamic-alert-modal
-  [alertMsg]="alertMsg"
-  [alertTitle]="alertTitle"
-  [id]="'prodExistModal'"
-  
-></app-dynamic-alert-modal>
+  ></app-dynamic-alert-modal>

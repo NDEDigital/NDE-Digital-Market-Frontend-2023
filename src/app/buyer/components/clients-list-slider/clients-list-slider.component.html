@@ -1,53 +1,55 @@
-<section *ngIf="getTopSellerData" class="clientList_container border border-1">
-  <!-- Heading for the top sellers section -->
-  <div
-    class="product_slider align-items-center bg-white border-bottom border-1"
-  >
-    <span class="top_seller">Our Top Seller</span>
-    <button class="text" (click)="setSelectData()">View All</button>
-  </div>
-
-  <!-- Slider for the sellers -->
-  <div class="container-fluid" style="--bs-gutter-x: 0">
-    <div class="slider_wrap d-flex align-items-center">
-      <div
-        class="slider_main text-nowrap"
-        #Items
-        (mouseenter)="onMouseEnter()"
-        (mouseleave)="onMouseLeave()"
+@if (getTopSellerData) {
+  <section class="clientList_container border border-1">
+    <!-- Heading for the top sellers section -->
+    <div
+      class="product_slider align-items-center bg-white border-bottom border-1"
       >
-        <!-- Adjust width with rem units for a consistent layout -->
+      <span class="top_seller">Our Top Seller</span>
+      <button class="text" (click)="setSelectData()">View All</button>
+    </div>
+    <!-- Slider for the sellers -->
+    <div class="container-fluid" style="--bs-gutter-x: 0">
+      <div class="slider_wrap d-flex align-items-center">
         <div
-          class="item col-md-4 col-sm-6 col-xs-12 mb-3"
-          *ngFor="let client of getTopSellerData"
-        >
-          <div
-            class="card"
-            style="width: 14rem"
-            (click)="productCardClick(client)"
+          class="slider_main text-nowrap"
+          #Items
+          (mouseenter)="onMouseEnter()"
+          (mouseleave)="onMouseLeave()"
           >
-            <div style="height: 9rem; position: relative">
-              <!-- Consistent height -->
-              <img
+          <!-- Adjust width with rem units for a consistent layout -->
+          @for (client of getTopSellerData; track client) {
+            <div
+              class="item col-md-4 col-sm-6 col-xs-12 mb-3"
+              >
+              <div
+                class="card"
+                style="width: 14rem"
+                (click)="productCardClick(client)"
+                >
+                <div style="height: 9rem; position: relative">
+                  <!-- Consistent height -->
+                  <img
                 [src]="
                   client.companyImage.substring(
                     client.companyImage.indexOf('assets')
                   )
                 "
-                class="card-image"
-                style="height: 10rem; width: 100%; object-fit: cover"
-                alt="{{ client.companyName }}"
-              />
-            </div>
-            <div class="card-body">
-              <h6 class="card-title text-wrap h-50">
-                {{ client.companyName }}
-              </h6>
-              <!-- Consistent title styling -->
-            </div>
+                    class="card-image"
+                    style="height: 10rem; width: 100%; object-fit: cover"
+                    alt="{{ client.companyName }}"
+                    />
+                  </div>
+                  <div class="card-body">
+                    <h6 class="card-title text-wrap h-50">
+                      {{ client.companyName }}
+                    </h6>
+                    <!-- Consistent title styling -->
+                  </div>
+                </div>
+              </div>
+            }
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  }

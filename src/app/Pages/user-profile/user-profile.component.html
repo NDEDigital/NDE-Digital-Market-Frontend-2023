@@ -2,10 +2,10 @@
   <app-sub-header [headerTitle]="'My profile'"></app-sub-header>
   <div class="background_photo"></div>
   <div class="container">
+    @if (user$) {
     <form
       [formGroup]="updateUserForm"
       class="detail_conatiner mx-auto bg-white rounded"
-      *ngIf="user$ | async; user"
     >
       <div class="profile_details p-2 rounded d-flex">
         <div class="profile_photo">
@@ -16,15 +16,11 @@
           <p class="info_field fs-3">
             <span class="text-muted" hidden>Full Name:</span>
             {{ user.fullName }}
-
-            <span
-              class="role mt-2"
-              *ngIf="isCompanyAdmin === 'true'; else elseBlock"
-              >(Manager)</span
-            >
-            <ng-template #elseBlock>
-              <span class="role mt-2">({{ Role }})</span>
-            </ng-template>
+            @if (isCompanyAdmin === 'true') {
+            <span class="role mt-2">(Manager)</span>
+            } @else {
+            <span class="role mt-2">({{ Role }})</span>
+            }
           </p>
           <p class="info_field">
             <span class="text-muted" hidden>Country/Region:</span>
@@ -75,27 +71,26 @@
           <div class="row">
             <div class="col-4"></div>
             <div class="col-8">
-              <p class="text-danger p-0 m-0" *ngIf="isFieldInvalid('email')">
-                email is required.
-              </p>
+              @if (isFieldInvalid('email')) {
+              <p class="text-danger p-0 m-0">email is required.</p>
+              }
             </div>
           </div>
-
           <p class="row info_field m-0">
             <span class="col-4 text-muted text-end">
               <span class="address text-danger">*</span>Address:</span
             >
             <!-- <input
-            formControlName="address"
-            #address
-            [class.editable]="editMode1 === 'contact'"
-            [readonly]="editMode1 !== 'contact'"
-            class="col-8 rounded p-2"
-            [value]="user.address"
-            [class.p-2]="editMode1 === 'contact'"
-            (focus)="onInputFocus(address)"
-            (blur)="onInputBlur(emailInput)"
-          /> -->
+                      formControlName="address"
+                      #address
+                      [class.editable]="editMode1 === 'contact'"
+                      [readonly]="editMode1 !== 'contact'"
+                      class="col-8 rounded p-2"
+                      [value]="user.address"
+                      [class.p-2]="editMode1 === 'contact'"
+                      (focus)="onInputFocus(address)"
+                      (blur)="onInputBlur(emailInput)"
+                      /> -->
             <textarea
               formControlName="address"
               #address
@@ -108,48 +103,44 @@
               (blur)="onInputBlur(address)"
             ></textarea>
           </p>
-
           <div class="row">
             <div class="col-4"></div>
             <div class="col-8">
-              <p class="text-danger p-0 m-0" *ngIf="isFieldInvalid('address')">
-                Address is required.
-              </p>
+              @if (isFieldInvalid('address')) {
+              <p class="text-danger p-0 m-0">Address is required.</p>
+              }
             </div>
           </div>
           <!-- <p class="row info_field">
-          <span class="col-4 text-muted text-end">Alternative Phone:</span>
-          <input
-            #phoneInput
-            [class.editable]="editMode1 === 'contact'"
-            type="text"
-            class="col-8 rounded"
-            [readonly]="editMode1 !== 'contact'"
-            value="None"
-            [class.p-2]="editMode1 === 'contact'"
-            (focus)="onInputFocus(phoneInput)"
-            (blur)="onInputBlur(phoneInput)"
-          />
-        </p>
-        <p class="row info_field">
-          <span class="col-4 text-muted text-end">Social Links:</span>
-          <input
-            #socialInput
-            [class.editable]="editMode1 === 'contact'"
-            type="text"
-            class="col-8 rounded"
-            [readonly]="editMode1 !== 'contact'"
-            value="None"
-            [class.p-2]="editMode1 === 'contact'"
-            (focus)="onInputFocus(socialInput)"
-            (blur)="onInputBlur(socialInput)"
-          />
-        </p> -->
-
-          <div
-            class="d-flex flex-column align-items-end mt-2"
-            *ngIf="editMode1 === 'contact'"
-          >
+                    <span class="col-4 text-muted text-end">Alternative Phone:</span>
+                    <input
+                      #phoneInput
+                      [class.editable]="editMode1 === 'contact'"
+                      type="text"
+                      class="col-8 rounded"
+                      [readonly]="editMode1 !== 'contact'"
+                      value="None"
+                      [class.p-2]="editMode1 === 'contact'"
+                      (focus)="onInputFocus(phoneInput)"
+                      (blur)="onInputBlur(phoneInput)"
+                      />
+                    </p>
+                    <p class="row info_field">
+                      <span class="col-4 text-muted text-end">Social Links:</span>
+                      <input
+                        #socialInput
+                        [class.editable]="editMode1 === 'contact'"
+                        type="text"
+                        class="col-8 rounded"
+                        [readonly]="editMode1 !== 'contact'"
+                        value="None"
+                        [class.p-2]="editMode1 === 'contact'"
+                        (focus)="onInputFocus(socialInput)"
+                        (blur)="onInputBlur(socialInput)"
+                        />
+                      </p> -->
+          @if (editMode1 === 'contact') {
+          <div class="d-flex flex-column align-items-end mt-2">
             <button
               class="update-btn rounded-2"
               (click)="updateUser('contact')"
@@ -157,18 +148,19 @@
               Update
             </button>
           </div>
+          }
         </div>
       </div>
+      @if (Role === 'seller') {
       <div
-        *ngIf="Role === 'seller'"
         class="profile_details rounded p-2 pb-4 bg-"
         [class.border-highlight]="editMode2 === 'companyInfo'"
       >
         <div class="details_title d-flex justify-content-between ms-5 me-3">
           <h5 class="">Company Information</h5>
           <!-- <div #editBTN class="edit_btn" (click)="toggleEditMode('companyInfo')">
-          <i class="fa-solid fa-pen-to-square fs-5"></i>
-        </div> -->
+                        <i class="fa-solid fa-pen-to-square fs-5"></i>
+                      </div> -->
         </div>
         <div class="user_info">
           <p class="row info_field">
@@ -187,29 +179,29 @@
             />
           </p>
           <!-- <p class="row info_field">
-          <span class="col-4 text-muted text-end">Website:</span>
-          <input
-            formControlName="website"
-            #website
-            [class.editable]="editMode2 === 'companyInfo'"
-            [readonly]="editMode2 !== 'companyInfo'"
-            type="text"
-            class="col-8 rounded"
-            value="{{ user.website }}"
-            [class.p-2]="editMode2 === 'companyInfo'"
-            (focus)="onInputFocus(website)"
-            (blur)="onInputBlur(website)"
-          />
-        </p> -->
+                        <span class="col-4 text-muted text-end">Website:</span>
+                        <input
+                          formControlName="website"
+                          #website
+                          [class.editable]="editMode2 === 'companyInfo'"
+                          [readonly]="editMode2 !== 'companyInfo'"
+                          type="text"
+                          class="col-8 rounded"
+                          value="{{ user.website }}"
+                          [class.p-2]="editMode2 === 'companyInfo'"
+                          (focus)="onInputFocus(website)"
+                          (blur)="onInputBlur(website)"
+                          />
+                        </p> -->
           <!-- <p class="row info_field">
-          <span class="col-4 text-muted text-end">Product Category:</span>
-          <input
-            type="text"
-            class="col-8"
-            value="{{ user.productCategory }}"
-            readonly
-          />
-        </p> -->
+                        <span class="col-4 text-muted text-end">Product Category:</span>
+                        <input
+                          type="text"
+                          class="col-8"
+                          value="{{ user.productCategory }}"
+                          readonly
+                          />
+                        </p> -->
           <p class="row info_field">
             <span class="col-4 text-muted text-end">Years In Business:</span>
             <input
@@ -225,7 +217,6 @@
               (blur)="onInputBlur(yearsInBusiness)"
             />
           </p>
-
           <p class="row info_field">
             <span class="col-4 text-muted text-end">Tax ID Number:</span>
             <input
@@ -296,11 +287,8 @@
               value="{{ user.accountHolderName }}"
             />
           </p>
-
-          <div
-            class="d-flex flex-column align-items-end"
-            *ngIf="editMode2 === 'companyInfo'"
-          >
+          @if (editMode2 === 'companyInfo') {
+          <div class="d-flex flex-column align-items-end">
             <button
               class="update-btn rounded-2"
               (click)="updateUser('companyInfo')"
@@ -308,9 +296,12 @@
               Update
             </button>
           </div>
+          }
         </div>
       </div>
+      }
     </form>
+    }
   </div>
   <div id="footer" class="footer-responsive">
     <app-footer></app-footer>
@@ -318,21 +309,21 @@
 </section>
 
 <!-- <div class="text-center fs-5" *ngIf="user$ | async as user">
-  <h2>User Details</h2>
-  <hr />
-  <p>User ID: {{ user.userID }}</p>
-  <p>User ID: {{ user.userCode }}</p>
-  <p>Country/Region: {{ user.counteryRegion }}</p>
-  <p>Is Buyer: {{ user.isBuyer }}</p>
-  <p>Is Seller: {{ user.isSeller }}</p>
-  <p>Full Name: {{ user.fullName }}</p>
-  <p>Phone Number: {{ user.phoneNumber }}</p>
-  <p>Email: {{ user.email }}</p>
-  <p>CompanyName: {{ user.companyName }}</p>
-  <p>Website: {{ user.website }}</p>
-  <p>Product Category: {{ user.productCategory }}</p>
-  <p>Years In Business: {{ user.yearsInBusiness }}</p>
-  <p>Business Registration Number: {{ user.businessRegistrationNumber }}</p>
-  <p>Tax ID Number: {{ user.taxIDNumber }}</p>
-  <p>Preferred Payment Method: {{ user.preferredPaymentMethod }}</p>
-</div> -->
+                            <h2>User Details</h2>
+                            <hr />
+                            <p>User ID: {{ user.userID }}</p>
+                            <p>User ID: {{ user.userCode }}</p>
+                            <p>Country/Region: {{ user.counteryRegion }}</p>
+                            <p>Is Buyer: {{ user.isBuyer }}</p>
+                            <p>Is Seller: {{ user.isSeller }}</p>
+                            <p>Full Name: {{ user.fullName }}</p>
+                            <p>Phone Number: {{ user.phoneNumber }}</p>
+                            <p>Email: {{ user.email }}</p>
+                            <p>CompanyName: {{ user.companyName }}</p>
+                            <p>Website: {{ user.website }}</p>
+                            <p>Product Category: {{ user.productCategory }}</p>
+                            <p>Years In Business: {{ user.yearsInBusiness }}</p>
+                            <p>Business Registration Number: {{ user.businessRegistrationNumber }}</p>
+                            <p>Tax ID Number: {{ user.taxIDNumber }}</p>
+                            <p>Preferred Payment Method: {{ user.preferredPaymentMethod }}</p>
+                          </div> -->

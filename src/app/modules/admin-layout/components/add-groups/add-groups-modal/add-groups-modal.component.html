@@ -4,7 +4,7 @@
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
->
+  >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-body">
@@ -21,7 +21,7 @@
           <div class="d-flex justify-content-center align-items-center">
             <h2 class="register_title">
               {{
-                isEdit ? "Edit Product Groups Name" : "Add Product Groups Name"
+              isEdit ? "Edit Product Groups Name" : "Add Product Groups Name"
               }}
             </h2>
           </div>
@@ -30,84 +30,89 @@
             <div class="form-group">
               <label for="productGroupName"
                 ><span class="text-danger">*</span>Product Group Name</label
-              >
-              <input
-                type="text"
-                id="productGroupName"
-                formControlName="productGroupName"
-                [class.error]="isFieldInvalid('productGroupName')"
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('productGroupName')"
-                >Product Group Name is required.</span
-              >
-            </div>
-            <div *ngIf="isEdit" class="image-preview">
-              <label> Group Image Preview </label>
-              <img
-                [src]="imagePathPreview"
-                alt="Product Group Image"
-                class="product_image"
-              />
-            </div>
-            <div class="form-group">
-              <label
-                ><span class="text-danger">*</span>Upload Product Group Image
-              </label>
-              <input
-                type="file"
-                class="form-control"
-                id="productGroupImage"
-                formControlName="productGroupImage"
-                accept="image/jpeg, image/jpg, image/png, image/webp"
-                [class.error]="isFieldInvalid('productGroupImage') && !isEdit"
-                #productGroupImageInput
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('productGroupImage') && !isEdit"
-                >Product Image is required.</span
-              >
-            </div>
-            <div class="form-group">
-              <label for="productGroupPrefix"
-                ><span class="text-danger">*</span>Product Group Prefix</label
-              >
-              <input
-                type="text"
-                id="productGroupPrefix"
-                formControlName="productGroupPrefix"
-                [class.error]="isFieldInvalid('productGroupPrefix')"
-              />
-              <span
-                class="text-danger"
-                *ngIf="isFieldInvalid('productGroupPrefix')"
-                >Product Group Prefix is required.</span
-              >
-            </div>
+                >
+                <input
+                  type="text"
+                  id="productGroupName"
+                  formControlName="productGroupName"
+                  [class.error]="isFieldInvalid('productGroupName')"
+                  />
+                  @if (isFieldInvalid('productGroupName')) {
+                    <span
+                      class="text-danger"
+                      >Product Group Name is required.</span
+                      >
+                  }
+                </div>
+                @if (isEdit) {
+                  <div class="image-preview">
+                    <label> Group Image Preview </label>
+                    <img
+                      [src]="imagePathPreview"
+                      alt="Product Group Image"
+                      class="product_image"
+                      />
+                    </div>
+                  }
+                  <div class="form-group">
+                    <label
+                      ><span class="text-danger">*</span>Upload Product Group Image
+                    </label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="productGroupImage"
+                      formControlName="productGroupImage"
+                      accept="image/jpeg, image/jpg, image/png, image/webp"
+                      [class.error]="isFieldInvalid('productGroupImage') && !isEdit"
+                      #productGroupImageInput
+                      />
+                      @if (isFieldInvalid('productGroupImage') && !isEdit) {
+                        <span
+                          class="text-danger"
+                          >Product Image is required.</span
+                          >
+                      }
+                    </div>
+                    <div class="form-group">
+                      <label for="productGroupPrefix"
+                        ><span class="text-danger">*</span>Product Group Prefix</label
+                        >
+                        <input
+                          type="text"
+                          id="productGroupPrefix"
+                          formControlName="productGroupPrefix"
+                          [class.error]="isFieldInvalid('productGroupPrefix')"
+                          />
+                          @if (isFieldInvalid('productGroupPrefix')) {
+                            <span
+                              class="text-danger"
+                              >Product Group Prefix is required.</span
+                              >
+                          }
+                        </div>
 
-            <div class="form-group">
-              <label for="productGroupDetails">Product Group Detail</label>
-              <textarea
-                type="text"
-                id="productGroupDetails"
-                class="textAreaDesign"
-                formControlName="productGroupDetails"
-              ></textarea>
-            </div>
+                        <div class="form-group">
+                          <label for="productGroupDetails">Product Group Detail</label>
+                          <textarea
+                            type="text"
+                            id="productGroupDetails"
+                            class="textAreaDesign"
+                            formControlName="productGroupDetails"
+                          ></textarea>
+                        </div>
 
-            <button
-              type="submit"
-              class="button mt-3"
-              id="sign-in-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                        <button
+                          type="submit"
+                          class="button mt-3"
+                          id="sign-in-button"
+                          (click)="onSubmit()"
+                          >
+                          Submit
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>

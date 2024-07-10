@@ -1,71 +1,77 @@
-<div *ngIf="loading" class="text-center"><h5>Loading products...</h5></div>
-<section *ngIf="!loading" class="dashboard_container">
-  <div class="header_container container-fluid d-flex align-items-center">
-    <button
-      class="btn menu_btn"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasScrolling"
-      aria-controls="offcanvasScrolling"
-    >
-      <i class="fa-solid fa-bars"></i>
-    </button>
-    <div class="logo_container mx-auto companyName">
-      <a class="companyName">
-        <span>
-          <!-- NDE Digital Market -->
-          <img
-            *ngIf="projectTitle === 'NDE_DIGITAL_MARKET'"
-            src="assets/images/Logo/final-logo-6.png"
-            alt="logo"
-          />
-          <p *ngIf="projectTitle === 'HEALTHCARE'">Nimpex HealthCare</p>
-        </span>
-        <!-- <img src="assets/images/Logo/final-logo-6.png" alt="logo" /> -->
-      </a>
-    </div>
-    <div class="user_icon d-flex align-items-center">
-      <ul
-        class="d-flex justify-content-around justify-content-md-between w-75 align-items-center p-0 mb-0"
-      >
-        <li class="nav-item profile" *ngIf="isLoggedIn">
-          <a>
-            <div class="nav-title">
-              <i class="fa-solid fa-circle-user fs-4 mt-1"></i>
-            </div>
-
-            <div class="profile-popup p-2">
-              <div class="popup-item mt-1">
-                <a routerLink="/userProfile" class="d-flex">
-                  <i class="fa-solid fa-circle-user fs-6 me-2 mt-1"></i>
-                  <p>My Profile</p></a
-                >
-              </div>
-              <div class="delimiter-horizontal"></div>
-
-              <div class="popup-item mt-1">
-                <a
-                  data-bs-toggle="modal"
-                  class="d-flex"
-                  data-bs-target="#changePasswordModal"
-                >
-                  <i class="fa-solid fa-unlock-keyhole fs-6 me-2 mt-1"></i>
-                  <p>Change Password</p>
+@if (loading) {
+  <div class="text-center"><h5>Loading products...</h5></div>
+}
+@if (!loading) {
+  <section class="dashboard_container">
+    <div class="header_container container-fluid d-flex align-items-center">
+      <button
+        class="btn menu_btn"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+        >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="logo_container mx-auto companyName">
+        <a class="companyName">
+          <span>
+            <!-- NDE Digital Market -->
+            @if (projectTitle === 'NDE_DIGITAL_MARKET') {
+              <img
+                src="assets/images/Logo/final-logo-6.png"
+                alt="logo"
+                />
+            }
+            @if (projectTitle === 'HEALTHCARE') {
+              <p>Nimpex HealthCare</p>
+            }
+          </span>
+          <!-- <img src="assets/images/Logo/final-logo-6.png" alt="logo" /> -->
+        </a>
+      </div>
+      <div class="user_icon d-flex align-items-center">
+        <ul
+          class="d-flex justify-content-around justify-content-md-between w-75 align-items-center p-0 mb-0"
+          >
+          @if (isLoggedIn) {
+            <li class="nav-item profile">
+              <a>
+                <div class="nav-title">
+                  <i class="fa-solid fa-circle-user fs-4 mt-1"></i>
+                </div>
+                <div class="profile-popup p-2">
+                  <div class="popup-item mt-1">
+                    <a routerLink="/userProfile" class="d-flex">
+                      <i class="fa-solid fa-circle-user fs-6 me-2 mt-1"></i>
+                      <p>My Profile</p></a
+                      >
+                    </div>
+                    <div class="delimiter-horizontal"></div>
+                    <div class="popup-item mt-1">
+                      <a
+                        data-bs-toggle="modal"
+                        class="d-flex"
+                        data-bs-target="#changePasswordModal"
+                        >
+                        <i class="fa-solid fa-unlock-keyhole fs-6 me-2 mt-1"></i>
+                        <p>Change Password</p>
+                      </a>
+                    </div>
+                    <div class="delimiter-horizontal"></div>
+                    <button
+                      class="logout-btn rounded-pill px-4 py-1 text-white fw-bold mt-2"
+                      (click)="logout()"
+                      >
+                      Logout
+                    </button>
+                  </div>
+                  <ng-template #logoutButton> </ng-template>
                 </a>
-              </div>
-
-              <div class="delimiter-horizontal"></div>
-              <button
-                class="logout-btn rounded-pill px-4 py-1 text-white fw-bold mt-2"
-                (click)="logout()"
-              >
-                Logout
-              </button>
-            </div>
-            <ng-template #logoutButton> </ng-template>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  }

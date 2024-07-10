@@ -9,21 +9,22 @@
   tabindex="-1"
   id="offcanvasScrolling"
   aria-labelledby="offcanvasScrollingLabel"
->
+  >
   <!-- <div class="offcanvas-header">
-    <div></div>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div> -->
+  <div></div>
+  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div> -->
 
-  <div class="offcanvas-body border" *ngIf="cartData && cartData.length > 0">
+@if (cartData && cartData.length > 0) {
+  <div class="offcanvas-body border">
     <app-cart-list-side-bar
       [cartData]="cartData"
       [cartTotalAmount]="cartTotalAmount"
       (cartUpdated)="handleCartUpdate()"
     ></app-cart-list-side-bar>
-
-    <!-- </div> -->
-  </div>
+  <!-- </div> -->
+</div>
+}
 </div>
 
 <!-- Modal for cart-->
@@ -34,7 +35,7 @@
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
->
+  >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -58,7 +59,7 @@
           type="button"
           data-bs-dismiss="modal"
           class="btn btn-warning"
-        >
+          >
           GO TO CART
         </button>
       </div>
@@ -87,434 +88,438 @@
                       : '') +
                     '.jpg'
               "
-            />
-          </div>
-          <div
-            id="carouselExampleIndicators"
-            class="carousel slide"
-            data-bs-ride="true"
-          >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="imageSlider">
-                  <!-- Loop through the array of image objects -->
-                  <img
-                    *ngFor="let image of imageArray"
-                    [src]="
-                      detailsData.imagePath
-                        ? detailsData.imagePath.substring(
-                            detailsData.imagePath.indexOf('assets')
-                          )
-                        : '../../../assets/images/medical/' +
-                          (detailsData && detailsData.groupName
-                            ? detailsData.groupName.trim()
-                            : '') +
-                          '.jpg'
-                    "
-                  />
-                </div>
-              </div>
-
-              <div class="carousel-item">
-                <div class="imageSlider">
-                  <img
-                    *ngFor="let image of imageArray"
-                    [src]="
-                      detailsData.imagePath
-                        ? detailsData.imagePath.substring(
-                            detailsData.imagePath.indexOf('assets')
-                          )
-                        : '../../../assets/images/medical/' +
-                          (detailsData && detailsData.groupName
-                            ? detailsData.groupName.trim()
-                            : '') +
-                          '.jpg'
-                    "
-                  />
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="imageSlider">
-                  <img
-                    *ngFor="let image of imageArray"
-                    [src]="
-                      detailsData.imagePath
-                        ? detailsData.imagePath.substring(
-                            detailsData.imagePath.indexOf('assets')
-                          )
-                        : '../../../assets/images/medical/' +
-                          (detailsData && detailsData.groupName
-                            ? detailsData.groupName.trim()
-                            : '') +
-                          '.jpg'
-                    "
-                  />
-                </div>
-              </div>
+              />
             </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+            <div
+              id="carouselExampleIndicators"
+              class="carousel slide"
+              data-bs-ride="true"
+              >
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="imageSlider">
+                    <!-- Loop through the array of image objects -->
+                    @for (image of imageArray; track image) {
+                      <img
+                    [src]="
+                      detailsData.imagePath
+                        ? detailsData.imagePath.substring(
+                            detailsData.imagePath.indexOf('assets')
+                          )
+                        : '../../../assets/images/medical/' +
+                          (detailsData && detailsData.groupName
+                            ? detailsData.groupName.trim()
+                            : '') +
+                          '.jpg'
+                    "
+                        />
+                    }
+                  </div>
+                </div>
+
+                <div class="carousel-item">
+                  <div class="imageSlider">
+                    @for (image of imageArray; track image) {
+                      <img
+                    [src]="
+                      detailsData.imagePath
+                        ? detailsData.imagePath.substring(
+                            detailsData.imagePath.indexOf('assets')
+                          )
+                        : '../../../assets/images/medical/' +
+                          (detailsData && detailsData.groupName
+                            ? detailsData.groupName.trim()
+                            : '') +
+                          '.jpg'
+                    "
+                        />
+                    }
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="imageSlider">
+                    @for (image of imageArray; track image) {
+                      <img
+                    [src]="
+                      detailsData.imagePath
+                        ? detailsData.imagePath.substring(
+                            detailsData.imagePath.indexOf('assets')
+                          )
+                        : '../../../assets/images/medical/' +
+                          (detailsData && detailsData.groupName
+                            ? detailsData.groupName.trim()
+                            : '') +
+                          '.jpg'
+                    "
+                        />
+                    }
+                  </div>
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev"
+                >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next"
+                >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- product name part -->
-      <div
-        class="col-12 col-lg-6 col-md-6 col-sm-12 b p-4 d-flex justify-content-center align-items-end"
-      >
-        <div>
-          <div class="productName">{{ detailsData.goodsName }}</div>
-          <!-- rating -->
-          <div class="productRating d-flex py-2">
-            <div class="star">
-              <!-- full star  -->
-              <ng-container *ngFor="let fullStar of fullStarArray">
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/fullStar.png"
-                />
-              </ng-container>
+        <!-- product name part -->
+        <div
+          class="col-12 col-lg-6 col-md-6 col-sm-12 b p-4 d-flex justify-content-center align-items-end"
+          >
+          <div>
+            <div class="productName">{{ detailsData.goodsName }}</div>
+            <!-- rating -->
+            <div class="productRating d-flex py-2">
+              <div class="star">
+                <!-- full star  -->
+                @for (fullStar of fullStarArray; track fullStar) {
+                  <img
+                    class="ratingStarSingleReview"
+                    src="../../../assets/images/star/fullStar.png"
+                    />
+                  }
 
-              <!-- checking -->
+                  <!-- checking -->
 
-              <ng-container *ngIf="decimalNumber > 0 && decimalNumber < 4">
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/4.3Star.png"
-                />
-              </ng-container>
-              <ng-container *ngIf="decimalNumber > 3 && decimalNumber < 5">
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/4.4Star.png"
-                />
-              </ng-container>
-              <ng-container *ngIf="decimalNumber > 4 && decimalNumber < 6">
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/4.5Star.png"
-                />
-              </ng-container>
-              <ng-container *ngIf="decimalNumber > 5">
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/4.7Star.png"
-                />
-              </ng-container>
+                  @if (decimalNumber > 0 && decimalNumber < 4) {
+                    <img
+                      class="ratingStarSingleReview"
+                      src="../../../assets/images/star/4.3Star.png"
+                      />
+                    }
+                    @if (decimalNumber > 3 && decimalNumber < 5) {
+                      <img
+                        class="ratingStarSingleReview"
+                        src="../../../assets/images/star/4.4Star.png"
+                        />
+                      }
+                      @if (decimalNumber > 4 && decimalNumber < 6) {
+                        <img
+                          class="ratingStarSingleReview"
+                          src="../../../assets/images/star/4.5Star.png"
+                          />
+                        }
+                        @if (decimalNumber > 5) {
+                          <img
+                            class="ratingStarSingleReview"
+                            src="../../../assets/images/star/4.7Star.png"
+                            />
+                          }
 
-              <!-- empty star -->
-              <ng-container *ngFor="let emptyStar of emptyStarArray">
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/emptyStar.png"
-                />
-              </ng-container>
-            </div>
-            <div class="ratingCount">{{ totalRatings }} Ratings</div>
-            <div class="vertical-line"></div>
-            <!-- <div class="qsnAns">4 Answered Questions</div> -->
-          </div>
-          <!-- brand -->
-          <div class="brand d-flex py-2">
-            <div class="brandName">
-              Brand: <a href="">{{ detailsData.companyName }}</a>
-            </div>
-            <div class="vertical-line"></div>
-            <div class="moreProduct">
-              <a href="/productsPageComponent">
-                More {{ detailsData.goodsName }} from
-                {{ detailsData.groupName }}</a
-              >
-            </div>
-          </div>
-          <div class="py-2">
-            <span> Quantity : </span>{{ detailsData.approveSalesQty }}
-          </div>
-          <div class="pdp-mod-wishlist" *ngIf="isBuyer">
-            <img
-              (click)="changeRed()"
-              class="wishlist-icon"
-              #wishlistIcon
+                          <!-- empty star -->
+                          @for (emptyStar of emptyStarArray; track emptyStar) {
+                            <img
+                              class="ratingStarSingleReview"
+                              src="../../../assets/images/star/emptyStar.png"
+                              />
+                            }
+                          </div>
+                          <div class="ratingCount">{{ totalRatings }} Ratings</div>
+                          <div class="vertical-line"></div>
+                          <!-- <div class="qsnAns">4 Answered Questions</div> -->
+                        </div>
+                        <!-- brand -->
+                        <div class="brand d-flex py-2">
+                          <div class="brandName">
+                            Brand: <a href="">{{ detailsData.companyName }}</a>
+                          </div>
+                          <div class="vertical-line"></div>
+                          <div class="moreProduct">
+                            <a href="/productsPageComponent">
+                              More {{ detailsData.goodsName }} from
+                              {{ detailsData.groupName }}</a
+                              >
+                            </div>
+                          </div>
+                          <div class="py-2">
+                            <span> Quantity : </span>{{ detailsData.approveSalesQty }}
+                          </div>
+                          @if (isBuyer) {
+                            <div class="pdp-mod-wishlist">
+                              <img
+                                (click)="changeRed()"
+                                class="wishlist-icon"
+                                #wishlistIcon
               [src]="
                 isRed
                   ? '//img.alicdn.com/imgextra/i2/O1CN01bcF2ei1NbLhNmEni3_!!6000000001588-55-tps-20-20.svg'
                   : '//img.alicdn.com/imgextra/i4/O1CN01AIpdkU1r1ZEKDP8LG_!!6000000005571-55-tps-17-16.svg'
               "
-              alt=""
-              width="20"
-              height="20"
-              data-spm-anchor-id="a2a0e.pdp.0.i0.327830443sYY6N"
-            />
-          </div>
+                                alt=""
+                                width="20"
+                                height="20"
+                                data-spm-anchor-id="a2a0e.pdp.0.i0.327830443sYY6N"
+                                />
+                              </div>
+                            }
 
-          <!-- price -->
-          <div class="price d-flex align-items-center py-2" *ngIf="!isSeller">
-            <div>
-              <div *ngIf="isBuyer">
-                <img
-                  class="taKa_icon"
-                  src="../../../assets/images/takaIcon.png"
-                />
-                {{ detailsData.price - detailsData.discountAmount }}
-              </div>
-
-              <!-- total price and discount percent -->
-              <div class="totalPrice" *ngIf="detailsData.discountPct > 0">
-                <del
-                  ><img
-                    class="taKa_icon"
-                    src="../../../assets/images/takaIcon.png"
-                  />
-                  <span class="original-price mx-2">{{
-                    detailsData.price
-                  }}</span>
-                  <span class="discount-percent">
-                    -{{ detailsData.discountPct }}%</span
-                  >
-                </del>
-              </div>
-            </div>
-
-            <div class="ms-3">
-              <input
-                #qtyInput
-                type="number"
-                [readonly]="detailsData.approveSalesQty === 0"
-                class="txt-qt border qtyInput"
-                min="1"
-                [max]="getMaxValue(detailsData.approveSalesQty)"
-                [ngModel]="detailsData.approveSalesQty === 0 ? 0 : 1"
-                (input)="onInputChange($event, detailsData)"
-                (blur)="isEmpty($event)"
-              />
-            </div>
-            <div class="ms-3">
-              <!-- <button
-                (click)="setCart(detailsData, qtyInput.value)"
-                class="btn btn-success"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                [disabled]="detailsData.approveSalesQty === 0"
-              >
-               {{CartButtonText}}
-              </button> -->
-
-              <button
+                            <!-- price -->
+                            @if (!isSeller) {
+                              <div class="price d-flex align-items-center py-2">
+                                <div>
+                                  @if (isBuyer) {
+                                    <div>
+                                      <img
+                                        class="taKa_icon"
+                                        src="../../../assets/images/takaIcon.png"
+                                        />
+                                        {{ detailsData.price - detailsData.discountAmount }}
+                                      </div>
+                                    }
+                                    <!-- total price and discount percent -->
+                                    @if (detailsData.discountPct > 0) {
+                                      <div class="totalPrice">
+                                        <del
+                                          ><img
+                                          class="taKa_icon"
+                                          src="../../../assets/images/takaIcon.png"
+                                          />
+                                          <span class="original-price mx-2">{{
+                                            detailsData.price
+                                          }}</span>
+                                          <span class="discount-percent">
+                                            -{{ detailsData.discountPct }}%</span
+                                            >
+                                          </del>
+                                        </div>
+                                      }
+                                    </div>
+                                    <div class="ms-3">
+                                      <input
+                                        #qtyInput
+                                        type="number"
+                                        [readonly]="detailsData.approveSalesQty === 0"
+                                        class="txt-qt border qtyInput"
+                                        min="1"
+                                        [max]="getMaxValue(detailsData.approveSalesQty)"
+                                        [ngModel]="detailsData.approveSalesQty === 0 ? 0 : 1"
+                                        (input)="onInputChange($event, detailsData)"
+                                        (blur)="isEmpty($event)"
+                                        />
+                                      </div>
+                                      <div class="ms-3">
+                                        <!-- <button
+                                        (click)="setCart(detailsData, qtyInput.value)"
+                                        class="btn btn-success"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
+                                        [disabled]="detailsData.approveSalesQty === 0"
+                                        >
+                                        {{CartButtonText}}
+                                      </button> -->
+                                      <button
                 (click)="
                   detailsData.approveSalesQty !== 0 &&
                     setCart(detailsData, qtyInput.value)
                 "
-                class="btn"
-                [class.btn-success]="detailsData.approveSalesQty !== 0"
-                [class.btn-secondary]="detailsData.approveSalesQty === 0"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
+                                        class="btn"
+                                        [class.btn-success]="detailsData.approveSalesQty !== 0"
+                                        [class.btn-secondary]="detailsData.approveSalesQty === 0"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal"
                 [disabled]="
                   detailsData.approveSalesQty === 0 || this.allrole == null
                 "
-              >
-                {{ CartButtonText }}
-              </button>
+                                        >
+                                        {{ CartButtonText }}
+                                      </button>
+                                      <!-- Only render the modal trigger if approveSalesQty is not 0 -->
+                                    </div>
+                                  </div>
+                                }
 
-              <!-- Only render the modal trigger if approveSalesQty is not 0 -->
-            </div>
-          </div>
+                                <!-- quantity -->
+                                <!-- <div class="quantity d-flex">
+                                Quantity <i class="fa-solid fa-plus"></i>
 
-          <!-- quantity -->
-          <!-- <div class="quantity d-flex">
-             Quantity <i class="fa-solid fa-plus"></i>
+                              </div> -->
+                              <!-- buy now -->
+                              <!-- <div class="buyNow">
+                              <button type="button" class="buyNowButton">Buy Now</button>
+                              <button type="button" class="AddToCartButton">Add to Cart</button>
+                            </div> -->
+                          </div>
+                        </div>
+                        <!-- product delivery part -->
+                        <!-- <div class="col-12 col-lg-4 col-md-6 col-sm-12 p-4   p-2"> -->
+                        <!-- <span>Delivery</span> -->
+                        <!-- <div class="location d-flex justify-content-between py-2">
+                        <div class="address">Dhaka, Dhaka North, Banani Road No. 12 - 19</div>
+                        <a href=""> Change</a>
+                      </div>
+                      <div class="freeDelivery py-2">
+                        <b> Free Delivery</b> 18 Sep - 22 Sep
+                      </div>
+                      <div class="cashOnDelivery py-2">
+                        <b> Cash on Delivery </b> Available
+                      </div>
+                    </div> -->
+                  </div>
+                </section>
+                <!-- 1st section end -->
 
-           </div> -->
-          <!-- buy now -->
-          <!-- <div class="buyNow">
-            <button type="button" class="buyNowButton">Buy Now</button>
-            <button type="button" class="AddToCartButton">Add to Cart</button>
-          </div> -->
-        </div>
-      </div>
-      <!-- product delivery part -->
-      <!-- <div class="col-12 col-lg-4 col-md-6 col-sm-12 p-4   p-2"> -->
-      <!-- <span>Delivery</span> -->
-      <!-- <div class="location d-flex justify-content-between py-2">
-          <div class="address">Dhaka, Dhaka North, Banani Road No. 12 - 19</div>
-          <a href=""> Change</a>
-        </div>
-        <div class="freeDelivery py-2">
-          <b> Free Delivery</b> 18 Sep - 22 Sep
-        </div>
-        <div class="cashOnDelivery py-2">
-          <b> Cash on Delivery </b> Available
-        </div>
-      </div> -->
-    </div>
-  </section>
-  <!-- 1st section end -->
+                <!-- 2nd section  -->
+                <section class="container productDetails mb-4">
+                  <div class="productDetailsTitle">
+                    Product details of {{ detailsData.goodsName }}
+                  </div>
+                  <div class="bg-white row py-2 productDetailsData">
+                    {{ detailsData.specification }}
+                  </div>
+                  <!-- <div class="innerTitle">Specifications of {{ detailsData.goodsName }}</div>
+                  <div class="row Specifications">
+                    <div class="col-6">
+                      <p class="specificationsName">Company</p>
+                      <p class="specifications">{{ detailsData.companyName }}</p>
+                    </div>
+                    <div class="col-6">
+                      <p class="specificationsName">Size</p>
+                      <p class="specifications">{{ detailsData.specification }}</p>
+                    </div>
+                  </div> -->
+                </section>
+                <!-- Ratings & Reviews  section ,3rd -->
+                <section class="container bg-white mb-4 Rating&Review">
+                  <div class="productDetailsTitle">
+                    Ratings & Reviews of {{ detailsData.goodsName }}
+                  </div>
 
-  <!-- 2nd section  -->
-  <section class="container productDetails mb-4">
-    <div class="productDetailsTitle">
-      Product details of {{ detailsData.goodsName }}
-    </div>
-    <div class="bg-white row py-2 productDetailsData">
-      {{ detailsData.specification }}
-    </div>
-    <!-- <div class="innerTitle">Specifications of {{ detailsData.goodsName }}</div>
-    <div class="row Specifications">
-      <div class="col-6">
-        <p class="specificationsName">Company</p>
-        <p class="specifications">{{ detailsData.companyName }}</p>
-      </div>
-      <div class="col-6">
-        <p class="specificationsName">Size</p>
-        <p class="specifications">{{ detailsData.specification }}</p>
-      </div>
-    </div> -->
-  </section>
-  <!-- Ratings & Reviews  section ,3rd -->
-  <section class="container bg-white mb-4 Rating&Review">
-    <div class="productDetailsTitle">
-      Ratings & Reviews of {{ detailsData.goodsName }}
-    </div>
+                  <div class="ratingsdiv row">
+                    <div class="col-4 col-lg-6 col-md-5 col-sm-4">
+                      <div class="ratingText color-primary">
+                        <span class="ratingRatio">{{ this.avgRatings }} </span
+                          ><span class=""> out of 5</span>
+                        </div>
+                        <div class="star bigStar">
+                          <!-- full star  -->
+                          @for (fullStar of fullStarArray; track fullStar) {
+                            <img
+                              class="ratingStarSingleReview"
+                              src="../../../assets/images/star/fullStar.png"
+                              />
+                            }
 
-    <div class="ratingsdiv row">
-      <div class="col-4 col-lg-6 col-md-5 col-sm-4">
-        <div class="ratingText color-primary">
-          <span class="ratingRatio">{{ this.avgRatings }} </span
-          ><span class=""> out of 5</span>
-        </div>
-        <div class="star bigStar">
-          <!-- full star  -->
-          <ng-container *ngFor="let fullStar of fullStarArray">
-            <img
-              class="ratingStarSingleReview"
-              src="../../../assets/images/star/fullStar.png"
-            />
-          </ng-container>
+                            <!-- checking -->
 
-          <!-- checking -->
+                            @if (decimalNumber > 0 && decimalNumber < 4) {
+                              <img
+                                class="ratingStarSingleReview"
+                                src="../../../assets/images/star/4.3Star.png"
+                                />
+                              }
+                              @if (decimalNumber > 3 && decimalNumber < 5) {
+                                <img
+                                  class="ratingStarSingleReview"
+                                  src="../../../assets/images/star/4.4Star.png"
+                                  />
+                                }
+                                @if (decimalNumber > 4 && decimalNumber < 6) {
+                                  <img
+                                    class="ratingStarSingleReview"
+                                    src="../../../assets/images/star/4.5Star.png"
+                                    />
+                                  }
+                                  @if (decimalNumber > 5) {
+                                    <img
+                                      class="ratingStarSingleReview"
+                                      src="../../../assets/images/star/4.7Star.png"
+                                      />
+                                    }
 
-          <ng-container *ngIf="decimalNumber > 0 && decimalNumber < 4">
-            <img
-              class="ratingStarSingleReview"
-              src="../../../assets/images/star/4.3Star.png"
-            />
-          </ng-container>
-          <ng-container *ngIf="decimalNumber > 3 && decimalNumber < 5">
-            <img
-              class="ratingStarSingleReview"
-              src="../../../assets/images/star/4.4Star.png"
-            />
-          </ng-container>
-          <ng-container *ngIf="decimalNumber > 4 && decimalNumber < 6">
-            <img
-              class="ratingStarSingleReview"
-              src="../../../assets/images/star/4.5Star.png"
-            />
-          </ng-container>
-          <ng-container *ngIf="decimalNumber > 5">
-            <img
-              class="ratingStarSingleReview"
-              src="../../../assets/images/star/4.7Star.png"
-            />
-          </ng-container>
+                                    <!-- empty star -->
+                                    @for (emptyStar of emptyStarArray; track emptyStar) {
+                                      <img
+                                        class="ratingStarSingleReview"
+                                        src="../../../assets/images/star/emptyStar.png"
+                                        />
+                                      }
+                                    </div>
+                                    <div class="ratingCount">{{ totalRatings }} Ratings</div>
+                                  </div>
+                                  <div class="col-8 col-lg-6 col-md-7 col-sm-8">
+                                    @for (row of indexArray; track row; let i = $index) {
+                                      <div class="row mt-1">
+                                        <div class="col-5 col-lg-3 col-md-4 col-sm-5">
+                                          <div class="star">
+                                            @for (rating of ratingArray(i); track rating) {
+                                              <img
+                                                class="ratingStarSingleReview"
+                                                src="../../../assets/images/star/fullStar.png"
+                                                />
+                                              }
+                                              @for (rating of EmptyratingArray(i); track rating) {
+                                                <img
+                                                  class="ratingStarSingleReview"
+                                                  src="../../../assets/images/star/emptyStar.png"
+                                                  />
+                                                }
+                                              </div>
+                                            </div>
+                                            <div
+                                              class="col-7 col-lg-8 col-md-8 col-sm-7 d-flex align-items-center"
+                                              >
+                                              <div class="ratingColorDiv m-0 colordiv"></div>
+                                              <div class="ratingColorDiv unColoredDiv"></div>
+                                              {{ perRatingCount[i] }}
+                                            </div>
+                                          </div>
+                                        }
+                                      </div>
+                                    </div>
+                                    <!-- review  by buyer-->
+                                    <div class="innerTitle">Product Reviews</div>
 
-          <!-- empty star -->
-          <ng-container *ngFor="let emptyStar of emptyStarArray">
-            <img
-              class="ratingStarSingleReview"
-              src="../../../assets/images/star/emptyStar.png"
-            />
-          </ng-container>
-        </div>
-        <div class="ratingCount">{{ totalRatings }} Ratings</div>
-      </div>
-      <div class="col-8 col-lg-6 col-md-7 col-sm-8">
-        <ng-container *ngFor="let row of indexArray; let i = index">
-          <div class="row mt-1">
-            <div class="col-5 col-lg-3 col-md-4 col-sm-5">
-              <div class="star">
-                <ng-container *ngFor="let rating of ratingArray(i)">
-                  <img
-                    class="ratingStarSingleReview"
-                    src="../../../assets/images/star/fullStar.png"
-                  />
-                </ng-container>
-                <ng-container *ngFor="let rating of EmptyratingArray(i)">
-                  <img
-                    class="ratingStarSingleReview"
-                    src="../../../assets/images/star/emptyStar.png"
-                  />
-                </ng-container>
-              </div>
-            </div>
-            <div
-              class="col-7 col-lg-8 col-md-8 col-sm-7 d-flex align-items-center"
-            >
-              <div class="ratingColorDiv m-0 colordiv"></div>
-              <div class="ratingColorDiv unColoredDiv"></div>
-              {{ perRatingCount[i] }}
-            </div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-    <!-- review  by buyer-->
-    <div class="innerTitle">Product Reviews</div>
-
-    <div class="review" *ngFor="let row of reviewData">
-      <div class="d-flex">
-        <!-- review part -->
-        <div class="reviewPart">
-          <div class="buyerIndivualRating">
-            <div class="star mb-1">
-              <ng-container
-                *ngFor="let ratingRow of parseRatingArray(row.ratingArray)"
-              >
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/fullStar.png"
-                />
-              </ng-container>
-              <ng-container
-                *ngFor="
-                  let ratingRow of parseRatingEmptyArray(row.emptyRatingArray)
-                "
-              >
-                <img
-                  class="ratingStarSingleReview"
-                  src="../../../assets/images/star/emptyStar.png"
-                />
-              </ng-container>
-            </div>
-          </div>
-          <div class="ratingBy mb-1">by {{ row.buyerName }}</div>
-          <div class="reviewText mb-1">
-            {{ row.reviewText == "null" ? "" : row.reviewText }}
-          </div>
-
-          <!-- <div class="reviewImage d-flex mb-2"  >
-            <img
+                                    @for (row of reviewData; track row) {
+                                      <div class="review">
+                                        <div class="d-flex">
+                                          <!-- review part -->
+                                          <div class="reviewPart">
+                                            <div class="buyerIndivualRating">
+                                              <div class="star mb-1">
+                                                @for (ratingRow of parseRatingArray(row.ratingArray); track ratingRow) {
+                                                  <img
+                                                    class="ratingStarSingleReview"
+                                                    src="../../../assets/images/star/fullStar.png"
+                                                    />
+                                                  }
+                                                  @for (
+                                                    ratingRow of parseRatingEmptyArray(row.emptyRatingArray)
+                                                    ; track
+                                                    ratingRow) {
+                                                    <img
+                                                      class="ratingStarSingleReview"
+                                                      src="../../../assets/images/star/emptyStar.png"
+                                                      />
+                                                    }
+                                                  </div>
+                                                </div>
+                                                <div class="ratingBy mb-1">by {{ row.buyerName }}</div>
+                                                <div class="reviewText mb-1">
+                                                  {{ row.reviewText == "null" ? "" : row.reviewText }}
+                                                </div>
+                                                <!-- <div class="reviewImage d-flex mb-2"  >
+                                                <img
               [src]="
               row.imagePath
                   ? row.imagePath.substring(
@@ -522,10 +527,11 @@
                     )
                   : '../../../assets/images/medical/' + row.groupName.trim() + '.jpg'
               "
-            />
-          </div> -->
-          <div class="reviewImage d-flex mb-2" *ngIf="row.imagePath != ''">
-            <img
+                                                  />
+                                                </div> -->
+                                                @if (row.imagePath != '') {
+                                                  <div class="reviewImage d-flex mb-2">
+                                                    <img
               [src]="
                 row.imagePath
                   ? row.imagePath.substring(row.imagePath.indexOf('assets'))
@@ -533,67 +539,70 @@
                     row.groupName.trim() +
                     '.jpg'
               "
-            />
-          </div>
-        </div>
-        <!-- review part end -->
+                                                      />
+                                                    </div>
+                                                  }
+                                                </div>
+                                                <!-- review part end -->
+                                                @if (row.buyerId == buyerCode) {
+                                                  <div class="reviewEdit">
+                                                    <a
+                                                      #reviewBTN
+                                                      data-bs-toggle="modal"
+                                                      data-bs-target="#staticBackdrop"
+                                                      (click)="setDetail(row)"
+                                                      >edit</a
+                                                      >
+                                                    </div>
+                                                  }
+                                                </div>
+                                              </div>
+                                            }
+                                          </section>
 
-        <div class="reviewEdit" *ngIf="row.buyerId == buyerCode">
-          <a
-            #reviewBTN
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-            (click)="setDetail(row)"
-            >edit</a
-          >
-        </div>
-      </div>
-    </div>
-  </section>
+                                          <!-- qsn & ans section -->
+                                          <!-- <section class="mb-4">
+                                          <div class="productDetailsTitle">Questions About This Product (4)</div>
+                                          <div class="row qsn">
+                                            <p class="m-0">
+                                              <a href="/login">Login</a> or <a href="/register">Register</a> to ask
+                                              questions to seller
+                                            </p>
+                                          </div>
+                                          <div class="qsnAnsDiv">
+                                            <hr class="mt-0" />
+                                            <div class="row qsndiv">
+                                              <div class="col-1">
+                                                <div class="qsnAnsIcon qsnIcon">Q</div>
+                                              </div>
 
-  <!-- qsn & ans section -->
-  <!-- <section class="mb-4">
-    <div class="productDetailsTitle">Questions About This Product (4)</div>
-    <div class="row qsn">
-      <p class="m-0">
-        <a href="/login">Login</a> or <a href="/register">Register</a> to ask
-        questions to seller
-      </p>
-    </div>
-    <div class="qsnAnsDiv">
-      <hr class="mt-0" />
-      <div class="row qsndiv">
-        <div class="col-1">
-          <div class="qsnAnsIcon qsnIcon">Q</div>
-        </div>
+                                              <div class="col-8">
+                                                <p class="buyerQsn m-0">delivery crg kom hobe??</p>
+                                                <p class="buyerName m-0">mariya - 1 week ago</p>
+                                              </div>
+                                            </div>
+                                            <div class="row ansDiv">
+                                              <div class="col-1">
+                                                <div class="qsnAnsIcon ansIcon">A</div>
+                                              </div>
+                                              <div class="col-8">
+                                                <p class="sellerAns m-0">No</p>
+                                                <p class="sellerName m-0">PAPER TREE - answered within 31 minutes</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </section> -->
+                                        <!-- recently viewed -->
+                                        <!-- <section class="">
+                                        <div class="productDetailsTitle">
+                                          People Who Viewed This Item Also Viewed
+                                        </div>
 
-        <div class="col-8">
-          <p class="buyerQsn m-0">delivery crg kom hobe??</p>
-          <p class="buyerName m-0">mariya - 1 week ago</p>
-        </div>
-      </div>
-      <div class="row ansDiv">
-        <div class="col-1">
-          <div class="qsnAnsIcon ansIcon">A</div>
-        </div>
-        <div class="col-8">
-          <p class="sellerAns m-0">No</p>
-          <p class="sellerName m-0">PAPER TREE - answered within 31 minutes</p>
-        </div>
-      </div>
-    </div>
-  </section> -->
-  <!-- recently viewed -->
-  <!-- <section class="">
-    <div class="productDetailsTitle">
-      People Who Viewed This Item Also Viewed
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <div class="cart m-3" style="width: 18rem">
-        <div class="d-flex justify-content-center p-2">
-          <img
-            class="cartImage"
+                                        <div class="d-flex justify-content-center">
+                                          <div class="cart m-3" style="width: 18rem">
+                                            <div class="d-flex justify-content-center p-2">
+                                              <img
+                                                class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -602,29 +611,29 @@
                 : '../../../assets/images/medical/' +
                     detailsData.groupName.trim() + '.jpg'
             "
-          />
-        </div>
+                                                />
+                                              </div>
 
-        <div class="cart-body">
-          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
-          <div class="star">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-regular fa-star"></i>
-          </div>
-          <div class="price">
-            {{ detailsData.price }}
-            <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
-          </div>
-        </div>
-      </div>
+                                              <div class="cart-body">
+                                                <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
+                                                <div class="star">
+                                                  <i class="fa-solid fa-star"></i>
+                                                  <i class="fa-solid fa-star"></i>
+                                                  <i class="fa-solid fa-star"></i>
+                                                  <i class="fa-solid fa-star"></i>
+                                                  <i class="fa-regular fa-star"></i>
+                                                </div>
+                                                <div class="price">
+                                                  {{ detailsData.price }}
+                                                  <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
+                                                </div>
+                                              </div>
+                                            </div>
 
-      <div class="cart m-3" style="width: 18rem">
-        <div class="d-flex justify-content-center p-2">
-          <img
-            class="cartImage"
+                                            <div class="cart m-3" style="width: 18rem">
+                                              <div class="d-flex justify-content-center p-2">
+                                                <img
+                                                  class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -633,29 +642,29 @@
                 : '../../../assets/images/medical/' +
                     detailsData.groupName.trim()+ '.jpg'
             "
-          />
-        </div>
+                                                  />
+                                                </div>
 
-        <div class="cart-body">
-          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
-          <div class="star">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-regular fa-star"></i>
-          </div>
-          <div class="price">
-            {{ detailsData.price }}
-            <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
-          </div>
-        </div>
-      </div>
+                                                <div class="cart-body">
+                                                  <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
+                                                  <div class="star">
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-solid fa-star"></i>
+                                                    <i class="fa-regular fa-star"></i>
+                                                  </div>
+                                                  <div class="price">
+                                                    {{ detailsData.price }}
+                                                    <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
+                                                  </div>
+                                                </div>
+                                              </div>
 
-      <div class="cart m-3" style="width: 18rem">
-        <div class="d-flex justify-content-center p-2">
-          <img
-            class="cartImage"
+                                              <div class="cart m-3" style="width: 18rem">
+                                                <div class="d-flex justify-content-center p-2">
+                                                  <img
+                                                    class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -664,29 +673,29 @@
                 : '../../../assets/images/medical/' +
                     detailsData.groupName.trim() + '.jpg'
             "
-          />
-        </div>
+                                                    />
+                                                  </div>
 
-        <div class="cart-body">
-          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
-          <div class="star">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-regular fa-star"></i>
-          </div>
-          <div class="price">
-            {{ detailsData.price }}
-            <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
-          </div>
-        </div>
-      </div>
-      <div class="cart m-3" style="width: 18rem">
-        <div class="d-flex justify-content-center p-2">
+                                                  <div class="cart-body">
+                                                    <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
+                                                    <div class="star">
+                                                      <i class="fa-solid fa-star"></i>
+                                                      <i class="fa-solid fa-star"></i>
+                                                      <i class="fa-solid fa-star"></i>
+                                                      <i class="fa-solid fa-star"></i>
+                                                      <i class="fa-regular fa-star"></i>
+                                                    </div>
+                                                    <div class="price">
+                                                      {{ detailsData.price }}
+                                                      <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="cart m-3" style="width: 18rem">
+                                                  <div class="d-flex justify-content-center p-2">
 
-          <img
-            class="cartImage"
+                                                    <img
+                                                      class="cartImage"
             [src]="
               detailsData.imagePath
                 ? detailsData.imagePath.substring(
@@ -695,171 +704,173 @@
                   : '../../../assets/images/medical/' +
                     detailsData.groupName.trim() + '.jpg'
             "
-          />
-        </div>
+                                                      />
+                                                    </div>
 
-        <div class="cart-body">
-          <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
-          <div class="star">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-regular fa-star"></i>
-          </div>
-          <div class="price">
-            {{ detailsData.price }}
-            <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-<div class="container">
-  <app-recommended-product></app-recommended-product>
-</div>
-</div>
+                                                    <div class="cart-body">
+                                                      <h5 class="cart-title">{{ detailsData.goodsName }}</h5>
+                                                      <div class="star">
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-regular fa-star"></i>
+                                                      </div>
+                                                      <div class="price">
+                                                        {{ detailsData.price }}
+                                                        <img class="taKa_icon" src="../../../assets/images/takaIcon.png" />
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </section> -->
+                                              <div class="container">
+                                                <app-recommended-product></app-recommended-product>
+                                              </div>
+                                            </div>
 
-<div id="footer" class="footer-responsive">
-  <app-footer></app-footer>
-</div>
+                                            <div id="footer" class="footer-responsive">
+                                              <app-footer></app-footer>
+                                            </div>
 
-<!-- review Modal -->
-<section class="">
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="staticBackdrop"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="staticBackdropLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">
-            Add a Review
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="reviewForm">
-            <div class="mb-3">
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label"
-                  >Ratings</label
-                >
-                <!-- Rating Design -->
-                <div class="ratings">
-                  <div class="text-center">
-                    <input
-                      type="radio"
-                      class="star"
-                      id="star1"
-                      name="rating"
-                      value="1"
-                      formControlName="rating"
-                    />
-                    <label [class.active]="rating >= 1" for="star1"
-                      >&#9733;</label
-                    >
-                    <p [class.active]="rating == 1">Terrible</p>
-                  </div>
-                  <div class="text-center">
-                    <input
-                      type="radio"
-                      class="star"
-                      id="star2"
-                      name="rating"
-                      value="2"
-                      formControlName="rating"
-                    />
-                    <label [class.active]="rating >= 2" for="star2"
-                      >&#9733;</label
-                    >
-                    <p [class.active]="rating == 2">Poor</p>
-                  </div>
-                  <div class="text-center">
-                    <input
-                      type="radio"
-                      class="star"
-                      id="star3"
-                      name="rating"
-                      value="3"
-                      formControlName="rating"
-                    />
-                    <label [class.active]="rating >= 3" for="star3"
-                      >&#9733;</label
-                    >
-                    <p [class.active]="rating == 3">Fair</p>
-                  </div>
-                  <div class="text-center">
-                    <input
-                      id="star4"
-                      type="radio"
-                      class="star"
-                      name="rating"
-                      value="4"
-                      formControlName="rating"
-                    />
+                                            <!-- review Modal -->
+                                            <section class="">
+                                              <!-- Modal -->
+                                              <div
+                                                class="modal fade"
+                                                id="staticBackdrop"
+                                                data-bs-backdrop="static"
+                                                data-bs-keyboard="false"
+                                                tabindex="-1"
+                                                aria-labelledby="staticBackdropLabel"
+                                                aria-hidden="true"
+                                                >
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                                        Add a Review
+                                                      </h1>
+                                                      <button
+                                                        type="button"
+                                                        class="btn-close"
+                                                        data-bs-dismiss="modal"
+                                                        aria-label="Close"
+                                                      ></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <form [formGroup]="reviewForm">
+                                                        <div class="mb-3">
+                                                          <div class="mb-3">
+                                                            <label for="exampleInputPassword1" class="form-label"
+                                                              >Ratings</label
+                                                              >
+                                                              <!-- Rating Design -->
+                                                              <div class="ratings">
+                                                                <div class="text-center">
+                                                                  <input
+                                                                    type="radio"
+                                                                    class="star"
+                                                                    id="star1"
+                                                                    name="rating"
+                                                                    value="1"
+                                                                    formControlName="rating"
+                                                                    />
+                                                                    <label [class.active]="rating >= 1" for="star1"
+                                                                      >&#9733;</label
+                                                                      >
+                                                                      <p [class.active]="rating == 1">Terrible</p>
+                                                                    </div>
+                                                                    <div class="text-center">
+                                                                      <input
+                                                                        type="radio"
+                                                                        class="star"
+                                                                        id="star2"
+                                                                        name="rating"
+                                                                        value="2"
+                                                                        formControlName="rating"
+                                                                        />
+                                                                        <label [class.active]="rating >= 2" for="star2"
+                                                                          >&#9733;</label
+                                                                          >
+                                                                          <p [class.active]="rating == 2">Poor</p>
+                                                                        </div>
+                                                                        <div class="text-center">
+                                                                          <input
+                                                                            type="radio"
+                                                                            class="star"
+                                                                            id="star3"
+                                                                            name="rating"
+                                                                            value="3"
+                                                                            formControlName="rating"
+                                                                            />
+                                                                            <label [class.active]="rating >= 3" for="star3"
+                                                                              >&#9733;</label
+                                                                              >
+                                                                              <p [class.active]="rating == 3">Fair</p>
+                                                                            </div>
+                                                                            <div class="text-center">
+                                                                              <input
+                                                                                id="star4"
+                                                                                type="radio"
+                                                                                class="star"
+                                                                                name="rating"
+                                                                                value="4"
+                                                                                formControlName="rating"
+                                                                                />
 
-                    <label [class.active]="rating >= 4" for="star4"
-                      >&#9733;</label
-                    >
-                    <p [class.active]="rating == 4">Good</p>
-                  </div>
-                  <div class="text-center">
-                    <input
-                      id="star5"
-                      type="radio"
-                      class="star"
-                      name="rating"
-                      value="5"
-                      formControlName="rating"
-                    />
-                    <label [class.active]="rating >= 5" for="star5"
-                      >&#9733;</label
-                    >
-                    <p [class.active]="rating == 5">Excellent</p>
-                  </div>
-                </div>
-                <div *ngIf="errorMsg" class="text-danger">
-                  Give rating to submit a review!!
-                </div>
-              </div>
-              <label for="exampleFormControlTextarea1" class="form-label"
-                >Tell us about product</label
-              >
-              <textarea
-                formControlName="reviwField"
-                class="form-control"
-                id="exampleFormControlTextarea1"
-                rows="3"
-              ></textarea>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-            #closeBTN
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" (click)="editReview()">
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                                                                                <label [class.active]="rating >= 4" for="star4"
+                                                                                  >&#9733;</label
+                                                                                  >
+                                                                                  <p [class.active]="rating == 4">Good</p>
+                                                                                </div>
+                                                                                <div class="text-center">
+                                                                                  <input
+                                                                                    id="star5"
+                                                                                    type="radio"
+                                                                                    class="star"
+                                                                                    name="rating"
+                                                                                    value="5"
+                                                                                    formControlName="rating"
+                                                                                    />
+                                                                                    <label [class.active]="rating >= 5" for="star5"
+                                                                                      >&#9733;</label
+                                                                                      >
+                                                                                      <p [class.active]="rating == 5">Excellent</p>
+                                                                                    </div>
+                                                                                  </div>
+                                                                                  @if (errorMsg) {
+                                                                                    <div class="text-danger">
+                                                                                      Give rating to submit a review!!
+                                                                                    </div>
+                                                                                  }
+                                                                                </div>
+                                                                                <label for="exampleFormControlTextarea1" class="form-label"
+                                                                                  >Tell us about product</label
+                                                                                  >
+                                                                                  <textarea
+                                                                                    formControlName="reviwField"
+                                                                                    class="form-control"
+                                                                                    id="exampleFormControlTextarea1"
+                                                                                    rows="3"
+                                                                                  ></textarea>
+                                                                                </div>
+                                                                              </form>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                              <button
+                                                                                type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal"
+                                                                                #closeBTN
+                                                                                >
+                                                                                Close
+                                                                              </button>
+                                                                              <button type="button" class="btn btn-primary" (click)="editReview()">
+                                                                                Submit
+                                                                              </button>
+                                                                            </div>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </section>

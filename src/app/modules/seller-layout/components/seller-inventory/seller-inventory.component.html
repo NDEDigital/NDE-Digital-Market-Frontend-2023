@@ -16,36 +16,38 @@
       <!-- Table Header Row -->
       <div class="row headerRow sticky-top fw-bolder">
         <!-- Display table headers -->
-        <ng-container *ngFor="let header of headers">
+        @for (header of headers; track header) {
           <div class="col tableHeader">{{ header }}</div>
-        </ng-container>
+        }
       </div>
       <!-- Display message if no groups found -->
       <div>
-        <h1
-          *ngIf="filteredData && filteredData.length == 0"
-          class="text-center"
-          style="color: red; margin-top: 15%"
-        >
-          Inventory Empty
-        </h1>
+        @if (filteredData && filteredData.length == 0) {
+          <h1
+            class="text-center"
+            style="color: red; margin-top: 15%"
+            >
+            Inventory Empty
+          </h1>
+        }
       </div>
 
       <!-- Table Body -->
-      <section
-        class="row tablebodyRow fw-semibold"
-        *ngFor="let inventory of filteredData; let i = index"
-        (mouseover)="isHovered = i"
-        (mouseout)="isHovered = null"
-      >
-        <!-- Render Grid View for each group -->
-        <app-seller-inventory-grid-view
-          [isHovered]="isHovered"
-          [i]="i"
-          [inventory]="inventory"
-          [activeGroupId]="activeGroupId"
-        ></app-seller-inventory-grid-view>
-      </section>
+      @for (inventory of filteredData; track inventory; let i = $index) {
+        <section
+          class="row tablebodyRow fw-semibold"
+          (mouseover)="isHovered = i"
+          (mouseout)="isHovered = null"
+          >
+          <!-- Render Grid View for each group -->
+          <app-seller-inventory-grid-view
+            [isHovered]="isHovered"
+            [i]="i"
+            [inventory]="inventory"
+            [activeGroupId]="activeGroupId"
+          ></app-seller-inventory-grid-view>
+        </section>
+      }
     </div>
   </div>
 </div>

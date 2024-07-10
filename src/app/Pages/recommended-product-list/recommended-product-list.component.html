@@ -8,7 +8,7 @@
         <h2 class="top-seller-heading">Recommended Product</h2>
         <div class="line"></div>
         <div class="grid-container">
-          <ng-container *ngFor="let client of getTopSellerData">
+          @for (client of getTopSellerData; track client) {
             <div class="grid-item">
               <div class="rounded product-responsive mt-3 mb-5 h-75">
                 <div class="card" (click)="productCardClick(client)">
@@ -21,23 +21,20 @@
                       "
                       class="card-img-top"
                       alt="{{ client.productName }}"
-                    />
+                      />
+                    </div>
+                    <h5 class="card-title"> {{ client.companyName }}</h5>
+                    <h5 class="card-title"> {{ client.productName }}</h5>
+                    <h5 class="card-title"> ৳{{ client.totalPrice }}</h5>
                   </div>
-
-                  <h5 class="card-title"> {{ client.companyName }}</h5>
-
-                  <h5 class="card-title"> {{ client.productName }}</h5>
-
-                  <h5 class="card-title"> ৳{{ client.totalPrice }}</h5>
                 </div>
               </div>
-            </div>
-          </ng-container>
+            }
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div id="footer" class="footer-responsive">
-    <app-footer></app-footer>
-  </div>
-</section>
+    <div id="footer" class="footer-responsive">
+      <app-footer></app-footer>
+    </div>
+  </section>

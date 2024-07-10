@@ -39,20 +39,15 @@
                   isFieldInvalid('currentPassword') || errorMessage
               }"
             />
-            <div
-              class="text-danger"
-              *ngIf="isFieldInvalid('currentPassword'); else dbError"
-            >
+            @if (isFieldInvalid('currentPassword')) {
+            <div class="text-danger">
               <span>{{ getPasswordErrorMessage("currentPassword") }}</span>
             </div>
-            <ng-template #dbError>
-              <span
-                *ngIf="errorMessage"
-                class="error-message text-danger border-danger"
-              >
-                {{ errorMessage }}
-              </span>
-            </ng-template>
+            } @else { @if (errorMessage) {
+            <span class="error-message text-danger border-danger">
+              {{ errorMessage }}
+            </span>
+            } }
           </div>
           <div class="mb-3">
             <label for="newPassword" class="form-label">New Password</label>
@@ -62,9 +57,11 @@
               class="form-control"
               id="newPassword"
             />
-            <div class="text-danger" *ngIf="isFieldInvalid('newPassword')">
+            @if (isFieldInvalid('newPassword')) {
+            <div class="text-danger">
               <span>{{ getPasswordErrorMessage("newPassword") }}</span>
             </div>
+            }
           </div>
           <div class="mb-3">
             <label for="confirmPassword" class="form-label"
@@ -77,17 +74,14 @@
               id="confirmPassword"
             />
             <!-- <div class="text-danger" *ngIf="isFieldInvalid('confirmPassword')">
-              <span>{{ getPasswordErrorMessage('confirmPassword') }}</span>
-            </div> -->
-            <div
-              *ngIf="
-                pForm.get('confirmPassword')?.hasError('passwordMismatch') &&
-                pForm.get('confirmPassword')?.dirty
-              "
-              class="text-danger"
-            >
+                      <span>{{ getPasswordErrorMessage('confirmPassword') }}</span>
+                    </div> -->
+            @if ( pForm.get('confirmPassword')?.hasError('passwordMismatch') &&
+            pForm.get('confirmPassword')?.dirty ) {
+            <div class="text-danger">
               Password and Confirm Password must match.
             </div>
+            }
           </div>
         </form>
       </div>
@@ -112,8 +106,10 @@
 <!-- --------Modal End----------- -->
 
 <!-- header -->
-<div *ngIf="loading" class="text-center"><h5>Loading products...</h5></div>
-<section *ngIf="!loading" class="dashboard_container">
+@if (loading) {
+<div class="text-center"><h5>Loading products...</h5></div>
+} @if (!loading) {
+<section class="dashboard_container">
   <div class="header_container container-fluid d-flex align-items-center">
     <button
       class="btn menu_btn"
@@ -128,12 +124,11 @@
       <a class="companyName">
         <span>
           <!-- NDE Digital Market -->
-          <img
-            *ngIf="projectTitle === 'NDE_DIGITAL_MARKET'"
-            src="assets/images/Logo/final-logo-6.png"
-            alt="logo"
-          />
-          <p *ngIf="projectTitle === 'HEALTHCARE'">Nimpex HealthCare</p>
+          @if (projectTitle === 'NDE_DIGITAL_MARKET') {
+          <img src="assets/images/Logo/final-logo-6.png" alt="logo" />
+          } @if (projectTitle === 'HEALTHCARE') {
+          <p>Nimpex HealthCare</p>
+          }
         </span>
         <!-- <img src="assets/images/Logo/final-logo-6.png" alt="logo" /> -->
       </a>
@@ -142,12 +137,12 @@
       <ul
         class="d-flex justify-content-around justify-content-md-between w-75 align-items-center p-0 mb-0"
       >
-        <li class="nav-item profile" *ngIf="isLoggedIn">
+        @if (isLoggedIn) {
+        <li class="nav-item profile">
           <a>
             <div class="nav-title">
               <i class="fa-solid fa-circle-user fs-4 mt-1"></i>
             </div>
-
             <div class="profile-popup p-2">
               <div class="popup-item mt-1">
                 <a routerLink="/userProfile" class="d-flex">
@@ -156,7 +151,6 @@
                 >
               </div>
               <div class="delimiter-horizontal"></div>
-
               <div class="popup-item mt-1">
                 <a
                   data-bs-toggle="modal"
@@ -167,7 +161,6 @@
                   <p>Change Password</p>
                 </a>
               </div>
-
               <div class="delimiter-horizontal"></div>
               <button
                 class="logout-btn rounded-pill px-4 py-1 text-white fw-bold mt-2"
@@ -179,10 +172,10 @@
             <ng-template #logoutButton> </ng-template>
           </a>
         </li>
+        }
       </ul>
     </div>
   </div>
-
   <!-- <div class="container"> -->
   <div
     class="offcanvas offcanvas-start sidebar"
@@ -203,9 +196,9 @@
         aria-label="Close"
       ></button>
     </div>
-
     <div class="offcanvas-body mt-4">
-      <div *ngFor="let permission of userPermission">
+      @for (permission of userPermission; track permission) {
+      <div>
         <div class="sidebar_delimiter"></div>
         <div class="sidebar_item d-flex justify-content-between p-1 py-3">
           <div class="d-flex">
@@ -222,85 +215,79 @@
           </div>
         </div>
       </div>
+      }
       <div class="sidebar_delimiter"></div>
     </div>
   </div>
   <!-- ================  end of sidebar =============  -->
-  <div class="dashboard_body px-5 py-2" *ngIf="this.userPermission.length > 0">
+  @if (this.userPermission.length > 0) {
+  <div class="dashboard_body px-5 py-2">
     <!-- Sellers Add Quantity -->
     <!-- <section *ngIf="SidebarIndex === 2" class="seller_quantity_body">
-      <app-add-product-quantity></app-add-product-quantity>
-    </section> -->
-
+                  <app-add-product-quantity></app-add-product-quantity>
+                </section> -->
     <!-- <section class="admin_order_body" *ngIf="isAdmin && SidebarIndex === 11">
-      <app-admin-order></app-admin-order>
-    </section> -->
-
+                <app-admin-order></app-admin-order>
+              </section> -->
     <!-- sellers inventory -->
     <!-- <section class="seller_inventory_body" *ngIf="SidebarIndex === 1">
-      <app-seller-inventory></app-seller-inventory>
-    </section> -->
+              <app-seller-inventory></app-seller-inventory>
+            </section> -->
     <!-- sellers inventory end-->
-
     <!-- <section class="order_body" *ngIf="isSeller && SidebarIndex === 3"> -->
     <!-- <section class="order_body" *ngIf="SidebarIndex === 3"> -->
     <!-- <app-orders-overview></app-orders-overview> -->
-    <!-- 
-      <app-seller-orders></app-seller-orders>
-    </section> -->
-
+    <!--
+            <app-seller-orders></app-seller-orders>
+          </section> -->
     <!-- Add products fields here -->
     <!-- <section class="addProducts" *ngIf="SidebarIndex === 7">
-      <app-add-products></app-add-products>
-    </section> -->
+          <app-add-products></app-add-products>
+        </section> -->
     <!-- Add groups fields here -->
     <!-- <section class="addgroups" *ngIf="SidebarIndex === 12">
-      <app-add-groups></app-add-groups>
-    </section>
-    <section class="unit" *ngIf="SidebarIndex === 13">
-      <app-unit-list></app-unit-list>
-    </section> -->
+        <app-add-groups></app-add-groups>
+      </section>
+      <section class="unit" *ngIf="SidebarIndex === 13">
+        <app-unit-list></app-unit-list>
+      </section> -->
     <!-- <section class="companyApproval" *ngIf="SidebarIndex === 8">
       <app-company-approval></app-company-approval>
     </section> -->
     <!-- <section class="priceNdiscounts" *ngIf="SidebarIndex === 4">
-      <app-add-price-discounts></app-add-price-discounts>
-    </section> -->
+    <app-add-price-discounts></app-add-price-discounts>
+  </section> -->
     <!-- <section class="productApproval" *ngIf="SidebarIndex === 9">
-      <app-product-approval></app-product-approval>
-    </section> -->
+  <app-product-approval></app-product-approval>
+</section> -->
     <!-- <section
-      class="sellerList"
-      *ngIf="SidebarIndex === 5 || SidebarIndex === 10"
-    >
-      <app-seller-list *ngIf="userId"></app-seller-list>
-    </section>
-
-    <section class="sellerPermission" *ngIf="SidebarIndex === 6">
-      <app-seller-permission *ngIf="userId"></app-seller-permission>
-    </section>
-    <section class="addBanner" *ngIf="SidebarIndex === 14">
-      <app-seller-add-banner *ngIf="userId"></app-seller-add-banner>
-    </section> -->
-
+class="sellerList"
+*ngIf="SidebarIndex === 5 || SidebarIndex === 10"
+>
+<app-seller-list *ngIf="userId"></app-seller-list>
+</section>
+<section class="sellerPermission" *ngIf="SidebarIndex === 6">
+  <app-seller-permission *ngIf="userId"></app-seller-permission>
+</section>
+<section class="addBanner" *ngIf="SidebarIndex === 14">
+  <app-seller-add-banner *ngIf="userId"></app-seller-add-banner>
+</section> -->
     <!-- <section class="bannerApproval" *ngIf="SidebarIndex === 15">
-      <app-banner-approval *ngIf="userId"></app-banner-approval>
-    </section>
-    <section class="brands" *ngIf="SidebarIndex === 16">
-      <app-brands *ngIf="userId"></app-brands>
-    </section> -->
+<app-banner-approval *ngIf="userId"></app-banner-approval>
+</section>
+<section class="brands" *ngIf="SidebarIndex === 16">
+  <app-brands *ngIf="userId"></app-brands>
+</section> -->
   </div>
-
-  <div *ngIf="userPermission.length === 0" class="bg-white pt-5">
+  } @if (userPermission.length === 0) {
+  <div class="bg-white pt-5">
     <h1 class="text-center mx-auto my-auto text-danger">
       Contact Your Company Manager For Permission
     </h1>
   </div>
-
+  }
   <!-- </div> -->
-
   <!--  ------ admin-order component call ------ -->
-
   <!-- ======== confirm delete modal ============ -->
   <section>
     <div
@@ -324,10 +311,10 @@
             ></button>
           </div>
           <div class="modal-body">
-            Are you sure you want to delete product
-            <span class="text-danger" *ngIf="products && products[indx]">{{
-              products[indx].productName
-            }}</span>
+            Are you sure you want to delete product @if (products &&
+            products[indx]) {
+            <span class="text-danger">{{ products[indx].productName }}</span>
+            }
           </div>
           <div class="modal-footer">
             <button
@@ -347,6 +334,7 @@
     </div>
   </section>
 </section>
+}
 
 <!-- approval modal -->
 <div
@@ -389,8 +377,11 @@
           {{ modalStatus }}</span
         >
 
-        <span *ngIf="selectedCheckboxIds.length > 1"> these products?</span>
-        <span *ngIf="selectedCheckboxIds.length === 1"> this product?</span>
+        @if (selectedCheckboxIds.length > 1) {
+        <span> these products?</span>
+        } @if (selectedCheckboxIds.length === 1) {
+        <span> this product?</span>
+        }
       </div>
       <div class="modal-footer">
         <button
@@ -490,11 +481,8 @@
         ></button>
       </div>
 
-      <div
-        class="d-flex p-3"
-        style="height: 80%; overflow-y: auto"
-        *ngIf="productDetails.length > 0"
-      >
+      @if (productDetails.length > 0) {
+      <div class="d-flex p-3" style="height: 80%; overflow-y: auto">
         <div>
           <img
             class="detail-img"
@@ -552,6 +540,7 @@
           </div>
         </div>
       </div>
+      }
 
       <div class="modal-footer"></div>
     </div>
